@@ -1,0 +1,32 @@
+/* © 2023 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/  */
+
+body {
+    font-family: Helvetica, Arial, Sans-Serif;
+}
+
+#vis {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    /* Sets space between flex items */
+}
+
+.vis-svg-container {
+    width: 500px;
+    /* Fixed width for each SVG container */
+    margin: 5px;
+    /* Optional: adds some space around the containers */
+}
+
+.vis-svg {
+    display: block;
+    /* Removes extra space below the inline-level SVG element */
+    width: 100%;
+    /* SVG fills the width of its container */
+    height: auto;
+    /* Height is set automatically to maintain aspect ratio */
+}
