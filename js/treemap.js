@@ -16,8 +16,9 @@ let treemap = ((data, map, options) => {
     selector: '#vis',
     fill: null,
     stroke: null,
+    group: null,
     value: 'value',
-    label: 'name',
+    label: 'name'
   }
 
   // merge default mapping with user mapping
@@ -66,19 +67,42 @@ let treemap = ((data, map, options) => {
   ////////////////////////////////////////
 
   function transformData(data) {
-    // Create a root node with a 'children' array
     var root = {
-      "name": "Genres",
+      "name": "root",
       "children": []
     };
 
-    // Loop through the data and create a child node for each genre
-    data.forEach(function (d) {
-      root.children.push({
-        "name": d[map.label],
-        "value": d[map.value]
+    if (map.group != null) {
+
+      var groups = {};
+
+      data.forEach(function (d) {
+        var groupName = d[map.group];
+
+        if (!groups[groupName]) {
+          groups[groupName] = {
+            "name": groupName,
+            "children": []
+          };
+          root.children.push(groups[groupName]);
+        }
+
+        groups[groupName].children.push({
+          "name": d[map.label],
+          "value": d[map.value]
+        });
       });
-    });
+
+    } else {
+
+      data.forEach(function (d) {
+        root.children.push({
+          "name": d[map.label],
+          "value": d[map.value]
+        });
+      });
+      
+    }
 
     return root;
   }
