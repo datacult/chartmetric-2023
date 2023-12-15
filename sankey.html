@@ -1,0 +1,47 @@
+<!-- © 2023 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <!-- Google fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/index.css">
+</head>
+
+<body>
+    <div id="vis"></div>
+
+</body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+<script src="js/sankey.js"></script>
+
+</html>
+<script>
+    (async () => {
+        let t11_12 = await d3.json('/data/T1-1_1-2.json')
+
+        let mapping = {
+            selector: '#vis',
+        }
+
+        let options = {
+            fill: "white",
+            stroke: "black",
+        }
+
+        let a29chart = sankey(t11_12, mapping, options)
+
+    })()
+
+</script>
