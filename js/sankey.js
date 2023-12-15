@@ -24,7 +24,7 @@ let sankey = ((data, map, options) => {
   let defaults = {
     width: 1200,
     height: 800,
-    margin: { top: 20, right: 20, bottom: 20, left: 20 },
+    margin: { top: 20, right: 20, bottom: 20, left: 100 },
     transition: 400,
     delay: 100,
     fill: "#69b3a2",
