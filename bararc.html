@@ -1,0 +1,138 @@
+<!-- © 2023 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <!-- Google fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/index.css">
+</head>
+
+<body>
+    <div id="vis"></div>
+
+</body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="js/bararc.js"></script>
+
+</html>
+<script>
+    (async () => {
+        let cs21 = await d3.csv('/data/CS2-1.csv', d3.autoType)
+        let cs23 = await d3.csv('/data/CS2-3.csv', d3.autoType)
+        let cs25 = await d3.csv('/data/CS2-5.csv', d3.autoType)
+        let cs252 = await d3.csv('/data/CS2-5-2.csv', d3.autoType)
+
+        let movement = []
+
+        cs21.forEach(d => {
+            movement.push({
+                source: "undiscovered",
+                target: d.ARTIST_STAGE,
+                value: d['COUNT(*)']
+            })
+        })
+
+        cs23.forEach(d => {
+            movement.push({
+                source: "mainstream",
+                target: d.ARTIST_STAGE,
+                value: d['COUNT(*)']
+            })
+        })
+
+        cs25.forEach(d => {
+            movement.push({
+                source: "developing",
+                target: d.ARTIST_STAGE,
+                value: d['COUNT(*)']
+            })
+        })
+
+        cs252.forEach(d => {
+            movement.push({
+                source: "mid-level",
+                target: d.ARTIST_STAGE,
+                value: d['COUNT(*)']
+            })
+        })
+
+
+        let rollup = d3.rollups(movement, v => d3.sum(v, d => d.value), d => d.source)
+
+        let totals = []
+
+        rollup.forEach(d => {
+            totals.push({
+                stage: d[0],
+                old: d[1],
+                new: d3.sum(movement.filter(x => x.target == d[0]), d => d.value),
+                movein: d3.sum(movement.filter(x => x.target == d[0] && x.source != d[0]), d => d.value),
+
+            })
+        })
+
+        totals.push({
+            stage: 'superstar',
+            old: 0,
+            new: d3.sum(movement.filter(x => x.target == 'superstar'), d => d.value),
+            movein: d3.sum(movement.filter(x => x.target == 'superstar' && x.source != 'superstar'), d => d.value),
+        })
+
+        totals.push({
+            stage: 'legendary',
+            old: 0,
+            new: d3.sum(movement.filter(x => x.target == 'legendary'), d => d.value),
+            movein: d3.sum(movement.filter(x => x.target == 'legendary' && x.source != 'legendary'), d => d.value),
+        })
+
+        let colorMap = {
+            "undiscovered": {"bar":"#274978", "line":"#23426D"},
+            "developing": {"bar":"#E7F2FF", "line":"#33609E"},
+            "mainstream": {"bar":"#75B2D3", "line":"#5899CB"},
+            "mid-level": {"bar":"#9ADBD6",  "line":"#A4DCE0"},
+            "superstar": {"bar":"#71D6AD", "line":"#68D4A4"},
+            "legendary": {"bar":"#24AE87", "line":"#0BA07C"}
+        }
+
+        totals.forEach(d => {
+            d.fill = colorMap[d.stage].bar
+            d.stroke = colorMap[d.stage].line
+        })
+
+        console.log(totals)
+
+        let mapping = {
+            selector: '#vis',
+            y: "movein",
+            x: "stage",
+            value:'value',
+            fill: "fill",
+            stroke: "stroke",
+        }
+
+
+        let options = {
+            stroke: "black",
+            padding:0,
+            margin: { top: 20, right: 20, bottom: 500, left: 20 },
+            sort:['undiscovered','developing','mainstream','mid-level','superstar','legendary'],
+            transition: 3000
+        }
+
+        let csbar = bararcchart(totals, movement, mapping, options)
+
+
+    })()
+
+</script>
