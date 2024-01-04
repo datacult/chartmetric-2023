@@ -12,6 +12,8 @@ body {
     justify-content: center;
     align-items: center;
     gap: 10px;
+    min-height:170vh;
+    height:auto
     /* Sets space between flex items */
 }
 

@@ -15,38 +15,29 @@ https://studio.datacult.com/ -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style/index.css">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <link rel="stylesheet" href="style/lowFi/percentOfAudienceByCountry.css">
 </head>
 
 <body>
-    <div id="vis"></div>
+    <div id="vis">
+        <!--! Gordon added code begins-->
+        <!-- header UI -->
+        <div id="percentOfAudienceByCountry_UI">
+            
+              
+        </div>
+        <!-- Buttons -->
+        <div id="percentOfAudienceByCountry_Button">
+
+          <button class="country-button">1. United States</button>
+        </div>
+         <!--! Gordon added code ends-->
+    </div>
 
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="js/bump.js"></script>
 
+<script type="module" src="./js/lowFi/percentOfAudienceByCountry.js"></script>
 
 </html>
-<script>
-    (async () => {
-        let a23 = await d3.csv('./data/A2-3.csv', d3.autoType)
-
-        let mapping = {
-            selector: '#vis',
-            x: 'RANK_MONTH',
-            y: 'MONTHLY_ARTIST_RANK',
-            group: 'NAME'
-        }
-
-        let options = {
-            fill: "#1781F7",
-            stroke: "black",
-        }
-
-        let a23chart = sankey(a23, mapping, options)
-
-    })()
-
-
-
-</script>

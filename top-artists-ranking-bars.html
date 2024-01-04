@@ -1,0 +1,52 @@
+<!-- © 2023 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <!-- Google fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+  <link rel="stylesheet" href="style/highFi/topArtistsBankingBars.css">
+</head>
+
+<body>
+  <div id="vis">
+    <!--! Gordon added code begins-->
+    <!-- UI -->
+    <div id="topArtistsBankingBars_UI">
+      <div class="title-bar">
+        <h1 class="title">Top Artists by</h1>
+        <h1 class="sub">Chartmetric Score</h1>
+      </div>
+      <div class="country-selector">
+        <button class="country-button">
+          <span class="arrow left-arrow">←</span>
+          <span class="country-name">UNITED STATES</span>
+          <span class="arrow right-arrow">→</span>
+        </button>
+      </div>
+
+    </div>
+    <!-- Gradient Bar -->
+    <div id="topArtistsBankingBars_barChart">
+
+    </div>
+    <!--! Gordon added code ends-->
+  </div>
+
+</body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<script type="module" src="./js/highFi/topArtistsBankingBars.js"></script>
+
+</html>

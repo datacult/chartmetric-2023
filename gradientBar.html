@@ -1,0 +1,78 @@
+<!-- © 2023 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <!-- Google fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/index.css">
+</head>
+
+<body>
+    <div id="vis" class="parent-container">
+        <div class="gradient-bar">
+            <img src="https://raw.githubusercontent.com/muhammederdem/mini-player/master/img/1.jpg" alt="Artist Name"
+                class="artist-image">
+            <span class="artist-name">Artist Name</span>
+        </div>
+    </div>
+
+</body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+
+<script src="js/scrollBubble.js"></script>
+
+<style>
+    .gradient-bar {
+        display: flex;
+        align-items: center;
+        background: linear-gradient(to right, #e6e6e6 0%, #ffffff 100%);
+        /* Adjust the gradient to match your image */
+        border-radius: 100px;
+        /* Adjust for desired curvature */
+        padding: 10px;
+        /* Adjust as needed */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Adjust for desired shadow effect */
+        width: 300px;
+        /* Adjust as needed */
+        margin: 0 auto;
+        /* Centers the bar in the container */
+    }
+
+    .artist-image {
+        border-radius: 50%;
+        /* Circular image */
+        width: 40px;
+        /* Adjust as needed */
+        height: 40px;
+        /* Adjust as needed */
+        object-fit: cover;
+        /* Ensures the image covers the area without distortion */
+        margin-right: 10px;
+        /* Adjust spacing between image and name */
+    }
+
+    .artist-name {
+        font-size: 16px;
+        /* Adjust as needed */
+        color: #333;
+        /* Adjust text color as needed */
+        font-weight: bold;
+        /* Adjust as needed */
+    }
+</style>
+
+</html>

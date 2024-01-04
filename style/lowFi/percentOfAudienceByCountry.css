@@ -1,0 +1,48 @@
+body {
+    width: 100vw;
+    height: 110vh;
+}
+
+#vis {
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to top,
+            #fff1e0,
+            #ffffff);
+    /* Adjust the gradient to match the image */
+    display: flex;
+}
+
+#topArtistsBankingBars_UI {
+    flex: 5;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    /* Use the font that most closely matches the design */
+    text-align: start;
+
+    padding: 48px;
+    /* Adjust as needed */
+}
+
+.country-button {
+    font-size: 16px; /* Adjust as needed */
+    color: #000; /* Text color */
+    padding: 10px 20px; /* Padding inside the button */
+    border: 2px solid #E6EAEC; /* Border color and width */
+    border-radius: 12px; /* Rounded corners */
+    background-color: #E6EAEC; /* Background color */
+    cursor: pointer; /* Cursor to pointer to signify it's clickable */
+    outline: none; /* Removes the default focus outline */
+    transition: all 0.3s ease; /* Transition for a hover effect */
+    font-family: Arial, sans-serif; /* Font family */
+  }
+  
+  .country-button:hover {
+    background-color: #EB6AF5; /* Background color on hover */
+    color: #fff; /* Text color on hover */
+  }
+  
+

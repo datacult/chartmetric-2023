@@ -15,33 +15,20 @@ https://studio.datacult.com/ -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style/index.css">
+    <link rel="stylesheet" href="style/highFi/calendarHeatmap.css">
 </head>
 
 <body>
-    <div id="vis"></div>
+    <div id="vis">
+        <div id="calendarHeatmap"></div>
+        
+        <div id="rotatingPhotos"></div>
+    </div>
 
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="js/calendar-heatmap.js"></script>
+<script type="module" src="./components/Calendar.js"></script>
+<script type="module" src="./js/highFi/calendarHeatmap.js"></script>
+<script type="module" src="./js/highFi/calendarHeatmapPhoto.js"></script>
 
 </html>
-<script>
-    (async () => {
-        let t14 = await d3.csv('/data/T1-4.csv', d3.autoType)
-
-        let mapping = {
-            selector: '#vis',
-            value: "DAILY_TRACK_COUNT",
-            date: "CREATION_DATE"
-        }
-
-        let options = {
-            stroke: "black",
-        }
-
-        let t14chart = calendarHeatmap(t14, mapping, options )
-
-    })()
-
-</script>
