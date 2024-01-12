@@ -23,26 +23,7 @@ https://studio.datacult.com/ -->
   <div id="vis">
     <!--! Gordon added code begins-->
     <!-- UI -->
-    <div id="topArtistsBankingBars_UI">
-      <header id="'topArtistsBankingBars_UI_header">
-        <div class="title-bar">
-          <span class="subtitle">CHARTMETRIC SCORE</span>
-          <div class="title">Top 10 Artists</div>
-          <!-- <h1 class="sub">Chartmetric Score</h1> -->
-        </div>
-        <div class="country-selector">
-          <form class="form" id="topArtistsBankingBars_countrydropdown">
-            <select class="select" id="filter-positions" aria-labelledby="filter-position-label">
-              <!-- <option class="option" value="All" selected="">All Countries</option> -->
-            </select>
-          </form>
-        </div>
-      </header>
-      <div class="notes">
-        <span>The top artists also depends on where! Within each country, there were vastly different names
-          occupying the top 10 slots for this year.</span>
-      </div>
-    </div>
+
     <!-- Gradient Bar -->
     <div id="topArtistsBankingBars_barChart">
 
@@ -56,3 +37,19 @@ https://studio.datacult.com/ -->
 <script type="module" src="./js/highFi/topArtistsBankingBars.js"></script>
 
 </html>
+<script type="module">
+  import { draw } from './js/highFi/topArtistsBankingBars.js';
+
+  /*
+  Sey to change
+  */
+  let selectedValue = "United States";
+
+
+  // parameters
+  let dataUrl = "./data/A2-12.csv";
+  let chartContainerId = "topArtistsBankingBars_barChart";
+  let widthKey = "CM_SCORE";
+  draw(dataUrl, chartContainerId, widthKey, selectedValue)
+
+</script>
