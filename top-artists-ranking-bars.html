@@ -24,18 +24,24 @@ https://studio.datacult.com/ -->
     <!--! Gordon added code begins-->
     <!-- UI -->
     <div id="topArtistsBankingBars_UI">
-      <div class="title-bar">
-        <h1 class="title">Top Artists by</h1>
-        <h1 class="sub">Chartmetric Score</h1>
+      <header id="'topArtistsBankingBars_UI_header">
+        <div class="title-bar">
+          <span class="subtitle">CHARTMETRIC SCORE</span>
+          <div class="title">Top 10 Artists</div>
+          <!-- <h1 class="sub">Chartmetric Score</h1> -->
+        </div>
+        <div class="country-selector">
+          <form class="form" id="topArtistsBankingBars_countrydropdown">
+            <select class="select" id="filter-positions" aria-labelledby="filter-position-label">
+              <!-- <option class="option" value="All" selected="">All Countries</option> -->
+            </select>
+          </form>
+        </div>
+      </header>
+      <div class="notes">
+        <span>The top artists also depends on where! Within each country, there were vastly different names
+          occupying the top 10 slots for this year.</span>
       </div>
-      <div class="country-selector">
-        <button class="country-button">
-          <span class="arrow left-arrow">←</span>
-          <span class="country-name">UNITED STATES</span>
-          <span class="arrow right-arrow">→</span>
-        </button>
-      </div>
-
     </div>
     <!-- Gradient Bar -->
     <div id="topArtistsBankingBars_barChart">

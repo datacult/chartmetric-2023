@@ -1,0 +1,45 @@
+<!-- © 2023 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <!-- Google fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <link rel="stylesheet" href="style/highFi/genreTreemap.css">
+</head>
+
+<body>
+    <div id="vis">
+        <!--! Gordon added code begins-->
+        <!-- UI -->
+        <div id="gentreTreemap_buttons">
+            <div class="toggle">
+                <div class="artist-genres">ARTISTS GENRES</div>
+                <div class="track-genres">TRACK GENRES</div>
+            </div>
+            <div class="toggle">
+                <div class="artist-genres">ALL ARTISTS</div>
+                <div class="track-genres">ADDED IN 2023</div>
+            </div>
+        </div>
+        <div id="gentreTreemap_chart"></div>
+        <!--! Gordon added code ends-->
+    </div>
+
+</body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script type="module" src="./components/Treemap.js"></script>
+<script type="module" src="./js/highFi/genreTreemap.js"></script>
+
+</html>

@@ -1,0 +1,56 @@
+#dailyIngestionFunFactBubbles_ChartContainer {
+  position: fixed;
+  top: 0px;
+  transform: translate(0px, -1px);
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f5f4f0;
+}
+
+.text-container {
+  padding-top: 50vh;
+}
+
+section.scrollstory-item {
+  margin: 0 auto;
+  padding-bottom: 100vh;
+}
+
+#dailyIngestionFunFactBubbles_textContainer {
+  position: absolute;
+  text-align: center;
+}
+
+#dailyIngestionFunFactBubbles_text {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100px;
+}
+
+#dailyIngestionFunFactBubbles_text .icon {
+  font-size: 1.2rem;
+  position: absolute;
+  transform: translateX(15%);
+}
+
+#dailyIngestionFunFactBubbles_text .iconBackground {
+  height: 1.6rem;
+  width: 1.6rem;
+  border-radius: 50%;
+  position: absolute;
+}
+
+#dailyIngestionFunFactBubbles_text .text {
+  position: relative;
+  text-shadow: -2px -2px 0 #fff, -2px -1px 0 #fff, -2px 0 2px #fff,
+    -2px 1px 0 #fff, -2px 2px 0 #fff, -1px -2px 0 #fff, -1px -1px 0 #fff,
+    -1px 0 2px #fff, -1px 1px 0 #fff, -1px 2px 0 #fff, 0 -2px 2px #fff,
+    0 -1px 2px #fff, 0 1px 2px #fff, 0 2px 2px #fff, 1px -2px 0 #fff,
+    1px -1px 0 #fff, 1px 0 2px #fff, 1px 1px 0 #fff, 1px 2px 0 #fff,
+    2px -2px 0 #fff, 2px -1px 0 #fff, 2px 0 2px #fff, 2px 1px 0 #fff,
+    2px 2px 0 #fff;
+}
