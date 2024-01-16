@@ -1,18 +1,20 @@
-async function draw() {
+let selectedCountries = ["Italy"];
+export async function drawMap(selectedCountries = []) {
   // parameters
   let dataUrl = "./data/world.json";
+  let trackDataUrl = "./data/gradientBarAP2_3.csv";
   let chartContainerId = "radioTopTracksMap_worldMap";
+  let hoveredTrackName = null;
   /***********************
    *1. Access data
    ************************/
   const world = await d3.json(dataUrl);
+
   const countries = topojson.feature(world, world.objects.countries);
-  const countrymesh = topojson.mesh(
-    world,
-    world.objects.countries,
-    (a, b) => a !== b
-  );
-  
+
+  //
+  let dataset = await d3.csv(trackDataUrl, d3.autoType);
+
   /***********************
    *2. Create chart dimensions
    ************************/
@@ -58,10 +60,40 @@ async function draw() {
     .selectAll("path")
     .data(countries.features)
     .join("path")
-    .attr("fill", (d) => "#E3E0D7")
+    .attr("id", "radioTopTracksMap_path")
+    .attr("fill", (d) => {
+      if (selectedCountries.includes(d.properties.name)) {
+        return "#193C3B";
+      } else {
+        return "#E3E0D7";
+      }
+    })
     .attr("d", path)
     .attr("stroke", "white")
-    .attr("stroke-width", 0.5);
+    .attr("stroke-width", 0.5)
+    .on("mouseenter", function (event, mapData) {
+      console.log(mapData.properties.name)
+      let filteredData = dataset.filter(
+        (d) => d.NAME === mapData.properties.name
+      );
+      // use d3.least
+      const tracksWithLargestSpins = d3.rollup(
+        filteredData,
+        (v) => d3.max(v, (d) => d.SPINS),
+        (d) => d.TRACK_NAME
+      );
+      hoveredTrackName = [...tracksWithLargestSpins.entries()].length > 0 ?[...tracksWithLargestSpins.entries()][0][0] : 'noData'
+      
+      let hoveredTrackNameID = hoveredTrackName
+        .replace(/[^a-zA-Z0-9-_]/g, "") // Remove special characters
+        .replace(/\s/g, "_") // Replace spaces with underscores
+        .replace(/\(|\)/g, "");
+        console.log(hoveredTrackNameID)
+        d3.select("#" + hoveredTrackNameID).style("border", "38px solid black;"); 
+     console.log( d3.select("#" + hoveredTrackNameID))
+    })
+    .on("mouseout", function (event, d) {
+      hoveredTrackName = null;
+    });
+  return hoveredTrackName;
 }
-
-draw();

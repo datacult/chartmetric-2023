@@ -7,7 +7,7 @@ background-color: #F5F4F0;
 #vis {
     width: 100%;
     height: 100%;
-
+    font-family: 'Inter', sans-serif;
     display: flex;
 }
 
@@ -15,58 +15,52 @@ background-color: #F5F4F0;
     flex: 2;
     height: 100%;
 }
-
+#radioTopTracksMap_path:hover {
+    cursor: pointer;
+    fill:#193C3B
+}
 svg {
     width: 100%;
     height: 100%;
 }
 
 path:hover {
-    fill: #193C3B;
+
     transition: all 1s ease;
 }
 
 #radioTopTracksMap_gradientBar {
     flex: 1;
-
-    height: 80%;
-    display: flex;
-    
-    flex-direction: column;
-    justify-content: center;
-    
-    gap: 1em;
-    margin-top: 5%;
+    position: relative;
   
 }
 
 .gradient-bar {
+    position: absolute;
     display: flex;
     align-items: center;
     padding: 10px;
     background-image: linear-gradient(to right,
-            #EDEAE2 0%,
-            #EDEAE2 40%,
-            transparent 100%);
-    border-radius: 30px;
-
-    /* width: 900px; Adjust as needed */
-    margin: 0 auto;
+            #EAE7DF 0%,
+            #EAE7DF 30%,
+            #F5F4F0 100%);
+    border-radius: 50px;
+    
 }
-
+.gradient-bar:hover{
+    cursor: pointer;
+}
 .artist-image {
-    width: 30px;
-    /* Adjust as needed */
-    height: 30px;
     /* Adjust as needed */
     border-radius: 50%;
     /* This will make it a circle */
-    margin-right: 10px;
+    margin:6.3px
 }
 
 .artist-name {
-    font-family: 'Inter';
-    font-weight: 700;
+    white-space: nowrap;
+  overflow: hidden;
+    text-overflow: ellipsis;
     font-size: .5rem;
     /* Adjust as needed */
     color: black;
