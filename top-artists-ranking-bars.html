@@ -23,20 +23,7 @@ https://studio.datacult.com/ -->
   <div id="vis">
     <!--! Gordon added code begins-->
     <!-- UI -->
-    <div id="topArtistsBankingBars_UI">
-      <div class="title-bar">
-        <h1 class="title">Top Artists by</h1>
-        <h1 class="sub">Chartmetric Score</h1>
-      </div>
-      <div class="country-selector">
-        <button class="country-button">
-          <span class="arrow left-arrow">←</span>
-          <span class="country-name">UNITED STATES</span>
-          <span class="arrow right-arrow">→</span>
-        </button>
-      </div>
 
-    </div>
     <!-- Gradient Bar -->
     <div id="topArtistsBankingBars_barChart">
 
@@ -50,3 +37,19 @@ https://studio.datacult.com/ -->
 <script type="module" src="./js/highFi/topArtistsBankingBars.js"></script>
 
 </html>
+<script type="module">
+  import { draw } from './js/highFi/topArtistsBankingBars.js';
+
+  /*
+  Sey to change
+  */
+  let selectedValue = "United States";
+
+
+  // parameters
+  let dataUrl = "./data/A2-12.csv";
+  let chartContainerId = "topArtistsBankingBars_barChart";
+  let widthKey = "CM_SCORE";
+  draw(dataUrl, chartContainerId, widthKey, selectedValue)
+
+</script>

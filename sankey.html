@@ -24,12 +24,12 @@ https://studio.datacult.com/ -->
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
-<script src="js/sankey.js"></script>
+<script src="./js/sankey.js"></script>
 
 </html>
 <script>
     (async () => {
-        let t11_12 = await d3.json('/data/T1-1_1-2.json')
+        let t11_12 = await d3.json('./data/T1-1_1-2.json')
 
         let mapping = {
             selector: '#vis',

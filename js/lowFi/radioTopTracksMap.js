@@ -5,7 +5,6 @@ async function draw() {
   /***********************
    *1. Access data
    ************************/
-
   const world = await d3.json(dataUrl);
   const countries = topojson.feature(world, world.objects.countries);
   const countrymesh = topojson.mesh(
@@ -13,6 +12,7 @@ async function draw() {
     world.objects.countries,
     (a, b) => a !== b
   );
+  
   /***********************
    *2. Create chart dimensions
    ************************/
@@ -58,7 +58,7 @@ async function draw() {
     .selectAll("path")
     .data(countries.features)
     .join("path")
-    .attr("fill", (d) => "#E4E4E4")
+    .attr("fill", (d) => "#E3E0D7")
     .attr("d", path)
     .attr("stroke", "white")
     .attr("stroke-width", 0.5);

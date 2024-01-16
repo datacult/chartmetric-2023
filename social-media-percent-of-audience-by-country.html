@@ -15,34 +15,16 @@ https://studio.datacult.com/ -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style/index.css">
+    <link rel="stylesheet" href="style/highFi/socialMediaPercentOfAudienceByCountry.css">
 </head>
 
 <body>
-    <div id="vis"></div>
+    <div id="vis">
+        <div id="platforms-container"></div>
+    </div>
 
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="./js/bubble.js"></script>
+<script type="module" src="./js/highFi/socialMediaPercentOfAudienceByCountry.js"></script>
 
 </html>
-<script>
-    (async () => {
-        let a29 = await d3.csv('./data/A2-9.csv', d3.autoType)
-
-        let mapping = {
-            selector: '#vis',
-            group: "COUNTRY_NAME",
-            label: "COUNTRY_NAME",
-        }
-
-        let options = {
-            fill: "white",
-            stroke: "black",
-        }
-
-        let a29chart = bubblechart(data, mapping, options)
-
-    })()
-
-</script>

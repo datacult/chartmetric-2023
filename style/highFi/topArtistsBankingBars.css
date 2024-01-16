@@ -1,16 +1,25 @@
 body {
     width: 100vw;
-    height: 110vh;
+    height: 100vh;
+    font-family: "Inter";
 }
 
 #vis {
     width: 100%;
-    height: 100%;
-    background-image: linear-gradient(to top,
-            #fff1e0,
-            #ffffff);
+    height: 85%;
+
     /* Adjust the gradient to match the image */
+
+    /* background-image: url("../../assets/topArtistsBankingBars.png"); */
+    background-size: cover;
+    /* or contain, depending on your needs */
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 90px 0px 30px 0px;
     display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-self: stretch;
 }
 
 #topArtistsBankingBars_UI {
@@ -18,82 +27,31 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    font-family: Arial, sans-serif;
-    /* Use the font that most closely matches the design */
-    text-align: start;
-
-    padding: 48px;
-    /* Adjust as needed */
-}
-
-.title-bar .sub {
-    color: #a0a0a0;
-    /* Light grey color */
-    font-size: 4rem;
-    /* Adjust as needed */
-    margin: 0;
-    font-weight: normal;
-}
-
-.title-bar .title {
-    color: #000;
-    /* Black color */
-    font-size: 4rem;
-    /* Adjust as needed */
-    margin: 0;
-    font-weight: bold;
-}
-
-.country-selector {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  .country-button {
-    display: inline-flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
-    border: none;
-    background-color: #F5F3EC;
-    color: #000;
-    font-size: 1em;
-    border-radius: 30px;
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    outline: none;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    font-weight: bold;
-  }
-  
-  .country-button .arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5em;
-  }
-  
-  
+    align-items: flex-start;
+    align-self: stretch;
 
+    /* Adjust as needed */
+}
+
+/* 
+Bar
+*/
 #topArtistsBankingBars_barChart {
-    flex: 2;
+    flex: 3;
 
-    height: 80%;
+    height: 100%;
     display: flex;
 
     flex-direction: column;
     justify-content: space-between;
-    align-items: end;
+    align-items: flex-end;
 
-    gap: 1em;
-    margin-top: 5%;
+    gap: 14.718px;
 }
 
 .gradient-bar {
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     padding: 10px;
@@ -105,12 +63,10 @@ body {
 
     /* width: 900px; Adjust as needed */
     margin: 0 auto;
+    transition: order 500ms ease-in-out;
 }
 
 .artist-image {
-    width: 48px;
-    /* Adjust as needed */
-    height: 48px;
     /* Adjust as needed */
     border-radius: 50%;
     /* This will make it a circle */

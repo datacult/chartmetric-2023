@@ -1,0 +1,57 @@
+#vis {
+    width: 100vw;
+    height: 100vh;
+    background-color: #F5F4F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#platforms-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    width: 32%;
+    gap:10px
+}
+
+.country-row {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    background-color: #ecf0f1;
+    /* Light grey background */
+    border-radius: 4px;
+    /* Rounded corners */
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    font-size:.5rem
+}
+
+
+
+.country-name {
+    color: #2c3e50;
+    /* Darker text color */
+    font-weight: 700;
+
+}
+
+.highlighted {
+    background-color: black !important;
+    transition: background-color 0.3s ease
+    /* Or any highlight color */
+}
+.highlighted .country-name {
+    color: white !important;
+}
+.highlighted .country-rank{
+    color: white !important;
+}

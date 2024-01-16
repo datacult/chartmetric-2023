@@ -1,77 +1,99 @@
-async function draw() {
-  // parameters
-  let dataUrl = "./data/A2-12.csv";
-  let chartContainerId = "topArtistsBankingBars_barChart";
-  let widthKey = "CM_SCORE";
+import { chartDimensions } from "../chartDimensions.js";
+
+export async function draw(dataUrl, chartContainerId, widthKey, selectedValue) {
   /***********************
    *1. Access data
    ************************/
 
-  let data = await d3.csv(dataUrl);
-  data.forEach((d) => {
-    d.CM_SCORE = +d.CM_SCORE;
-  
-  });
-  data = data.sort((a, b) => d3.descending(a[widthKey], b[widthKey])); // .sort((a, b) => d3.descending(a.SPINS, b.SPINS));
+  let dataset = await d3.csv(dataUrl, d3.autoType);
+
+  dataset = dataset.sort((a, b) => d3.descending(a[widthKey], b[widthKey])); // .sort((a, b) => d3.descending(a.SPINS, b.SPINS));
+  let countries_names = [...new Set(dataset.map((d) => d.COUNTRY_NAME))];
+  countries_names.unshift("All Countries");
+  // let data = dataset.filter((d) => d.COUNTRY_NAME == selectedValue);
+  let data = dataset.slice(0, 10);
 
   /***********************
    *2. Create chart dimensions
    ************************/
-  // Get the element by its ID
-  const visElement = document.getElementById(chartContainerId);
 
-  // Get the bounding rectangle of the element
-  const rect = visElement.getBoundingClientRect();
-  let dimensions = {
-    width: rect.width,
-    height: rect.height,
-    margin: {
-      top: 0,
-      right: 10,
-      bottom: 0,
-      left: 0,
-    },
-  };
-  dimensions.boundedWidth =
-    dimensions.width - dimensions.margin.left - dimensions.margin.right;
-  dimensions.boundedHeight =
-    dimensions.height - dimensions.margin.top - dimensions.margin.bottom;
-
+  const { boundedWidth: width, boundedHeight: height } =
+    chartDimensions(chartContainerId);
   /***********************
    *3. Set up canvas
    ************************/
+  const visElement = document.getElementById(chartContainerId);
   const wrapper = d3.select(visElement);
 
   // Select the top 10 rows using d3.slice
-  const top10 = data.slice(0, 10);
+
+  const globalTop10 = data.slice(0, 10);
 
   /***********************
    *4. Create scales
    ************************/
   const widthScale = d3
     .scaleLinear()
-    .domain([0, d3.max(top10, (d) => d[widthKey])])
-    .range([100, dimensions.boundedWidth]);
+    .domain([0, d3.max(globalTop10, (d) => d[widthKey])])
+    .range([350, width]);
 
-  const barContainers = wrapper.selectAll("div").data(top10);
-  const newElements = barContainers
-    .join("div")
+  /***********************
+   *5. Draw canvas
+   ************************/
+  function drawCanvas(top10) {
+    // Bind the data to the elements with a key function for object constancy
+    const barContainers = wrapper
+      .selectAll("div.bar")
+      .data(top10, (d) => d.ARTIST_NAME);
 
-    .attr("class", "gradient-bar");
-  newElements.html(function (d) {
-    return `
-        <img src="https://raw.githubusercontent.com/muhammederdem/mini-player/master/img/1.jpg" alt="${d.Group}" class="artist-image">
-        <span class="artist-name">${d.ARTIST_NAME}</span>
-      `;
-  });
-  newElements
-    .style("padding", "3px")
-    .style("margin", "1px")
-    .style("width", (d) => widthScale(d[widthKey]) + "px");
-  //  .style("background", "steelblue")
-  //  .style("padding", "3px")
-  //  .style("margin", "1px")
-  //  .style("width", (d,i) => widthScale(d[widthKey]) + "px")
+    // Use join to handle enter, update, and exit selections
+    barContainers.join(
+      // Enter selection
+      (enter) =>
+        enter
+          .append("div")
+          .attr("class", "gradient-bar bar")
+          .html(
+            (d) => `
+            <img style="width:${height / 18}px; height:${
+              height / 18
+            }px" src="https://raw.githubusercontent.com/muhammederdem/mini-player/master/img/1.jpg" alt="${
+              d.Group
+            }" class="artist-image">
+            <span class="artist-name">${d.ARTIST_NAME}</span>
+          `
+          )
+          .style("opacity", 0)
+          .style("width", 0)
+          .transition()
+          .duration(500)
+          .style("opacity", 1)
+          .style("width", (d) => widthScale(d[widthKey]) + "px"),
+
+      // Update selection
+      (update) =>
+        update
+          .transition()
+          .duration(500)
+          .style("width", (d) => widthScale(d[widthKey]) + "px"),
+
+      // Exit selection
+      (exit) =>
+        exit
+          .transition()
+          .duration(500)
+          .style("width", 0)
+          .style("opacity", 0)
+          .remove()
+    );
+  }
+
+  if (selectedValue == "All Countries") {
+    data = dataset.slice(0, 10);
+    drawCanvas(data);
+  } else {
+    data = dataset.filter((d) => d.COUNTRY_NAME == selectedValue);
+
+    drawCanvas(data);
+  }
 }
-
-draw();

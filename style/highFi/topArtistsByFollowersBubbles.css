@@ -1,0 +1,157 @@
+body {
+    color: #1c1c1c;
+    font-family: "Inter";
+    background-color: #f5f4f0;
+    width: 100vw;
+    height: 100vh;
+}
+
+#vis {
+    padding: 96px 64px 64px 64px;
+    width: 100%;
+    height: 85%;
+    display: flex;
+
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-self: stretch;
+}
+
+#topArtistsByFollowersBubbles_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-self: stretch;
+}
+
+#topArtistsByFollowersBubbles_header .title-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.title {
+    font-size: 116px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 90%;
+    /* 104.4px */
+    letter-spacing: -4.64px;
+    flex: 4;
+}
+
+.toggle-section {
+    display: flex;
+    width: 489px;
+
+    align-items: flex-start;
+    gap: 4.5px;
+    border-radius: 75px;
+    border: 0.75px solid #c2c2c1;
+}
+
+.toggle-item {
+    display: flex;
+    padding: 18px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    border-radius: 75px;
+}
+
+.toggle-item.active {
+    flex: 1 0 0;
+    /* border: 0.75px solid #1C1C1C; */
+    background: #1c1c1c;
+}
+
+.toggle-item span {
+    color: #c2c2c1;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+
+.active span {
+    color: #f5f4f0;
+}
+
+.note {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 160%;
+    /* 25.6px */
+    max-width: 400px;
+}
+
+/* Chart */
+#topArtistsByFollowersBubbles_bottom {
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-end;
+    gap: 32px;
+    align-self: stretch;
+
+    background-image: url("../../assets/topArtistsByFollowersBubbles.png");
+    background-size: cover;
+    /* or contain, depending on your needs */
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: visible;
+}
+
+.topArtistsByFollowersBubbles_bot-section {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 30px;
+    flex: 1 0 0;
+}
+
+.topArtistsByFollowersBubbles_bot-chart {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+svg {
+    /* overflow: visible; */
+}
+
+.topArtistsByFollowersBubbles_bot-icon {
+    display: flex;
+    padding: 8px 0px;
+    justify-content: space-between;
+    align-items: flex-end;
+    align-self: stretch;
+    border-top: 3px solid #000
+}
+
+.text {
+    font-size: 44px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: 110%;
+    /* 48.4px */
+    letter-spacing: -1.76px;
+}
+
+.icon {
+    display: flex;
+    padding: 4.033px;
+    align-items: center;
+    gap: 1.134px;
+    border-radius: 2.268px;
+    box-shadow: 0px 0.756px 5.293px 0px rgba(0, 0, 0, 0.08);
+}
