@@ -99,7 +99,7 @@ body {
     gap: 32px;
     align-self: stretch;
 
-    background-image: url("../../assets/topArtistsByFollowersBubbles.png");
+    /* background-image: url("../../assets/topArtistsByFollowersBubbles.png"); */
     background-size: cover;
     /* or contain, depending on your needs */
     background-repeat: no-repeat;
@@ -125,8 +125,11 @@ body {
     align-items: center;
 }
 
-svg {
-    /* overflow: visible; */
+svg#gradient-background {
+    overflow: visible;
+}
+#bubble-foreground{
+    z-index:100
 }
 
 .topArtistsByFollowersBubbles_bot-icon {
