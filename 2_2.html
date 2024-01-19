@@ -14,9 +14,9 @@ https://studio.datacult.com/ -->
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
-    <link rel="stylesheet" href="style/highFi/genreTreemap.css">
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="stylesheet" href="style/highFi/2_2.css">
 </head>
 
 <body>
@@ -25,12 +25,12 @@ https://studio.datacult.com/ -->
         <!-- UI -->
         <div id="gentreTreemap_buttons">
             <div class="toggle">
-                <div class="artist-genres">ARTISTS GENRES</div>
-                <div class="track-genres">TRACK GENRES</div>
+                <div class="genre artist-genres">ARTISTS GENRES</div>
+                <div class="genre track-genres">TRACK GENRES</div>
             </div>
             <div class="toggle">
-                <div class="artist-genres">ALL ARTISTS</div>
-                <div class="track-genres">ADDED IN 2023</div>
+                <div class="genre artist-genres">ALL ARTISTS</div>
+                <div class="genre track-genres">ADDED IN 2023</div>
             </div>
         </div>
         <div id="gentreTreemap_chart"></div>
@@ -40,6 +40,13 @@ https://studio.datacult.com/ -->
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script type="module" src="./components/Treemap.js"></script>
-<script type="module" src="./js/highFi/genreTreemap.js"></script>
+<script type="module" src="./js/highFi/2_2.js"></script>
 
 </html>
+<script type="module" >
+    import {init} from './js/highFi/2_2.js'
+    let genreType="Artist Genres" // or  "Artist Genres"
+    let year = '' // "top_genres_for_artists_created_in_2023"
+
+    init(genreType,year)
+</script>

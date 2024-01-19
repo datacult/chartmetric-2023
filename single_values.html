@@ -1,0 +1,45 @@
+<!-- © 2023 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <!-- Google fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="stylesheet" href="./style/highFi/single_values.css">
+</head>
+
+<body>
+    <div id="vis">
+        <!-- Below is added by Gordon -->
+        <div id="dailyIngestionFunFactBubbles_ChartContainer">
+            <div id="dailyIngestionFunFactBubbles_textContainer"></div>
+
+
+        </div>
+    </div>
+
+</body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+
+<script type="module" src="js/highFi/single_values.js"></script>
+<script type="module" src="js/chartDimensions.js"></script>
+
+</html>
+
+<script type="module">
+    import { drawSingleValues } from './js/highFi/single_values.js'
+    let triggerElementId = 'dailyIngestionFunFactBubbles_ChartContainer'
+    drawSingleValues(triggerElementId)
+</script>

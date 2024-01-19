@@ -1,3 +1,15 @@
+:root {
+    font-family: Inter, sans-serif;
+    font-feature-settings: "liga" 1, "calt" 1;
+    /* fix for Chrome */
+}
+
+@supports (font-variation-settings: normal) {
+    :root {
+        font-family: InterVariable, sans-serif;
+    }
+}
+
 body {
     color: #1c1c1c;
     font-family: "Inter";
@@ -99,11 +111,6 @@ body {
     gap: 32px;
     align-self: stretch;
 
-    /* background-image: url("../../assets/topArtistsByFollowersBubbles.png"); */
-    background-size: cover;
-    /* or contain, depending on your needs */
-    background-repeat: no-repeat;
-    background-position: center;
     overflow: visible;
 }
 
@@ -126,10 +133,15 @@ body {
 }
 
 svg#gradient-background {
-    overflow: visible;
+    overflow: hidden;
 }
-#bubble-foreground{
-    z-index:100
+
+.circle-1-5 {
+    z-index: 10000;
+}
+
+#bubble-foreground {
+    z-index: 10;
 }
 
 .topArtistsByFollowersBubbles_bot-icon {
@@ -138,7 +150,7 @@ svg#gradient-background {
     justify-content: space-between;
     align-items: flex-end;
     align-self: stretch;
-    border-top: 3px solid #000
+    border-top: 3px solid #000;
 }
 
 .text {

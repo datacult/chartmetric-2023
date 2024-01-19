@@ -1,0 +1,228 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    background-color: #f5f4f0;
+}
+
+@media (min-width: 760px) {
+    #vis {
+        width: 100%;
+        height: 100%;
+        font-family: "Inter", sans-serif;
+        display: flex;
+        gap: 52px;
+    }
+
+    #radioTopTracksMap_worldMap {
+        flex: 2;
+        height: 100%;
+        position: relative;
+    }
+
+    #radioTopTracksMap_path:hover {
+        cursor: pointer;
+        fill: #46706f;
+    }
+
+    svg {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+path:hover {
+    transition: all 1s ease;
+}
+
+#radioTopTracksMap_gradientBar {
+    flex: 1;
+    position: relative;
+}
+
+.gradient-bar {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-image: linear-gradient(to right,
+            #eae7df 0%,
+            #eae7df 30%,
+            #f5f4f0 100%);
+    border-radius: 50px;
+}
+
+.gradient-bar:hover {
+    cursor: pointer;
+}
+
+.artist-image {
+    /* Adjust as needed */
+    border-radius: 50%;
+    /* This will make it a circle */
+    margin: 6.3px;
+}
+
+.artist-name {
+    max-width: 50%;
+}
+
+.artist-name span {
+    white-space: nowrap;
+    overflow: hidden;
+    min-width: 50%;
+    text-overflow: ellipsis;
+    font-size: 0.5rem;
+    /* Adjust as needed */
+    color: black;
+    /* Adjust as needed */
+}
+
+/* Map tooltip */
+.map-tooltip {
+    position: absolute;
+    display: none;
+
+    padding-left: 16px;
+    padding-right: 16px;
+    align-items: center;
+    border-radius: var(--8pt-scale-8, 8px);
+    background: var(--colors-white, #fff);
+    box-shadow: 0px 0px 15.698px 0px rgba(0, 0, 0, 0.08);
+}
+
+.map-tooltip__country {
+    display: flex;
+    align-items: center;
+}
+.flag {
+    width: 24.61px;
+    height: 27.471px;
+    background-image: url("../../assets/us-flag.png");
+    background-size: cover;
+    /* or contain, depending on your needs */
+    background-repeat: no-repeat;
+    background-position: center;
+
+    background-blend-mode: hue, difference, normal;
+    border: none;
+}
+.map-tooltip__track {
+    display: flex;
+    padding: 0px 3.298px;
+    align-items: center;
+    gap: 7.558px;
+    text-wrap: nowrap;
+}
+
+.map-tooltip__artist {
+    display: flex;
+    padding-left: 16px;
+    align-items: center;
+    border-radius: 78.488px;
+    box-shadow: 0px 0px 15.698px 0px rgba(0, 0, 0, 0.08);
+}
+
+/* Tooltip */
+.tooltip {
+    height: 50%;
+
+    display: inline-flex;
+    margin-left: 10px;
+    padding-left: 16px;
+    /** To be editted: this helps include the buttons=40px + margin-left for buttons */
+    padding-right: 62px;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 78.488px;
+    background: var(--colors-white, #fff);
+    box-shadow: 0px 0px 15.698px 0px rgba(0, 0, 0, 0.08);
+}
+
+.name {
+    color: var(--800, #000);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Desktop/Label/14 */
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+}
+
+.flag {
+    width: 24.61px;
+    height: 27.471px;
+    background-image: url("../../assets/us-flag.png");
+    background-size: cover;
+    /* or contain, depending on your needs */
+    background-repeat: no-repeat;
+    background-position: center;
+
+    background-blend-mode: hue, difference, normal;
+    border: none;
+}
+
+.card-stack {
+    display: flex;
+    position: relative;
+    height: 50%;
+    /** To be editted: this helps include the buttons */
+
+    /* Ensure there is enough space for the cards to pop */
+}
+
+.card {
+    position: absolute;
+    padding: 0px 10%;
+    min-width: 100%;
+    /* Adjusted to better reflect the image proportions */
+    height: 100%;
+    /* Adjusted to better reflect the image proportions */
+    border: 1px solid #000;
+    background-color: #fff;
+    text-align: center;
+
+    /* Adjust padding to vertically center the text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, z-index 0.3s ease;
+    border-radius: 4px;
+    /* Slight rounding of corners as seen in the image */
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+/* Stacking cards with the left-most card on top */
+.card:nth-child(1) {
+    z-index: 3;
+    position: relative;
+}
+
+.card:nth-child(2) {
+    left: 10px;
+    z-index: 2;
+}
+
+.card:nth-child(3) {
+    left: 20px;
+    z-index: 1;
+}
+
+/* Hover effect to pop the card */
+.card:hover {
+    transform: scale(1.05);
+    /* Slight scale-up to make the card pop */
+    z-index: 4;
+    /* This ensures the hovered card is above others */
+}
+
+/* Return to the initial layout when not hovered */
+.card-stack .card:not(:hover) {
+    transform: scale(1);
+    transition: transform 0.3s ease, z-index 0s;
+}

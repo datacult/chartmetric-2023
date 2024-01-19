@@ -40,7 +40,7 @@ export function Treemap(
     stroke, // stroke for node rects
     strokeWidth, // stroke width for node rects
     strokeOpacity, // stroke opacity for node rects
-    strokeLinejoin // stroke line join for node rects
+    strokeLinejoin, // stroke line join for node rects
   } = {}
 ) {
   // If id and parentId options are specified, or the path option, use d3.stratify
@@ -50,6 +50,7 @@ export function Treemap(
 
   // We take special care of any node that has both a value and children, see
   // https://observablehq.com/@d3/treemap-parent-with-value.
+
   const stratify = (data) =>
     d3
       .stratify()
@@ -108,7 +109,23 @@ export function Treemap(
     .paddingLeft(paddingLeft)
     .round(round)(root);
 
+  const defs = svg.append("defs");
 
+  // circlePackingData.forEach((d, i) => {
+  defs
+    .append("pattern")
+    .attr("id", "image-fill-") // Unique ID for each pattern
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr("patternContentUnits", "objectBoundingBox")
+    .append("image")
+    .attr(
+      "xlink:href",
+      "https://share.chartmetric.com/artists/299/172/11172299/11172299-profile.webp"
+    ) // URL of the image
+    .attr("width", 1)
+    .attr("height", 1)
+    .attr("preserveAspectRatio", "xMidYMid slice");
 
   const node = svg
     .selectAll("a")
@@ -120,6 +137,8 @@ export function Treemap(
 
   const rects = node
     .append("rect")
+    .attr("class", "front-2-2-rect")
+    .attr("id", (d, i) => d.id + "-front")
     .attr("fill", color ? (d, i) => color(G[i]) : fill)
     .attr("fill-opacity", fillOpacity)
     .attr("stroke", stroke)
@@ -128,20 +147,79 @@ export function Treemap(
     .attr("stroke-linejoin", strokeLinejoin)
     .attr("width", (d) => d.x1 - d.x0)
     .attr("height", (d) => d.y1 - d.y0)
+    .style('transform-origin', d=> {
+      const centerX = (d.x1 - d.x0) / 2;
+      const centerY = (d.y1 - d.y0) / 2;
+      return `${centerX}px ${centerY}px`
+    } );
+  const backRects = node
+    .append("rect")
+    .attr("class", "back-2-2-rect")
+    .attr("id", (d, i) => d.id + "-back")
+    .attr("fill", color ? (d, i) => color(G[i]) : fill)
+    .attr("fill-opacity", fillOpacity)
+    .attr("stroke", stroke)
+    .attr("stroke-width", strokeWidth)
+    .attr("stroke-opacity", strokeOpacity)
+    .attr("stroke-linejoin", strokeLinejoin)
+    .attr("width", (d) => d.x1 - d.x0)
+    .attr("height", (d) => d.y1 - d.y0)
+    .attr("fill", "url(#image-fill-)")
+    .style("opacity", 0) // Initially hidden
+    .style('transform-origin', d=> {
+      const centerX = (d.x1 - d.x0) / 2;
+      const centerY = (d.y1 - d.y0) / 2;
+      return `${centerX}px ${centerY}px`
+    } )
+    .style("transform", "scaleX(0)");
   rects.on("mouseover", function (event, d) {
+  
     d3.select(this)
       .transition()
-      .duration(3000)
-      .style('mix-blend-mode', 'none')
-      .attr("fill", 'red');
-  })
-    .on("mouseout", function (event, d) {
-      d3.select(this)
-        .transition()
-        .duration(300)
-        .style('mix-blend-mode', 'plus-lighter')
-        .attr("fill", color ? (d, i) => color(G[i]) : fill);
-    });
+      .duration(150)
+      .style("opacity", 0)
+      .style("transform", "scaleX(0)")
+      .end()
+      .then(() => {
+        // Hide the top circle
+        d3.select(this).style("display", "none");
+
+        // Prepare the back circle for display
+        const backRect = svg.select(`[id="${d.id + "-back"}"]`); // unique id for that hovered rect
+        backRect
+          .style("display", "block")
+          .style("opacity", 0)
+          .style("transform", "scaleX(0)")
+          .transition()
+          .duration(150)
+          .style("opacity", 1)
+          .style("transform", "scaleX(1)");
+      });
+  });
+
+  backRects.on("mouseout", function (event, d) {
+    // Animate the back circle to scale down
+    d3.select(this)
+      .transition()
+      .duration(50)
+      .style("opacity", 0)
+      .style("transform", "scaleX(0)")
+      .end()
+      .then(() => {
+        // Hide the back circle
+        d3.select(this).style("display", "none");
+        const topRect = svg.select(`[id="${d.id + "-front"}"]`);
+        // Show and animate the top circle
+        topRect
+          .style("display", "block")
+          .style("opacity", 0)
+          .style("transform", "scaleX(0)")
+          .transition()
+          .duration(50)
+          .style("opacity", 1)
+          .style("transform", "scaleX(1)");
+      });
+  });
   if (T) {
     node.append("title").text((d, i) => T[i]);
   }
@@ -164,7 +242,6 @@ export function Treemap(
         (d, i) => `url(${new URL(`#${uid}-clip-${i}`, location)})`
       )
 
-
       .selectAll("tspan")
       .data((d, i) => `${L[i]}`.split(/\n/g))
       .join("tspan")
@@ -175,6 +252,4 @@ export function Treemap(
       .attr("font-weight", "700") // Adjust the weight as needed
       .text((d) => d);
   }
-
-
 }

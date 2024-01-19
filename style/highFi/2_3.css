@@ -1,21 +1,44 @@
+:root {
+  font-family: Inter, sans-serif;
+  font-feature-settings: "liga" 1, "calt" 1;
+  /* fix for Chrome */
+}
+
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: InterVariable, sans-serif;
+  }
+}
+
 #vis {
   width: 100%;
   height: 100%;
-  background-color: #f5f4f0;
+
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: "Inter";
-  font-weight: 700;
+  font-weight: 600;
 }
 
 #platforms-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   width: 100%;
   height: 100%;
   gap: 32px;
+}
+
+@media (min-width: 760px) {
+  #platforms-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    gap: 32px;
+  }
 }
 
 .country-row {
@@ -24,12 +47,15 @@
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
+  text-wrap: nowrap;
+  overflow: hidden;
+ 
 }
 
 .column {
   display: flex;
   flex-direction: column;
-  width: 32%;
+  min-width: 32%;
   gap: 4px;
 }
 
@@ -42,9 +68,13 @@
   /* Light grey background */
   border-radius: 8px;
   font-size: 1rem;
-  cursor: pointer
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  
 }
-
+.country-name {
+  text-overflow: ellipsis;
+}
 .country-value {
   color: #2c3e50;
 }
@@ -61,4 +91,3 @@
 .highlighted .country-name {
   color: white !important;
 }
-

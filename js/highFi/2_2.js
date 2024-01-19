@@ -1,10 +1,12 @@
 import { chartDimensions } from "../chartDimensions.js";
 import { Treemap } from "../../components/Treemap.js";
-async function draw() {
+async function drawChart(genreType,year) {
     // parameters
-    let dataUrl = "./data/genreTreemap.csv";
+    let dataUrl = "https://share.chartmetric.com/year-end-report/2023/viz_2_2_en.csv";
     let chartContainerId = "gentreTreemap_chart";
-
+    d3.select("#" + chartContainerId)
+        .select("svg")
+        .remove();
     /***********************
      *1. Access data
      ************************/
@@ -12,10 +14,10 @@ async function draw() {
     let dataset = await d3.csv(dataUrl);
 
     let data = dataset.map((d) => Object.assign({}, d));
-
-    console.log(data);
+   
     data = data
-        .filter((d) => d.NAME == "top_genres_for_tracks_all_time")
+        .filter((d) =>  d.TITLE == genreType)
+        .filter((d) => year === "top_genres_for_artists_created_in_2023" ? d.NAME === year : true)
         .sort((a, b) => d3.descending(+a.VALUE, +b.VALUE))
         .map((d, i) => {
             return {
@@ -24,15 +26,22 @@ async function draw() {
                 RANK: i + 1,
             };
         });
-    
+       
     /***********************
      *2. Create chart dimensions
      ************************/
 
+    const { boundedWidth, boundedHeight } = chartDimensions(chartContainerId);
     const { boundedWidth: width, boundedHeight: height } = chartDimensions(
         chartContainerId,
-        { bottom: 30, right: 30 }
+        {
+            top: boundedHeight * 0.02,
+            right: boundedWidth * 0.02,
+            bottom: boundedHeight * 0.02,
+            left: boundedWidth * 0.02,
+        }
     );
+    console.log(width, height);
     /***********************
      *3. Set up canvas
      ************************/
@@ -41,7 +50,9 @@ async function draw() {
         .select(visElement)
         .append("svg")
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", height * 0.98);
+    // .attr("viewBox", `0 0 ${width*0.98} ${height*0.98}`)
+    // .attr("preserveAspectRatio", "xMidYMid meet");
 
     Treemap(wrapper, data, {
         path: (d) => d.GENRE_NAME,
@@ -51,20 +62,27 @@ async function draw() {
         },
         // title: (d, n) => `${d.name}\n${n.value.toLocaleString("en")}`, // text to show on hover
         stroke: "none",
-        paddingInner: "10",
-       
+        paddingInner: "16",
+
         tile: d3.treemapSquarify,
         width: width,
         height: height,
     });
-
-    /***********************
-     *4. Create scales
-     ************************/
-
-    /***********************
-     *5. Draw canvas
-     ************************/
 }
 
-draw();
+function setupResizeListener() {
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            drawChart();
+        }, 50); // Adjust the timeout to your preference
+    });
+}
+export async function init(genreType,year) {
+    // await loadData();
+    await drawChart(genreType,year);
+    setupResizeListener();
+}
+
+
