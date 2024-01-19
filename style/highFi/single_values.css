@@ -1,23 +1,42 @@
+:root {
+  font-family: Inter, sans-serif;
+  font-feature-settings: "liga" 1, "calt" 1;
+  /* fix for Chrome */
+}
+
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: InterVariable, sans-serif;
+  }
+}
+#vis {
+  width: 100vw;
+  height: 100vh;
+}
 #dailyIngestionFunFactBubbles_ChartContainer {
-  position: fixed;
+  position: relative;
   top: 0px;
   transform: translate(0px, -1px);
   z-index: 1;
   width: 100vw;
   height: 100vh;
   background-color: #f5f4f0;
+
 }
 
-.text-container {
-  padding-top: 50vh;
-}
+
 
 section.scrollstory-item {
   margin: 0 auto;
   padding-bottom: 100vh;
 }
+#dailyIngestionFunFactBubbles_ChartContainer{
+  width: 100%;
+  height: 100%;
+}
 
 #dailyIngestionFunFactBubbles_textContainer {
+
   position: absolute;
   text-align: center;
 }

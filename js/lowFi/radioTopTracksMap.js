@@ -1,10 +1,11 @@
+import { chartDimensions } from "../chartDimensions.js";
 let selectedCountries = ["Italy"];
 export async function drawMap(selectedCountries = []) {
   // parameters
   let dataUrl = "./data/world.json";
   let trackDataUrl = "./data/gradientBarAP2_3.csv";
   let chartContainerId = "radioTopTracksMap_worldMap";
-  let hoveredTrackName = null;
+  let hoveredMapSelector = null;
   /***********************
    *1. Access data
    ************************/
@@ -22,27 +23,14 @@ export async function drawMap(selectedCountries = []) {
   const visElement = document.getElementById(chartContainerId);
 
   // Get the bounding rectangle of the element
-  const rect = visElement.getBoundingClientRect();
-  let dimensions = {
-    width: rect.width,
-    height: rect.height,
-    margin: {
-      top: 0,
-      right: 10,
-      bottom: 0,
-      left: 0,
-    },
-  };
-  dimensions.boundedWidth =
-    dimensions.width - dimensions.margin.left - dimensions.margin.right;
-  dimensions.boundedHeight =
-    dimensions.height - dimensions.margin.top - dimensions.margin.bottom;
 
+  const dimensions = chartDimensions(chartContainerId);
   /***********************
    *3. Set up canvas
    ************************/
   const projection = d3
-    .geoNaturalEarth2()
+    .geoMiller()
+
     .fitSize([dimensions.boundedWidth, dimensions.boundedHeight], countries);
   const path = d3.geoPath(projection);
 
@@ -72,7 +60,6 @@ export async function drawMap(selectedCountries = []) {
     .attr("stroke", "white")
     .attr("stroke-width", 0.5)
     .on("mouseenter", function (event, mapData) {
-      console.log(mapData.properties.name)
       let filteredData = dataset.filter(
         (d) => d.NAME === mapData.properties.name
       );
@@ -82,18 +69,38 @@ export async function drawMap(selectedCountries = []) {
         (v) => d3.max(v, (d) => d.SPINS),
         (d) => d.TRACK_NAME
       );
-      hoveredTrackName = [...tracksWithLargestSpins.entries()].length > 0 ?[...tracksWithLargestSpins.entries()][0][0] : 'noData'
-      
+      let hoveredTrackName =
+        [...tracksWithLargestSpins.entries()].length > 0
+          ? [...tracksWithLargestSpins.entries()][0][0]
+          : "noData";
+
       let hoveredTrackNameID = hoveredTrackName
         .replace(/[^a-zA-Z0-9-_]/g, "") // Remove special characters
         .replace(/\s/g, "_") // Replace spaces with underscores
         .replace(/\(|\)/g, "");
-        console.log(hoveredTrackNameID)
-        d3.select("#" + hoveredTrackNameID).style("border", "38px solid black;"); 
-     console.log( d3.select("#" + hoveredTrackNameID))
+
+      hoveredMapSelector = `div#${hoveredTrackNameID}.gradient-bar`;
+
+      d3.select(hoveredMapSelector).style("border", "1px solid black");
+
+      //
+      console.log(filteredData);
+      const [x, y] = d3.pointer(event);
+      if (filteredData.length > 0) {
+        d3
+          .select(".map-tooltip")
+          .style("display", "flex")
+          .style("left", x + 10 + "px")
+          .style("top", y + 10 + "px").html(`
+        <div class="map-tooltip__country">${filteredData[0].NAME}<span class="flag"> </span></div>
+        <div class="map-tooltip__track"><span class="flag"></span>${filteredData[0].TRACK_NAME}</div>
+        <div class="map-tooltip__artist"><span class="flag"></span>${filteredData[0].ARTIST_NAME}</div>
+    `);
+      }
     })
-    .on("mouseout", function (event, d) {
-      hoveredTrackName = null;
+    .on("mouseleave", function (event, d) {
+      d3.select(hoveredMapSelector).style("border", "0px solid black");
+      d3.select(".map-tooltip").style("display", "none");
     });
-  return hoveredTrackName;
 }
+drawMap(selectedCountries);

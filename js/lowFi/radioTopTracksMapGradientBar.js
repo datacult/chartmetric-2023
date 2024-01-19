@@ -1,16 +1,19 @@
 import { chartDimensions } from "../chartDimensions.js";
 import { drawMap } from "./radioTopTracksMap.js";
 async function draw() {
+ 
   // parameters
   let dataUrl = "./data/gradientBarAP2_3.csv";
   let chartContainerId = "radioTopTracksMap_gradientBar";
   let widthKey = "SPINS";
   let yKey = "TRACK_NAME";
+
   /***********************
    *1. Access data
    ************************/
 
   let dataset = await d3.csv(dataUrl, d3.autoType);
+
 
   dataset = dataset.sort((a, b) => d3.descending(a[widthKey], b[widthKey]));
   // Select the top 10 tracks
@@ -67,15 +70,38 @@ async function draw() {
     )
     .on("click", function (event, d) {
       drawMap(d.data.map((d) => d.NAME));
+    
+    })
+    .on("mouseenter", function (event,d) {
+      d3.select(this).style("border", "1px solid black")
+
+      d3.select(this).append("div").attr("class", "tooltip").html(`
+      <div class='name'>${d.data[0].ARTIST_NAME}</div>
+      <div class="flag"> </div>
+      <div class="card-stack">
+        <div class="card">R&B/Soul</div>
+        <div class="card">Jazz</div>
+        <div class="card">Pop</div>
+      </div>`);
+      let fromRight = d3.select('.tooltip').node().getBoundingClientRect().width;
+      gsap.fromTo(
+        ".tooltip",
+        { left: -fromRight, opacity: 0 },
+        { left: 0, opacity: 1, duration: 0.5, ease: "power2.inOut" }
+      );
+    })
+    .on("mouseleave", function (d) {
+      d3.select(this).select("div.tooltip").remove();
+      d3.select(this).style("border", "0px solid black")
     });
 
   let imageWidth = yScale.bandwidth() * 0.75;
-  console.log(imageWidth);
+  
   newElements.html(function (d) {
     return `
       <img src="https://raw.githubusercontent.com/muhammederdem/mini-player/master/img/1.jpg" alt="${d[yKey]}" class="artist-image" 
       style="width:${imageWidth}px; height:${imageWidth} px">
-      <div class="artist-name">${d[yKey]}</div>
+      <div class="artist-name"><span>${d[yKey]}</span></div>
     `;
   });
   newElements
@@ -92,4 +118,14 @@ async function draw() {
   //  .style("width", (d,i) => widthScale(d[widthKey]) + "px")
 }
 
-draw();
+
+function setupResizeListener() {
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+          draw();
+      }, 50); // Adjust the timeout to your preference
+  });
+}
+draw()

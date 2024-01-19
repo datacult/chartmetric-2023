@@ -3,8 +3,8 @@ function formatPercentage(number) {
   const formatter = d3.format(".1%");
   return formatter(number);
 }
-export async function draw() {
-  let dataUrl = "./data/viz2-3.csv";
+export async function draw(dataUrl) {
+  
 
   /***********************
    *1. Access data
@@ -48,9 +48,9 @@ export async function draw() {
           return colorScale(d.PLATFORM);
         });
       countryRow
-        .append("span")
+        .append("div")
         .attr("class", "country-name")
-        .text(i + 1 + ". " + d.COUNTRY_NAME);
+        .html(i + 1 + ". " + d.COUNTRY_NAME);
       countryRow
         .append("span")
         .attr("class", "country-value")

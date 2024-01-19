@@ -47,45 +47,63 @@ export async function draw(dataUrl, chartContainerId, widthKey, selectedValue) {
       .data(top10, (d) => d.ARTIST_NAME);
 
     // Use join to handle enter, update, and exit selections
-    barContainers.join(
-      // Enter selection
-      (enter) =>
-        enter
-          .append("div")
-          .attr("class", "gradient-bar bar")
-          .html(
-            (d) => `
-            <img style="width:${height / 18}px; height:${
-              height / 18
-            }px" src="https://raw.githubusercontent.com/muhammederdem/mini-player/master/img/1.jpg" alt="${
-              d.Group
-            }" class="artist-image">
+    barContainers
+      .join(
+        // Enter selection
+        (enter) =>
+          enter
+            .append("div")
+            .attr("class", "gradient-bar bar")
+            .html(
+              (d) => `
+            <img style="width:${height / 18}px; height:${height / 18
+                }px" src="https://raw.githubusercontent.com/muhammederdem/mini-player/master/img/1.jpg" alt="${d.Group
+                }" class="artist-image">
             <span class="artist-name">${d.ARTIST_NAME}</span>
           `
-          )
-          .style("opacity", 0)
-          .style("width", 0)
-          .transition()
-          .duration(500)
-          .style("opacity", 1)
-          .style("width", (d) => widthScale(d[widthKey]) + "px"),
+            )
+            .style("opacity", 0)
+            .style("width", 0)
+            .transition()
+            .duration(500)
+            .style("opacity", 1)
+            .style("width", (d) => widthScale(d[widthKey]) + "px"),
 
-      // Update selection
-      (update) =>
-        update
-          .transition()
-          .duration(500)
-          .style("width", (d) => widthScale(d[widthKey]) + "px"),
+        // Update selection
+        (update) =>
+          update
+            .transition()
+            .duration(500)
+            .style("width", (d) => widthScale(d[widthKey]) + "px"),
 
-      // Exit selection
-      (exit) =>
-        exit
-          .transition()
-          .duration(500)
-          .style("width", 0)
-          .style("opacity", 0)
-          .remove()
-    );
+        // Exit selection
+        (exit) =>
+          exit
+            .transition()
+            .duration(500)
+            .style("width", 0)
+            .style("opacity", 0)
+            .remove()
+      )
+      .on("mouseenter", function (d) {
+        d3.select(this).append("div").attr("class", "tooltip").html(`
+        <div class='name'>Artist Name</div>
+        <div class="flag"> </div>
+        <div class="card-stack">
+          <div class="card">R&B/Soul</div>
+          <div class="card">Jazz</div>
+          <div class="card">Pop</div>
+        </div>`);
+        let fromRight = d3.select('.tooltip').node().getBoundingClientRect().width;
+        gsap.fromTo(
+          ".tooltip",
+          { right: -fromRight, opacity: 0 },
+          { right: 0, opacity: 1, duration: 0.5, ease: "power2.inOut" }
+        );
+      })
+      .on("mouseleave", function (d) {
+        d3.select(this).select("div.tooltip").remove();
+      });
   }
 
   if (selectedValue == "All Countries") {

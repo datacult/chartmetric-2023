@@ -14,9 +14,9 @@ https://studio.datacult.com/ -->
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Inter:wght@300;400;500;700;900&display=swap' rel='stylesheet'>
-    <link rel="stylesheet" href="style/highFi/socialMediaPercentOfAudienceByCountry.css">
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="stylesheet" href="style/highFi/2_3.css">
 </head>
 
 <body>
@@ -28,11 +28,11 @@ https://studio.datacult.com/ -->
 
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script type="module" src="./js/highFi/socialMediaPercentOfAudienceByCountry.js"></script>
+<script type="module" src="./js/highFi/2_3.js"></script>
 
 </html>
 <script type="module">
-    import { draw } from './js/highFi/socialMediaPercentOfAudienceByCountry.js';
-
-    draw();
+    import { draw } from './js/highFi/2_3.js';
+    let dataUrl = "https://share.chartmetric.com/year-end-report/2023/viz_2_3_en.csv";
+    draw(dataUrl);
 </script>
