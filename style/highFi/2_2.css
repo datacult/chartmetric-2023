@@ -53,8 +53,24 @@ body {
     flex: 1 0 0;
     border-radius: 100px;
     border: 1px solid #c2c2c1;
+    position: relative
 }
-
+.background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 50%; /* Assuming both buttons are of equal width */
+    background: var(--surface-dark, #1c1c1c); /* Black background */
+    border-radius: 100px;
+    z-index: 0; /* Keep it behind the buttons */
+    transition: left 0.3s ease; /* Smooth transition for the background */
+}
+.genre {
+    position: relative;
+    z-index: 1; /* Make sure genres are above the background */
+    /* Rest of your styles... */
+}
 .artist-genres {
     display: flex;
     padding: 24px 32px;
@@ -87,7 +103,10 @@ body {
     gap: 24px;
     border-radius: 100px;
 }
-
+.artist-genres, .track-genres {
+    background: none; /* Remove the background from individual buttons */
+    /* Rest of your styles... */
+}
 #gentreTreemap_chart {
     width: 100%;
     height: 100%;

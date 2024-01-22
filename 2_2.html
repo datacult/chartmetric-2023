@@ -25,6 +25,7 @@ https://studio.datacult.com/ -->
         <!-- UI -->
         <div id="gentreTreemap_buttons">
             <div class="toggle">
+                <div class="background"></div>
                 <div class="genre artist-genres">ARTISTS GENRES</div>
                 <div class="genre track-genres">TRACK GENRES</div>
             </div>
@@ -40,13 +41,22 @@ https://studio.datacult.com/ -->
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script type="module" src="./components/Treemap.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
 <script type="module" src="./js/highFi/2_2.js"></script>
 
 </html>
-<script type="module" >
-    import {init} from './js/highFi/2_2.js'
-    let genreType="Artist Genres" // or  "Artist Genres"
+<script type="module">
+    import { init } from './js/highFi/2_2.js'
+    /*
+        Webflow Change starts here
+    */
+    let genreType = "Artist Genres" // or  "Track Genres"
     let year = '' // "top_genres_for_artists_created_in_2023"
+    /*
+        Webflow Change ends here
+    */
 
-    init(genreType,year)
+
+    
+    init(genreType, year)
 </script>

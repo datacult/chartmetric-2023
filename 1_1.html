@@ -13,41 +13,33 @@ https://studio.datacult.com/ -->
 
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://rsms.me/">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <link rel="stylesheet" href="./style/highFi/single_values.css">
+    <link rel="stylesheet" href="style/highFi/1_1.css">
 </head>
 
 <body>
     <div id="vis">
-        <!-- Below is added by Gordon -->
-        <div id="dailyIngestionFunFactBubbles_ChartContainer">
-            <!-- <div id="dailyIngestionFunFactBubbles_textContainer"></div> -->
-
-
-        </div>
+        <!--! Gordon added code begins-->
+        <!-- UI -->
+       
+        <!--! Gordon added code ends-->
     </div>
 
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/d3-array@1"></script>
+<script src="https://unpkg.com/d3-collection@1"></script>
+<script src="https://unpkg.com/d3-path@1"></script>
+<script src="https://unpkg.com/d3-shape@1"></script>
+<script src="https://unpkg.com/d3-sankey@0"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
-
-<script type="module" src="js/highFi/single_values.js"></script>
-<script type="module" src="js/chartDimensions.js"></script>
+<script type="module" src="./js/highFi/1_1.js"></script>
 
 </html>
-
 <script type="module">
-    import { drawSingleValues } from './js/highFi/single_values.js'
-    /*
-        Webflow Change starts here
-    */
-    let triggerElementId = 'dailyIngestionFunFactBubbles_ChartContainer'
-    /*
-        Webflow Change ends here
-    */
+    import {draw} from './js/highFi/1_1.js';
 
-
-    drawSingleValues(triggerElementId)
+    draw();
 </script>

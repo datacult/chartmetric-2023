@@ -84,7 +84,7 @@ export async function drawMap(selectedCountries = []) {
       d3.select(hoveredMapSelector).style("border", "1px solid black");
 
       //
-      console.log(filteredData);
+    
       const [x, y] = d3.pointer(event);
       if (filteredData.length > 0) {
         d3

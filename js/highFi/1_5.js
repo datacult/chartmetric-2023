@@ -1,83 +1,24 @@
 import { Circlepacking } from "../../components/CirclePacking.js";
 import { chartDimensions } from "../chartDimensions.js";
-
+import { createRoundGradient } from "../../components/backgroundGradientGenerator.js";
 let chartSectionId = "topArtistsByFollowersBubbles_bot-section1";
 // Function to create a round gradient
-function createRoundGradient(
-    selector,
-    width,
-    height,
-    radius,
-    innerColor,
-    outerColor,
-    gradientId
-) {
-    // Create the SVG container
-    let svg = d3
-        .select(selector)
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .attr("viewBox", `0 0 ${width} ${height}`)
-        .attr("fill", "none")
-        .attr("id", "gradient-background")
-        .style("position", "absolute");
-    // Define a radial gradient
-    let defs = svg.append("defs");
-    let radialGradient = defs.append("radialGradient").attr("id", gradientId);
 
-    // Define the color stops of the gradient
-    radialGradient
-        .append("stop")
-        .attr("offset", "90%")
-        .attr("stop-color", innerColor);
-
-    radialGradient
-        .append("stop")
-        .attr("offset", "100%")
-        .attr("stop-color", outerColor);
-
-    // Append the circle and fill it with the gradient
-    svg
-        .append("circle")
-        .attr("cx", width / 2)
-        .attr("cy", height / 2)
-        .attr("r", radius * 1.5)
-        .attr("fill", `url(#${gradientId})`);
-
-    // Append defs and filter for the Gaussian blur to the whole SVG to get the soft edge effect
-    let filter = defs
-        .append("filter")
-
-        .attr("x", "-50%")
-        .attr("y", "-50%")
-        .attr("width", "200%")
-        .attr("height", "200%")
-        .attr("id", `${gradientId}-glow`);
-    filter
-        .append("feGaussianBlur")
-        .attr("stdDeviation", 50)
-        .attr("result", "coloredBlur");
-
-    // Apply the filter to the SVG container
-    svg.style("filter", `url(#${gradientId}-glow)`);
-}
-
-export async function draw1_5(type="All Time") {
-    
+export async function draw1_5(type = "All Time") {
     let chartContainerId = "topArtistsByFollowersBubbles_bot-chart";
     /***********************
      *1. Access data
      ************************/
 
-    
-    let realData = await d3.csv("https://share.chartmetric.com/year-end-report/2023/viz_1_5_en.csv",d3.autoType);
-
+    let realData = await d3.csv(
+        "https://share.chartmetric.com/year-end-report/2023/viz_1_5_en.csv",
+        d3.autoType
+    );
+        console.log(realData)
     realData.forEach((entry) => {
         entry.Combined = `${entry.PLATFORM}/${entry.ARTIST_NAME}`;
-        entry.FOLLOWERS_23 = +entry.FOLLOWERS;
     });
-    console.log(realData)
+
     let data = realData.filter((d) => d.TYPE == type);
     /***********************
      *2. Create chart dimensions
@@ -91,7 +32,7 @@ export async function draw1_5(type="All Time") {
      ************************/
     let groupedTotal = d3.rollup(
         data,
-        (v) => d3.sum(v, (d) => +d.FOLLOWERS_23),
+        (v) => d3.sum(v, (d) => +d.FOLLOWERS),
         (d) => d.PLATFORM
     );
     let maxGroupValue = d3.max(groupedTotal.values());
@@ -100,7 +41,7 @@ export async function draw1_5(type="All Time") {
         .domain([0, maxGroupValue])
         // controls the size of the circles
         .range([0, chartSectionWidth / 3]);
-    
+
     const circlePackingData = [];
 
     // let uniquePlatform = [...new Set(data.map((d) => d.PLATFORM))];
@@ -109,13 +50,14 @@ export async function draw1_5(type="All Time") {
         let processedData = d3.packSiblings(
             data
                 .filter((d) => d.PLATFORM == plat)
-                .sort((a, b) => d3.descending(a.FOLLOWERS_23, b.FOLLOWERS_23))
+                .sort((a, b) => d3.descending(a.FOLLOWERS, b.FOLLOWERS))
                 .map((d) => {
-                   
                     return {
-                        r: rScale(d.FOLLOWERS_23),
+                        r: rScale(d.FOLLOWERS),
                         PLATFORM: d.PLATFORM,
                         ARTIST_NAME: d.ARTIST_NAME,
+                        FOLLOWERS: d.FOLLOWERS,
+
                     };
                 })
         );
@@ -136,6 +78,7 @@ export async function draw1_5(type="All Time") {
     const charts = d3
         .selectAll(".topArtistsByFollowersBubbles_bot-chart")
         .data(circlePackingData);
+ 
     charts.each(function (d, i) {
         // Call the function with the container selector, width, height, and the central gradient color
         createRoundGradient(
@@ -159,7 +102,7 @@ export async function draw1_5(type="All Time") {
         .style("pointer-events", "none");
     // artist images
     const defs = d3.selectAll("svg").append("defs");
-  
+
     // circlePackingData.forEach((d, i) => {
     defs
         .append("pattern")
@@ -183,10 +126,12 @@ export async function draw1_5(type="All Time") {
     const circlesSelection = groups
         .selectAll("circle")
         .data((d) => d.circlepackingData);
+
+    //background circle: the normally toned ones
     circlesSelection
         .join("circle")
         .style("pointer-events", "all")
-        .attr("id", d=>d.PLATFORM+d.ARTIST_NAME)
+        .attr("id", (d) => d.PLATFORM + d.ARTIST_NAME)
         .attr("stroke", (d) => "lightgrey")
         .attr("stroke-width", (d) => 3)
         .attr("fill", (d, i) => colorScale(d.PLATFORM))
@@ -198,8 +143,9 @@ export async function draw1_5(type="All Time") {
         .delay((d) => Math.sqrt(d.x * d.x + d.y * d.y) * 4)
         .duration(1000)
         .attr("cx", (d) => d.x)
-        .attr("cy", (d) => d.y)
-        .style("mix-blend-mode", "luminosity");
+        .attr("cy", (d) => d.y);
+
+    // The front circles: the dyed ones
     circlesSelection
         .join("circle")
         .style("pointer-events", "all")
@@ -216,18 +162,40 @@ export async function draw1_5(type="All Time") {
         .duration(1000)
         .attr("cx", (d) => d.x)
         .attr("cy", (d) => d.y)
-        .style("mix-blend-mode", "luminosity");
+        .style("mix-blend-mode", "luminosity"); //! blending mode doesnt work across svg containers
     // Correcting the event handling
     d3.selectAll(".circle-1-5")
-        .on("mouseenter", function (event, d) {
-           
-            d3.select(`[id="${d.PLATFORM+d.ARTIST_NAME}"]`)
-                .attr("fill", "none"); // Replace 'yourNewColor' with the desired color
+        .on("mouseover", function (event, d) {
+            d3.select(`[id="${d.PLATFORM + d.ARTIST_NAME}"]`).attr("fill", "none");
+            
+            const [xCoord, yCoord] = d3.pointer(event);
+            let x=xCoord+width/2;
+            let y=yCoord+height/2;
+            d3
+                .select(".topArtistsByFollowersBubbles_bot-chart." + d.PLATFORM)
+                .append("div")
+                .attr('id', 'tooltip_1_5')
+                .style("display", "block")
+                .style("left", x + 10 + "px")
+                .style("top", y + 10 + "px").html(`
+                <div class="topline">
+          <div class="state">${d.ARTIST_NAME}</div>
+          <div class="billHR">${d.PLATFORM}</div>
+          <div class="billText">
+              ⮕ <strong>Followers:</strong> ${d.FOLLOWERS}
+          </div>
+          </div>
+    `)
+    gsap.to("#tooltip_1_5", {duration: .3, scale: 1,ease: "circ.out",})
         })
-        .on(" mouseleave", function (event, d) {
-            d3.select(`[id="${d.PLATFORM+d.ARTIST_NAME}"]`)
-                .attr("fill", d0=> colorScale(d0.PLATFORM)); // Transition back to the original color
+        .on("mouseleave", function (event, d) {
+            d3.select(`[id="${d.PLATFORM + d.ARTIST_NAME}"]`).attr("fill", (d0) =>
+                colorScale(d0.PLATFORM)
+            ); // Transition back to the original color
+
+            d3.select("#tooltip_1_5").remove()
         });
+
     const icons = d3
         .selectAll(".topArtistsByFollowersBubbles_bot-icon")
         .data(circlePackingData)
@@ -238,4 +206,3 @@ export async function draw1_5(type="All Time") {
         .text((d) => d.PLATFORM);
     icons.append("div").attr("class", "icon").text("icon");
 }
-

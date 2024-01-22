@@ -1,74 +1,14 @@
 import { Circlepacking } from "../../components/CirclePacking.js";
 import { chartDimensions } from "../chartDimensions.js";
-
+import { createRoundGradient } from "../../components/backgroundGradientGenerator.js";
 let chartSectionId = "topArtistsByFollowersBubbles_bot-section1";
-// Function to create a round gradient
-// function createRoundGradient(
-//   selector,
-//   width,
-//   height,
-//   radius,
-//   innerColor,
-//   outerColor,
-//   gradientId
-// ) {
-//   // Create the SVG container
-//   let svg = d3
-//     .select(selector)
-//     .append("svg")
-//     .attr("width", width)
-//     .attr("height", height)
-//     .attr("viewBox", `0 0 ${width} ${height}`)
-//     .attr("fill", "none")
-//     .attr("id", "gradient-background")
-//     .style("position", "absolute");
-//   // Define a radial gradient
-//   let defs = svg.append("defs");
-//   let radialGradient = defs.append("radialGradient").attr("id", gradientId);
-
-//   // Define the color stops of the gradient
-//   radialGradient
-//     .append("stop")
-//     .attr("offset", "90%")
-//     .attr("stop-color", innerColor);
-
-//   radialGradient
-//     .append("stop")
-//     .attr("offset", "100%")
-//     .attr("stop-color", outerColor);
-
-//   // Append the circle and fill it with the gradient
-//   svg
-//     .append("circle")
-//     .attr("cx", width / 2)
-//     .attr("cy", height / 2)
-//     .attr("r", radius * 1.5)
-//     .attr("fill", `url(#${gradientId})`);
-
-//   // Append defs and filter for the Gaussian blur to the whole SVG to get the soft edge effect
-//   let filter = defs
-//     .append("filter")
-
-//     .attr("x", "-50%")
-//     .attr("y", "-50%")
-//     .attr("width", "200%")
-//     .attr("height", "200%")
-//     .attr("id", `${gradientId}-glow`);
-//   filter
-//     .append("feGaussianBlur")
-//     .attr("stdDeviation", 50)
-//     .attr("result", "coloredBlur");
-
-//   // Apply the filter to the SVG container
-//   svg.style("filter", `url(#${gradientId}-glow)`);
-// }
 
 async function draw() {
   let dataUrl =
     "https://share.chartmetric.com/year-end-report/2023/viz_2_11_en.csv";
   let chartContainerId = "vis";
   let radiusKey = "TOTAL_TRACKS";
-  let yKey = "TRACKS_PER_ARTIST";
+  let yKey = "ARTIST_COUNT";
   let xKey = "GENRE_NAME";
   /***********************
    *1. Access data
@@ -96,7 +36,13 @@ async function draw() {
   const rScale = d3
     .scaleSqrt()
     .domain([0, d3.max(data, (d) => d[radiusKey])])
-    .range([0, 50]);
+    .range([30, 100]);
+
+  const colorScale = d3
+    .scaleSequential()
+    .domain([0, d3.max(data, (d) => d[yKey])]) // Specify the input domain (e.g., the range of values)
+    .interpolator(d3.interpolateViridis);
+
   //     // controls the size of the circles
   //     .range([0, chartSectionWidth / 3]);
   // console.log(chartSectionWidth);
@@ -149,10 +95,13 @@ async function draw() {
   //         d.PLATFORM
   //     );
   // });
+  /***********************
+   *3. Scale
+   ************************/
 
   // foreground circles
   /***********************
-   *3. Set up canvas
+   *4. Set up canvas
    ************************/
   const svg = d3
     .select("#vis")
@@ -162,7 +111,7 @@ async function draw() {
     .attr("id", "foreground-2-11")
     .style("pointer-events", "none");
 
-  svg
+  let charts = svg
     .selectAll("circle")
     .data(data)
     .enter()
@@ -174,60 +123,28 @@ async function draw() {
       return xScale(d[xKey]) + 30;
     })
     .attr("r", (d) => rScale(d[radiusKey]))
-    .attr("fill", "#4baea0");
-
-
-  // const groups = svg
-  //     .append("g")
-  //     .attr("transform", `translate(${width / 2},${height / 2})`);
-
-  // const circlesSelection = groups
-  //     .selectAll("circle")
-  //     .data((d) => d.circlepackingData);
-  // circlesSelection
-  //     .join("circle")
-  //     .style("pointer-events", "all")
-  //     .attr("id", d=>d.PLATFORM+d.ARTIST_NAME)
-  //     .attr("stroke", (d) => "lightgrey")
-  //     .attr("stroke-width", (d) => 3)
-  //     .attr("fill", (d, i) => colorScale(d.PLATFORM))
-  //     .attr("cx", (d) => Math.cos(d.angle) * (width / Math.SQRT2 + 60))
-  //     .attr("cy", (d) => Math.sin(d.angle) * (width / Math.SQRT2 + 60))
-  //     .attr("r", (d) => d.r - 0.25)
-  //     .transition()
-  //     .ease(d3.easeCubicOut)
-  //     .delay((d) => Math.sqrt(d.x * d.x + d.y * d.y) * 4)
-  //     .duration(1000)
-  //     .attr("cx", (d) => d.x)
-  //     .attr("cy", (d) => d.y)
-  //     .style("mix-blend-mode", "luminosity");
-  // circlesSelection
-  //     .join("circle")
-  //     .style("pointer-events", "all")
-  //     .attr("class", "circle-1-5")
-  //     .attr("stroke", (d) => "white")
-  //     .attr("stroke-width", (d) => 3)
-  //     .attr("fill", (d, i) => `url(#image-fill-)`)
-  //     .attr("cx", (d) => Math.cos(d.angle) * (width / Math.SQRT2 + 60))
-  //     .attr("cy", (d) => Math.sin(d.angle) * (width / Math.SQRT2 + 60))
-  //     .attr("r", (d) => d.r - 0.25)
-  //     .transition()
-  //     .ease(d3.easeCubicOut)
-  //     .delay((d) => Math.sqrt(d.x * d.x + d.y * d.y) * 4)
-  //     .duration(1000)
-  //     .attr("cx", (d) => d.x)
-  //     .attr("cy", (d) => d.y)
-  //     .style("mix-blend-mode", "luminosity");
-  // // Correcting the event handling
-  // d3.selectAll(".circle-1-5")
-  //     .on("mouseenter", function (event, d) {
-  //         console.log(d.ARTIST_NAME)
-  //         d3.select(`[id="${d.PLATFORM+d.ARTIST_NAME}"]`)
-  //             .attr("fill", "none"); // Replace 'yourNewColor' with the desired color
-  //     })
-  //     .on(" mouseleave", function (event, d) {
-  //         d3.select(`[id="${d.PLATFORM+d.ARTIST_NAME}"]`)
-  //             .attr("fill", d0=> colorScale(d0.PLATFORM)); // Transition back to the original color
-  //     });
+    .attr("fill", "none")
+    .attr("stroke", "white")
+    .attr("stroke-width", 4)
+    .attr("stroke-opacity", 1);
+  charts.each(function (d, i) {
+    let gradientId =
+      d[xKey] == "Children's Music"
+        ? d[xKey].replace(/[^a-zA-Z0-9-_]/g, "_")
+        : d[xKey].replace(/[&/]/g, "");
+    // Call the function with the container selector, width, height, and the central gradient color
+    createRoundGradient(
+      "#vis",
+      rScale(d[radiusKey]) * 2,
+      rScale(d[radiusKey]) * 2,
+      rScale(d[radiusKey]),
+      colorScale(d[yKey]),
+      "#F5F4F0",
+      gradientId,
+      `${yScale(d[yKey]) - 20}px 0 0 ${xScale(d[xKey]) + 30}px`,
+      25,
+      1
+    );
+  });
 }
 draw();
