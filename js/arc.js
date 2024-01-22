@@ -30,7 +30,8 @@ let arcchart = ((data = [], map, options, svg) => {
     fill: "#69b3a2",
     stroke: "#000",
     focus: null,
-    opacity: 0.03
+    opacity: 0.03,
+    offset: 80
   }
 
   // merge default options with user options
@@ -107,7 +108,7 @@ let arcchart = ((data = [], map, options, svg) => {
     .join("path")
     .attr("class", "link")
     .attr("d", d => {
-      const axis_line = height + 40
+      const axis_line = height + options.offset;
       const start = xScale(d[map.source]) + xScale.bandwidth() / 2;
       const end = xScale(d[map.target]) + xScale.bandwidth() / 2;
       return ['M', start, axis_line,

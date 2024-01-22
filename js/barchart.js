@@ -33,6 +33,7 @@ let barchart = ((data, map, options, svg) => {
     padding: 0.1,
     fill: "#69b3a2",
     stroke: "#000",
+    label_offset: 30
   }
 
   // merge default options with user options
@@ -165,18 +166,6 @@ let barchart = ((data, map, options, svg) => {
     .text(d => d[map.x])
     .classed("text", true);
 
-  // hard code, need to remove
-  const label_padding = [40,40,60,60,60,110]
-
-  const labels = svg.selectAll(".label")
-    .data(data)
-    .join("text")
-    .attr("x", d => xScale(d[map.x]) + xScale.bandwidth() / 2)
-    .attr("y", (d,i) => yScale(0) - label_padding[i]) // currently using hard coded values, need to adjust wrap function to stack upwards, or know how many lines are produced
-    .attr("text-anchor", "middle")
-    .text(d => d[map.label])
-    .classed("label", true)
-    .call(wrap, xScale.bandwidth()*0.9);
 
   const bars = svg.selectAll(".bar")
     .data(data)
@@ -196,12 +185,16 @@ let barchart = ((data, map, options, svg) => {
     .attr("stroke-width", 3)
     .attr("d", lineGenerator(lineData))
     .attr("stroke-linecap", "round")
-  // .attr("stroke-dasharray", function (d) {
-  //   return this.getTotalLength() + " " + this.getTotalLength()
-  // })
-  // .attr("stroke-dashoffset", function (d) {
-  //   return this.getTotalLength()
-  // })
+
+  const labels = svg.selectAll(".label")
+    .data(data)
+    .join("text")
+    .attr("x", d => xScale(d[map.x]) + xScale.bandwidth() / 2)
+    .attr("y", (d, i) => yScale(0) + options.label_offset)
+    .attr("text-anchor", "middle")
+    .text(d => d[map.label])
+    .classed("label", true)
+    .call(wrap, xScale.bandwidth() * 0.9);
 
 
   ////////////////////////////////////////
@@ -233,23 +226,13 @@ let barchart = ((data, map, options, svg) => {
       .attr("fill", "none")
       .attr("opacity", 0)
 
-    const pathLength = ghostPath.node().getTotalLength();
-
     line.transition(t)
       .attr("d", lineGenerator(lineData))
-    // .attr("stroke-dasharray", function (d) {
-    //   return pathLength + " " + pathLength
-    // })
-    // .attr("stroke-dashoffset", 0)
 
     bars
       .transition(t)
       .attr("y", d => yScale(d[map.y]))
       .attr("height", d => height - yScale(d[map.y]));
-
-    labels
-      .transition(t)
-      .attr("y", (d,i) => yScale(d[map.y]) - label_padding[i])
 
   }
 
@@ -263,7 +246,7 @@ let barchart = ((data, map, options, svg) => {
         lineHeight = 2, // px
         x = text.attr("x"), //<-- include the x!
         dy = text.attr("dy") ? text.attr("dy") : 20, //<-- null check
-      tspan = text.text(null).append("tspan").attr("x", x).attr("dy", dy);
+        tspan = text.text(null).append("tspan").attr("x", x).attr("dy", dy);
       while (word = words.pop()) {
         line.push(word);
         tspan.text(line.join(" "));
@@ -271,7 +254,7 @@ let barchart = ((data, map, options, svg) => {
           line.pop();
           tspan.text(line.join(" "));
           line = [word];
-          tspan = text.append("tspan").attr("x", x).attr("dy", ++lineNumber * lineHeight + dy ).text(word);
+          tspan = text.append("tspan").attr("x", x).attr("dy", ++lineNumber * lineHeight + dy).text(word);
         }
       }
     });
