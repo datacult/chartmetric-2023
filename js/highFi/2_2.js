@@ -16,10 +16,13 @@ async function drawChart(genreType, year) {
   let dataset = await d3.csv(dataUrl);
 
   let data = dataset.map((d) => Object.assign({}, d));
-  console.log(dataset)
+  console.log(
+    data.filter((d) => d.TITLE == genreType)
+    // .filter((d) => d.YEAR == year)
+  );
   data = data
     .filter((d) => d.TITLE == genreType)
-    // .filter((d) => year === "top_genres_for_artists_created_in_2023" ? d.NAME === year : true)
+    .filter((d) => d.NAME == year)
     .sort((a, b) => d3.descending(+a.VALUE, +b.VALUE))
     .map((d, i) => {
       return {
@@ -85,17 +88,19 @@ async function drawChart(genreType, year) {
   });
 }
 
-function setupResizeListener() {
+function setupResizeListener(genreType, year) {
   let resizeTimer;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      drawChart();
+      drawChart(genreType, year);
     }, 50); // Adjust the timeout to your preference
   });
 }
 export async function init(genreType, year) {
   // await loadData();
   await drawChart(genreType, year);
-  setupResizeListener();
+  setupResizeListener(genreType, year);
+
+  return (genreType, year) => drawChart(genreType, year);
 }

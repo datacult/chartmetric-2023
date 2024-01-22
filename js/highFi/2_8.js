@@ -1,6 +1,6 @@
 import { chartDimensions } from "../chartDimensions.js";
 
-export async function draw(dataUrl, map, options, chartContainerId = "vis") {
+export async function draw(dataUrl, map, options, chartContainerId = "vis",triggerSection) {
   // let sankey = ((data, map, options) => {
 
   /***********************
@@ -92,7 +92,7 @@ export async function draw(dataUrl, map, options, chartContainerId = "vis") {
     .join("section")
     .attr("class", (d, i) => {
       console.log(d);
-      return `section-2-8 ${d["name"]}`;
+      return `${triggerSection} ${d["name"]}`;
     });
 
   let firstAppearance = data.reduce((accumulator, current) => {
@@ -190,7 +190,8 @@ export async function draw(dataUrl, map, options, chartContainerId = "vis") {
   update(data);
 
   let scrollToArtist = "";
-  gsap.utils.toArray(".section-2-8").forEach((section) => {
+  // only enter is observed on WebFlow
+  gsap.utils.toArray('.'+triggerSection).forEach((section) => {
     ScrollTrigger.create({
       trigger: section,
       markers: true,
@@ -198,7 +199,7 @@ export async function draw(dataUrl, map, options, chartContainerId = "vis") {
       end: "bottom 50%",
       scrub: true,
       onEnter: () => {
-        d3.selectAll(".area").classed("scrolled-item", false);
+        
         const parts = section.className.split(" ");
         const artistName = parts.slice(1).join(" ");
         scrollToArtist = artistName;
@@ -213,6 +214,8 @@ export async function draw(dataUrl, map, options, chartContainerId = "vis") {
           },
         });
       },
+    
+     
       onLeave: () => {
         const parts = section.className.split(" ");
         const artistName = parts.slice(1).join(" ");

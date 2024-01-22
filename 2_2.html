@@ -23,17 +23,7 @@ https://studio.datacult.com/ -->
     <div id="vis">
         <!--! Gordon added code begins-->
         <!-- UI -->
-        <div id="gentreTreemap_buttons">
-            <div class="toggle">
-                <div class="background"></div>
-                <div class="genre artist-genres">ARTISTS GENRES</div>
-                <div class="genre track-genres">TRACK GENRES</div>
-            </div>
-            <div class="toggle">
-                <div class="genre artist-genres">ALL ARTISTS</div>
-                <div class="genre track-genres">ADDED IN 2023</div>
-            </div>
-        </div>
+       
         <div id="gentreTreemap_chart"></div>
         <!--! Gordon added code ends-->
     </div>
@@ -49,14 +39,17 @@ https://studio.datacult.com/ -->
     import { init } from './js/highFi/2_2.js'
     /*
         Webflow Change starts here
-    */
-    let genreType = "Artist Genres" // or  "Track Genres"
-    let year = '' // "top_genres_for_artists_created_in_2023"
-    /*
-        Webflow Change ends here
-    */
+  
+        /*
+            Webflow Change ends here
+        */
 
+    (async () => {
 
-    
-    init(genreType, year)
+        let genreType = "Artist Genres" // or  "Track Genres"
+        let year = "top_genres_for_artists_all_time" // "top_genres_for_artists_all_time"
+        let update2_2 = await init(genreType, year)
+
+        // setTimeout(()=>update2_2("Artist Genres","top_genres_for_artists_all_time"), 2000);
+    })()
 </script>

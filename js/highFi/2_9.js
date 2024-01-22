@@ -6,7 +6,7 @@ export async function draw(dataUrl, chartContainerId, widthKey, selectedValue) {
    ************************/
 
   let dataset = await d3.csv(dataUrl, d3.autoType);
-
+  console.log(dataset)
   dataset = dataset.sort((a, b) => d3.descending(a[widthKey], b[widthKey])); // .sort((a, b) => d3.descending(a.SPINS, b.SPINS));
   let countries_names = [...new Set(dataset.map((d) => d.COUNTRY_NAME))];
   countries_names.unshift("All Countries");
@@ -106,12 +106,16 @@ export async function draw(dataUrl, chartContainerId, widthKey, selectedValue) {
       });
   }
 
-  if (selectedValue == "All Countries") {
-    data = dataset.slice(0, 10);
-    drawCanvas(data);
-  } else {
-    data = dataset.filter((d) => d.COUNTRY_NAME == selectedValue);
-
-    drawCanvas(data);
+  function updateChart(selectedValue) {
+    if (selectedValue == "All Countries") {
+      data = dataset.slice(0, 10);
+      drawCanvas(data);
+    } else {
+      data = dataset.filter((d) => d.COUNTRY_NAME == selectedValue);
+      console.log(data)
+      drawCanvas(data);
+    }
   }
+  updateChart(selectedValue);
+  return updateChart;
 }

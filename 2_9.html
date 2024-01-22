@@ -27,9 +27,9 @@ https://studio.datacult.com/ -->
     <!-- Gradient Bar -->
     <div id="topArtistsBankingBars_barChart">
 
-      
+
     </div>
-    
+
     <!--! Gordon added code ends-->
   </div>
 
@@ -55,6 +55,11 @@ https://studio.datacult.com/ -->
   let dataUrl = "https://share.chartmetric.com/year-end-report/2023/viz_2_9_en.csv";
   let chartContainerId = "topArtistsBankingBars_barChart";
   let widthKey = "CM_SCORE";
-  draw(dataUrl, chartContainerId, widthKey, selectedValue)
+
+  (async () => {
+    let updateFunction = await draw(dataUrl, chartContainerId, widthKey, selectedValue)
+    // setTimeout(()=>updateFunction("United Kingdom"), 2000);
+    // setTimeout(()=>updateFunction("Germany"), 4000);
+  })()
 
 </script>
