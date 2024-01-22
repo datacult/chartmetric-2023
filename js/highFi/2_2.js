@@ -1,10 +1,7 @@
 import { chartDimensions } from "../chartDimensions.js";
 import { Treemap } from "../../components/Treemap.js";
-async function drawChart(genreType, year) {
+async function drawChart(dataUrl,genreType, year) {
   // parameters
-  let dataUrl =
-    "https://share.chartmetric.com/year-end-report/2023/viz_2_2_en.csv";
-
   let chartContainerId = "gentreTreemap_chart";
   d3.select("#" + chartContainerId)
     .select("svg")
@@ -97,7 +94,7 @@ function setupResizeListener(genreType, year) {
     }, 50); // Adjust the timeout to your preference
   });
 }
-export async function init2_2(genreType, year) {
+export async function Treemap2_2(genreType, year) {
   // await loadData();
   await drawChart(genreType, year);
   setupResizeListener(genreType, year);

@@ -23,7 +23,7 @@ https://studio.datacult.com/ -->
     <div id="vis">
         <!--! Gordon added code begins-->
         <!-- UI -->
-       
+
         <div id="gentreTreemap_chart"></div>
         <!--! Gordon added code ends-->
     </div>
@@ -36,20 +36,19 @@ https://studio.datacult.com/ -->
 
 </html>
 <script type="module">
-    import { init } from './js/highFi/2_2.js'
-    /*
-        Webflow Change starts here
-  
-        /*
-            Webflow Change ends here
-        */
+    //TODO  rename with chart types
+    import { Treemap2_2 } from './js/highFi/2_2.js'
 
     (async () => {
-
+        // dynamic data url
+        // preferred to be loaded in HTML first
+        let dataUrl =
+            "https://share.chartmetric.com/year-end-report/2023/viz_2_2_en.csv";
         let genreType = "Artist Genres" // or  "Track Genres"
         let year = "top_genres_for_artists_all_time" // "top_genres_for_artists_all_time"
-        let update2_2 = await init2_2(genreType, year)
+        let updateTreemap2_2 = await Treemap2_2(dataUrl, genreType, year)
 
-        // setTimeout(()=>update2_2("Artist Genres","top_genres_for_artists_all_time"), 2000);
+        // consistent way to update existing DOM elements 
+        // setTimeout(() => updateTreemap2_2("Artist Genres", "top_genres_for_artists_all_time_2023"), 2000);
     })()
 </script>

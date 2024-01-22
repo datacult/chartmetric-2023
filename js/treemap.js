@@ -174,7 +174,6 @@ let treemap = ((data, map, options) => {
       .attr('height', d => d.y1 - d.y0)
       .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
       .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
-
   }
 
   // call for initial bar render
