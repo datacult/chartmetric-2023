@@ -125,7 +125,7 @@ export function Treemap(
     ) // URL of the image
     .attr("width", 1)
     .attr("height", 1)
-    .attr("preserveAspectRatio", "xMidYMid slice");
+    .attr("preserveAspectRatio", "xMidYMid meet");
 
   const node = svg
     .selectAll("a")

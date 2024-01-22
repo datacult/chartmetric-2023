@@ -37,7 +37,7 @@ https://studio.datacult.com/ -->
 
 </html>
 <script type="module">
-    import { draw } from "./js/highFi/2_8.js";
+    import { draw2_8 } from "./js/highFi/2_8.js";
     let dataUrl = 'https://share.chartmetric.com/year-end-report/2023/viz_2_8_en.csv'
 
     let mapping = {
@@ -52,6 +52,6 @@ https://studio.datacult.com/ -->
         stroke: "black",
     }
 
-    let artistName = draw(dataUrl,  mapping, options,'background-chart-2-8')
-    console.log(artistName)
+    let artistName = draw2_8(dataUrl,  mapping, options,'background-chart-2-8')
+ 
 </script>

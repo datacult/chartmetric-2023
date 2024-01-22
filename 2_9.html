@@ -40,7 +40,7 @@ https://studio.datacult.com/ -->
 
 </html>
 <script type="module">
-  import { draw } from './js/highFi/2_9.js';
+  import { draw2_9 } from './js/highFi/2_9.js';
 
   /*
     Sey to change start
@@ -57,7 +57,7 @@ https://studio.datacult.com/ -->
   let widthKey = "CM_SCORE";
 
   (async () => {
-    let updateFunction = await draw(dataUrl, chartContainerId, widthKey, selectedValue)
+    let updateFunction = await draw2_9(dataUrl, chartContainerId, widthKey, selectedValue)
     // setTimeout(()=>updateFunction("United Kingdom"), 2000);
     // setTimeout(()=>updateFunction("Germany"), 4000);
   })()

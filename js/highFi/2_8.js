@@ -1,6 +1,6 @@
 import { chartDimensions } from "../chartDimensions.js";
 
-export async function draw(dataUrl, map, options, chartContainerId = "vis",triggerSection) {
+export async function draw2_8(dataUrl, map, options, chartContainerId = "vis",triggerSection) {
   // let sankey = ((data, map, options) => {
 
   /***********************

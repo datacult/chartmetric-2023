@@ -97,7 +97,7 @@ function setupResizeListener(genreType, year) {
     }, 50); // Adjust the timeout to your preference
   });
 }
-export async function init(genreType, year) {
+export async function init2_2(genreType, year) {
   // await loadData();
   await drawChart(genreType, year);
   setupResizeListener(genreType, year);

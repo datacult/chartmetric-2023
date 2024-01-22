@@ -1,6 +1,6 @@
 import { chartDimensions } from "../chartDimensions.js";
 
-export async function draw(dataUrl, chartContainerId, widthKey, selectedValue) {
+export async function draw2_9(dataUrl, chartContainerId, widthKey, selectedValue) {
   /***********************
    *1. Access data
    ************************/
