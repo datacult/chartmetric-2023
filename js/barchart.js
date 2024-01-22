@@ -4,7 +4,7 @@
 
 'use strict'
 
-let bararcchart = ((bardata, links, map, options) => {
+let barchart = ((data, map, options, svg) => {
 
   ////////////////////////////////////////
   /////////////// Defaults ///////////////
@@ -14,6 +14,7 @@ let bararcchart = ((bardata, links, map, options) => {
     selector: '#vis',
     x: "x",
     y: "y",
+    label: 'label',
     fill: null,
     stroke: null,
     sort: null,
@@ -43,25 +44,29 @@ let bararcchart = ((bardata, links, map, options) => {
 
   if (map.sort != null) {
     if (map.direction > 0) {
-      bardata = bardata.sort((a, b) => a[map.sort] < b[map.sort] ? 1 : -1);
+      data = data.sort((a, b) => a[map.sort] < b[map.sort] ? 1 : -1);
     } else {
-      bardata = bardata.sort((a, b) => a[map.sort] > b[map.sort] ? 1 : -1);
+      data = data.sort((a, b) => a[map.sort] > b[map.sort] ? 1 : -1);
     }
+
+    if (options.sort != null) {
+      targets = targets.sort((a, b) => options.sort.indexOf(a[map.sort]) - options.sort.indexOf(b[map.sort]));
+    }
+
   }
 
   ////////////////////////////////////////
   //////////// Data Wrangling ////////////
   ////////////////////////////////////////
 
-  links = links.filter(d => d.source != d.target)
-  console.log(bardata, links)
+  console.log(data)
 
-  const lineData = []
+  let lineData = []
 
-  lineData.push({ x: bardata[0][map.x], y: 0 })
+  lineData.push({ x: data[0][map.x], y: 0 })
 
-  bardata.forEach(function (d) {
-    lineData.push({ x: d[map.x], y: d[map.y] })
+  data.forEach(function (d) {
+    lineData.push({ x: d[map.x], y: 0 })
   })
 
   lineData.push({ x: "", y: 0 })
@@ -70,18 +75,21 @@ let bararcchart = ((bardata, links, map, options) => {
   ////////////// SVG Setup ///////////////
   ////////////////////////////////////////
 
-  const div = d3.select(map.selector);
+  if (svg == null) {
 
-  const container = div.append('div')
-    .classed('vis-svg-container', true);
+    const div = d3.select(map.selector);
 
-  const svg = container.append('svg')
-    .attr('width', '100%') // Responsive width
-    .attr('height', '100%') // Responsive height
-    .attr('viewBox', `0 0 ${options.width} ${options.height}`)
-    .classed('vis-svg', true)
-    .append('g')
-    .attr('transform', `translate(${options.margin.left},${options.margin.top})`);
+    const container = div.append('div')
+      .classed('vis-svg-container', true);
+
+    svg = container.append('svg')
+      .attr('width', '100%') // Responsive width
+      .attr('height', '100%') // Responsive height
+      .attr('viewBox', `0 0 ${options.width} ${options.height}`)
+      .classed('vis-svg', true)
+      .append('g')
+      .attr('transform', `translate(${options.margin.left},${options.margin.top})`);
+  }
 
   ////////////////////////////////////////
   ////////////// Helpers /////////////////
@@ -96,7 +104,7 @@ let bararcchart = ((bardata, links, map, options) => {
 
   let defs = svg.append("defs");
 
-  bardata.forEach(function (d) {
+  data.forEach(function (d) {
     let gradient = defs.append("linearGradient")
       .attr("id", "gradient-" + d.stage)
       .attr("x1", "0%")
@@ -119,9 +127,9 @@ let bararcchart = ((bardata, links, map, options) => {
     .attr("id", "lineGradient");
 
   // Add color stops to the gradient
-  bardata.forEach((d, i) => {
+  data.forEach((d, i) => {
     lineGradient.append("stop")
-      .attr("offset", `${i / (bardata.length - 1) * 100}%`)
+      .attr("offset", `${i / (data.length - 1) * 100}%`)
       .attr("stop-color", d[map.stroke]);
   });
 
@@ -130,17 +138,13 @@ let bararcchart = ((bardata, links, map, options) => {
   ////////////////////////////////////////
 
   const xScale = d3.scaleBand()
-    .domain(bardata.map(d => d[map.x]))
+    .domain(data.map(d => d[map.x]))
     .range([0, width])
     .paddingInner(options.padding);
 
-  const yScale = d3.scaleSqrt()
-    .domain([0, d3.max(bardata, d => d[map.y])])
+  const yScale = d3.scaleSymlog()
+    .domain([0, d3.max(data, d => d[map.y])])
     .range([height, 0])
-
-  const strokeScale = d3.scaleLinear()
-    .domain(d3.extent(links, d => d[map.value]))
-    .range([2, 20]);
 
   const lineGenerator = d3.line()
     .x(d => d.x != "" ? xScale(d.x) : width)
@@ -151,44 +155,31 @@ let bararcchart = ((bardata, links, map, options) => {
   ////////////// DOM Setup ///////////////
   ////////////////////////////////////////
 
-  const arc = svg.selectAll(".link")
-    .data(links)
-    .join("path")
-    .attr("class", "link")
-    .attr("d", d => {
-      const axis_line = height + 40
-      const start = xScale(d.source) + xScale.bandwidth() / 2;
-      const end = xScale(d.target) + xScale.bandwidth() / 2;
-      return ['M', start, axis_line,
-        'A',
-        (start - end) / 2, ',',
-        -(start - end) / 2, 0, 0, ',',
-        start < end ? 0 : 1, end, ',', axis_line]
-        .join(' ');
-    })
-    .attr("fill", "none")
-    .attr("stroke", options.stroke)
-    .attr("stroke-width", d => strokeScale(d[map.value]))
-    .attr("opacity", 0.2)
-    .attr("stroke-linecap", "round")
-    .attr("stroke-dasharray", function (d) {
-      return this.getTotalLength() + " " + this.getTotalLength()
-    })
-    .attr("stroke-dashoffset", function (d) {
-      return this.getTotalLength()
-    });
-
   const text = svg.selectAll(".text")
-    .data(bardata)
+    .data(data)
     .join("text")
     .attr("x", d => xScale(d[map.x]) + xScale.bandwidth() / 2)
     .attr("y", d => height + 20)
     .attr("text-anchor", "middle")
+    .attr("font-weight", "bold")
     .text(d => d[map.x])
     .classed("text", true);
 
+  // hard code, need to remove
+  const label_padding = [40,40,60,60,60,110]
+
+  const labels = svg.selectAll(".label")
+    .data(data)
+    .join("text")
+    .attr("x", d => xScale(d[map.x]) + xScale.bandwidth() / 2)
+    .attr("y", (d,i) => yScale(0) - label_padding[i]) // currently using hard coded values, need to adjust wrap function to stack upwards, or know how many lines are produced
+    .attr("text-anchor", "middle")
+    .text(d => d[map.label])
+    .classed("label", true)
+    .call(wrap, xScale.bandwidth()*0.9);
+
   const bars = svg.selectAll(".bar")
-    .data(bardata)
+    .data(data)
     .join("rect")
     .attr("x", d => xScale(d[map.x]))
     .attr("y", d => yScale(0))
@@ -196,25 +187,7 @@ let bararcchart = ((bardata, links, map, options) => {
     .attr("height", d => height - yScale(0))
     .style("fill", d => "url(#gradient-" + d.stage + ")")
     .attr("stroke", d => "none")
-    .classed("bar", true)
-    .on("mouseover", function (event, d) {
-      arc
-        .attr("stroke-dashoffset", function (x) {
-          return x.source == d[map.x] ? this.getTotalLength() : 0
-        })
-        .attr("opacity", x => x.source == d[map.x] ? 1 : 0.05)
-        .attr("stroke", x => x.source == d[map.x] ? map.stroke != null ? d[map.stroke] : options.stroke : options.stroke)
-        .transition()
-        .duration(options.transition)
-        .attr("stroke-dashoffset", 0)
-    })
-    .on("mouseout", function (event, d) {
-      arc
-        .transition()
-        .duration(options.transition / 2)
-        .attr("opacity", 0.2)
-        .attr("stroke", options.stroke)
-    });
+    .classed("bar", true);
 
   const line = svg
     .append("path")
@@ -223,19 +196,19 @@ let bararcchart = ((bardata, links, map, options) => {
     .attr("stroke-width", 3)
     .attr("d", lineGenerator(lineData))
     .attr("stroke-linecap", "round")
-    .attr("stroke-dasharray", function (d) {
-      return this.getTotalLength() + " " + this.getTotalLength()
-    })
-    .attr("stroke-dashoffset", function (d) {
-      return this.getTotalLength()
-    })
+  // .attr("stroke-dasharray", function (d) {
+  //   return this.getTotalLength() + " " + this.getTotalLength()
+  // })
+  // .attr("stroke-dashoffset", function (d) {
+  //   return this.getTotalLength()
+  // })
 
 
   ////////////////////////////////////////
   ////////////// Update //////////////////
   ////////////////////////////////////////
 
-  function update(newData = bardata, newMap = map, newOptions = options) {
+  function update(newData = data, newMap = map, newOptions = options) {
 
     // merge any new mapping and options
     map = { ...map, ...newMap };
@@ -243,34 +216,69 @@ let bararcchart = ((bardata, links, map, options) => {
 
     const t = d3.transition().duration(options.transition).ease(d3.easeLinear)
 
-    // resort data if needed
-    if (map.sort != null) {
-      if (map.direction == "asc") {
-        bardata = bardata.sort((a, b) => a[map.sort] < b[map.sort] ? 1 : -1);
-      } else {
-        bardata = bardata.sort((a, b) => a[map.sort] > b[map.sort] ? 1 : -1);
-      }
-    }
+    lineData = []
 
-    bars
-      .transition()
-      .delay((d, i) => i * (options.transition / bardata.length))
-      .duration(options.transition / 2)
-      .attr("y", d => yScale(d[map.y]))
-      .attr("height", d => height - yScale(d[map.y]))
+    lineData.push({ x: data[0][map.x], y: 0 })
+
+    data.forEach(function (d) {
+      lineData.push({ x: d[map.x], y: d[map.y] })
+    });
+
+    lineData.push({ x: "", y: 0 })
+
+    //required to get the total path length before the transition has been completed
+    const ghostPath = svg.append('path')
+      .attr("d", lineGenerator(lineData))
+      .attr("stroke", "none")
+      .attr("fill", "none")
+      .attr("opacity", 0)
+
+    const pathLength = ghostPath.node().getTotalLength();
 
     line.transition(t)
-      .attr("stroke-dashoffset", 0)
+      .attr("d", lineGenerator(lineData))
+    // .attr("stroke-dasharray", function (d) {
+    //   return pathLength + " " + pathLength
+    // })
+    // .attr("stroke-dashoffset", 0)
 
-    arc.transition(t)
-      .delay((d, i) => xScale.domain().indexOf(d.source) * (options.transition / bardata.length))
-      .duration(options.transition / 2)
-      .attr("stroke-dashoffset", 0)
+    bars
+      .transition(t)
+      .attr("y", d => yScale(d[map.y]))
+      .attr("height", d => height - yScale(d[map.y]));
+
+    labels
+      .transition(t)
+      .attr("y", (d,i) => yScale(d[map.y]) - label_padding[i])
 
   }
 
+  function wrap(text, width) {
+    text.each(function () {
+      var text = d3.select(this),
+        words = text.text().split(/\s+/).reverse(),
+        word,
+        line = [],
+        lineNumber = 0, //<-- 0!
+        lineHeight = 2, // px
+        x = text.attr("x"), //<-- include the x!
+        dy = text.attr("dy") ? text.attr("dy") : 20, //<-- null check
+      tspan = text.text(null).append("tspan").attr("x", x).attr("dy", dy);
+      while (word = words.pop()) {
+        line.push(word);
+        tspan.text(line.join(" "));
+        if (tspan.node().getComputedTextLength() > width) {
+          line.pop();
+          tspan.text(line.join(" "));
+          line = [word];
+          tspan = text.append("tspan").attr("x", x).attr("dy", ++lineNumber * lineHeight + dy ).text(word);
+        }
+      }
+    });
+  }
+
   // call for initial bar render
-  update(bardata)
+  update()
 
   return {
     update: update,

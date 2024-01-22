@@ -23,114 +23,100 @@ https://studio.datacult.com/ -->
 
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="js/bararc.js"></script>
+<script src="js/barchart.js"></script>
+<script src="js/arc.js"></script>
 
 </html>
 <script>
     (async () => {
-        let cs21 = await d3.csv('/data/CS2-1.csv', d3.autoType)
-        let cs23 = await d3.csv('/data/CS2-3.csv', d3.autoType)
-        let cs25 = await d3.csv('/data/CS2-5.csv', d3.autoType)
-        let cs252 = await d3.csv('/data/CS2-5-2.csv', d3.autoType)
+        let data = await d3.csv('/data/viz_2_5_en.csv', d3.autoType)
 
-        let movement = []
-
-        cs21.forEach(d => {
-            movement.push({
-                source: "undiscovered",
-                target: d.ARTIST_STAGE,
-                value: d['COUNT(*)']
-            })
+        //data cleaning
+        data.forEach(d => {
+            if (d['START_STAGE'] == 'Mid-level') {
+                d['START_STAGE'] = 'Mid-Level'
+            }
         })
 
-        cs23.forEach(d => {
-            movement.push({
-                source: "mainstream",
-                target: d.ARTIST_STAGE,
-                value: d['COUNT(*)']
-            })
-        })
-
-        cs25.forEach(d => {
-            movement.push({
-                source: "developing",
-                target: d.ARTIST_STAGE,
-                value: d['COUNT(*)']
-            })
-        })
-
-        cs252.forEach(d => {
-            movement.push({
-                source: "mid-level",
-                target: d.ARTIST_STAGE,
-                value: d['COUNT(*)']
-            })
-        })
-
-
-        let rollup = d3.rollups(movement, v => d3.sum(v, d => d.value), d => d.source)
-
-        let totals = []
-
-        rollup.forEach(d => {
-            totals.push({
-                stage: d[0],
-                old: d[1],
-                new: d3.sum(movement.filter(x => x.target == d[0]), d => d.value),
-                movein: d3.sum(movement.filter(x => x.target == d[0] && x.source != d[0]), d => d.value),
-
-            })
-        })
-
-        totals.push({
-            stage: 'superstar',
-            old: 0,
-            new: d3.sum(movement.filter(x => x.target == 'superstar'), d => d.value),
-            movein: d3.sum(movement.filter(x => x.target == 'superstar' && x.source != 'superstar'), d => d.value),
-        })
-
-        totals.push({
-            stage: 'legendary',
-            old: 0,
-            new: d3.sum(movement.filter(x => x.target == 'legendary'), d => d.value),
-            movein: d3.sum(movement.filter(x => x.target == 'legendary' && x.source != 'legendary'), d => d.value),
-        })
-
-        let colorMap = {
-            "undiscovered": {"bar":"#274978", "line":"#23426D"},
-            "developing": {"bar":"#E7F2FF", "line":"#33609E"},
-            "mainstream": {"bar":"#75B2D3", "line":"#5899CB"},
-            "mid-level": {"bar":"#9ADBD6",  "line":"#A4DCE0"},
-            "superstar": {"bar":"#71D6AD", "line":"#68D4A4"},
-            "legendary": {"bar":"#24AE87", "line":"#0BA07C"}
+        let detailMap = {
+            "Undiscovered": { "bar": "#274978", "line": "#23426D", "label": "All other artists" },
+            "Developing": { "bar": "#E7F2FF", "line": "#33609E", "label": "All other artists" },
+            "Mid-Level": { "bar": "#9ADBD6", "line": "#A4DCE0", "label": "Top ~12K–35K artists" },
+            "Mainstream": { "bar": "#75B2D3", "line": "#5899CB", "label": "Top ~1.6K–12K artists" },
+            "Superstar": { "bar": "#71D6AD", "line": "#68D4A4", "label": "Top ~1.5K artists" },
+            "Legendary": { "bar": "#24AE87", "line": "#0BA07C", "label": "Superstar artists with releases over 30 years old" }
         }
 
-        totals.forEach(d => {
-            d.fill = colorMap[d.stage].bar
-            d.stroke = colorMap[d.stage].line
-        })
+        data.forEach(d => {
+            d['START_STROKE'] = detailMap[d['START_STAGE']].line,
+                d['END_STROKE'] = detailMap[d['END_STAGE']].line
+        });
 
-        console.log(totals)
+        let stages = Object.keys(detailMap)
+
+        let rollup = stages.map(stage => {
+
+            let obj =
+            {
+                'stage': stage,
+                'start_total': d3.sum(data.filter(x => x['START_STAGE'] == stage), d => d['ARTIST_COUNT']),
+                'end_total': d3.sum(data.filter(x => x['END_STAGE'] == stage), d => d['ARTIST_COUNT']),
+                'move_in_total': d3.sum(data.filter(x => x['END_STAGE'] == stage && x['START_STAGE'] != stage), d => d['ARTIST_COUNT']),
+                'fill': detailMap[stage].bar,
+                'stroke': detailMap[stage].line,
+                'label': detailMap[stage].label
+            }
+
+            stages.forEach(s => {
+                if (s != stage) {
+                    obj[s] = d3.sum(data.filter(x => x['START_STAGE'] == s && x['END_STAGE'] == stage), d => d['ARTIST_COUNT'])
+                } else {
+                    obj[s] = 0
+                }
+            })
+
+            return obj
+        })
 
         let mapping = {
             selector: '#vis',
-            y: "movein",
+            y: "start_total",
             x: "stage",
-            value:'value',
             fill: "fill",
             stroke: "stroke",
         }
 
+        let arc_mapping = {
+            source: "START_STAGE",
+            target: "END_STAGE",
+            value: "ARTIST_COUNT",
+            stroke: "START_STROKE",
+        }
 
         let options = {
             stroke: "black",
-            padding:0,
-            margin: { top: 20, right: 20, bottom: 500, left: 20 },
-            sort:['undiscovered','developing','mainstream','mid-level','superstar','legendary'],
-            transition: 3000
+            padding: 0,
+            margin: { top: 100, right: 20, bottom: 500, left: 20 },
+            sort: stages,
+            transition: 1000
         }
 
-        let csbar = bararcchart(totals, movement, mapping, options)
+        let bar = barchart(rollup, mapping, options)
+        let arc = arcchart(data, arc_mapping, options, bar.svg)
+
+
+        // examples
+
+        let example_updates = ['start_total', 'end_total', ...stages]
+
+        example_updates.forEach((update, i) => {
+            setTimeout(() => {
+                bar.update(rollup, { y: update })
+                if (i > 1) {
+                    arc.update(data, arc_mapping, { focus: update })
+                }
+            }, 2000 * i)
+        })
 
 
     })()
