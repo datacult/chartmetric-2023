@@ -112,16 +112,18 @@ export function drawSingleValues(triggerElementId) {
       let lines = [];
 
       // Check if the text needs to be split and split it
+
       if (d.group === "Chartmetric daily artists ingested") {
-        lines = ["Chartmetric daily artists", "ingested"];
-        // Append tspan elements for each line
-        lines.forEach((line, i) => {
-          text
-            .append("tspan")
-            .attr("x", boundedWidth / 2)
-            .attr("dy", i === 0 ? 0 : "1.2em") // adjust vertical position of lines
-            .text(line);
-        });
+        text.text("Chartmetric daily artists \ningested");
+        // lines = ["Chartmetric daily artists", "ingested"];
+        // // Append tspan elements for each line
+        // lines.forEach((line, i) => {
+        //   text
+        //     .append("tspan")
+        //     .attr("x", boundedWidth / 2)
+        //     .attr("dy", i === 0 ? 0 : "1.2em") // adjust vertical position of lines
+        //     .text(line);
+        // });
       } else {
         text.text(d.group);
       }
@@ -167,7 +169,15 @@ export function drawSingleValues(triggerElementId) {
           }))
         )
       );
+
+   
     });
+    movedCircles.forEach(dataset => {
+      let xExtent = d3.extent(dataset, d=>d.x)
+      let radius = Math.abs((xExtent[1] - xExtent[0])/2)
+      dataset.radius = radius
+      dataset.dataset = dataset
+    })
     drawCircles(context, width, height);
 
     let tl = gsap.timeline({ paused: true });
@@ -227,10 +237,15 @@ export function drawSingleValues(triggerElementId) {
                 .selectAll(".text-container-single-values")
                 .nodes()[index];
               const textWidth = textElement.getBBox().width;
-
+              
               const x = meta[index].targetXY.x + width / 2 - textWidth / 2;
               const y = meta[index].targetXY.y + height / 2;
-              return `translate(${x}, ${y})`;
+              if (meta[index].group === "Chartmetric daily artists ingested") {
+                return `translate(${x-15}, ${y})`;
+              } else {
+                return `translate(${x}, ${y})`;
+              }
+             
             },
           },
         },
@@ -238,16 +253,19 @@ export function drawSingleValues(triggerElementId) {
       ).to("foreignObject", {
         duration: 0.1,
         attr: {
-          transform: (index) => {
+          transform: (index, b) => {
             let textElement = d3
               .selectAll(".text-container-single-values")
               .nodes()[index];
             const { width: textWidth, height: textHeight } =
               textElement.getBBox();
-
-            const x = textWidth / 8;
-            const y = -textHeight / 2;
-            return `translate(${x}, ${y})`;
+            if (meta[index].group === "Chartmetric daily artists ingested") {
+              return `translate(${textWidth*.5-20}, ${-textHeight / 2})`;
+            } else {
+              const x = textWidth / 8;
+              const y = -textHeight / 2;
+              return `translate(${x}, ${y})`;
+            }
           },
         },
       });
@@ -263,7 +281,7 @@ export function drawSingleValues(triggerElementId) {
 
   function drawCircles(context, width, height) {
     context.clearRect(-width / 2, -height / 2, width, height);
-    movedCircles.forEach((dataset) => {
+    movedCircles.forEach(({dataset}) => {
       dataset.forEach((circle) => {
         let groupMeta = meta.find((m) => m.group === circle.group);
         context.beginPath();

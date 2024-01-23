@@ -1,6 +1,13 @@
-import { chartDimensions } from "../chartDimensions.js";
+"use strict";
 
-export async function gradientBar(dataUrl, chartContainerId, widthKey, selectedValue) {
+import { chartDimensions } from "../chartDimensions.js";
+import { setupResizeListener } from "../utility.js";
+export async function gradientBar(
+  dataUrl,
+  chartContainerId,
+  widthKey,
+  selectedValue
+) {
   /***********************
    *1. Access data
    ************************/
@@ -40,51 +47,50 @@ export async function gradientBar(dataUrl, chartContainerId, widthKey, selectedV
   /***********************
    *5. Draw canvas
    ************************/
-  function drawCanvas(top10) {
+  function drawElements(top10) {
     // Bind the data to the elements with a key function for object constancy
     const barContainers = wrapper
       .selectAll("div.bar")
       .data(top10, (d) => d.ARTIST_NAME);
 
     // Use join to handle enter, update, and exit selections
-    barContainers
-      .join(
-        // Enter selection
-        (enter) =>
-          enter
-            .append("div")
-            .attr("class", "gradient-bar bar")
-            .html(
-              (d) => `
-            <img style="width:${height / 18}px; height:${height / 18
-                }px" src="https://raw.githubusercontent.com/muhammederdem/mini-player/master/img/1.jpg" alt="${d.Group
-                }" class="artist-image">
-            <span class="artist-name">${d.ARTIST_NAME}</span>
-          `
-            )
-            .style("opacity", 0)
-            .style("width", 0)
-            .transition()
-            .duration(500)
-            .style("opacity", 1)
-            .style("width", (d) => widthScale(d[widthKey]) + "px"),
-
-        // Update selection
-        (update) =>
-          update
-            .transition()
-            .duration(500)
-            .style("width", (d) => widthScale(d[widthKey]) + "px"),
-
-        // Exit selection
-        (exit) =>
-          exit
-            .transition()
-            .duration(500)
-            .style("width", 0)
-            .style("opacity", 0)
-            .remove()
+    const enterSelection = barContainers
+      .enter()
+      .append("div")
+      .attr("class", "gradient-bar bar")
+      .html(
+        (d) => `
+      <img style="width:${height / 18}px; height:${height / 18}px" 
+           src="https://raw.githubusercontent.com/muhammederdem/mini-player/master/img/1.jpg" 
+           alt="${d.Group}" class="artist-image">
+      <span class="artist-name">${d.ARTIST_NAME}</span>
+    `
       )
+      .style("opacity", 0)
+      .style("width", 0);
+
+    // Animate entering elements
+    enterSelection
+      .transition()
+      .duration(3500) // Duration for enter transition
+      .style("opacity", 1)
+      .style("width", (d) => widthScale(d[widthKey]) + "px");
+
+    // Update selection
+    barContainers
+      .transition()
+      .duration(500) // Duration for update transition
+      .style("width", (d) => widthScale(d[widthKey]) + "px");
+
+    // Exit selection
+    barContainers
+      .exit()
+      .transition()
+      .duration(500) // Duration for exit transition
+      .style("width", 0)
+      .style("opacity", 0)
+      .remove();
+    d3.selectAll(".gradient-bar.bar")
       .on("mouseenter", function (d) {
         d3.select(this).append("div").attr("class", "tooltip").html(`
         <div class='name'>Artist Name</div>
@@ -94,7 +100,10 @@ export async function gradientBar(dataUrl, chartContainerId, widthKey, selectedV
           <div class="card">Jazz</div>
           <div class="card">Pop</div>
         </div>`);
-        let fromRight = d3.select('.tooltip').node().getBoundingClientRect().width;
+        let fromRight = d3
+          .select(".tooltip")
+          .node()
+          .getBoundingClientRect().width;
         gsap.fromTo(
           ".tooltip",
           { right: -fromRight, opacity: 0 },
@@ -109,13 +118,14 @@ export async function gradientBar(dataUrl, chartContainerId, widthKey, selectedV
   function updateChart(selectedValue) {
     if (selectedValue == "All Countries") {
       data = dataset.slice(0, 10);
-      drawCanvas(data);
+      drawElements(data);
     } else {
       data = dataset.filter((d) => d.COUNTRY_NAME == selectedValue);
-      console.log(data)
-      drawCanvas(data);
+      console.log(data);
+      drawElements(data);
     }
   }
   updateChart(selectedValue);
+
   return updateChart;
 }

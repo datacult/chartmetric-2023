@@ -1,4 +1,4 @@
-import { chartDimensions } from "../chartDimensions.js";
+import { chartDimensions, trimNames} from "../utility.js";
 let selectedCountries = ["Italy"];
 export async function drawMap(selectedCountries = []) {
   // parameters
@@ -74,10 +74,8 @@ export async function drawMap(selectedCountries = []) {
           ? [...tracksWithLargestSpins.entries()][0][0]
           : "noData";
 
-      let hoveredTrackNameID = hoveredTrackName
-        .replace(/[^a-zA-Z0-9-_]/g, "") // Remove special characters
-        .replace(/\s/g, "_") // Replace spaces with underscores
-        .replace(/\(|\)/g, "");
+      let hoveredTrackNameID = trimNames(hoveredTrackName)
+
 
       hoveredMapSelector = `div#${hoveredTrackNameID}.gradient-bar`;
 
@@ -90,7 +88,7 @@ export async function drawMap(selectedCountries = []) {
         d3
           .select(".map-tooltip")
           .style("display", "flex")
-          .style("left", x + 10 + "px")
+          .style("left", x + 1 + "px")
           .style("top", y + 10 + "px").html(`
         <div class="map-tooltip__country">${filteredData[0].NAME}<span class="flag"> </span></div>
         <div class="map-tooltip__track"><span class="flag"></span>${filteredData[0].TRACK_NAME}</div>

@@ -3,10 +3,10 @@ import { chartDimensions } from "../chartDimensions.js";
 import { createRoundGradient } from "../../components/backgroundGradientGenerator.js";
 let chartSectionId = "topArtistsByFollowersBubbles_bot-section1";
 
-async function draw() {
+export async function circlepacking_2_11(chartContainerId) {
   let dataUrl =
     "https://share.chartmetric.com/year-end-report/2023/viz_2_11_en.csv";
-  let chartContainerId = "vis";
+  
   let radiusKey = "TOTAL_TRACKS";
   let yKey = "ARTIST_COUNT";
   let xKey = "GENRE_NAME";
@@ -147,4 +147,4 @@ async function draw() {
     );
   });
 }
-draw();
+

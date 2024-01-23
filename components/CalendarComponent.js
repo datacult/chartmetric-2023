@@ -1,7 +1,7 @@
 // Copyright 2021 Observable, Inc.
 // Released under the ISC license.
 // https://observablehq.com/@d3/calendar-view
-export function Calendar(
+export function CalendarComponent(
   svg,
   data,
   {

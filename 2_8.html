@@ -24,7 +24,7 @@ https://studio.datacult.com/ -->
 
         </div>
         <div id="foreground-2-8">
-         
+
         </div>
     </div>
 
@@ -37,7 +37,8 @@ https://studio.datacult.com/ -->
 
 </html>
 <script type="module">
-    import { draw2_8 } from "./js/highFi/2_8.js";
+    import { BumpChart } from "./js/highFi/2_8.js";
+    import { trimNames } from "./js/utility.js"
     let dataUrl = 'https://share.chartmetric.com/year-end-report/2023/viz_2_8_en.csv'
 
     let mapping = {
@@ -52,6 +53,36 @@ https://studio.datacult.com/ -->
         stroke: "black",
     }
 
-    let artistName = draw2_8(dataUrl,  mapping, options,'background-chart-2-8')
- 
+    let artistName = BumpChart(dataUrl, mapping, options, 'background-chart-2-8', 'section-2-8', scrollFunction)
+
+    // whenever you scroll to a new section, 
+    // STEP1. pass in the section element, not id, not class. Element
+    // STEP2. call this function
+    function scrollFunction(section) {
+        const parts = section.className.split(" ");
+        const artistName = parts.slice(1).join(" ");
+        // scrollToArtist = artistName;
+        let artistNameId = trimNames(artistName);
+        const timeline = gsap.timeline();
+        // select all band, and dim them
+        timeline
+            .to(".area-2-8", {
+                duration: 0.5,
+                attr: {
+                    fill: options.fill,
+                    stroke: "none",
+                    opacity: .3,
+                },
+            })
+            // select targetted band, and hightlight it
+            .to("#" + artistNameId, {
+                duration: 0.8,
+                ease: "expoScale(0.5,7,none)",
+                attr: {
+                    fill: "#1781F7",
+                    stroke: "black",
+                    opacity: 1,
+                },
+            }, .2);
+    }
 </script>

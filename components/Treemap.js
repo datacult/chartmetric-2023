@@ -1,7 +1,7 @@
 // Copyright 2021-2023 Observable, Inc.
 // Released under the ISC license.
 // https://observablehq.com/@d3/treemap
-export function Treemap(
+export function TreemapComponent(
   svg,
   data,
   {
@@ -125,7 +125,7 @@ export function Treemap(
     ) // URL of the image
     .attr("width", 1)
     .attr("height", 1)
-    .attr("preserveAspectRatio", "xMidYMid meet");
+    .attr("preserveAspectRatio", "xMidYMid slice");
 
   const node = svg
     .selectAll("a")

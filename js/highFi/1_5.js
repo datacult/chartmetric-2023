@@ -1,11 +1,18 @@
-import { Circlepacking } from "../../components/CirclePacking.js";
-import { chartDimensions } from "../chartDimensions.js";
+
+
 import { createRoundGradient } from "../../components/backgroundGradientGenerator.js";
+import { trimNames, setupResizeListener, chartDimensions } from "../utility.js";
 let chartSectionId = "topArtistsByFollowersBubbles_bot-section1";
 // Function to create a round gradient
 
-export async function draw1_5(type = "All Time") {
+export async function circlepacking_1_5(type = "All Time") {
+   
     let chartContainerId = "topArtistsByFollowersBubbles_bot-chart";
+    const parentElement = d3.selectAll("#"+chartContainerId)
+    console.log(parentElement.selectAll("*"))
+    // Select all child elements within the parent element and remove them
+    parentElement.selectAll("*").remove();
+    // d3.select("#"+chartContainerId).remove();
     /***********************
      *1. Access data
      ************************/
@@ -14,12 +21,13 @@ export async function draw1_5(type = "All Time") {
         "https://share.chartmetric.com/year-end-report/2023/viz_1_5_en.csv",
         d3.autoType
     );
-        console.log(realData)
+
     realData.forEach((entry) => {
         entry.Combined = `${entry.PLATFORM}/${entry.ARTIST_NAME}`;
     });
 
     let data = realData.filter((d) => d.TYPE == type);
+
     /***********************
      *2. Create chart dimensions
      ************************/
@@ -57,7 +65,7 @@ export async function draw1_5(type = "All Time") {
                         PLATFORM: d.PLATFORM,
                         ARTIST_NAME: d.ARTIST_NAME,
                         FOLLOWERS: d.FOLLOWERS,
-
+                        IMAGE_URL: d.IMAGE_URL,
                     };
                 })
         );
@@ -78,7 +86,7 @@ export async function draw1_5(type = "All Time") {
     const charts = d3
         .selectAll(".topArtistsByFollowersBubbles_bot-chart")
         .data(circlePackingData);
- 
+
     charts.each(function (d, i) {
         // Call the function with the container selector, width, height, and the central gradient color
         createRoundGradient(
@@ -101,24 +109,33 @@ export async function draw1_5(type = "All Time") {
         .attr("id", "bubble-foreground")
         .style("pointer-events", "none");
     // artist images
-    const defs = d3.selectAll("svg").append("defs");
+    const defs = d3
+        .selectAll("#bubble-foreground")
+        .append("defs")
+        .attr("id", (d, i) => `defs-${uniquePlatform[i]}`);
 
-    // circlePackingData.forEach((d, i) => {
-    defs
-        .append("pattern")
-        .attr("id", "image-fill-") // Unique ID for each pattern
-        .attr("width", "100%")
-        .attr("height", "100%")
-        .attr("patternContentUnits", "objectBoundingBox")
-        .append("image")
-        .attr(
-            "xlink:href",
-            "https://share.chartmetric.com/artists/299/172/11172299/11172299-profile.webp"
-        ) // URL of the image
-        .attr("width", 1)
-        .attr("height", 1)
-        .attr("preserveAspectRatio", "xMidYMid slice");
-    // });
+    circlePackingData.forEach((platform, i) => {
+        d3.select("defs#defs-" + platform.PLATFORM)
+            .selectAll("pattern")
+            .data(platform.circlepackingData)
+            .enter()
+            .append("pattern")
+            .attr("id", (d) => {
+             
+                return trimNames(d.ARTIST_NAME);
+            }) // Unique ID for each pattern
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("patternContentUnits", "objectBoundingBox")
+            .append("image")
+            .attr("xlink:href", (d) => {
+                // console.log(d)
+                return d.IMAGE_URL;
+            }) // URL of the image
+            .attr("width", 1)
+            .attr("height", 1)
+            .attr("preserveAspectRatio", "xMidYMid meet");
+    });
     const groups = svg
         .append("g")
         .attr("transform", `translate(${width / 2},${height / 2})`);
@@ -152,7 +169,7 @@ export async function draw1_5(type = "All Time") {
         .attr("class", "circle-1-5")
         .attr("stroke", (d) => "white")
         .attr("stroke-width", (d) => 3)
-        .attr("fill", (d, i) => `url(#image-fill-)`)
+        .attr("fill", (d, i) => `url(#${trimNames(d.ARTIST_NAME)})`)
         .attr("cx", (d) => Math.cos(d.angle) * (width / Math.SQRT2 + 160))
         .attr("cy", (d) => Math.sin(d.angle) * (width / Math.SQRT2 + 160))
         .attr("r", (d) => d.r - 0.25)
@@ -167,14 +184,14 @@ export async function draw1_5(type = "All Time") {
     d3.selectAll(".circle-1-5")
         .on("mouseover", function (event, d) {
             d3.select(`[id="${d.PLATFORM + d.ARTIST_NAME}"]`).attr("fill", "none");
-            
+
             const [xCoord, yCoord] = d3.pointer(event);
-            let x=xCoord+width/2;
-            let y=yCoord+height/2;
+            let x = xCoord + width / 2;
+            let y = yCoord + height / 2;
             d3
                 .select(".topArtistsByFollowersBubbles_bot-chart." + d.PLATFORM)
                 .append("div")
-                .attr('id', 'tooltip_1_5')
+                .attr("id", "tooltip_1_5")
                 .style("display", "block")
                 .style("left", x + 10 + "px")
                 .style("top", y + 10 + "px").html(`
@@ -185,15 +202,15 @@ export async function draw1_5(type = "All Time") {
               ⮕ <strong>Followers:</strong> ${d.FOLLOWERS}
           </div>
           </div>
-    `)
-    gsap.to("#tooltip_1_5", {duration: .3, scale: 1,ease: "circ.out",})
+    `);
+            gsap.to("#tooltip_1_5", { duration: 0.3, scale: 1, ease: "circ.out" });
         })
         .on("mouseleave", function (event, d) {
             d3.select(`[id="${d.PLATFORM + d.ARTIST_NAME}"]`).attr("fill", (d0) =>
                 colorScale(d0.PLATFORM)
             ); // Transition back to the original color
 
-            d3.select("#tooltip_1_5").remove()
+            d3.select("#tooltip_1_5").remove();
         });
 
     const icons = d3
@@ -205,4 +222,11 @@ export async function draw1_5(type = "All Time") {
         .attr("class", "text")
         .text((d) => d.PLATFORM);
     icons.append("div").attr("class", "icon").text("icon");
+}
+export async function drawCirclepacking_1_5(type) {
+    // await loadData();
+    await circlepacking_1_5(type);
+    setupResizeListener(circlepacking_1_5, type);
+
+    return (type) => circlepacking_1_5(type);
 }

@@ -1,6 +1,8 @@
-import { chartDimensions } from "../chartDimensions.js";
-import { Treemap } from "../../components/Treemap.js";
-async function drawChart(dataUrl,genreType, year) {
+"use strict";
+
+import { TreemapComponent } from "../../components/Treemap.js";
+import { setupResizeListener,chartDimensions } from "../utility.js";
+async function drawChart(dataUrl, genreType, year) {
   // parameters
   let chartContainerId = "gentreTreemap_chart";
   d3.select("#" + chartContainerId)
@@ -57,7 +59,7 @@ async function drawChart(dataUrl,genreType, year) {
   // .attr("viewBox", `0 0 ${width*0.98} ${height*0.98}`)
   // .attr("preserveAspectRatio", "xMidYMid meet");
 
-  Treemap(wrapper, data, {
+  TreemapComponent(wrapper, data, {
     path: (d) => d.GENRE_NAME,
     value: (d) => d.VALUE,
     label: (d) => {
@@ -85,19 +87,10 @@ async function drawChart(dataUrl,genreType, year) {
   });
 }
 
-function setupResizeListener(genreType, year) {
-  let resizeTimer;
-  window.addEventListener("resize", () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      drawChart(genreType, year);
-    }, 50); // Adjust the timeout to your preference
-  });
-}
-export async function Treemap2_2(genreType, year) {
+export async function Treemap(dataUrl, genreType, year) {
   // await loadData();
-  await drawChart(genreType, year);
-  setupResizeListener(genreType, year);
+  await drawChart(dataUrl, genreType, year);
+  setupResizeListener(drawChart, dataUrl, genreType, year);
 
-  return (genreType, year) => drawChart(genreType, year);
+  return (genreType, year) => drawChart(dataUrl, genreType, year);
 }

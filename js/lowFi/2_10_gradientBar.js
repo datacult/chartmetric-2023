@@ -1,10 +1,9 @@
-import { chartDimensions } from "../chartDimensions.js";
-import { drawMap } from "./radioTopTracksMap.js";
-async function draw() {
- 
+import { chartDimensions, trimNames } from "../utility.js";
+import { drawMap } from "./2_10_Map.js";
+export async function gradientBarMapComponent(chartContainerId) {
   // parameters
   let dataUrl = "./data/gradientBarAP2_3.csv";
-  let chartContainerId = "radioTopTracksMap_gradientBar";
+
   let widthKey = "SPINS";
   let yKey = "TRACK_NAME";
 
@@ -13,7 +12,6 @@ async function draw() {
    ************************/
 
   let dataset = await d3.csv(dataUrl, d3.autoType);
-
 
   dataset = dataset.sort((a, b) => d3.descending(a[widthKey], b[widthKey]));
   // Select the top 10 tracks
@@ -62,18 +60,18 @@ async function draw() {
   const newElements = barContainers
     .join("div")
     .attr("class", "gradient-bar")
-    .attr("id", (d) =>
-      d[yKey]
-        .replace(/[^a-zA-Z0-9-_]/g, "") // Remove special characters
-        .replace(/\s/g, "_") // Replace spaces with underscores
-        .replace(/\(|\)/g, "")
+    .attr(
+      "id",
+      (d) => trimNames(d[yKey])
+      // .replace(/[^a-zA-Z0-9-_]/g, "") // Remove special characters
+      // .replace(/\s/g, "_") // Replace spaces with underscores
+      // .replace(/\(|\)/g, "")
     )
     .on("click", function (event, d) {
       drawMap(d.data.map((d) => d.NAME));
-    
     })
-    .on("mouseenter", function (event,d) {
-      d3.select(this).style("border", "1px solid black")
+    .on("mouseenter", function (event, d) {
+      d3.select(this).style("border", "1px solid black");
 
       d3.select(this).append("div").attr("class", "tooltip").html(`
       <div class='name'>${d.data[0].ARTIST_NAME}</div>
@@ -83,7 +81,10 @@ async function draw() {
         <div class="card">Jazz</div>
         <div class="card">Pop</div>
       </div>`);
-      let fromRight = d3.select('.tooltip').node().getBoundingClientRect().width;
+      let fromRight = d3
+        .select(".tooltip")
+        .node()
+        .getBoundingClientRect().width;
       gsap.fromTo(
         ".tooltip",
         { left: -fromRight, opacity: 0 },
@@ -92,11 +93,11 @@ async function draw() {
     })
     .on("mouseleave", function (d) {
       d3.select(this).select("div.tooltip").remove();
-      d3.select(this).style("border", "0px solid black")
+      d3.select(this).style("border", "0px solid black");
     });
 
   let imageWidth = yScale.bandwidth() * 0.75;
-  
+
   newElements.html(function (d) {
     return `
       <img src="https://raw.githubusercontent.com/muhammederdem/mini-player/master/img/1.jpg" alt="${d[yKey]}" class="artist-image" 
@@ -110,22 +111,18 @@ async function draw() {
     .style("width", (d) => {
       return widthScale(d.data[0][widthKey]) + "px";
     })
-    .style("transform", (d, i) => `translateY(${yScale(d[yKey])}px)`)
-   
+    .style("transform", (d, i) => `translateY(${yScale(d[yKey])}px)`);
+
   //  .style("background", "steelblue")
   //  .style("padding", "3px")
   //  .style("margin", "1px")
   //  .style("width", (d,i) => widthScale(d[widthKey]) + "px")
 }
 
+export async function gradientBarMap(chartContainerId) {
+  // await loadData();
+  await gradientBarMapComponent(chartContainerId);
+  // setupResizeListener(gradientBarMapComponent,chartContainerId);
 
-function setupResizeListener() {
-  let resizeTimer;
-  window.addEventListener("resize", () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-          draw();
-      }, 50); // Adjust the timeout to your preference
-  });
+  // return (chartContainerId) => gradientBarMapComponent(chartContainerId);
 }
-draw()

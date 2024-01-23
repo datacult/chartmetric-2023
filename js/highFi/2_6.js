@@ -1,9 +1,9 @@
-import { Calendar } from "../../components/Calendar.js";
-import { chartDimensions } from "../chartDimensions.js";
-async function draw() {
+import { CalendarComponent } from "../../components/CalendarComponent.js";
+import { chartDimensions } from "../utility.js";
+export async function Calendar(chartContainerId) {
   // parameters
   let dataUrl = "./data/T1-4.csv";
-  let chartContainerId = "calendarHeatmap";
+
   let xKey = "CREATION_DATE";
   let yKey = "DAILY_TRACK_COUNT";
   /***********************
@@ -36,8 +36,10 @@ async function draw() {
    ************************/
   // Create the SVG container.
   const wrapper = d3.select(visElement);
-  const h = ((dimensions.boundedWidth / (7 + 1) + 5) * 365) / 7;
-  wrapper.style("height", h + "px");
+  const h = ((dimensions.boundedHeight / 2 + 5) * 365) / 7;
+  const w = dimensions.boundedWidth;
+  wrapper.style("height", h + "px")
+ 
   const svg = wrapper
     .append("svg")
     .attr("width", "100%")
@@ -45,16 +47,14 @@ async function draw() {
     // .attr("viewBox", [0, 0, dimensions.boundedWidth, dimensions.boundedHeight])
     .attr("style", "max-width: 100%");
 
-  Calendar(svg, data, {
+  CalendarComponent(svg, data, {
     x: (d) => d[xKey],
     y: (d) => d[yKey],
 
     width: dimensions.boundedWidth,
     // height: dimensions.boundedHeight,
     colors: ["#DFF3DB", "#CCEBC5", "#8bc6fb"],
-    cellSize: dimensions.boundedWidth / (7 + 1),
+    cellSize: dimensions.boundedHeight / 2,
     paddingBetweenCells: 5,
   });
 }
-
-draw();

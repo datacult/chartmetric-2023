@@ -1,5 +1,5 @@
 import { chartDimensions } from "../chartDimensions.js";
-export async function draw() {
+export async function circlepacking_2_1() {
   let countryUrl = "./data/viz2-1_country.csv";
   let genderUrl = "./data/viz2-1_gender.csv";
 
@@ -21,6 +21,7 @@ export async function draw() {
     "https://share.chartmetric.com/year-end-report/2023/viz_2_1_en.csv",
     d3.autoType
   );
+  console.log(realData)
   const countryData = realData.filter((d) => d.COUNTRY_NAME !== "Global");
 
   /***********************
@@ -256,4 +257,4 @@ export async function draw() {
     },
   });
 }
-draw();
+

@@ -23,7 +23,7 @@ https://studio.datacult.com/ -->
     <div id="vis">
         <!--! Gordon added code begins-->
         <!-- UI -->
-       
+
         <!--! Gordon added code ends-->
     </div>
 
@@ -39,7 +39,8 @@ https://studio.datacult.com/ -->
 
 </html>
 <script type="module">
-    import {draw} from './js/highFi/1_1.js';
-
-    draw();
+    import { Sankey } from './js/highFi/1_1.js';
+    let url = "https://share.chartmetric.com/year-end-report/2023/viz_1_1_en.csv";
+    let chartContainerId = "vis"
+    Sankey(url, chartContainerId);
 </script>

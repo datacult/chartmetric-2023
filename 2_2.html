@@ -37,7 +37,7 @@ https://studio.datacult.com/ -->
 </html>
 <script type="module">
     //TODO  rename with chart types
-    import { Treemap2_2 } from './js/highFi/2_2.js'
+    import { Treemap } from './js/highFi/2_2.js'
 
     (async () => {
         // dynamic data url
@@ -46,9 +46,9 @@ https://studio.datacult.com/ -->
             "https://share.chartmetric.com/year-end-report/2023/viz_2_2_en.csv";
         let genreType = "Artist Genres" // or  "Track Genres"
         let year = "top_genres_for_artists_all_time" // "top_genres_for_artists_all_time"
-        let updateTreemap2_2 = await Treemap2_2(dataUrl, genreType, year)
+        let updateTreemap = await Treemap(dataUrl, genreType, year)
 
         // consistent way to update existing DOM elements 
-        // setTimeout(() => updateTreemap2_2("Artist Genres", "top_genres_for_artists_all_time_2023"), 2000);
+        // setTimeout(() => updateTreemap("Artist Genres", "top_genres_for_artists_all_time_2023"), 2000);
     })()
 </script>

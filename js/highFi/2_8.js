@@ -1,6 +1,13 @@
-import { chartDimensions } from "../chartDimensions.js";
+import { chartDimensions, trimNames } from "../utility.js";
 
-export async function draw2_8(dataUrl, map, options, chartContainerId = "vis",triggerSection) {
+export async function BumpChart(
+  dataUrl,
+  map,
+  options,
+  chartContainerId = "vis",
+  triggerSection,
+  onEnterCallback
+) {
   // let sankey = ((data, map, options) => {
 
   /***********************
@@ -135,11 +142,8 @@ export async function draw2_8(dataUrl, map, options, chartContainerId = "vis",tr
     .selectAll(".area")
     .data(nestedData)
     .join("path")
-    .attr("class", "area")
-    .attr("id", (d) => {
-      let escapedId = d.name.replace(/ /g, "-");
-      return escapedId;
-    })
+    .attr("class", "area-2-8")
+    .attr("id", (d) => trimNames(d.name))
     .attr("d", (d) => area(d.values))
     .attr("fill", (d) => (map.fill != null ? d[map.fill] : options.fill))
     .attr("opacity", options.opacity)
@@ -191,46 +195,16 @@ export async function draw2_8(dataUrl, map, options, chartContainerId = "vis",tr
 
   let scrollToArtist = "";
   // only enter is observed on WebFlow
-  gsap.utils.toArray('.'+triggerSection).forEach((section) => {
-    ScrollTrigger.create({
-      trigger: section,
-      markers: true,
-      start: "top 50%",
-      end: "bottom 50%",
-      scrub: true,
-      onEnter: () => {
-        
-        const parts = section.className.split(" ");
-        const artistName = parts.slice(1).join(" ");
-        scrollToArtist = artistName;
-        let artistNameId = artistName.replace(/ /g, "-");
-        gsap.to("#" + artistNameId, {
-          duration: 0.8,
-          ease: "expoScale(0.5,7,none)",
-          attr: {
-            fill: "#1781F7",
-            stroke: "black",
-            opacity: 1,
-          },
-        });
-      },
-    
-     
-      onLeave: () => {
-        const parts = section.className.split(" ");
-        const artistName = parts.slice(1).join(" ");
-        let artistNameId = artistName.replace(/ /g, "-");
-        const element = d3.select("#" + artistNameId);
-        gsap.to("#" + artistNameId, {
-          duration: 0.5,
-          attr: {
-            stroke: "none",
-            opacity: 0.3,
-          },
-        });
-      },
-    });
-  });
+  // gsap.utils.toArray("." + triggerSection).forEach((section) => {
+  //   ScrollTrigger.create({
+  //     trigger: section,
+  //     markers: true,
+  //     start: "top 50%",
+  //     end: "bottom 50%",
+  //     scrub: true,
+  //     onEnter: () => onEnterCallback(section),
+  //   });
+  // });
 
   return scrollToArtist;
 }

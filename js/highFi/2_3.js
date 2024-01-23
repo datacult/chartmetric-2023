@@ -3,18 +3,11 @@ function formatPercentage(number) {
   const formatter = d3.format(".1%");
   return formatter(number);
 }
-export async function draw(dataUrl) {
-  
-
+export async function Table(data) {
   /***********************
    *1. Access data
    ************************/
 
-  let data = await d3.csv(dataUrl);
-
-  data.forEach((d) => {
-    d.FOLLOWERS_2023_PROPORTION = +d.FOLLOWERS_2023_PROPORTION;
-  });
   // Select the container
   let platformsContainer = d3.select("#platforms-container");
 
@@ -58,8 +51,6 @@ export async function draw(dataUrl) {
     });
   });
 
- 
-
   // Add event listeners
   d3.selectAll(".country-row").on("mouseover", function () {
     // 'this' refers to the hovered element
@@ -86,5 +77,3 @@ export async function draw(dataUrl) {
     d3.selectAll(".country-row").classed("highlighted", false);
   });
 }
-
-

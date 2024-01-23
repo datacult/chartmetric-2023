@@ -1,11 +1,10 @@
-import { chartDimensions } from "../chartDimensions.js";
+import { chartDimensions } from "../utility.js";
 let url = "https://share.chartmetric.com/year-end-report/2023/viz_1_1_en.csv";
 
-export async function draw(
+export async function Sankey(
   dataUrl = url,
   chartContainerId = "vis",
-  widthKey,
-  selectedValue
+
 ) {
   const nodeId = "source";
   const padding =100;

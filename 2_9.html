@@ -50,16 +50,19 @@ https://studio.datacult.com/ -->
     Sey to change end
   */
 
+  /*
+    Chart ID
+  */
+  let chartContainerId = "topArtistsBankingBars_barChart";
 
   // parameters
   let dataUrl = "https://share.chartmetric.com/year-end-report/2023/viz_2_9_en.csv";
-  let chartContainerId = "topArtistsBankingBars_barChart";
+
   let widthKey = "CM_SCORE";
 
   (async () => {
     let updateGradientBar = await gradientBar(dataUrl, chartContainerId, widthKey, selectedValue)
-    setTimeout(()=>updateGradientBar("United Kingdom"), 2000);
-    // setTimeout(()=>updateFunction("Germany"), 4000);
+   
   })()
 
 </script>

@@ -41,13 +41,13 @@ https://studio.datacult.com/ -->
 <script src="https://cdn.jsdelivr.net/npm/d3-geo@3"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3-geo-projection@4"></script>
 <script src="https://unpkg.com/topojson@3"></script>
-<script type="module" src="./js/lowFi/radioTopTracksMap.js"></script>
-<script type="module" src="./js/lowFi/radioTopTracksMapGradientBar.js"></script>
+<script type="module" src="./js/lowFi/2_10_map.js"></script>
+<script type="module" src="./js/lowFi/2_10_gradientBar.js"></script>
 
 </html>
 
 <script type="module">
-    import {drawMap} from "./js/lowFi/radioTopTracksMap.js";
-
-    drawMap();
+    import {gradientBarMap} from "./js/lowFi/2_10_gradientBar.js";
+    let chartContainerId = "radioTopTracksMap_gradientBar";
+    gradientBarMap(chartContainerId)
 </script>

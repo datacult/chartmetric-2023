@@ -22,7 +22,6 @@
 
 #calendarHeatmap {
     flex: 1;
-    /* min-height: 200vh; */
     display: flex;
 
     justify-content: center;

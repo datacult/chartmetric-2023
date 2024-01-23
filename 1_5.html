@@ -23,7 +23,7 @@ https://studio.datacult.com/ -->
   <div id="vis">
     <!--! Gordon added code begins-->
 
-    
+
     <!-- bottom -->
     <div id="topArtistsByFollowersBubbles_bottom">
       <div class="topArtistsByFollowersBubbles_bot-section" id="topArtistsByFollowersBubbles_bot-section1">
@@ -40,7 +40,7 @@ https://studio.datacult.com/ -->
       </div>
     </div>
 
-    
+
     <!--! Gordon added code ends-->
   </div>
 
@@ -54,10 +54,14 @@ https://studio.datacult.com/ -->
 
 <script type="module">
   import {
-    draw1_5
+    drawCirclepacking_1_5
   } from './js/highFi/1_5.js'
 
-  // let type ="All Time" // or "Gained in 2023"
-  let type = "Gained in 2023"
-  draw1_5(type)
+
+
+  (async () => {
+    let type = "Gained in 2023" // let type ="All Time" // or "Gained in 2023"
+    await drawCirclepacking_1_5(type)
+    // setTimeout(() => drawCirclepacking_1_5("All Time"), 2000);
+  })();
 </script>
