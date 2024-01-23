@@ -100,7 +100,7 @@ export async function circlepacking_2_11(data, chartContainerId) {
    *4. Set up canvas
    ************************/
   const svg = d3
-    .select("#vis")
+    .select("#" + chartContainerId)
     .append("svg")
     .attr("width", width) // Ensure these are valid, non-zero values
     .attr("height", height)
