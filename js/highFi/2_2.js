@@ -2,17 +2,14 @@
 
 import { TreemapComponent } from "../../components/Treemap.js";
 import { setupResizeListener,chartDimensions } from "../utility.js";
-async function drawChart(dataUrl, genreType, year) {
+async function drawChart(dataset, selector, genreType, year) {
   // parameters
-  let chartContainerId = "gentreTreemap_chart";
-  d3.select("#" + chartContainerId)
+  d3.select("#" + selector)
     .select("svg")
     .remove();
   /***********************
    *1. Access data
    ************************/
-
-  let dataset = await d3.csv(dataUrl);
 
   let data = dataset.map((d) => Object.assign({}, d));
   console.log(
@@ -36,9 +33,9 @@ async function drawChart(dataUrl, genreType, year) {
    *2. Create chart dimensions
    ************************/
 
-  const { boundedWidth, boundedHeight } = chartDimensions(chartContainerId);
+  const { boundedWidth, boundedHeight } = chartDimensions(selector);
   const { boundedWidth: width, boundedHeight: height } = chartDimensions(
-    chartContainerId,
+    selector,
     {
       top: boundedHeight * 0.02,
       right: boundedWidth * 0.02,
@@ -50,7 +47,7 @@ async function drawChart(dataUrl, genreType, year) {
   /***********************
    *3. Set up canvas
    ************************/
-  const visElement = document.getElementById(chartContainerId);
+  const visElement = document.getElementById(selector);
   const wrapper = d3
     .select(visElement)
     .append("svg")

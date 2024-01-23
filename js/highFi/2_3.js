@@ -3,13 +3,13 @@ function formatPercentage(number) {
   const formatter = d3.format(".1%");
   return formatter(number);
 }
-export async function Table(data) {
+export async function Table(data, selector) {
   /***********************
    *1. Access data
    ************************/
 
   // Select the container
-  let platformsContainer = d3.select("#platforms-container");
+  let platformsContainer = d3.select("#" + selector);
 
   // Platforms to loop through and create columns
   let platforms = ["Tiktok", "Instagram", "Youtube"];

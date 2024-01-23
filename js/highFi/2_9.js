@@ -3,7 +3,7 @@
 import { chartDimensions } from "../chartDimensions.js";
 import { setupResizeListener } from "../utility.js";
 export async function gradientBar(
-  dataUrl,
+  dataset,
   chartContainerId,
   widthKey,
   selectedValue
@@ -12,8 +12,6 @@ export async function gradientBar(
    *1. Access data
    ************************/
 
-  let dataset = await d3.csv(dataUrl, d3.autoType);
-  console.log(dataset)
   dataset = dataset.sort((a, b) => d3.descending(a[widthKey], b[widthKey])); // .sort((a, b) => d3.descending(a.SPINS, b.SPINS));
   let countries_names = [...new Set(dataset.map((d) => d.COUNTRY_NAME))];
   countries_names.unshift("All Countries");

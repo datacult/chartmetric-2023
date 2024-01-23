@@ -1,8 +1,7 @@
 import { chartDimensions } from "../utility.js";
-let url = "https://share.chartmetric.com/year-end-report/2023/viz_1_1_en.csv";
 
 export async function Sankey(
-  dataUrl = url,
+  data = [],
   chartContainerId = "vis",
 
 ) {
@@ -12,7 +11,7 @@ export async function Sankey(
   /***********************
    *1. Access data
    ************************/
-  let data = await d3.csv(dataUrl, d3.autoType);
+
   data.push({
     TIMEFRAME: "Prior",
     ARTISTS_ADDED:
