@@ -119,7 +119,6 @@ export async function gradientBar(
       drawElements(data);
     } else {
       data = dataset.filter((d) => d.COUNTRY_NAME == selectedValue);
-      console.log(data);
       drawElements(data);
     }
   }

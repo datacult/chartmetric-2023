@@ -97,7 +97,6 @@ export async function BumpChart(
     .data(nestedData)
     .join("section")
     .attr("class", (d, i) => {
-      console.log(d);
       return `${triggerSection} ${d["name"]}`;
     });
 
@@ -135,7 +134,6 @@ export async function BumpChart(
     .y1((d) => yScale(d[map.y]))
     .curve(d3.curveBumpX);
 
-  console.log(nestedData);
   // Drawing areas
   svg
     .selectAll(".area")

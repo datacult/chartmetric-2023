@@ -60,8 +60,6 @@ let barchart = ((data, map, options, svg) => {
   //////////// Data Wrangling ////////////
   ////////////////////////////////////////
 
-  console.log(data)
-
   let lineData = []
 
   lineData.push({ x: data[0][map.x], y: 0 })

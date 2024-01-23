@@ -59,8 +59,6 @@ let arcchart = ((data = [], map, options, svg) => {
     targets = targets.sort((a, b) => options.sort.indexOf(a) - options.sort.indexOf(b));
   }
 
-  console.log(data, targets)
-
   ////////////////////////////////////////
   ////////////// SVG Setup ///////////////
   ////////////////////////////////////////
