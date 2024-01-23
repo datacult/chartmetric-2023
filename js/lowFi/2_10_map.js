@@ -1,10 +1,9 @@
 import { chartDimensions, trimNames} from "../utility.js";
 let selectedCountries = ["Italy"];
-export async function drawMap(selectedCountries = []) {
+export async function drawMap(selectedCountries = [], chartContainerId) {
   // parameters
   let dataUrl = "./data/world.json";
   let trackDataUrl = "./data/gradientBarAP2_3.csv";
-  let chartContainerId = "radioTopTracksMap_worldMap";
   let hoveredMapSelector = null;
   /***********************
    *1. Access data
@@ -23,7 +22,7 @@ export async function drawMap(selectedCountries = []) {
   const visElement = document.getElementById(chartContainerId);
 
   // Get the bounding rectangle of the element
-
+  console.log(chartContainerId)
   const dimensions = chartDimensions(chartContainerId);
   /***********************
    *3. Set up canvas
@@ -101,4 +100,4 @@ export async function drawMap(selectedCountries = []) {
       d3.select(".map-tooltip").style("display", "none");
     });
 }
-drawMap(selectedCountries);
+// drawMap(selectedCountries);

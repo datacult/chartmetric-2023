@@ -1,20 +1,12 @@
 import { CalendarComponent } from "../../components/CalendarComponent.js";
 import { chartDimensions } from "../utility.js";
-export async function Calendar(chartContainerId) {
-  // parameters
-  let dataUrl = "./data/T1-4.csv";
+export async function Calendar(data, chartContainerId) {
 
   let xKey = "CREATION_DATE";
   let yKey = "DAILY_TRACK_COUNT";
   /***********************
    *1. Access data
    ************************/
-
-  let data = await d3.csv(dataUrl);
-  let realData = await d3.csv(
-    "https://share.chartmetric.com/year-end-report/2023/viz_2_6_en.csv",
-    d3.autoType
-  );
 
   data.forEach((element) => {
     element[xKey] = new Date(element[xKey]);

@@ -1,8 +1,6 @@
 import { chartDimensions, trimNames } from "../utility.js";
 import { drawMap } from "./2_10_Map.js";
-export async function gradientBarMapComponent(chartContainerId) {
-  // parameters
-  let dataUrl = "./data/gradientBarAP2_3.csv";
+export async function gradientBarMapComponent(dataset, chartContainerId) {
 
   let widthKey = "SPINS";
   let yKey = "TRACK_NAME";
@@ -10,8 +8,6 @@ export async function gradientBarMapComponent(chartContainerId) {
   /***********************
    *1. Access data
    ************************/
-
-  let dataset = await d3.csv(dataUrl, d3.autoType);
 
   dataset = dataset.sort((a, b) => d3.descending(a[widthKey], b[widthKey]));
   // Select the top 10 tracks
@@ -68,7 +64,7 @@ export async function gradientBarMapComponent(chartContainerId) {
       // .replace(/\(|\)/g, "")
     )
     .on("click", function (event, d) {
-      drawMap(d.data.map((d) => d.NAME));
+      drawMap(d.data.map((d) => d.NAME), chartContainerId);
     })
     .on("mouseenter", function (event, d) {
       d3.select(this).style("border", "1px solid black");

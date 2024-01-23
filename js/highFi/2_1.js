@@ -1,9 +1,7 @@
 import { chartDimensions } from "../chartDimensions.js";
-export async function circlepacking_2_1() {
+export async function circlepacking_2_1(realData, selector) {
   let countryUrl = "./data/viz2-1_country.csv";
   let genderUrl = "./data/viz2-1_gender.csv";
-
-  let chartContainerId = "top100ArtistCountriesGenderCirclePacking_chart";
 
   let sizeKey = "CHARTMETRIC_SCORE";
   let genderKey = "PRONOUN";
@@ -17,11 +15,7 @@ export async function circlepacking_2_1() {
     d3.csv(countryUrl, d3.autoType),
     d3.csv(genderUrl, d3.autoType),
   ]);
-  let realData = await d3.csv(
-    "https://share.chartmetric.com/year-end-report/2023/viz_2_1_en.csv",
-    d3.autoType
-  );
-  console.log(realData)
+
   const countryData = realData.filter((d) => d.COUNTRY_NAME !== "Global");
 
   /***********************
@@ -29,7 +23,7 @@ export async function circlepacking_2_1() {
    ************************/
 
   const { boundedWidth: width, boundedHeight: height } = chartDimensions(
-    chartContainerId,
+    selector,
     { bottom: 30, right: 30 }
   );
   //
@@ -101,7 +95,7 @@ export async function circlepacking_2_1() {
       .duration(1000)
       .attr("r", (d) => d.r); // animate to actual radius
 
-      // back circles
+    // back circles
     nodes
       .enter()
       .append("circle")
@@ -109,7 +103,7 @@ export async function circlepacking_2_1() {
       .attr("cx", (d) => d.x)
       .attr("cy", (d) => d.y)
       .attr("r", 50)
-    
+
       .attr("fill", "url(#image-fill-)")
       .style("opacity", 0) // Initially hidden
       .style("transform-origin", (d) => {
@@ -144,10 +138,12 @@ export async function circlepacking_2_1() {
         .transition()
         .duration(500)
         .attr("fill", "url(#image-fill-)")
-    }).on("mouseout", function () { d3.select(this)
+    }).on("mouseout", function () {
+      d3.select(this)
       .transition()
       .duration(500)
-      .attr("fill", "transparent")})
+      .attr("fill", "transparent")
+    })
 
     // Define the mouseout behavior for the back circle
     svg.selectAll(".back").on("mouseout", function () {
@@ -175,7 +171,7 @@ export async function circlepacking_2_1() {
     });
   }
   const svg = d3
-    .select("#" + chartContainerId)
+    .select("#" + selector)
     .attr("viewBox", [0, 0, width, height])
     .attr("width", width)
     .attr("height", height)
@@ -193,7 +189,7 @@ export async function circlepacking_2_1() {
     .append("image")
     .attr(
       "xlink:href",
-      "https://share.chartmetric.com/artists/299/172/11172299/11172299-profile.webp" ) // URL of the image
+      "https://share.chartmetric.com/artists/299/172/11172299/11172299-profile.webp") // URL of the image
     .attr("width", 1)
     .attr("height", 1)
     .attr("preserveAspectRatio", "xMidYMid slice");
@@ -243,18 +239,18 @@ export async function circlepacking_2_1() {
     });
 
   // ScrollTrigger setup with onLeaveBack callback
-  ScrollTrigger.create({
-    markers: true,
-    trigger: "#gender-section",
-    start: "center center",
-    onEnter: ({ progress }) => {
-      genderSection = progress > 0;
-      updateOnMouseEnter();
-    },
-    onLeaveBack: () => {
-      genderSection = false;
-      updateOnMouseLeave(); // Update using country data, considering hover state
-    },
-  });
+  // ScrollTrigger.create({
+  //   markers: true,
+  //   trigger: "#gender-section",
+  //   start: "center center",
+  //   onEnter: ({ progress }) => {
+  //     genderSection = progress > 0;
+  //     updateOnMouseEnter();
+  //   },
+  //   onLeaveBack: () => {
+  //     genderSection = false;
+  //     updateOnMouseLeave(); // Update using country data, considering hover state
+  //   },
+  // });
 }
 

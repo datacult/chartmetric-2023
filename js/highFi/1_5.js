@@ -5,22 +5,17 @@ import { trimNames, setupResizeListener, chartDimensions } from "../utility.js";
 let chartSectionId = "topArtistsByFollowersBubbles_bot-section1";
 // Function to create a round gradient
 
-export async function circlepacking_1_5(type = "All Time") {
+export async function circlepacking_1_5(realData, selector, type = "All Time") {
+
    
-    let chartContainerId = "topArtistsByFollowersBubbles_bot-chart";
-    const parentElement = d3.selectAll("#"+chartContainerId)
+    const parentElement = d3.selectAll("#"+selector)
     console.log(parentElement.selectAll("*"))
     // Select all child elements within the parent element and remove them
     parentElement.selectAll("*").remove();
-    // d3.select("#"+chartContainerId).remove();
+    // d3.select("#"+selector).remove();
     /***********************
      *1. Access data
      ************************/
-
-    let realData = await d3.csv(
-        "https://share.chartmetric.com/year-end-report/2023/viz_1_5_en.csv",
-        d3.autoType
-    );
 
     realData.forEach((entry) => {
         entry.Combined = `${entry.PLATFORM}/${entry.ARTIST_NAME}`;
@@ -31,8 +26,7 @@ export async function circlepacking_1_5(type = "All Time") {
     /***********************
      *2. Create chart dimensions
      ************************/
-    const { boundedWidth: width, boundedHeight: height } =
-        chartDimensions(chartContainerId);
+    const { boundedWidth: width, boundedHeight: height } = chartDimensions(selector);
     const { boundedWidth: chartSectionWidth, boundedHeight: chartSectionHeight } =
         chartDimensions(chartSectionId);
     /***********************

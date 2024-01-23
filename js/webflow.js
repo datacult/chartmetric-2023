@@ -3,9 +3,15 @@
 // https://studio.datacult.com/ 
 
 import { Sankey } from './highFi/1_1.js';
+import { circlepacking_1_5 } from './highFi/1_5.js'
+import { circlepacking_2_1 } from './highFi/2_1.js';
 import { Treemap } from './highFi/2_2.js'
 import { Table } from './highFi/2_3.js';
+import { Calendar } from './highFi/2_6.js';
+import { BumpChart } from "./highFi/2_8.js";
 import { gradientBar } from './highFi/2_9.js';
+import { gradientBarMapComponent } from "./lowFi/2_10_gradientBar.js";
+import { circlepacking_2_11 } from './highFi/2_11.js';
 
 (async () => {
 
@@ -16,6 +22,18 @@ import { gradientBar } from './highFi/2_9.js';
             data: [],
             options: {
                 selector: 'viz_1_1'
+            }
+        },
+        viz_1_5: {
+            data: [],
+            options: {
+                selector: 'viz_1_5'
+            }
+        },
+        viz_2_1: {
+            data: [],
+            options: {
+                selector: 'viz_2_1'
             }
         },
         viz_2_2: {
@@ -36,10 +54,41 @@ import { gradientBar } from './highFi/2_9.js';
                 selector: '#viz_2_5'
             }
         },
+        viz_2_6: {
+            data: [],
+            options: {
+                selector: 'viz_2_6'
+            }
+        },
+        viz_2_8: {
+            data: [],
+            options: {
+                selector: 'viz_2_8',
+                fill: "#1781F7",
+                stroke: "black",
+            },
+            mapping: {
+                x: 'SCORE_MONTH',
+                y: 'MONTHLY_ARTIST_RANK',
+                group: 'NAME'
+            }
+        },
         viz_2_9: {
             data: [],
             options: {
                 selector: 'viz_2_9'
+            }
+        },
+        viz_2_10: {
+            data: [],
+            options: {
+                selector: 'viz_2_10'
+            }
+        },
+        viz_2_11: {
+            data: [],
+            options: {
+                selector: 'viz_2_11'
             }
         },
     }
@@ -60,7 +109,6 @@ import { gradientBar } from './highFi/2_9.js';
             results.forEach(result => {
                 visuals[result.name].data = result.data;
             });
-            console.log(visuals)
         });
 
         // only update the visuals if the update flag is true
@@ -96,8 +144,12 @@ import { gradientBar } from './highFi/2_9.js';
     ////////////////////////////////
 
     let artistDropdown = document.querySelector('#artist')
-    let artistNames = [...new Set(visuals.viz_2_9.data.map(d => d.ARTIST_NAME))]
-    artistNames.forEach(artist => {
+
+    let artist_names = visuals.viz_2_9.data.sort((a, b) => d3.descending(a.CM_SCORE, b.CM_SCORE));
+    artist_names = artist_names.map(d => d.ARTIST_NAME);
+    artist_names = artist_names.slice(0, 10);
+
+    artist_names.forEach(artist => {
         let option = document.createElement('option')
         option.text = artist
         artistDropdown.add(option)
@@ -108,10 +160,16 @@ import { gradientBar } from './highFi/2_9.js';
     ////////////////////////////////
 
     visuals.viz_1_1.viz = Sankey(visuals.viz_1_1.data, visuals.viz_1_1.options.selector);
-    visuals.viz_2_2.viz = Treemap(visuals.viz_2_2.data, visuals.viz_2_2.options.selector, "Artist Genres", "top_genres_for_artists_all_time")
+    // visuals.viz_1_5.viz = circlepacking_1_5(visuals.viz_1_5.data, visuals.viz_1_5.options.selector, "Gained in 2023")
+    visuals.viz_2_1.viz = circlepacking_2_1(visuals.viz_2_1.data, visuals.viz_2_1.options.selector)
+    // visuals.viz_2_2.viz = Treemap(visuals.viz_2_2.data, visuals.viz_2_2.options.selector, "Artist Genres", "top_genres_for_artists_all_time")
     visuals.viz_2_3.viz = Table(visuals.viz_2_3.data, visuals.viz_2_3.options.selector)
     visuals.viz_2_5.viz = barArc(visuals.viz_2_5.data, visuals.viz_2_5.options)
+    visuals.viz_2_6.viz = Calendar(visuals.viz_2_6.data, visuals.viz_2_6.options.selector)
+    visuals.viz_2_8.viz = BumpChart(visuals.viz_2_8.data, visuals.viz_2_8.mapping, visuals.viz_2_8.options, 'section-2-8')
     visuals.viz_2_9.viz = gradientBar(visuals.viz_2_9.data, visuals.viz_2_9.options.selector, "CM_SCORE", "United States")
+    visuals.viz_2_10.viz = gradientBarMapComponent(visuals.viz_2_10.data, visuals.viz_2_10.options.selector);
+    visuals.viz_2_11.viz = circlepacking_2_11(visuals.viz_2_11.data, visuals.viz_2_11.options.selector);
 
     ////////////////////////////////
     ///////// viz updates //////////

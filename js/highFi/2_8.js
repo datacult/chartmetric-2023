@@ -1,10 +1,9 @@
 import { chartDimensions, trimNames } from "../utility.js";
 
 export async function BumpChart(
-  dataUrl,
+  data,
   map,
   options,
-  chartContainerId = "vis",
   triggerSection,
   onEnterCallback
 ) {
@@ -13,9 +12,8 @@ export async function BumpChart(
   /***********************
    *1. Access data
    ************************/
-  let data = await d3.csv(dataUrl, d3.autoType);
+
   let mapping = {
-    selector: "#vis",
     fill: null,
     stroke: null,
     x: "x",
@@ -27,6 +25,7 @@ export async function BumpChart(
   map = { ...mapping, ...map };
 
   let defaults = {
+    selector: "#vis",
     width: 1200,
     height: 600,
     margin: { top: 20, right: 20, bottom: 20, left: 20 },
@@ -46,10 +45,10 @@ export async function BumpChart(
    ************************/
 
   const { boundedWidth: width, boundedHeight: height } =
-    chartDimensions(chartContainerId);
+    chartDimensions(options.selector);
 
   const svg = d3
-    .select("#" + chartContainerId)
+    .select("#" + options.selector)
     .append("svg")
     .attr("width", width)
     .attr("height", height)

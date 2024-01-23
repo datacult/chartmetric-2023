@@ -3,9 +3,7 @@ import { chartDimensions } from "../chartDimensions.js";
 import { createRoundGradient } from "../../components/backgroundGradientGenerator.js";
 let chartSectionId = "topArtistsByFollowersBubbles_bot-section1";
 
-export async function circlepacking_2_11(chartContainerId) {
-  let dataUrl =
-    "https://share.chartmetric.com/year-end-report/2023/viz_2_11_en.csv";
+export async function circlepacking_2_11(data, chartContainerId) {
   
   let radiusKey = "TOTAL_TRACKS";
   let yKey = "ARTIST_COUNT";
@@ -13,8 +11,6 @@ export async function circlepacking_2_11(chartContainerId) {
   /***********************
    *1. Access data
    ************************/
-
-  let data = await d3.csv(dataUrl, d3.autoType);
 
   /***********************
    *2. Create chart dimensions
