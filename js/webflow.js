@@ -19,48 +19,77 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
     let visuals = {
 
         viz_1_1: {
+            viz: null,
             data: [],
             options: {
                 selector: 'viz_1_1'
-            }
+            },
+            update:((param) => {
+
+            })
         },
         viz_1_5: {
+            viz: null,
             data: [],
             options: {
                 selector: 'viz_1_5'
-            }
+            },
+            update:((param) => {
+
+            })
         },
         viz_2_1: {
+            viz: null,
             data: [],
             options: {
                 selector: 'viz_2_1'
-            }
+            },
+            update:((param) => {
+
+            })
         },
         viz_2_2: {
+            viz: null,
             data: [],
             options: {
                 selector: 'viz_2_2'
-            }
+            },
+            update:((param) => {
+
+            })
         },
         viz_2_3: {
+            viz: null,
             data: [],
             options: {
                 selector: 'viz_2_3'
-            }
+            },
+            update:((param) => {
+
+            })
         },
         viz_2_5: {
+            viz: null,
             data: [],
             options: {
                 selector: '#viz_2_5'
-            }
+            },
+            update:((param) => {
+
+            })
         },
         viz_2_6: {
+            viz: null,
             data: [],
             options: {
                 selector: 'viz_2_6'
-            }
+            },
+            update:((param) => {
+
+            })
         },
         viz_2_8: {
+            viz: null,
             data: [],
             options: {
                 selector: 'viz_2_8',
@@ -71,25 +100,40 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
                 x: 'SCORE_MONTH',
                 y: 'MONTHLY_ARTIST_RANK',
                 group: 'NAME'
-            }
+            },
+            update:((param) => {
+
+            })
         },
         viz_2_9: {
+            viz: null,
             data: [],
             options: {
                 selector: 'viz_2_9'
-            }
+            },
+            update:((param) => {
+
+            })
         },
         viz_2_10: {
+            viz: null,
             data: [],
             options: {
                 selector: 'viz_2_10'
-            }
+            },
+            update:((param) => {
+
+            })
         },
         viz_2_11: {
+            viz: null,
             data: [],
             options: {
                 selector: 'viz_2_11'
-            }
+            },
+            update:((param) => {
+
+            })
         },
     }
 
@@ -114,7 +158,7 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
         // only update the visuals if the update flag is true
         if (update == true) {
             Object.keys(visuals).forEach(viz => {
-                if (visuals[viz].hasOwnProperty('viz')) {
+                if (visuals[viz].viz != null) {
                     visuals[viz].viz.update(visuals[viz].data)
                 }
             })
