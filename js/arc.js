@@ -21,6 +21,7 @@ let arcchart = ((data = [], map, options, svg) => {
   map = { ...mapping, ...map };
 
   let defaults = {
+    selector: '#vis',
     width: 800,
     height: 800,
     margin: { top: 20, right: 20, bottom: 20, left: 20 },
@@ -65,7 +66,7 @@ let arcchart = ((data = [], map, options, svg) => {
   ////////////////////////////////////////
 
   if (svg == null) {
-    const div = d3.select(map.selector);
+    const div = d3.select(options.selector);
 
     const container = div.append('div')
       .classed('vis-svg-container', true);

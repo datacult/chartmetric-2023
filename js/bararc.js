@@ -1,12 +1,10 @@
-// © 2023 Data Culture
+// © 2024 Data Culture
 // Released under the ISC license.
 // https://studio.datacult.com/ 
 
 'use strict'
 
-let barArc = (async (data_url, bar_map, arc_map, options) => {
-
-  let data = await d3.csv(data_url, d3.autoType)
+let barArc = ((data, options, bar_map, arc_map) => {
 
   //data cleaning
   data.forEach(d => {
@@ -56,7 +54,6 @@ let barArc = (async (data_url, bar_map, arc_map, options) => {
   })
 
   let bar_mapping = {
-    selector: '#vis',
     y: "start_total",
     x: "stage",
     fill: "fill",
@@ -75,6 +72,7 @@ let barArc = (async (data_url, bar_map, arc_map, options) => {
   arc_map = { ...arc_mapping, ...arc_map };
 
   let defaults = {
+    selector: '#vis',
     stroke: "black",
     padding: 0,
     margin: { top: 100, right: 20, bottom: 500, left: 20 },
