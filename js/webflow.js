@@ -3,6 +3,7 @@
 // https://studio.datacult.com/ 
 
 import { Sankey } from './highFi/1_1.js';
+// import {  } from './highFi/1_3.js'
 import { circlepacking_1_5 } from './highFi/1_5.js'
 import { circlepacking_2_1 } from './highFi/2_1.js';
 import { Treemap } from './highFi/2_2.js'
@@ -24,9 +25,27 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
             options: {
                 selector: 'viz_1_1'
             },
-            update:((param) => {
-
-            })
+            update: function (param) {
+                if (param) {
+                    this.viz.update(null, param)
+                } else {
+                    this.viz.update(this.data)
+                }
+            }
+        },
+        viz_1_3: {
+            viz: null,
+            data: [],
+            options: {
+                selector: 'viz_1_3'
+            },
+            update: function (param) {
+                if (param) {
+                    this.viz.update(null, param)
+                } else {
+                    this.viz.update(this.data)
+                }
+            }
         },
         viz_1_5: {
             viz: null,
@@ -34,9 +53,13 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
             options: {
                 selector: 'viz_1_5'
             },
-            update:((param) => {
-
-            })
+            update: function (param) {
+                if (param) {
+                    this.viz.update(null, param)
+                } else {
+                    this.viz.update(this.data)
+                }
+            }
         },
         viz_2_1: {
             viz: null,
@@ -44,9 +67,13 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
             options: {
                 selector: 'viz_2_1'
             },
-            update:((param) => {
-
-            })
+            update: function (param) {
+                if (param) {
+                    this.viz.update(null, param)
+                } else {
+                    this.viz.update(this.data)
+                }
+            }
         },
         viz_2_2: {
             viz: null,
@@ -54,9 +81,13 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
             options: {
                 selector: 'viz_2_2'
             },
-            update:((param) => {
-
-            })
+            update: function (param) {
+                if (param) {
+                    this.viz.update(null, param)
+                } else {
+                    this.viz.update(this.data)
+                }
+            }
         },
         viz_2_3: {
             viz: null,
@@ -64,9 +95,13 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
             options: {
                 selector: 'viz_2_3'
             },
-            update:((param) => {
-
-            })
+            update: function (param) {
+                if (param) {
+                    this.viz.update(null, param)
+                } else {
+                    this.viz.update(this.data)
+                }
+            }
         },
         viz_2_5: {
             viz: null,
@@ -74,9 +109,22 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
             options: {
                 selector: '#viz_2_5'
             },
-            update:((param) => {
+            update: function (param) {
+                // expects an object with 'bar' & 'arc' keys
 
-            })
+                if (param.hasOwnProperty('bar')) {
+                    this.viz.bar.update(null, { y: param.bar })
+                } else {
+                    this.viz.bar.update(this.data)
+                }
+
+                if (param.hasOwnProperty('arc')) {
+                    this.viz.arc.update(null, { y: param.arc })
+                } else {
+                    this.viz.bar.update(this.data)
+                }
+
+            }
         },
         viz_2_6: {
             viz: null,
@@ -84,9 +132,13 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
             options: {
                 selector: 'viz_2_6'
             },
-            update:((param) => {
-
-            })
+            update: function (param) {
+                if (param) {
+                    this.viz.update(null, param)
+                } else {
+                    this.viz.update(this.data)
+                }
+            }
         },
         viz_2_8: {
             viz: null,
@@ -101,9 +153,13 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
                 y: 'MONTHLY_ARTIST_RANK',
                 group: 'NAME'
             },
-            update:((param) => {
-
-            })
+            update: function (param) {
+                if (param) {
+                    this.viz.update(null, param)
+                } else {
+                    this.viz.update(this.data)
+                }
+            }
         },
         viz_2_9: {
             viz: null,
@@ -111,9 +167,13 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
             options: {
                 selector: 'viz_2_9'
             },
-            update:((param) => {
-
-            })
+            update: function (param) {
+                if (param) {
+                    this.viz.update(null, param)
+                } else {
+                    this.viz.update(this.data)
+                }
+            }
         },
         viz_2_10: {
             viz: null,
@@ -121,9 +181,13 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
             options: {
                 selector: 'viz_2_10'
             },
-            update:((param) => {
-
-            })
+            update: function (param) {
+                if (param) {
+                    this.viz.update(null, param)
+                } else {
+                    this.viz.update(this.data)
+                }
+            }
         },
         viz_2_11: {
             viz: null,
@@ -131,9 +195,13 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
             options: {
                 selector: 'viz_2_11'
             },
-            update:((param) => {
-
-            })
+            update: function (param) {
+                if (param) {
+                    this.viz.update(null, param)
+                } else {
+                    this.viz.update(this.data)
+                }
+            }
         },
     }
 
@@ -159,7 +227,8 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
         if (update == true) {
             Object.keys(visuals).forEach(viz => {
                 if (visuals[viz].viz != null) {
-                    visuals[viz].viz.update(visuals[viz].data)
+                    // data gets updated in no param is passed
+                    visuals[viz].update()
                 }
             })
         }
@@ -204,6 +273,7 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
     ////////////////////////////////
 
     visuals.viz_1_1.viz = Sankey(visuals.viz_1_1.data, visuals.viz_1_1.options.selector);
+    // visuals.viz_1_3.viz = Unknown(visuals.viz_1_3.data, visuals.viz_1_3.options.selector)
     // visuals.viz_1_5.viz = circlepacking_1_5(visuals.viz_1_5.data, visuals.viz_1_5.options.selector, "Gained in 2023")
     visuals.viz_2_1.viz = circlepacking_2_1(visuals.viz_2_1.data, visuals.viz_2_1.options.selector)
     // visuals.viz_2_2.viz = Treemap(visuals.viz_2_2.data, visuals.viz_2_2.options.selector, "Artist Genres", "top_genres_for_artists_all_time")
