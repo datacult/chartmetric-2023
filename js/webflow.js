@@ -17,6 +17,7 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
 (async () => {
 
     // hold data and vizualization instance in one object
+    // all update functions should take the data as the first argument
     let visuals = {
 
         viz_1_1: {
