@@ -273,9 +273,6 @@ import { SingleValues } from "./highFi/single_values.js";
         console.log("data load complete")
     }
 
-    // temp local data for viz_2_5
-    let data = await d3.csv("https://datacult.github.io/chartmetric-2023/data/viz_2_5_en.csv", d3.autoType);
-
     ///////////////////////////
     /////// language //////////
     ///////////////////////////
@@ -346,7 +343,7 @@ import { SingleValues } from "./highFi/single_values.js";
     //     visuals.viz_2_3.options.selector
     // );
     visuals.viz_2_5.viz = barArc(
-        data, // temp using local data
+        visuals.viz_2_5.data,
         visuals.viz_2_5.options
     );
     // visuals.viz_2_6.viz = Calendar(
