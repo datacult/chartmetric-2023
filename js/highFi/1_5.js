@@ -235,9 +235,7 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
     }
     function update(data = realData, type = type) {
         // await loadData();
-
         // setupResizeListener(draw, data, type);
-
         draw(data, type);
     }
 

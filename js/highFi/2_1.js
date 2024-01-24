@@ -1,9 +1,11 @@
-import { chartDimensions } from "../chartDimensions.js";
-export async function circlepacking_2_1(realData, selector="top100ArtistCountriesGenderCirclePacking_chart") {
-  let countryUrl = "./data/viz2-1_country.csv";
-  let genderUrl = "./data/viz2-1_gender.csv";
+import { chartDimensions, debounce, trimNames } from "../utility.js";
+export async function circlepacking_2_1(
+  realData,
+  selector = "top100ArtistCountriesGenderCirclePacking_chart"
+) {
+  // let selector = "top100ArtistCountriesGenderCirclePacking_chart";
 
-  let sizeKey = "CHARTMETRIC_SCORE";
+  let sizeKey = "PEAK_CM_SCORE";
   let genderKey = "PRONOUN";
   let countryKey = "COUNTRY_NAME";
   let artistNameKey = "ARTIST_NAME";
@@ -11,12 +13,8 @@ export async function circlepacking_2_1(realData, selector="top100ArtistCountrie
   /***********************
    *1. Access data
    ************************/
-  const [country, gender] = await Promise.all([
-    d3.csv(countryUrl, d3.autoType),
-    d3.csv(genderUrl, d3.autoType),
-  ]);
-
-  // const countryData = realData.filter((d) => d.COUNTRY_NAME !== "Global");
+  const country = realData.filter((d) => d.COUNTRY_NAME !== "Global");
+  const gender = realData.filter((d) => d.COUNTRY_NAME !== "Global");
 
   /***********************
    *2. Create chart dimensions
@@ -24,12 +22,54 @@ export async function circlepacking_2_1(realData, selector="top100ArtistCountrie
 
   const { boundedWidth: width, boundedHeight: height } = chartDimensions(
     selector,
-    { bottom: 30, right: 30 }
+    { bottom: 0, right: 0 }
   );
   //
   /***********************
    *3. Set up canvas
    ************************/
+  const wrapper = d3.select("#" + selector);
+
+  wrapper
+    .append("div")
+    .attr("id", "top100ArtistCountriesGenderCirclePacking_background");
+
+  // Append the chart container div
+  const svg = wrapper
+    .append("div")
+    .attr("id", "top100ArtistCountriesGenderCirclePacking_chartContainer")
+    .append("svg")
+    .attr("id", "top100ArtistCountriesGenderCirclePacking_chart");
+
+  // Append the gender-section div
+  wrapper
+    .append("div")
+    .attr("id", "gender-section")
+    .append("section")
+    .attr("class", "gender");
+  svg
+    .attr("width", width)
+    .attr("height", height)
+    .attr("style", "max-width: 100%")
+    .attr("font-size", 10)
+    .attr("text-anchor", "middle");
+  const defs = svg.append("defs");
+  console.log(realData);
+  defs
+    .selectAll("pattern")
+    .data(realData)
+    .join("pattern")
+    .attr("id", (d, i) => {
+      return "image-fill-" + trimNames(d[artistNameKey]);
+    }) // Unique ID for each pattern
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr("patternContentUnits", "objectBoundingBox")
+    .append("image")
+    .attr("xlink:href", (d) => d.IMAGE_URL) // URL of the image
+    .attr("width", 1)
+    .attr("height", 1)
+    .attr("preserveAspectRatio", "xMidYMid slice");
   // Data processing function
   function processData(data, valueKey, parentKey, artistKey) {
     return d3.rollup(
@@ -77,7 +117,11 @@ export async function circlepacking_2_1(realData, selector="top100ArtistCountrie
       .enter()
       .append("circle")
       .attr("class", "front")
-      .attr("class", (d) => (d.children ? "" : 'leave'))
+      .attr("class", (d) => (d.children ? "" : "leave"))
+      .attr("id", (d) => {
+        const firstHalf = d.data[0] ? d.data[0] : "parent";
+        return "front" + trimNames(firstHalf + d.data[1]);
+      })
       // .style("transform-origin", "50% 50%")
       .style("transform-origin", (d) => {
         return `${d.x}px ${d.y}px`;
@@ -102,9 +146,17 @@ export async function circlepacking_2_1(realData, selector="top100ArtistCountrie
       .attr("class", "back")
       .attr("cx", (d) => d.x)
       .attr("cy", (d) => d.y)
-      .attr("r", 50)
-
-      .attr("fill", "url(#image-fill-)")
+      .attr("r", (d) => d.r)
+      .attr("id", (d) => {
+        const firstHalf = d.data[0] ? d.data[0] : "parent";
+        return "back" + trimNames(firstHalf + d.data[1]);
+      })
+      .attr("fill", (d, i) => {
+        if (d.data[0]) {
+          console.log();
+          return "url(#image-fill-" + trimNames(d.data[0]) + ")";
+        }
+      })
       .style("opacity", 0) // Initially hidden
       .style("transform-origin", (d) => {
         return `${d.x}px ${d.y}px`;
@@ -120,10 +172,7 @@ export async function circlepacking_2_1(realData, selector="top100ArtistCountrie
       .attr("r", (d) => d.r);
 
     // Exit selection: Circles that are removed
-    nodes.exit().transition().duration(1000).attr("r", 0).remove();
-
-    // const T = descendants.map((d) => title(d.data, d));
-    // if (T) nodes.append("title").text((d, i) => T[i]);
+    nodes.exit().remove();
 
     //  on hover
     const frontCircles = svg
@@ -132,25 +181,43 @@ export async function circlepacking_2_1(realData, selector="top100ArtistCountrie
       .style("transform-origin", (d) => {
         return `${d.x}px ${d.y}px`;
       });
-    frontCircles.on("mouseover", function () {
+    const handleMouseEnter = debounce(function (event, frontData) {
+      const hoveredBackId =
+        "#back" + trimNames(frontData.data[0] + frontData.data[1]);
+
       // Animate the top circle to scale down
       d3.select(this)
         .transition()
-        .duration(500)
-        .attr("fill", "url(#image-fill-)")
-    }).on("mouseout", function () {
-      d3.select(this)
-      .transition()
-      .duration(500)
-      .attr("fill", "transparent")
-    })
+        .duration(100)
+        .style("opacity", 0)
+        .style("transform", "scaleX(0)")
+        .end()
+        .then(() => {
+          // Hide the top circle
+          d3.select(this).style("display", "none");
 
-    // Define the mouseout behavior for the back circle
-    svg.selectAll(".back").on("mouseout", function () {
+          // Prepare the back circle for display
+
+          svg
+            .select(hoveredBackId)
+            .style("display", "block")
+            .style("opacity", 0)
+            .style("transform", "scaleX(0)")
+            .transition()
+            .duration(100)
+            .style("opacity", 1)
+            .style("transform", "scaleX(1)");
+        });
+    }, 400);
+    frontCircles.on("mouseenter", handleMouseEnter);
+    const handleMouseLeave = function (event, backData) {
       // Animate the back circle to scale down
+      const hoveredFrontId =
+        "#front" + trimNames(backData.data[0] + backData.data[1]);
+      // console.log(hoveredFrontId);
       d3.select(this)
         .transition()
-        .duration(500)
+        .duration(100)
         .style("opacity", 0)
         .style("transform", "scaleX(0)")
         .end()
@@ -159,41 +226,20 @@ export async function circlepacking_2_1(realData, selector="top100ArtistCountrie
           d3.select(this).style("display", "none");
 
           // Show and animate the top circle
-          frontCircles
+          svg
+            .select(hoveredFrontId)
             .style("display", "block")
             .style("opacity", 0)
             .style("transform", "scaleX(0)")
             .transition()
-            .duration(500)
+            .duration(100)
             .style("opacity", 1)
             .style("transform", "scaleX(1)");
         });
-    });
+    };
+    // Define the mouseout behavior for the back circle
+    svg.selectAll(".back").on("mouseleave", handleMouseLeave);
   }
-  const svg = d3
-    .select("#" + selector)
-    .attr("viewBox", [0, 0, width, height])
-    .attr("width", width)
-    .attr("height", height)
-    .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
-    .attr("font-family", "sans-serif")
-    .attr("font-size", 10)
-    .attr("text-anchor", "middle");
-  svg
-    .append("defs")
-    // .selectAll("pattern")
-    .append("pattern")
-    .attr("id", "image-fill-") // Unique ID for each pattern
-    .attr("width", "100%")
-    .attr("height", "100%")
-    .attr("patternContentUnits", "objectBoundingBox")
-    .append("image")
-    .attr(
-      "xlink:href",
-      "https://share.chartmetric.com/artists/299/172/11172299/11172299-profile.webp") // URL of the image
-    .attr("width", 1)
-    .attr("height", 1)
-    .attr("preserveAspectRatio", "xMidYMid slice");
 
   // Initial data processing
   const initialData = processData(country, sizeKey, countryKey);
@@ -202,7 +248,7 @@ export async function circlepacking_2_1(realData, selector="top100ArtistCountrie
   let genderSection = false;
   let isMouseHovering = false; // Flag to track mouse hover state
 
-  function updateOnMouseEnter() {
+  function updateOnMouseEnter(genderSection) {
     const dataToProcess = genderSection ? gender : country;
     const keyForGrouping = genderSection ? genderKey : countryKey;
 
@@ -215,7 +261,7 @@ export async function circlepacking_2_1(realData, selector="top100ArtistCountrie
     updateVisualization(updatedData, v, svg);
   }
 
-  function updateOnMouseLeave() {
+  function updateOnMouseLeave(genderSection) {
     const dataToProcess = genderSection ? gender : country;
     const keyForGrouping = genderSection ? genderKey : countryKey;
 
@@ -253,5 +299,18 @@ export async function circlepacking_2_1(realData, selector="top100ArtistCountrie
   //     updateOnMouseLeave(); // Update using country data, considering hover state
   //   },
   // });
-}
+  function update(data, genderSection) {
+    //! genderSection is true: we are in gender section
+    //! false: we are not, but in country section
+    if (genderSection) {
+      updateOnMouseEnter(genderSection);
+    } else {
+      updateOnMouseLeave(genderSection);
+    }
+  }
+  update(realData, false);
 
+  return {
+    update: update,
+  };
+}

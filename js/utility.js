@@ -1,5 +1,4 @@
-export function setupResizeListener(callback, selector,...args) {
-
+export function setupResizeListener(callback, selector, ...args) {
   let resizeTimer;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
@@ -15,7 +14,19 @@ export function trimNames(str) {
     .replace(/\s/g, "_") // Replace spaces with underscores
     .replace(/\(|\)/g, "");
 }
+export function debounce(func, wait) {
+  let timeout;
 
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
 export function chartDimensions(chartContainerId, customMargin = {}) {
   if (chartContainerId.includes("#")) {
     chartContainerId = chartContainerId.replace("#", "");
