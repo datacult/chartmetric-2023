@@ -15,6 +15,7 @@ let arcchart = ((data = [], map, options, svg) => {
     source: "source",
     target: "target",
     value: "value",
+    focus: null,
   }
 
   // merge default mapping with user mapping
@@ -30,7 +31,6 @@ let arcchart = ((data = [], map, options, svg) => {
     padding: 0.1,
     fill: "#69b3a2",
     stroke: "#000",
-    focus: null,
     opacity: 0.03,
     offset: 80
   }
@@ -141,14 +141,14 @@ let arcchart = ((data = [], map, options, svg) => {
 
     const t = d3.transition().duration(options.transition).ease(d3.easeLinear)
 
-    if (options.focus != null) {
+    if (map.focus != null) {
 
       arc
         .attr("stroke-dashoffset", function (d) {
-          return d[map.source] == options.focus ? this.getTotalLength() : d3.select(this).attr("stroke-dashoffset") == this.getTotalLength() ? this.getTotalLength() : 0
+          return d[map.source] == map.focus ? this.getTotalLength() : d3.select(this).attr("stroke-dashoffset") == this.getTotalLength() ? this.getTotalLength() : 0
         })
-        .attr("opacity", d => d[map.source] == options.focus ? 1 : options.opacity)
-        .attr("stroke", d => d[map.source] == options.focus ? map.stroke != null ? d[map.stroke] : options.stroke : options.stroke)
+        .attr("opacity", d => d[map.source] == map.focus ? 1 : options.opacity)
+        .attr("stroke", d => d[map.source] == map.focus ? map.stroke != null ? d[map.stroke] : options.stroke : options.stroke)
         .transition(t)
         .duration(options.transition)
         .attr("stroke-dashoffset", 0);
