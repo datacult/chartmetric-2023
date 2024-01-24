@@ -1,7 +1,12 @@
 import { CalendarComponent } from "../../components/CalendarComponent.js";
 import { chartDimensions } from "../utility.js";
-export async function Calendar(data, chartContainerId) {
-
+export function Calendar(data, selector, chartContainerId = "calendarHeatmap") {
+  d3.select("#" + selector)
+    .append("div")
+    .attr("id", "calendarHeatmap");
+  d3.select("#" + selector)
+    .append("div")
+    .attr("id", "rotatingPhotos");
   let xKey = "CREATION_DATE";
   let yKey = "DAILY_TRACK_COUNT";
   /***********************
@@ -30,23 +35,44 @@ export async function Calendar(data, chartContainerId) {
   const wrapper = d3.select(visElement);
   const h = ((dimensions.boundedHeight / 2 + 5) * 365) / 7;
   const w = dimensions.boundedWidth;
-  wrapper.style("height", h + "px")
- 
+  // wrapper.style("height", h + "px");
+
   const svg = wrapper
     .append("svg")
     .attr("width", "100%")
     .attr("height", "100%")
-    // .attr("viewBox", [0, 0, dimensions.boundedWidth, dimensions.boundedHeight])
+    .attr("viewBox", [0, 0, dimensions.boundedWidth, dimensions.boundedHeight])
     .attr("style", "max-width: 100%");
 
-  CalendarComponent(svg, data, {
-    x: (d) => d[xKey],
-    y: (d) => d[yKey],
+  // CalendarComponent(svg, data, {
+  //   x: (d) => d[xKey],
+  //   y: (d) => d[yKey],
 
-    width: dimensions.boundedWidth,
-    // height: dimensions.boundedHeight,
-    colors: ["#DFF3DB", "#CCEBC5", "#8bc6fb"],
-    cellSize: dimensions.boundedHeight / 2,
-    paddingBetweenCells: 5,
-  });
+  //   width: dimensions.boundedWidth,
+  //   // height: dimensions.boundedHeight,
+  //   colors: ["#DFF3DB", "#CCEBC5", "#8bc6fb"],
+  //   cellSize: dimensions.boundedHeight / 2,
+  //   paddingBetweenCells: 5,
+  // });
+  function update(data = realData) {
+    // await loadData();
+
+    // setupResizeListener(draw, data, type);
+
+    CalendarComponent(svg, data, {
+      x: (d) => d[xKey],
+      y: (d) => d[yKey],
+
+      width: dimensions.boundedWidth,
+      // height: dimensions.boundedHeight,
+      colors: ["#DFF3DB", "#CCEBC5", "#8bc6fb"],
+      cellSize: Math.min(20, dimensions.boundedWidth/100),
+      paddingBetweenCells: 5,
+    });
+  }
+
+  update(data);
+  return {
+    update: update,
+  };
 }

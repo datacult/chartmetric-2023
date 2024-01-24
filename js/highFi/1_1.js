@@ -1,46 +1,49 @@
-import { chartDimensions } from "../utility.js";
+import { chartDimensions, setupResizeListener } from "../utility.js";
 
-export async function Sankey(data = [], selector = "vis") {
+export function Sankey(data = [], selector = "vis") {
   const nodeId = "source";
   const padding = 100;
   const padding_chart = 105;
   /***********************
    *1. Access data
    ************************/
-
-  data.push({
-    TIMEFRAME: "Prior",
-    ARTISTS_ADDED:
-      d3.max(data, (d) => d.ARTISTS_ADDED) -
-      d3.sum(
-        data.filter((d) => d.TIMEFRAME != "All Time"),
-        (d) => d.ARTISTS_ADDED
-      ),
-  });
-  let links = data
-    .filter((element) => element.TIMEFRAME !== "All Time")
-    .map((element) => {
-      return {
-        source: "All Time",
-        target: element.TIMEFRAME.toString(),
-        value: element.ARTISTS_ADDED,
-      };
+  function draw(data) {
+    d3.select("#" + selector)
+      .selectAll("*")
+      .remove();
+    data.push({
+      TIMEFRAME: "Prior",
+      ARTISTS_ADDED:
+        d3.max(data, (d) => d.ARTISTS_ADDED) -
+        d3.sum(
+          data.filter((d) => d.TIMEFRAME != "All Time"),
+          (d) => d.ARTISTS_ADDED
+        ),
     });
-  const nodeByName = new Map();
-  for (const link of links) {
-    if (!nodeByName.has(link.source))
-      nodeByName.set(link.source, { name: link.source });
-    if (!nodeByName.has(link.target))
-      nodeByName.set(link.target, { name: link.target });
-  }
+    let links = data
+      .filter((element) => element.TIMEFRAME !== "All Time")
+      .map((element) => {
+        return {
+          source: "All Time",
+          target: element.TIMEFRAME.toString(),
+          value: element.ARTISTS_ADDED,
+        };
+      });
+    const nodeByName = new Map();
+    for (const link of links) {
+      if (!nodeByName.has(link.source))
+        nodeByName.set(link.source, { name: link.source });
+      if (!nodeByName.has(link.target))
+        nodeByName.set(link.target, { name: link.target });
+    }
 
-  const nodes = Array.from(nodeByName.values());
-  const dataset = { nodes, links };
+    const nodes = Array.from(nodeByName.values());
+    data = { nodes, links };
 
-  /***********************
-   *2. Create chart dimensions
-   ************************/
-  function draw(data=dataset,a) {
+    /***********************
+     *2. Create chart dimensions
+     ************************/
+
     const { boundedWidth: width, boundedHeight: height } =
       chartDimensions(selector);
     const widthChart = width - padding_chart * 2,
@@ -82,8 +85,7 @@ export async function Sankey(data = [], selector = "vis") {
       .attr("class", "sankey")
       .attr(
         "transform",
-        `translate(${padding_chart * 2}, ${
-          padding_chart * 3
+        `translate(${padding_chart * 2}, ${padding_chart * 3
         }) rotate(90, ${cx}, ${cy})`
       );
 
@@ -109,7 +111,7 @@ export async function Sankey(data = [], selector = "vis") {
     // gradient link
     const gradient = link
       .append("linearGradient")
-      .attr("id", (d) => `link-gradient-${d.source.name}-${d.target.name}`)
+      .attr("id", (d) => `${d.target.name}`)
       .attr("gradientUnits", "userSpaceOnUse")
       .attr("x1", (d) => d.source.x1)
       .attr("x2", (d) => d.target.x0);
@@ -127,7 +129,7 @@ export async function Sankey(data = [], selector = "vis") {
       .attr("d", d3.sankeyLinkHorizontal())
       .attr(
         "stroke",
-        (d, i) => `url(#link-gradient-${d.source.name}-${d.target.name})`
+        (d, i) => `url(#${d.target.name})`
       )
       .attr("stroke-width", (d) => Math.max(1, d.width));
 
@@ -142,8 +144,8 @@ export async function Sankey(data = [], selector = "vis") {
       .attr("y", (d) => d.y0)
       .attr("height", (d) => d.y1 - d.y0)
       .attr("width", (d) => d.x1 - d.x0)
-      .attr("stroke", (d) => "red")
-      .attr("fill", (d) => "red")
+      .attr("stroke", (d) => "blue")
+      .attr("fill", (d) => "blue")
       .append("title");
     // .text((d) => `${d[nodeId]}\n${d.value.toLocaleString()}`);
 
@@ -171,9 +173,10 @@ export async function Sankey(data = [], selector = "vis") {
       .text((d) => ` ${d.value.toLocaleString()}`);
   }
   function update(data) {
+    // setupResizeListener(draw, selector, data);
     draw(data);
   }
-  update(dataset);
+  update(data);
 
   return {
     update: update,

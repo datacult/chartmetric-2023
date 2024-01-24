@@ -3,7 +3,7 @@ let selectedCountries = ["Italy"];
 export async function drawMap(selectedCountries = [], chartContainerId) {
   // parameters
   let dataUrl = "./data/world.json";
-  let trackDataUrl = "./data/gradientBarAP2_3.csv";
+  let trackDataUrl = "https://share.chartmetric.com/year-end-report/2023/viz_2_10_en.csv";
   let hoveredMapSelector = null;
   /***********************
    *1. Access data
@@ -22,7 +22,7 @@ export async function drawMap(selectedCountries = [], chartContainerId) {
   const visElement = document.getElementById(chartContainerId);
 
   // Get the bounding rectangle of the element
-  console.log(chartContainerId)
+  
   const dimensions = chartDimensions(chartContainerId);
   /***********************
    *3. Set up canvas
@@ -32,7 +32,7 @@ export async function drawMap(selectedCountries = [], chartContainerId) {
 
     .fitSize([dimensions.boundedWidth, dimensions.boundedHeight], countries);
   const path = d3.geoPath(projection);
-
+  console.log(1)
   // Create the SVG container.
   const svg = d3
     .select("svg")

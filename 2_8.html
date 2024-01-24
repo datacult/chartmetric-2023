@@ -20,12 +20,12 @@ https://studio.datacult.com/ -->
 
 <body>
     <div id="vis">
-        <div id="background-chart-2-8">
+        <!-- <div id="background-chart-2-8">
 
         </div>
         <div id="foreground-2-8">
 
-        </div>
+        </div> -->
     </div>
 
 </body>
@@ -56,7 +56,7 @@ https://studio.datacult.com/ -->
     let artistName = BumpChart(dataUrl, mapping, options, 'background-chart-2-8', 'section-2-8', scrollFunction)
 
     // whenever you scroll to a new section, 
-    // STEP1. pass in the section element, not id, not class. Element
+    // STEP1. pass in the section element that has , not id, not class. Element
     // STEP2. call this function
     function scrollFunction(section) {
         const parts = section.className.split(" ");

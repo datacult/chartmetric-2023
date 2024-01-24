@@ -1,5 +1,5 @@
 import { chartDimensions } from "../chartDimensions.js";
-export function drawSingleValues(triggerElementId) {
+export function SingleValues(data,triggerElementId) {
   const metaDataGenerator = (width, height) => [
     {
       group: "Chartmetric daily artists ingested",
@@ -143,7 +143,7 @@ export function drawSingleValues(triggerElementId) {
   //   const textWidth = this.getBBox().width;
   //   d3.select(this).attr("x", boundedWidth / 2 - textWidth / 2);
   // });
-  function resizeCanvas() {
+  function update(meta) {
     const scale = window.devicePixelRatio;
     console.log(scale);
     const { boundedWidth: width, boundedHeight: height } =
@@ -298,6 +298,10 @@ export function drawSingleValues(triggerElementId) {
     });
   }
 
-  resizeCanvas();
-  window.addEventListener("resize", resizeCanvas);
+
+  update(meta);
+  window.addEventListener("resize", update);
+  return {
+    update:update
+  }
 }

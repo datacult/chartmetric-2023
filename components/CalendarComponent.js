@@ -29,6 +29,7 @@ export function CalendarComponent(
   const countDay = weekday === "sunday" ? (i) => i : (i) => (i + 6) % 7;
   const timeWeek = weekday === "sunday" ? d3.utcSunday : d3.utcMonday;
   const weekDays = weekday === "weekday" ? 5 : 7;
+  console.log(cellSize)
   const height = cellSize * (weekDays + 2);
 
   // Compute a color scale. This assumes a diverging color scheme where the pivot

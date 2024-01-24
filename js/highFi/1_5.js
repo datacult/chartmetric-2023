@@ -22,7 +22,7 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
      *2. Create chart dimensions
      ************************/
 
-    const { boundedWidth: width, boundedHeight: height } =
+    const {  boundedHeight: height } =
         chartDimensions(selector);
     d3.select(selector).html(`   <div id="topArtistsByFollowersBubbles_bottom">
       <div class="topArtistsByFollowersBubbles_bot-section" id="topArtistsByFollowersBubbles_bot-section1">
@@ -41,10 +41,10 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
     function draw(data = realData, type = type) {
          data = realData.filter((d) => d.TYPE == type);
         const {
-            boundedWidth: chartSectionWidth,
+            boundedWidth: width,
             boundedHeight: chartSectionHeight,
         } = chartDimensions(chartSectionId);
-        console.log(data);
+
         /***********************
          *3. Scale
          ************************/
@@ -58,7 +58,7 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
             .scaleSqrt()
             .domain([0, maxGroupValue])
             // controls the size of the circles
-            .range([0, chartSectionWidth]);
+            .range([0, width/3]);
 
         const circlePackingData = [];
 
@@ -209,7 +209,7 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
           <div class="state">${d.ARTIST_NAME}</div>
           <div class="billHR">${d.PLATFORM}</div>
           <div class="billText">
-              ⮕ <strong>Followers:</strong> ${d.FOLLOWERS}
+              ⮕ <strong>Followers:</strong> ${d3.format(".3s")(d.FOLLOWERS)}
           </div>
           </div>
     `);

@@ -3,442 +3,970 @@ Released under the ISC license.
 https://studio.datacult.com/  */
 
 body {
-    font-family: Helvetica, Arial, Sans-Serif;
+  font-family: Helvetica, Arial, Sans-Serif;
 }
 
 .viz {
-    width: 800px;
-    height:600px
+  width: 1440px;
+  height: 600px;
 }
 
 /* import Inter Font */
 :root {
-    font-family: Inter, sans-serif;
-    font-feature-settings: "liga" 1, "calt" 1;
-    /* fix for Chrome */
+  font-family: Inter, sans-serif;
+  font-feature-settings: "liga" 1, "calt" 1;
+  /* fix for Chrome */
 }
 
 @supports (font-variation-settings: normal) {
-    :root {
-        font-family: InterVariable, sans-serif;
-    }
+  :root {
+    font-family: InterVariable, sans-serif;
+  }
 }
+
+/* * * * * * * * * * * * * * * 
+/ Viz 1_1
+* * * * * * * * * * * * * * * */
+#viz_1_1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+}
+
+/* * * * * * * * * * * * * * * 
+/ Viz 1_3
+* * * * * * * * * * * * * * * */
+#viz_1_3 {
+  height: 1200px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* Two columns with equal width */
+  grid-template-rows: repeat(5, 1fr);
+  /* Five rows with equal height */
+  gap: 16px;
+  /* Consistent gap between grid items */
+  font-weight: 700;
+}
+
+#viz_1_3 .box1 {
+  border-top: 1px solid #1c1c1c;
+  display: flex;
+  align-items: flex-start;
+  gap: 19px;
+  padding-top: 24px;
+}
+
+#viz_1_3 .color-bar {
+  display: inline-block;
+  width: 16px;
+
+  height: 16px;
+  border-radius: 2px;
+  background: #d9d9d9;
+  margin-right: 4px;
+}
+
+#viz_1_3 .rank {
+  width: 32px;
+  color: var(--text-secondary, #717171);
+  text-align: center;
+
+  font-family: Inter;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 110%;
+  /* 30.8px */
+}
+
+#viz_1_3 figure {
+  width: 93.75px;
+  height: 93.75px;
+  border-radius: 3px;
+  background: url(https://t3.ftcdn.net/jpg/04/88/88/76/360_F_488887690_huCE6PEfsvXKfD20YuvIunASI9EuzPJX.jpg),
+    lightgray 50% / cover no-repeat;
+  filter: blur(7.5px);
+}
+
+#viz_1_3 .track-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--8pt-scale-8, 8px);
+}
+
+#viz_1_3 .header {
+  color: var(--text-primary, #1c1c1c);
+  text-align: right;
+
+  /* Desktop/Body/Redacted/regular */
+  font-family: Redacted Script;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  /* 30px */
+}
+
+#viz_1_3 .subheader {
+  display: flex;
+  align-items: center;
+  gap: var(--8pt-scale-8, 8px);
+  color: var(--text-secondary, #717171);
+  text-align: right;
+
+  /* Desktop/Body/Redacted/sm */
+  font-family: Redacted Script;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  /* 24px */
+}
+
 /* * * * * * * * * * * * * * * 
 / Viz 1_5
 * * * * * * * * * * * * * * * */
 
+#vis_1_5 {
+  padding: 96px 64px 64px 64px;
+
+  display: flex;
+
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
+#vis_1_5 #topArtistsByFollowersBubbles_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
+#vis_1_5 #topArtistsByFollowersBubbles_header .title-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+#vis_1_5 .title {
+  font-size: 116px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 90%;
+  /* 104.4px */
+  letter-spacing: -4.64px;
+  flex: 4;
+}
+
+.toggle-section {
+  display: flex;
+  width: 489px;
+
+  align-items: flex-start;
+  gap: 4.5px;
+  border-radius: 75px;
+  border: 0.75px solid #c2c2c1;
+}
+
+.toggle-item {
+  display: flex;
+  padding: 18px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  border-radius: 75px;
+}
+
+.toggle-item.active {
+  flex: 1 0 0;
+  /* border: 0.75px solid #1C1C1C; */
+  background: #1c1c1c;
+}
+
+.toggle-item span {
+  color: #c2c2c1;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.active span {
+  color: #f5f4f0;
+}
+
+.note {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 160%;
+  /* 25.6px */
+  max-width: 400px;
+}
+
+/* Chart */
+#topArtistsByFollowersBubbles_bottom {
+  flex-grow: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 32px;
+  align-self: stretch;
+
+  overflow: visible;
+}
+
+.topArtistsByFollowersBubbles_bot-section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 30px;
+  flex: 1 0 0;
+}
+
+.topArtistsByFollowersBubbles_bot-chart {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+svg#gradient-background {
+  overflow: hidden;
+}
+
+.circle-1-5 {
+  z-index: 10000;
+}
+
+#bubble-foreground {
+  z-index: 10;
+}
+
+.topArtistsByFollowersBubbles_bot-icon {
+  display: flex;
+  padding: 8px 0px;
+  justify-content: space-between;
+  align-items: flex-end;
+  align-self: stretch;
+  border-top: 3px solid #000;
+}
+
+.text {
+  font-size: 44px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 110%;
+  /* 48.4px */
+  letter-spacing: -1.76px;
+}
+
+.icon {
+  display: flex;
+  padding: 4.033px;
+  align-items: center;
+  gap: 1.134px;
+  border-radius: 2.268px;
+  box-shadow: 0px 0.756px 5.293px 0px rgba(0, 0, 0, 0.08);
+}
+
+#tooltip_1_5 {
+  z-index: 100000;
+  position: absolute;
+  left: 375px;
+  top: 187.125px;
+  width: 300px !important;
+  padding: 0 15px;
+  font-size: 14px;
+  color: #222;
+  background: #fff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  border-top: 1px solid #f3f3f3;
+  border-left: 1px solid #f3f3f3;
+  pointer-events: none;
+  mix-blend-mode: luminosity;
+  transform: scale(0);
+}
+
+.topline,
+.state,
+.billHR,
+.billText {
+  color: #222;
+  pointer-events: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.topline {
+  position: relative;
+  margin: 15px auto;
+}
+
+.state {
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  font-weight: 700;
+  font-size: 17px;
+  font-family: "DecimaMonoPro", monospace;
+}
+
+.billHR {
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  font: 14px "DecimaMonoPro", monospace;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.438);
+  margin: 8px 0;
+}
+
+.billHR::before,
+.billHR::after {
+  content: "";
+  flex-grow: 1;
+  background: rgba(0, 0, 0, 0.35);
+  height: 1px;
+  font-size: 0;
+  line-height: 0;
+  margin: 0 8px;
+}
+
+.billText {
+  text-align: left;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-family: "Decima", Helvetica, sans-serif;
+  line-height: 1.4em;
+  font-size: 15px;
+  /* white-space: pre-line; */
+}
+
+/* * * * * * * * * * * * * * * 
+/ Viz 2_3
+* * * * * * * * * * * * * * * */
+#viz_2_3 {
   
-  #vis_1_5 {
-    padding: 96px 64px 64px 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter";
+  font-weight: 600;
+}
+
+#viz_2_3 #platforms-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  gap: 32px;
+}
+
+@media (min-width: 760px) {
+  #viz_2_3 #platforms-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     width: 100%;
-    height: 800px;
-    display: flex;
-  
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    align-self: stretch;
-  }
-  
-  #topArtistsByFollowersBubbles_header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    align-self: stretch;
-  }
-  
-  #topArtistsByFollowersBubbles_header .title-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 30px;
-  }
-  
-  .title {
-    font-size: 116px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 90%;
-    /* 104.4px */
-    letter-spacing: -4.64px;
-    flex: 4;
-  }
-  
-  .toggle-section {
-    display: flex;
-    width: 489px;
-  
-    align-items: flex-start;
-    gap: 4.5px;
-    border-radius: 75px;
-    border: 0.75px solid #c2c2c1;
-  }
-  
-  .toggle-item {
-    display: flex;
-    padding: 18px 24px;
-    justify-content: center;
-    align-items: center;
-    gap: 18px;
-    border-radius: 75px;
-  }
-  
-  .toggle-item.active {
-    flex: 1 0 0;
-    /* border: 0.75px solid #1C1C1C; */
-    background: #1c1c1c;
-  }
-  
-  .toggle-item span {
-    color: #c2c2c1;
-    text-align: center;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
-  }
-  
-  .active span {
-    color: #f5f4f0;
-  }
-  
-  .note {
-    flex: 1;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 160%;
-    /* 25.6px */
-    max-width: 400px;
-  }
-  
-  /* Chart */
-  #topArtistsByFollowersBubbles_bottom {
-    flex-grow: 1;
-    display: flex;
-    align-items: flex-end;
-    gap: 32px;
-    align-self: stretch;
-  
-    overflow: visible;
-  }
-  
-  .topArtistsByFollowersBubbles_bot-section {
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
-    gap: 30px;
-    flex: 1 0 0;
+    gap: 32px;
   }
+}
+
+#viz_2_3 .country-row {
+  display: flex;
+  padding: 12px 24px 12px 20px;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  text-wrap: nowrap;
+  overflow: hidden;
+ 
+}
+
+#viz_2_3 .column {
+  display: flex;
+  flex-direction: column;
+  min-width: 32%;
+  gap: 4px;
+}
+
+#viz_2_3 .country-row {
+  display: flex;
+  padding: 12px 24px 12px 20px;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  /* Light grey background */
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
   
-  .topArtistsByFollowersBubbles_bot-chart {
-    width: 100%;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative
-  }
-  
-  svg#gradient-background {
-    overflow: hidden;
-  }
-  
-  .circle-1-5 {
-    z-index: 10000;
-  }
-  
-  #bubble-foreground {
-    z-index: 10;
-  }
-  
-  .topArtistsByFollowersBubbles_bot-icon {
-    display: flex;
-    padding: 8px 0px;
-    justify-content: space-between;
-    align-items: flex-end;
-    align-self: stretch;
-    border-top: 3px solid #000;
-  }
-  
-  .text {
-    font-size: 44px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: 110%;
-    /* 48.4px */
-    letter-spacing: -1.76px;
-  }
-  
-  .icon {
-    display: flex;
-    padding: 4.033px;
-    align-items: center;
-    gap: 1.134px;
-    border-radius: 2.268px;
-    box-shadow: 0px 0.756px 5.293px 0px rgba(0, 0, 0, 0.08);
-  }
-  
-  #tooltip_1_5 {
-    z-index: 100000;
-    position: absolute;
-    left: 375px;
-    top: 187.125px;
-    width: 300px !important;
-    padding: 0 15px;
-    font-size: 14px;
-    color: #222;
-    background: #fff;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
-    border-top: 1px solid #f3f3f3;
-    border-left: 1px solid #f3f3f3;
-    pointer-events: none;
-    mix-blend-mode: luminosity;
-    transform: scale(0);
-  }
-  .topline,
-      .state,
-      .billHR,
-      .billText {
-          color: #222;
-          pointer-events: none;
-          margin: 0;
-          padding: 0;
-          border: 0;
-          text-align: center;
-          box-sizing: border-box;
-      }
-  
-      .topline {
-          position: relative;
-          margin: 15px auto;
-      }
-  
-      .state {
-          text-transform: uppercase;
-          margin-bottom: 5px;
-          font-weight: 700;
-          font-size: 17px;
-          font-family: "DecimaMonoPro", monospace;
-      }
-  
-      .billHR {
-          display: flex;
-          flex-basis: 100%;
-          align-items: center;
-          font: 14px "DecimaMonoPro", monospace;
-          text-transform: uppercase;
-          color: rgba(0, 0, 0, 0.438);
-          margin: 8px 0;
-      }
-  
-      .billHR::before,
-      .billHR::after {
-          content: "";
-          flex-grow: 1;
-          background: rgba(0, 0, 0, 0.35);
-          height: 1px;
-          font-size: 0;
-          line-height: 0;
-          margin: 0 8px;
-      }
-  
-      .billText {
-          text-align: left;
-          margin-top: 10px;
-          margin-bottom: 10px;
-          font-family: "Decima", Helvetica, sans-serif;
-          line-height: 1.4em;
-          font-size: 15px;
-          /* white-space: pre-line; */
-      }
+}
+#viz_2_3 .country-name {
+  text-overflow: ellipsis;
+}
+#viz_2_3 .country-value {
+  color: #2c3e50;
+}
+
+#viz_2_3 .highlighted {
+  background-color: black !important;
+  transition: background-color 0.5s ease;
+}
+
+#viz_2_3 .highlighted .country-value {
+  color: white !important;
+}
+
+#viz_2_3 .highlighted .country-name {
+  color: white !important;
+}
+/* * * * * * * * * * * * * * * 
+/ Viz 2_6
+* * * * * * * * * * * * * * * */
+#viz_2_6 {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  /* Sets space between flex items */
+}
+
+#viz_2_6 #calendarHeatmap {
+  flex: 1;
+  display: flex;
+
+  justify-content: center;
+  /* Sets space between flex items */
+}
+
+#viz_2_6 #calendarHeatmap svg {
+  width: 100%;
+  height: auto;
+}
+
+#viz_2_6 #rotatingPhotos {
+  flex: 1;
+  margin-top: 3%;
+  position: relative;
+}
+
+#viz_2_6 .photo-frame {
+  position: absolute;
+  /* transform: rotate(-10deg); */
+  /* Rotate the frame to the left */
+  overflow: hidden;
+  /* Ensure the contents don't spill out */
+  border: 10px solid white;
+  /* Give it a border to look like a frame */
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  /* Optional: Add some shadow for effect */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  /* In case the image is transparent */
+  margin-bottom: 16px;
+}
+
+#viz_2_6 .photo-frame img {
+  width: 100%;
+  /* Make the image fill the frame */
+  height: auto;
+  /* Keep the image aspect ratio */
+}
+
+#viz_2_6 .photo-frame img:hover {
+  border-radius: 2.2px;
+  background: linear-gradient(0deg,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.8) 100%),
+    url(../../assets/cupid.png), lightgray 50% / cover no-repeat;
+
+  filter: blur(6px);
+}
+
+#viz_2_6 .photo-hover {
+  position: absolute;
+  display: inline-flex;
+  padding: 8.8px;
+  align-items: center;
+  justify-content: space-around;
+
+  gap: 2.475px;
+}
+
+#viz_2_6 .photo-hover .track-name {
+  color: var(--text-primary, #1c1c1c);
+  text-align: center;
+
+  /* Desktop/Label/XS/bold */
+  font-family: Inter;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+#viz_2_6 .photo-hover .artist-name {
+  color: var(--text-primary, #1c1c1c);
+  text-align: center;
+
+  /* Desktop/Label/XS/regular */
+  font-family: Inter;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+#viz_2_6 .photo-hover .date {
+  color: var(--text-primary, #1c1c1c);
+  text-align: center;
+  font-family: Inter;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+#viz_2_6 .month-text-2-6 {
+  font-size: 14px;
+  transform: translateX(-1%);
+}
+
 /* * * * * * * * * * * * * * * 
 / Viz 2_9
 * * * * * * * * * * * * * * * */
 #viz_2_9 {
-    width: 100%;
-    height: 800px;
+  width: 100%;
+  height: 800px;
 
-    /* Adjust the gradient to match the image */
+  /* Adjust the gradient to match the image */
 
-    /* background-image: url("../../assets/topArtistsBankingBars.png"); */
-    background-size: cover;
-    /* or contain, depending on your needs */
-    background-repeat: no-repeat;
-    background-position: center;
-    padding: 90px 0px 30px 0px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    align-self: stretch;
+  /* background-image: url("../../assets/topArtistsBankingBars.png"); */
+  background-size: cover;
+  /* or contain, depending on your needs */
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 90px 0px 30px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
 }
 
-#topArtistsBankingBars_UI {
-    flex: 5;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    align-self: stretch;
+#viz_2_9 #topArtistsBankingBars_UI {
+  flex: 5;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
 
-    /* Adjust as needed */
+  /* Adjust as needed */
 }
 
 /* 
 Bar
 */
-#topArtistsBankingBars_barChart {
-    flex: 3;
+#viz_2_9 #topArtistsBankingBars_barChart {
+  flex: 3;
 
-    height: 100%;
-    display: flex;
+  height: 100%;
+  display: flex;
 
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
 
-    gap: 14.718px;
+  gap: 14.718px;
 }
 
-.gradient-bar {
-    flex-shrink: 0;
-    display: flex;
+#viz_2_9 .gradient-bar {
+  flex-shrink: 0;
+  display: flex;
 
-    align-items: center;
-    padding: 10px;
-    background-image: linear-gradient(to right,
-            #f5f5f5 0%,
-            #f5f5f5 40%,
-            transparent 100%);
-    border-radius: 48px;
+  align-items: center;
+  padding: 10px;
+  background-image: linear-gradient(to right,
+      #f5f5f5 0%,
+      #f5f5f5 40%,
+      transparent 100%);
+  border-radius: 48px;
 
-    /* width: 900px; Adjust as needed */
-    margin: 0 auto;
-    transition: order 500ms ease-in-out;
-    position: relative;
+  /* width: 900px; Adjust as needed */
+  margin: 0 auto;
+  transition: order 500ms ease-in-out;
+  position: relative;
 }
 
-.artist-image {
-    /* Adjust as needed */
-    border-radius: 50%;
-    /* This will make it a circle */
-    margin-right: 10px;
+#viz_2_9 .artist-image {
+  /* Adjust as needed */
+  border-radius: 50%;
+  /* This will make it a circle */
+  margin-right: 10px;
 }
 
-.artist-name {
-    font-family: "Inter";
-    font-weight: 700;
-    font-size: 0.5rem;
-    /* Adjust as needed */
-    color: black;
-    /* Adjust as needed */
+#viz_2_9 .artist-name {
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 0.5rem;
+  /* Adjust as needed */
+  color: black;
+  /* Adjust as needed */
 }
 
 /* Tooltip */
 
-.tooltip {
-    height: 50%;
-    position: absolute;
-    right: 0;
-    display: inline-flex;
-    /* transform: rotate(-90deg); */
-    padding-left: 16px;
-    /** To be editted: this helps include the buttons=40px + margin-left for buttons */
-    padding-right: 62px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 78.488px;
-    background: var(--colors-white, #fff);
-    box-shadow: 0px 0px 15.698px 0px rgba(0, 0, 0, 0.08);
+#viz_2_9 .tooltip {
+  height: 50%;
+  position: absolute;
+  right: 0;
+  display: inline-flex;
+  /* transform: rotate(-90deg); */
+  padding-left: 16px;
+  /** To be editted: this helps include the buttons=40px + margin-left for buttons */
+  padding-right: 62px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 78.488px;
+  background: var(--colors-white, #fff);
+  box-shadow: 0px 0px 15.698px 0px rgba(0, 0, 0, 0.08);
 }
 
-.name {
-    color: var(--800, #000);
-    text-align: center;
+#viz_2_9 .name {
+  color: var(--800, #000);
+  text-align: center;
 
-    /* Desktop/Label/14 */
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: normal;
+  /* Desktop/Label/14 */
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
 }
 
-.flag {
-    width: 24.61px;
-    height: 27.471px;
-    background-image: url("../../assets/us-flag.png");
-    background-size: cover;
-    /* or contain, depending on your needs */
-    background-repeat: no-repeat;
-    background-position: center;
+#viz_2_9 .flag {
+  width: 24.61px;
+  height: 27.471px;
+  background-image: url("../../assets/us-flag.png");
+  background-size: cover;
+  /* or contain, depending on your needs */
+  background-repeat: no-repeat;
+  background-position: center;
 
-    background-blend-mode: hue, difference, normal;
-    border: none;
+  background-blend-mode: hue, difference, normal;
+  border: none;
 }
 
-.card-stack {
-    display: flex;
-    position: relative;
-    height: 50%;
-    /** To be editted: this helps include the buttons */
-    margin-left: 100px;
-    /* Ensure there is enough space for the cards to pop */
+#viz_2_9 .card-stack {
+  display: flex;
+  position: relative;
+  height: 50%;
+  /** To be editted: this helps include the buttons */
+  margin-left: 100px;
+  /* Ensure there is enough space for the cards to pop */
 }
 
-.card {
-    position: absolute;
-    padding: 0px 10%;
-    min-width: 100%;
-    /* Adjusted to better reflect the image proportions */
-    height: 100%;
-    /* Adjusted to better reflect the image proportions */
-    border: 1px solid #000;
-    background-color: #fff;
-    text-align: center;
+#viz_2_9 .card {
+  position: absolute;
+  padding: 0px 10%;
+  min-width: 100%;
+  /* Adjusted to better reflect the image proportions */
+  height: 100%;
+  /* Adjusted to better reflect the image proportions */
+  border: 1px solid #000;
+  background-color: #fff;
+  text-align: center;
 
-    /* Adjust padding to vertically center the text */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, z-index 0.3s ease;
-    border-radius: 4px;
-    /* Slight rounding of corners as seen in the image */
-    font-family: Inter;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal
+  /* Adjust padding to vertically center the text */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, z-index 0.3s ease;
+  border-radius: 4px;
+  /* Slight rounding of corners as seen in the image */
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 /* Stacking cards with the left-most card on top */
-.card:nth-child(1) {
-    z-index: 3;
-    position: relative;
+#viz_2_9 .card:nth-child(1) {
+  z-index: 3;
+  position: relative;
 }
 
-.card:nth-child(2) {
-    left: 10px;
-    z-index: 2;
+#viz_2_9 .card:nth-child(2) {
+  left: 10px;
+  z-index: 2;
 }
 
-.card:nth-child(3) {
-    left: 20px;
-    z-index: 1;
+#viz_2_9 .card:nth-child(3) {
+  left: 20px;
+  z-index: 1;
 }
 
 /* Hover effect to pop the card */
-.card:hover {
-    transform: scale(1.05);
-    /* Slight scale-up to make the card pop */
-    z-index: 4;
-    /* This ensures the hovered card is above others */
+#viz_2_9 .card:hover {
+  transform: scale(1.05);
+  /* Slight scale-up to make the card pop */
+  z-index: 4;
+  /* This ensures the hovered card is above others */
 }
 
 /* Return to the initial layout when not hovered */
-.card-stack .card:not(:hover) {
-    transform: scale(1);
-    transition: transform 0.3s ease, z-index 0s;
+#viz_2_9 .card-stack .card:not(:hover) {
+  transform: scale(1);
+  transition: transform 0.3s ease, z-index 0s;
+}
+
+/* * * * * * * * * * * * * * * 
+/ Viz 2_10
+* * * * * * * * * * * * * * * */
+@media (min-width: 760px) {
+  #viz_2_10 {
+   
+      font-family: "Inter", sans-serif;
+      display: flex;
+      gap: 52px;
+  }
+
+  #viz_2_10 #radioTopTracksMap_worldMap {
+      flex: 2;
+      height: 100%;
+      position: relative;
+  }
+
+  #viz_2_10 #radioTopTracksMap_path:hover {
+      cursor: pointer;
+      fill: #46706f;
+  }
+
+  #viz_2_10 svg {
+      width: 100%;
+      height: 100%;
+  }
+}
+
+#viz_2_10 path:hover {
+  transition: all 1s ease;
+}
+
+#viz_2_10 #radioTopTracksMap_gradientBar {
+  flex: 1;
+  position: relative;
+}
+
+#viz_2_10 .gradient-bar {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-image: linear-gradient(to right,
+          #eae7df 0%,
+          #eae7df 30%,
+          #f5f4f0 100%);
+  border-radius: 50px;
+}
+
+#viz_2_10 .gradient-bar:hover {
+  cursor: pointer;
+}
+
+#viz_2_10 .artist-image {
+  /* Adjust as needed */
+  border-radius: 50%;
+  /* This will make it a circle */
+  margin: 6.3px;
+}
+
+#viz_2_10 .artist-name {
+  max-width: 50%;
+}
+
+#viz_2_10 .artist-name span {
+  white-space: nowrap;
+  overflow: hidden;
+  min-width: 50%;
+  text-overflow: ellipsis;
+  font-size: 0.5rem;
+  /* Adjust as needed */
+  color: black;
+  /* Adjust as needed */
+}
+
+/* Map tooltip */
+ #viz_2_10 .map-tooltip {
+  position: absolute;
+  display: none;
+
+  padding-left: 16px;
+  padding-right: 16px;
+  align-items: center;
+  border-radius: var(--8pt-scale-8, 8px);
+  background: var(--colors-white, #fff);
+  box-shadow: 0px 0px 15.698px 0px rgba(0, 0, 0, 0.08);
+}
+
+#viz_2_10 .map-tooltip__country {
+  display: flex;
+  align-items: center;
+}
+ #viz_2_10 .flag {
+  width: 24.61px;
+  height: 27.471px;
+  background-image: url("../../assets/us-flag.png");
+  background-size: cover;
+  /* or contain, depending on your needs */
+  background-repeat: no-repeat;
+  background-position: center;
+
+  background-blend-mode: hue, difference, normal;
+  border: none;
+}
+#viz_2_10 .map-tooltip__track {
+  display: flex;
+  padding: 0px 3.298px;
+  align-items: center;
+  gap: 7.558px;
+  text-wrap: nowrap;
+}
+
+#viz_2_10 .map-tooltip__artist {
+  display: flex;
+  padding-left: 16px;
+  align-items: center;
+  border-radius: 78.488px;
+  box-shadow: 0px 0px 15.698px 0px rgba(0, 0, 0, 0.08);
+}
+
+/* Tooltip */
+#viz_2_10 .tooltip {
+  height: 50%;
+
+  display: inline-flex;
+  margin-left: 10px;
+  padding-left: 16px;
+  /** To be editted: this helps include the buttons=40px + margin-left for buttons */
+  padding-right: 62px;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 78.488px;
+  background: var(--colors-white, #fff);
+  box-shadow: 0px 0px 15.698px 0px rgba(0, 0, 0, 0.08);
+}
+
+#viz_2_10 .name {
+  color: var(--800, #000);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Desktop/Label/14 */
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+}
+
+#viz_2_10 .flag {
+  width: 24.61px;
+  height: 27.471px;
+  background-image: url("../../assets/us-flag.png");
+  background-size: cover;
+  /* or contain, depending on your needs */
+  background-repeat: no-repeat;
+  background-position: center;
+
+  background-blend-mode: hue, difference, normal;
+  border: none;
+}
+
+#viz_2_10 .card-stack {
+  display: flex;
+  position: relative;
+  height: 50%;
+  /** To be editted: this helps include the buttons */
+
+  /* Ensure there is enough space for the cards to pop */
+}
+
+#viz_2_10 .card {
+  position: absolute;
+  padding: 0px 10%;
+  min-width: 100%;
+  /* Adjusted to better reflect the image proportions */
+  height: 100%;
+  /* Adjusted to better reflect the image proportions */
+  border: 1px solid #000;
+  background-color: #fff;
+  text-align: center;
+
+  /* Adjust padding to vertically center the text */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, z-index 0.3s ease;
+  border-radius: 4px;
+  /* Slight rounding of corners as seen in the image */
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+/* Stacking cards with the left-most card on top */
+#viz_2_10 .card:nth-child(1) {
+  z-index: 3;
+  position: relative;
+}
+
+#viz_2_10 .card:nth-child(2) {
+  left: 10px;
+  z-index: 2;
+}
+
+#viz_2_10 .card:nth-child(3) {
+  left: 20px;
+  z-index: 1;
+}
+
+/* Hover effect to pop the card */
+#viz_2_10 .card:hover {
+  transform: scale(1.05);
+  /* Slight scale-up to make the card pop */
+  z-index: 4;
+  /* This ensures the hovered card is above others */
+}
+
+/* Return to the initial layout when not hovered */
+#viz_2_10 .card-stack .card:not(:hover) {
+  transform: scale(1);
+  transition: transform 0.3s ease, z-index 0s;
 }

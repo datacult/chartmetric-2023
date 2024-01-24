@@ -2,13 +2,14 @@ import { chartDimensions, trimNames } from "../utility.js";
 
 export async function BumpChart(
   data,
+  selector,
   map,
   options,
   triggerSection,
   onEnterCallback
 ) {
   // let sankey = ((data, map, options) => {
-
+  d3.select("#" + selector).append("id", "background-chart-2-8");
   /***********************
    *1. Access data
    ************************/
@@ -44,8 +45,9 @@ export async function BumpChart(
    *2. Create chart dimensions
    ************************/
 
-  const { boundedWidth: width, boundedHeight: height } =
-    chartDimensions(options.selector);
+  const { boundedWidth: width, boundedHeight: height } = chartDimensions(
+    options.selector
+  );
 
   const svg = d3
     .select("#" + options.selector)
@@ -184,7 +186,8 @@ export async function BumpChart(
     map = { ...map, ...newMap };
     options = { ...options, ...newOptions };
 
-    const t = d3.transition().duration(options.transition);
+    const t = d3.transition().duration(options.transition)
+    
   }
 
   // call for initial bar render
@@ -203,5 +206,7 @@ export async function BumpChart(
   //   });
   // });
 
-  return scrollToArtist;
+  return {
+    update: update,
+  };
 }

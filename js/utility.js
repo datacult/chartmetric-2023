@@ -1,4 +1,5 @@
-export function setupResizeListener(callback, ...args) {
+export function setupResizeListener(callback, selector,...args) {
+
   let resizeTimer;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
