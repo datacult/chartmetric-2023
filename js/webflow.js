@@ -417,17 +417,14 @@ import { SingleValues } from "./highFi/single_values.js";
     const handleIntersection = (entries, observer) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                // Extract IDs from the element and its parent
-                const triggerId = entry.target.id;
-                const trackId = entry.target.parentElement.id;
+                const viz_id = entry.target.id.split("-")[0]
+                const param_index = entry.target.id.split("-")[1]
 
-                // Check if the corresponding function exists in visUpdates
                 if (
-                    visUpdates.hasOwnProperty(trackId) &&
-                    visUpdates[trackId].hasOwnProperty(triggerId)
+                    visuals.hasOwnProperty(viz_id) &&
+                    visuals[viz_id].params.length < param_index
                 ) {
-                    // Run the corresponding function
-                    visUpdates[trackId][triggerId]();
+                    visuals[viz_id].update(visuals[viz_id].params[param_index]);
                 }
             }
         });
