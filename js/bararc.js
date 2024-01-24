@@ -83,7 +83,7 @@ let barArc = ((data, options, bar_map, arc_map) => {
   options = { ...defaults, ...options };
 
   let b = barchart(rollup, bar_map, options)
-  let a = arcchart(data, arc_map, options, b.svg)
+  let a = arcchart(data, arc_map, {...options, opacity: 0}, b.svg)
 
   return {
     bar: b,
