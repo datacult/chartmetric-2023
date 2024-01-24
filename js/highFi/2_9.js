@@ -11,7 +11,6 @@ export function gradientBar(
   /***********************
    *1. Access data
    ************************/
-console.log(dataset)
   dataset = dataset.sort((a, b) => d3.descending(a[widthKey], b[widthKey])); // .sort((a, b) => d3.descending(a.SPINS, b.SPINS));
   let countries_names = [...new Set(dataset.map((d) => d.COUNTRY_NAME))];
   countries_names.unshift("All Countries");

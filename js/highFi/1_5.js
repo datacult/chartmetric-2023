@@ -5,12 +5,6 @@ import { trimNames, setupResizeListener, chartDimensions } from "../utility.js";
 
 export function circlepacking_1_5(realData, selector, type = "All Time") {
     selector = "#" + selector;
-
-    // const parentElement = d3.selectAll("#" + selector);
-    // console.log(parentElement.selectAll("*"));
-    // Select all child elements within the parent element and remove them
-    // parentElement.selectAll("*").remove();
-    // d3.select("#"+selector).remove();
     /***********************
      *1. Access data
      ************************/
@@ -22,7 +16,7 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
         }
     });
 
-    let data = realData.filter((d) => d.TYPE == type);
+
 
     /***********************
      *2. Create chart dimensions
@@ -44,12 +38,13 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
         <div class="topArtistsByFollowersBubbles_bot-icon"></div>
       </div>
     </div>`);
-    function draw(data, type) {
+    function draw(data = realData, type = type) {
+         data = realData.filter((d) => d.TYPE == type);
         const {
             boundedWidth: chartSectionWidth,
             boundedHeight: chartSectionHeight,
         } = chartDimensions(chartSectionId);
-
+        console.log(data);
         /***********************
          *3. Scale
          ************************/
@@ -63,7 +58,7 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
             .scaleSqrt()
             .domain([0, maxGroupValue])
             // controls the size of the circles
-            .range([0, chartSectionWidth / 3]);
+            .range([0, chartSectionWidth]);
 
         const circlePackingData = [];
 
@@ -238,15 +233,15 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
             .text((d) => d.PLATFORM);
         icons.append("div").attr("class", "icon").text("icon");
     }
-    function update(data, type) {
+    function update(data = realData, type = type) {
         // await loadData();
 
-        // setupResizeListener(circlepacking_1_5, data, selector, type);
+        // setupResizeListener(draw, data, type);
 
         draw(data, type);
     }
 
-    update(data, type);
+    update(realData, type);
     return {
         update: update,
     };
