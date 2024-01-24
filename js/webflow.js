@@ -280,7 +280,7 @@ import { SingleValues } from "./highFi/single_values.js";
     // // grab the selected language from dropdown on initial load
     // let language = document.querySelector("#language").value;
 
-    await loadData("en");
+    // await loadData("en");
 
     // document.querySelector("#language").addEventListener("change", async (e) => {
     //     // check the language has changed
