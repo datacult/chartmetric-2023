@@ -315,10 +315,10 @@ import { SingleValues } from "./highFi/single_values.js";
     // [],
     //     visuals.viz_single_values.options.selector
     // );
-    visuals.viz_1_1.viz = Sankey(
-        visuals.viz_1_1.data,
-        visuals.viz_1_1.options.selector
-    );
+    // visuals.viz_1_1.viz = Sankey(
+    //     visuals.viz_1_1.data,
+    //     visuals.viz_1_1.options.selector
+    // );
     visuals.viz_1_3.viz = Table_1_3(
         visuals.viz_1_3.data,
         visuals.viz_1_3.options.selector
