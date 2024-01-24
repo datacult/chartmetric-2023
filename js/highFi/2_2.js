@@ -2,7 +2,7 @@
 
 import { TreemapComponent } from "../../components/Treemap.js";
 import { setupResizeListener,chartDimensions } from "../utility.js";
-async function drawChart(dataset, selector, genreType, year) {
+ function drawChart(dataset, selector, genreType, year) {
   // parameters
   d3.select("#" + selector)
     .select("svg")
@@ -84,9 +84,9 @@ async function drawChart(dataset, selector, genreType, year) {
   });
 }
 
-export async function Treemap(dataUrl, genreType, year) {
+export  function Treemap(dataUrl, genreType, year) {
   // await loadData();
-  await drawChart(dataUrl, genreType, year);
+   drawChart(dataUrl, genreType, year);
   setupResizeListener(drawChart, dataUrl, genreType, year);
 
   return (genreType, year) => drawChart(dataUrl, genreType, year);

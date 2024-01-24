@@ -1,6 +1,6 @@
 import { chartDimensions, trimNames } from "../utility.js";
 
-export async function BumpChart(
+export  function BumpChart(
   data,
   selector,
   map,

@@ -1,5 +1,5 @@
 import { chartDimensions, debounce, trimNames } from "../utility.js";
-export async function circlepacking_2_1(
+export  function circlepacking_2_1(
   realData,
   selector = "top100ArtistCountriesGenderCirclePacking_chart"
 ) {
@@ -41,12 +41,7 @@ export async function circlepacking_2_1(
     .append("svg")
     .attr("id", "top100ArtistCountriesGenderCirclePacking_chart");
 
-  // Append the gender-section div
-  wrapper
-    .append("div")
-    .attr("id", "gender-section")
-    .append("section")
-    .attr("class", "gender");
+
   svg
     .attr("width", width)
     .attr("height", height)
@@ -248,7 +243,7 @@ export async function circlepacking_2_1(
   let genderSection = false;
   let isMouseHovering = false; // Flag to track mouse hover state
 
-  function updateOnMouseEnter(genderSection) {
+  function updateOnMouseEnter(genderSection,hovering) {
     const dataToProcess = genderSection ? gender : country;
     const keyForGrouping = genderSection ? genderKey : countryKey;
 
@@ -261,7 +256,7 @@ export async function circlepacking_2_1(
     updateVisualization(updatedData, v, svg);
   }
 
-  function updateOnMouseLeave(genderSection) {
+  function updateOnMouseLeave(genderSection, hovering) {
     const dataToProcess = genderSection ? gender : country;
     const keyForGrouping = genderSection ? genderKey : countryKey;
 
@@ -278,11 +273,11 @@ export async function circlepacking_2_1(
   svg
     .on("mouseenter", () => {
       isMouseHovering = true;
-      updateOnMouseEnter();
+      updateOnMouseEnter(genderSection, isMouseHovering);
     })
     .on("mouseleave", () => {
       isMouseHovering = false;
-      updateOnMouseLeave();
+      updateOnMouseLeave(genderSection, isMouseHovering);
     });
 
   // ScrollTrigger setup with onLeaveBack callback
@@ -299,16 +294,16 @@ export async function circlepacking_2_1(
   //     updateOnMouseLeave(); // Update using country data, considering hover state
   //   },
   // });
-  function update(data, genderSection) {
+  function update(data, genderSection, isMouseHovering) {
     //! genderSection is true: we are in gender section
     //! false: we are not, but in country section
     if (genderSection) {
-      updateOnMouseEnter(genderSection);
+      updateOnMouseEnter(genderSection, isMouseHovering);
     } else {
-      updateOnMouseLeave(genderSection);
+      updateOnMouseLeave(genderSection, isMouseHovering);
     }
   }
-  update(realData, false);
+  update(realData, false,false);
 
   return {
     update: update,

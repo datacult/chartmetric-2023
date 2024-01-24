@@ -92,9 +92,9 @@ export function gradientBar(
       .style("opacity", 0)
       .remove();
     d3.selectAll(".gradient-bar.bar")
-      .on("mouseenter", function (d) {
+      .on("mouseenter", function (event,d) {
         d3.select(this).append("div").attr("class", "tooltip").html(`
-        <div class='name'>Artist Name</div>
+        <div class='name'>${d.COUNTRY_NAME}</div>
         <div class="flag"> </div>
         <div class="card-stack">
           <div class="card">R&B/Soul</div>
@@ -105,10 +105,15 @@ export function gradientBar(
           .select(".tooltip")
           .node()
           .getBoundingClientRect().width;
+        let profileBarWidth = d3
+        .select(this)
+        .node()
+        .getBoundingClientRect().width;
+        console.log(profileBarWidth,fromRight)
         gsap.fromTo(
           ".tooltip",
           { right: -fromRight, opacity: 0 },
-          { right: 0, opacity: 1, duration: 0.5, ease: "power2.inOut" }
+          { right: profileBarWidth-fromRight*1.5, opacity: 1, duration: 0.5, ease: "power2.inOut" }
         );
       })
       .on("mouseleave", function (d) {

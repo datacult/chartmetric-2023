@@ -835,7 +835,7 @@ Bar
   /* transform: rotate(-90deg); */
   padding-left: 16px;
   /** To be editted: this helps include the buttons=40px + margin-left for buttons */
-  padding-right: 62px;
+  padding-right: 8px;
   justify-content: center;
   align-items: center;
   border-radius: 78.488px;
@@ -1154,4 +1154,8 @@ Bar
 #viz_2_10 .card-stack .card:not(:hover) {
   transform: scale(1);
   transition: transform 0.3s ease, z-index 0s;
+}
+
+#viz_2_10  .noData_Map {
+  pointer-events: none;
 }

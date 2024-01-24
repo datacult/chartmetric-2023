@@ -14,7 +14,7 @@ export async function drawMap(selectedCountries = [], chartContainerId='radioTop
 
   //
   let dataset = await d3.csv(trackDataUrl, d3.autoType);
-
+  console.log()
   /***********************
    *2. Create chart dimensions
    ************************/
@@ -52,8 +52,17 @@ export async function drawMap(selectedCountries = [], chartContainerId='radioTop
     .attr("fill", (d) => {
       if (selectedCountries.includes(d.properties.name)) {
         return "#193C3B";
+      } else if ([...new Set(dataset.map((d) => d.NAME))].includes(d.properties.name)) {
+        return "#E3E0D7"
       } else {
-        return "#E3E0D7";
+        return "#FCF9F0";
+      }
+    })
+    .attr('class', (d) => {
+      if ([...new Set(dataset.map((d) => d.NAME))].includes(d.properties.name)) {
+        return ""
+      } else {
+        return "noData_Map"
       }
     })
     .attr("d", path)

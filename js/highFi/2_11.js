@@ -3,7 +3,7 @@ import { chartDimensions } from "../chartDimensions.js";
 import { createRoundGradient } from "../../components/backgroundGradientGenerator.js";
 let chartSectionId = "topArtistsByFollowersBubbles_bot-section1";
 
-export async function circlepacking_2_11(data, chartContainerId) {
+export  function circlepacking_2_11(data, chartContainerId) {
   
   let radiusKey = "TOTAL_TRACKS";
   let yKey = "ARTIST_COUNT";

@@ -38,7 +38,6 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_1_1",
             },
-            params: [],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -53,7 +52,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_1_3",
             },
-            params: [],
+            params: [], // unknown yet: the button value
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -83,7 +82,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_1",
             },
-            params: [],
+            params: ["Artist Genres", "top_genres_for_artists_all_time"], // Or "Track Genres" + corresponding time
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -98,7 +97,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_2",
             },
-            params: ["Artist Genres", "top_genres_for_artists_all_time"], // Or "Track Genres" + corresponding time
+            params: [],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -129,14 +128,14 @@ import { SingleValues } from "./highFi/single_values.js";
                 selector: "#viz_2_5",
             },
             params: [
-                { bar: "end_total", arc: { focus: null, opacity: 0 } },
-                { bar: "end_total", arc: { focus: null, opacity: 0.03 } },
-                { bar: "Undiscovered", arc: { focus: "Undiscovered", opacity: 0.03 } },
-                { bar: "Developing", arc: { focus: "Developing", opacity: 0.03 } },
-                { bar: "Mid-Level", arc: { focus: "Mid-Level", opacity: 0.03 } },
-                { bar: "Mainstream", arc: { focus: "Mainstream", opacity: 0.03 } },
-                { bar: "Superstar", arc: { focus: "Superstar", opacity: 0.03 } },
-                { bar: "Legendary", arc: { focus: "Legendary", opacity: 0.03 } },
+                "start_total",
+                "end_total",
+                "Undiscovered",
+                "Developing",
+                "Mid-Level",
+                "Mainstream",
+                "Superstar",
+                "Legendary",
             ],
             update: function (param) {
                 // expects an object with 'bar' & 'arc' keys
@@ -148,9 +147,9 @@ import { SingleValues } from "./highFi/single_values.js";
                 }
 
                 if (param.hasOwnProperty("arc")) {
-                    this.viz.arc.update(null, { focus: param.arc.focus }, {opacity: param.arc.opacity});
+                    this.viz.arc.update(null, { y: param.arc });
                 } else {
-                    this.viz.arc.update(this.data);
+                    this.viz.bar.update(this.data);
                 }
             },
         },
@@ -183,6 +182,31 @@ import { SingleValues } from "./highFi/single_values.js";
                 group: "NAME",
             },
             params: ["Drake"],
+            // below is the function to run when the scroll trigger is activated
+            // function scrollFunction(idName) {
+            //     let artistNameId = trimNames(idName); // trimNames is located in utility.js
+            //     const timeline = gsap.timeline();
+            //     // select all band, and dim them
+            //     timeline
+            //         .to(".area-2-8", {
+            //             duration: 0.5,
+            //             attr: {
+            //                 fill: options.fill,
+            //                 stroke: "none",
+            //                 opacity: .3,
+            //             },
+            //         })
+            //         // select targetted band, and hightlight it
+            //         .to("#" + artistNameId, {
+            //             duration: 0.8,
+            //             ease: "expoScale(0.5,7,none)",
+            //             attr: {
+            //                 fill: "#1781F7",
+            //                 stroke: "black",
+            //                 opacity: 1,
+            //             },
+            //         }, .2);
+            // }
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -197,7 +221,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_9",
             },
-            params: [],
+            params: ["United States"], // Any selected country
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -269,79 +293,54 @@ import { SingleValues } from "./highFi/single_values.js";
                 }
             });
         }
-
-        console.log("data load complete")
     }
 
     ///////////////////////////
     /////// language //////////
     ///////////////////////////
 
-    // // grab the selected language from dropdown on initial load
-    // let language = document.querySelector("#language").value;
+    // grab the selected language from dropdown on initial load
+    let language = document.querySelector("#language").value;
 
     await loadData("en");
 
-    // document.querySelector("#language").addEventListener("change", async (e) => {
-    //     // check the language has changed
-    //     if (e.target.value != language) {
-    //         language = e.target.value;
-    //         await loadData(language, true);
-    //     }
-    // });
-
-    ////////////////////////////////
-    ///// populate dropdowns ///////
-    ////////////////////////////////
-
-    let platformDropdownContainer = document.querySelector("#dropdown-1_3");
-    let platformDropdown = document.createElement("select");
-
-    let platforms = visuals.viz_1_3.data.sort((a, b) =>
-        d3.ascending(a.PLATFORM, b.PLATFORM)
-    );
-    platforms = Array.from(new Set(platforms.map((d) => d.PLATFORM)));
-
-    visuals.viz_1_3.params = platforms;
-
-    platforms.forEach((country) => {
-        let option = document.createElement("option");
-        option.text = country;
-        platformDropdown.add(option);
+    document.querySelector("#language").addEventListener("change", async (e) => {
+        // check the language has changed
+        if (e.target.value != language) {
+            language = e.target.value;
+            await loadData(language, true);
+        }
     });
 
-    platformDropdownContainer.appendChild(platformDropdown)
+    ////////////////////////////////
+    ///// populate dropdown ////////
+    ////////////////////////////////
 
-    let countryDropdownContainer = document.querySelector("#dropdown-2_9");
-    let contryDropdown = document.createElement("select");
+    let artistDropdown = document.querySelector("#artist");
 
-    let countries = visuals.viz_2_9.data.sort((a, b) =>
-        d3.ascending(a.COUNTRY_NAME, b.COUNTRY_NAME)
+    let artist_names = visuals.viz_2_9.data.sort((a, b) =>
+        d3.descending(a.CM_SCORE, b.CM_SCORE)
     );
-    countries = Array.from(new Set(countries.map((d) => d.COUNTRY_NAME)));
+    artist_names = artist_names.map((d) => d.ARTIST_NAME);
+    artist_names = artist_names.slice(0, 10);
 
-    visuals.viz_2_9.params = countries;
-
-    countries.forEach((country) => {
+    artist_names.forEach((artist) => {
         let option = document.createElement("option");
-        option.text = country;
-        contryDropdown.add(option);
+        option.text = artist;
+        artistDropdown.add(option);
     });
-
-    countryDropdownContainer.appendChild(contryDropdown)
 
     ////////////////////////////////
     /////// load visuals ///////////
     ////////////////////////////////
-
     // visuals.viz_single_values.viz = SingleValues(
     // [],
     //     visuals.viz_single_values.options.selector
     // );
-    // visuals.viz_1_1.viz = Sankey(
-    //     visuals.viz_1_1.data,
-    //     visuals.viz_1_1.options.selector
-    // );
+    visuals.viz_1_1.viz = Sankey(
+        visuals.viz_1_1.data,
+        visuals.viz_1_1.options.selector
+    );
     visuals.viz_1_3.viz = Table_1_3(
         visuals.viz_1_3.data,
         visuals.viz_1_3.options.selector
@@ -355,20 +354,17 @@ import { SingleValues } from "./highFi/single_values.js";
         visuals.viz_2_1.data,
         visuals.viz_2_1.options.selector
     );
-    // visuals.viz_2_2.viz = Treemap(
-    //     visuals.viz_2_2.data,
-    //     visuals.viz_2_2.options.selector,
-    //     "Artist Genres",
-    //     "top_genres_for_artists_all_time"
-    // );
+    visuals.viz_2_2.viz = Treemap(
+        visuals.viz_2_2.data,
+        visuals.viz_2_2.options.selector,
+        "Artist Genres",
+        "top_genres_for_artists_all_time"
+    );
     visuals.viz_2_3.viz = Table_2_3(
         visuals.viz_2_3.data,
         visuals.viz_2_3.options.selector
     );
-    visuals.viz_2_5.viz = barArc(
-        visuals.viz_2_5.data,
-        visuals.viz_2_5.options
-    );
+    visuals.viz_2_5.viz = barArc(visuals.viz_2_5.data, visuals.viz_2_5.options);
     visuals.viz_2_6.viz = Calendar(
         visuals.viz_2_6.data,
         visuals.viz_2_6.options.selector
@@ -396,24 +392,61 @@ import { SingleValues } from "./highFi/single_values.js";
 
     //! Gordon Ignore below for now
     ////////////////////////////////
+    ///////// viz updates //////////
+    ////////////////////////////////
+
+    const visUpdates = {
+        track1: {
+            "track1-trigger1": () => {
+                console.log("Function for scrollTrack1, scrollTrigger1");
+            },
+        },
+        track2_5: {
+            "track2_5-trigger1": () => {
+                console.log("Function for track2_5-trigger1");
+            },
+            "track2_5-trigger2": () => {
+                console.log("Function for track2_5-trigger2");
+            },
+            "track2_5-trigger3": () => {
+                console.log("Function for track2_5-trigger3");
+            },
+            "track2_5-trigger4": () => {
+                console.log("Function for track2_5-trigger4");
+            },
+        },
+        toggle1: {
+            "toggle1-option1": () => {
+                console.log("Function for toggleWrapper1, toggleSwitch1");
+            },
+        },
+        dropdown1: {
+            "dropdown1-option1": (selectedValue) => {
+                console.log(
+                    `Function for dropdown1, dropdownOption1 with value: ${selectedValue}`
+                );
+            },
+        },
+    };
+
+    ////////////////////////////////
     /////// event listeners ////////
     ////////////////////////////////
 
     const handleIntersection = (entries, observer) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                const viz_id = entry.target.id.split("-")[0]
-                const param_index = entry.target.id.split("-")[1]
+                // Extract IDs from the element and its parent
+                const triggerId = entry.target.id;
+                const trackId = entry.target.parentElement.id;
 
-                console.log("scroll trigger: ", viz_id, param_index);
-
+                // Check if the corresponding function exists in visUpdates
                 if (
-                    visuals.hasOwnProperty(viz_id) &&
-                    visuals[viz_id].params.length > param_index
+                    visUpdates.hasOwnProperty(trackId) &&
+                    visUpdates[trackId].hasOwnProperty(triggerId)
                 ) {
-                    visuals[viz_id].update(visuals[viz_id].params[param_index]);
-                } else {
-                    console.log("error, params not found", viz_id, param_index);
+                    // Run the corresponding function
+                    visUpdates[trackId][triggerId]();
                 }
             }
         });
@@ -428,41 +461,39 @@ import { SingleValues } from "./highFi/single_values.js";
     });
 
     // Event listener for toggle switches
-    // document.querySelectorAll(".toggle-wrapper").forEach((toggleWrapper) => {
-    //     toggleWrapper.querySelectorAll(".toggle-switch").forEach((toggleSwitch) => {
-    //         toggleSwitch.addEventListener("click", () => {
-    //             // Extract IDs from the element and its parent
-    //             const switchId = toggleSwitch.id;
-    //             const wrapperId = toggleWrapper.id;
+    document.querySelectorAll(".toggle-wrapper").forEach((toggleWrapper) => {
+        toggleWrapper.querySelectorAll(".toggle-switch").forEach((toggleSwitch) => {
+            toggleSwitch.addEventListener("click", () => {
+                // Extract IDs from the element and its parent
+                const switchId = toggleSwitch.id;
+                const wrapperId = toggleWrapper.id;
 
-    //             // Check if the corresponding function exists in visUpdates
-    //             if (
-    //                 visUpdates.hasOwnProperty(wrapperId) &&
-    //                 visUpdates[wrapperId].hasOwnProperty(switchId)
-    //             ) {
-    //                 // Run the corresponding function
-    //                 visUpdates[wrapperId][switchId]();
-    //             }
-    //         });
-    //     });
-    // });
+                // Check if the corresponding function exists in visUpdates
+                if (
+                    visUpdates.hasOwnProperty(wrapperId) &&
+                    visUpdates[wrapperId].hasOwnProperty(switchId)
+                ) {
+                    // Run the corresponding function
+                    visUpdates[wrapperId][switchId]();
+                }
+            });
+        });
+    });
 
     // Event listener for dropdowns
     document.querySelectorAll(".dropdown").forEach((dropdown) => {
         dropdown.addEventListener("change", (event) => {
-            
-            const value = event.target.value;
-            const viz_id = 'viz_' + dropdown.id.split("-")[1];
+            // Extract IDs from the element and its parent
+            const selectedOption = event.target.value;
+            const dropdownId = dropdown.id;
 
-            console.log("dropdown: ", viz_id, value);
-
+            // Check if the corresponding function exists in visUpdates
             if (
-                visuals.hasOwnProperty(viz_id) &&
-                visuals[viz_id].params.indexOf(value) > -1
+                visUpdates.hasOwnProperty(dropdownId) &&
+                visUpdates[dropdownId][selectedOption]
             ) {
-                visuals[viz_id].update(value);
-            } else {
-                console.log("error, params not found", viz_id, value);
+                // Run the corresponding function and pass the selected value
+                visUpdates[dropdownId][selectedOption](selectedOption);
             }
         });
     });
