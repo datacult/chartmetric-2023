@@ -434,6 +434,8 @@ import { SingleValues } from "./highFi/single_values.js";
                 const value = toggleWrapper.getAttribute("data");
                 const viz_id = toggleWrapper.id.split("-")[1]
 
+                console.log("toggle: ", viz_id, value);
+
                 if (
                     visuals.hasOwnProperty(viz_id) &&
                     visuals[viz_id].params.indexOf(value) > -1
