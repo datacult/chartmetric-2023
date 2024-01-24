@@ -274,36 +274,36 @@ import { SingleValues } from "./highFi/single_values.js";
     /////// language //////////
     ///////////////////////////
 
-    // grab the selected language from dropdown on initial load
-    let language = document.querySelector("#language").value;
+    // // grab the selected language from dropdown on initial load
+    // let language = document.querySelector("#language").value;
 
-    await loadData("en");
+    // await loadData("en");
 
-    document.querySelector("#language").addEventListener("change", async (e) => {
-        // check the language has changed
-        if (e.target.value != language) {
-            language = e.target.value;
-            await loadData(language, true);
-        }
-    });
+    // document.querySelector("#language").addEventListener("change", async (e) => {
+    //     // check the language has changed
+    //     if (e.target.value != language) {
+    //         language = e.target.value;
+    //         await loadData(language, true);
+    //     }
+    // });
 
     ////////////////////////////////
     ///// populate dropdown ////////
     ////////////////////////////////
 
-    let artistDropdown = document.querySelector("#artist");
+    // let artistDropdown = document.querySelector("#artist");
 
-    let artist_names = visuals.viz_2_9.data.sort((a, b) =>
-        d3.descending(a.CM_SCORE, b.CM_SCORE)
-    );
-    artist_names = artist_names.map((d) => d.ARTIST_NAME);
-    artist_names = artist_names.slice(0, 10);
+    // let artist_names = visuals.viz_2_9.data.sort((a, b) =>
+    //     d3.descending(a.CM_SCORE, b.CM_SCORE)
+    // );
+    // artist_names = artist_names.map((d) => d.ARTIST_NAME);
+    // artist_names = artist_names.slice(0, 10);
 
-    artist_names.forEach((artist) => {
-        let option = document.createElement("option");
-        option.text = artist;
-        artistDropdown.add(option);
-    });
+    // artist_names.forEach((artist) => {
+    //     let option = document.createElement("option");
+    //     option.text = artist;
+    //     artistDropdown.add(option);
+    // });
 
     ////////////////////////////////
     /////// load visuals ///////////
