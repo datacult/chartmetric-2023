@@ -294,19 +294,18 @@ import { SingleValues } from "./highFi/single_values.js";
     ///// populate dropdown ////////
     ////////////////////////////////
 
-    // let artistDropdown = document.querySelector("#artist");
+    let artistDropdown = document.querySelector("#dropdown_2_9");
 
-    // let artist_names = visuals.viz_2_9.data.sort((a, b) =>
-    //     d3.descending(a.CM_SCORE, b.CM_SCORE)
-    // );
-    // artist_names = artist_names.map((d) => d.ARTIST_NAME);
-    // artist_names = artist_names.slice(0, 10);
+    let countries = visuals.viz_2_9.data.sort((a, b) =>
+        d3.ascending(a.COUNTRY_NAME, b.COUNTRY_NAME)
+    );
+    countries = Array.from(new Set(countries.map((d) => d.COUNTRY_NAME)));
 
-    // artist_names.forEach((artist) => {
-    //     let option = document.createElement("option");
-    //     option.text = artist;
-    //     artistDropdown.add(option);
-    // });
+    countries.forEach((country) => {
+        let option = document.createElement("option");
+        option.text = country;
+        artistDropdown.add(option);
+    });
 
     ////////////////////////////////
     /////// load visuals ///////////
