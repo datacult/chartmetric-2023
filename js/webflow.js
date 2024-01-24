@@ -472,7 +472,7 @@ import { SingleValues } from "./highFi/single_values.js";
         dropdown.addEventListener("change", (event) => {
             
             const value = event.target.value;
-            const viz_id = dropdown.id.split("-")[1];
+            const viz_id = 'viz_' + dropdown.id.split("-")[1];
 
             console.log("dropdown: ", viz_id, value);
 
