@@ -9,10 +9,13 @@ export function gradientBar(
   selectedValue
 ) {
   let   widthKey = "CM_SCORE"
+  let imageKey = "IMAGE_URL"
   /***********************
    *1. Access data
    ************************/
+
   dataset = dataset.sort((a, b) => d3.descending(a[widthKey], b[widthKey])); // .sort((a, b) => d3.descending(a.SPINS, b.SPINS));
+  console.log('viz29',dataset)
   let countries_names = [...new Set(dataset.map((d) => d.COUNTRY_NAME))];
   countries_names.unshift("All Countries");
   // let data = dataset.filter((d) => d.COUNTRY_NAME == selectedValue);
@@ -53,19 +56,22 @@ export function gradientBar(
     const barContainers = wrapper
       .selectAll("div.bar")
       .data(top10, (d) => d.ARTIST_NAME);
-
+console.log(top10)
     // Use join to handle enter, update, and exit selections
     const enterSelection = barContainers
       .enter()
       .append("div")
       .attr("class", "gradient-bar bar")
       .html(
-        (d) => `
-      <img style="width:${height / 18}px; height:${height / 18}px" 
-           src="https://raw.githubusercontent.com/muhammederdem/mini-player/master/img/1.jpg" 
-           alt="${d.Group}" class="artist-image">
-      <span class="artist-name">${d.ARTIST_NAME}</span>
-    `
+        (d) => {
+     
+          return `
+          <img style="width:${height / 18}px; height:${height / 18}px" 
+               src="${d[imageKey]}"
+               alt="${d.Group}" class="artist-image">
+          <span class="artist-name">${d.ARTIST_NAME}</span>
+        `
+        }
       )
       .style("opacity", 0)
       .style("width", 0);

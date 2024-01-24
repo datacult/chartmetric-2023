@@ -4,6 +4,7 @@ import { drawMap } from "./2_10_map.js";
 export function gradientBarMapComponent(dataset, selector) {
   let widthKey = "SPINS";
   let yKey = "TRACK_NAME";
+  let imageKey = "IMAGE_URL";
   d3.select("#" + selector).html(`
   <div id="radioTopTracksMap_worldMap">
       <svg id='radioTopTracksMap_worldMap_svg'></svg>
@@ -113,11 +114,12 @@ export function gradientBarMapComponent(dataset, selector) {
     let imageWidth = yScale.bandwidth() * 0.75;
 
     newElements.html(function (d) {
-      return `
-      <img src="https://raw.githubusercontent.com/muhammederdem/mini-player/master/img/1.jpg" alt="${d[yKey]}" class="artist-image" 
-      style="width:${imageWidth}px; height:${imageWidth} px">
-      <div class="artist-name"><span>${d[yKey]}</span></div>
-    `;
+      console.log()
+    return    `
+    <img src="${d.data[0][imageKey]}" alt="${d[yKey]}" class="artist-image" 
+    style="width:${imageWidth}px; height:${imageWidth} px">
+    <div class="artist-name"><span>${d[yKey]}</span></div>
+  `;
     });
     newElements
       .style("padding", "3px")
