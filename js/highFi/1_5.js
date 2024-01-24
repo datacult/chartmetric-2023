@@ -44,7 +44,7 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
         <div class="topArtistsByFollowersBubbles_bot-icon"></div>
       </div>
     </div>`);
-    function draw() {
+    function draw(data, type) {
         const {
             boundedWidth: chartSectionWidth,
             boundedHeight: chartSectionHeight,
@@ -238,15 +238,15 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
             .text((d) => d.PLATFORM);
         icons.append("div").attr("class", "icon").text("icon");
     }
-    function update(data, selector, type) {
+    function update(data, type) {
         // await loadData();
 
         // setupResizeListener(circlepacking_1_5, data, selector, type);
 
-        draw();
+        draw(data, type);
     }
 
-    update(data, selector, type);
+    update(data, type);
     return {
         update: update,
     };
