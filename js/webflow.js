@@ -312,58 +312,58 @@ import { SingleValues } from "./highFi/single_values.js";
     // [],
     //     visuals.viz_single_values.options.selector
     // );
-    visuals.viz_1_1.viz = Sankey(
-        visuals.viz_1_1.data,
-        visuals.viz_1_1.options.selector
-    );
-    visuals.viz_1_3.viz = Table_1_3(
-        visuals.viz_1_3.data,
-        visuals.viz_1_3.options.selector
-    );
-    visuals.viz_1_5.viz = circlepacking_1_5(
-        visuals.viz_1_5.data,
-        visuals.viz_1_5.options.selector,
-        "Gained in 2023"
-    );
-    visuals.viz_2_1.viz = circlepacking_2_1(
-        visuals.viz_2_1.data,
-        visuals.viz_2_1.options.selector
-    );
-    visuals.viz_2_2.viz = Treemap(
-        visuals.viz_2_2.data,
-        visuals.viz_2_2.options.selector,
-        "Artist Genres",
-        "top_genres_for_artists_all_time"
-    );
-    visuals.viz_2_3.viz = Table_2_3(
-        visuals.viz_2_3.data,
-        visuals.viz_2_3.options.selector
-    );
+    // visuals.viz_1_1.viz = Sankey(
+    //     visuals.viz_1_1.data,
+    //     visuals.viz_1_1.options.selector
+    // );
+    // visuals.viz_1_3.viz = Table_1_3(
+    //     visuals.viz_1_3.data,
+    //     visuals.viz_1_3.options.selector
+    // );
+    // visuals.viz_1_5.viz = circlepacking_1_5(
+    //     visuals.viz_1_5.data,
+    //     visuals.viz_1_5.options.selector,
+    //     "Gained in 2023"
+    // );
+    // visuals.viz_2_1.viz = circlepacking_2_1(
+    //     visuals.viz_2_1.data,
+    //     visuals.viz_2_1.options.selector
+    // );
+    // visuals.viz_2_2.viz = Treemap(
+    //     visuals.viz_2_2.data,
+    //     visuals.viz_2_2.options.selector,
+    //     "Artist Genres",
+    //     "top_genres_for_artists_all_time"
+    // );
+    // visuals.viz_2_3.viz = Table_2_3(
+    //     visuals.viz_2_3.data,
+    //     visuals.viz_2_3.options.selector
+    // );
     visuals.viz_2_5.viz = barArc(visuals.viz_2_5.data, visuals.viz_2_5.options);
     visuals.viz_2_6.viz = Calendar(
         visuals.viz_2_6.data,
         visuals.viz_2_6.options.selector
     );
-    visuals.viz_2_8.viz = BumpChart(
-        visuals.viz_2_8.data,
-        visuals.viz_2_8.options.selector,
-        visuals.viz_2_8.mapping,
-        visuals.viz_2_8.options,
-        "section-2-8"
-    );
-    visuals.viz_2_9.viz = gradientBar(
-        visuals.viz_2_9.data,
-        visuals.viz_2_9.options.selector,
-        "United States"
-    );
-    visuals.viz_2_10.viz = gradientBarMapComponent(
-        visuals.viz_2_10.data,
-        visuals.viz_2_10.options.selector
-    );
-    visuals.viz_2_11.viz = circlepacking_2_11(
-        visuals.viz_2_11.data,
-        visuals.viz_2_11.options.selector
-    );
+    // visuals.viz_2_8.viz = BumpChart(
+    //     visuals.viz_2_8.data,
+    //     visuals.viz_2_8.options.selector,
+    //     visuals.viz_2_8.mapping,
+    //     visuals.viz_2_8.options,
+    //     "section-2-8"
+    // );
+    // visuals.viz_2_9.viz = gradientBar(
+    //     visuals.viz_2_9.data,
+    //     visuals.viz_2_9.options.selector,
+    //     "United States"
+    // );
+    // visuals.viz_2_10.viz = gradientBarMapComponent(
+    //     visuals.viz_2_10.data,
+    //     visuals.viz_2_10.options.selector
+    // );
+    // visuals.viz_2_11.viz = circlepacking_2_11(
+    //     visuals.viz_2_11.data,
+    //     visuals.viz_2_11.options.selector
+    // );
 
     //! Gordon Ignore below for now
     ////////////////////////////////
