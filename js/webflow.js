@@ -129,14 +129,13 @@ import { SingleValues } from "./highFi/single_values.js";
                 selector: "#viz_2_5",
             },
             params: [
-                // { bar: "start_total" },
-                { bar: "end_total" },
-                { arc: "Undiscovered" },
-                { arc: "Developing" },
-                { arc: "Mid-Level" },
-                { arc: "Mainstream" },
-                { arc: "Superstar" },
-                { arc: "Legendary" },
+                { bar: "end_total", arc: null },
+                { bar: "end_total", arc: "Undiscovered" },
+                { bar: "end_total", arc: "Developing" },
+                { bar: "end_total", arc: "Mid-Level" },
+                { bar: "end_total", arc: "Mainstream" },
+                { bar: "end_total", arc: "Superstar" },
+                { bar: "end_total", arc: "Legendary" },
             ],
             update: function (param) {
                 // expects an object with 'bar' & 'arc' keys
@@ -323,11 +322,11 @@ import { SingleValues } from "./highFi/single_values.js";
     //     visuals.viz_1_3.data,
     //     visuals.viz_1_3.options.selector
     // );
-    // visuals.viz_1_5.viz = circlepacking_1_5(
-    //     visuals.viz_1_5.data,
-    //     visuals.viz_1_5.options.selector,
-    //     "Gained in 2023"
-    // );
+    visuals.viz_1_5.viz = circlepacking_1_5(
+        visuals.viz_1_5.data,
+        visuals.viz_1_5.options.selector,
+        "Gained in 2023"
+    );
     // visuals.viz_2_1.viz = circlepacking_2_1(
     //     visuals.viz_2_1.data,
     //     visuals.viz_2_1.options.selector
@@ -338,10 +337,10 @@ import { SingleValues } from "./highFi/single_values.js";
     //     "Artist Genres",
     //     "top_genres_for_artists_all_time"
     // );
-    // visuals.viz_2_3.viz = Table_2_3(
-    //     visuals.viz_2_3.data,
-    //     visuals.viz_2_3.options.selector
-    // );
+    visuals.viz_2_3.viz = Table_2_3(
+        visuals.viz_2_3.data,
+        visuals.viz_2_3.options.selector
+    );
     visuals.viz_2_5.viz = barArc(
         visuals.viz_2_5.data,
         visuals.viz_2_5.options
