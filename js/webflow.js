@@ -129,13 +129,13 @@ import { SingleValues } from "./highFi/single_values.js";
                 selector: "#viz_2_5",
             },
             params: [
-                { bar: "end_total", arc: null },
-                { bar: "end_total", arc: "Undiscovered" },
-                { bar: "end_total", arc: "Developing" },
-                { bar: "end_total", arc: "Mid-Level" },
-                { bar: "end_total", arc: "Mainstream" },
-                { bar: "end_total", arc: "Superstar" },
-                { bar: "end_total", arc: "Legendary" },
+                { bar: "end_total", arc: { focus: null, opacity: 0 } },
+                { bar: "Undiscovered", arc: { focus: "Undiscovered", opacity: 0.03 } },
+                { bar: "Developing", arc: { focus: "Developing", opacity: 0.03 } },
+                { bar: "Mid-Level", arc: { focus: "Mid-Level", opacity: 0.03 } },
+                { bar: "Mainstream", arc: { focus: "Mainstream", opacity: 0.03 } },
+                { bar: "Superstar", arc: { focus: "Superstar", opacity: 0.03 } },
+                { bar: "Legendary", arc: { focus: "Legendary", opacity: 0.03 } },
             ],
             update: function (param) {
                 // expects an object with 'bar' & 'arc' keys
@@ -147,7 +147,7 @@ import { SingleValues } from "./highFi/single_values.js";
                 }
 
                 if (param.hasOwnProperty("arc")) {
-                    this.viz.arc.update(null, { focus: param.arc });
+                    this.viz.arc.update(null, { focus: param.arc.focus }, {opacity: param.arc.opacity});
                 } else {
                     this.viz.arc.update(this.data);
                 }
