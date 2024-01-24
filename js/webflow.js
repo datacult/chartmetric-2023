@@ -82,7 +82,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_1",
             },
-            params: ["Artist Genres", "top_genres_for_artists_all_time"], // Or "Track Genres" + corresponding time
+            params: [true, false],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
