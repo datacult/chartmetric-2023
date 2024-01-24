@@ -1,24 +1,25 @@
-
-
 import { createRoundGradient } from "../../components/backgroundGradientGenerator.js";
 import { trimNames, setupResizeListener, chartDimensions } from "../utility.js";
-let chartSectionId = "topArtistsByFollowersBubbles_bot-section1";
+
 // Function to create a round gradient
 
-export async function circlepacking_1_5(realData, selector, type = "All Time") {
-
-   
-    const parentElement = d3.selectAll("#"+selector)
-    console.log(parentElement.selectAll("*"))
+export function circlepacking_1_5(realData, selector, type = "All Time") {
+    selector = "#" + selector;
+    
+    // const parentElement = d3.selectAll("#" + selector);
+    // console.log(parentElement.selectAll("*"));
     // Select all child elements within the parent element and remove them
-    parentElement.selectAll("*").remove();
+    // parentElement.selectAll("*").remove();
     // d3.select("#"+selector).remove();
     /***********************
      *1. Access data
      ************************/
+    let chartSectionId = "topArtistsByFollowersBubbles_bot-section1";
 
     realData.forEach((entry) => {
-        entry.Combined = `${entry.PLATFORM}/${entry.ARTIST_NAME}`;
+        if (entry.PLATFORM) {
+            entry.Combined = `${entry.PLATFORM}/${entry.ARTIST_NAME}`;
+        }
     });
 
     let data = realData.filter((d) => d.TYPE == type);
@@ -26,9 +27,26 @@ export async function circlepacking_1_5(realData, selector, type = "All Time") {
     /***********************
      *2. Create chart dimensions
      ************************/
-    const { boundedWidth: width, boundedHeight: height } = chartDimensions(selector);
+
+    const { boundedWidth: width, boundedHeight: height } =
+        chartDimensions(selector);
+    d3.select(selector).html(`   <div id="topArtistsByFollowersBubbles_bottom">
+      <div class="topArtistsByFollowersBubbles_bot-section" id="topArtistsByFollowersBubbles_bot-section1">
+        <div class="topArtistsByFollowersBubbles_bot-chart Youtube" id="topArtistsByFollowersBubbles_bot-chart"></div>
+        <div class="topArtistsByFollowersBubbles_bot-icon"></div>
+      </div>
+      <div class="topArtistsByFollowersBubbles_bot-section">
+        <div class="topArtistsByFollowersBubbles_bot-chart Instagram"></div>
+        <div class="topArtistsByFollowersBubbles_bot-icon"></div>
+      </div>
+      <div class="topArtistsByFollowersBubbles_bot-section">
+        <div class="topArtistsByFollowersBubbles_bot-chart Tiktok"></div>
+        <div class="topArtistsByFollowersBubbles_bot-icon"></div>
+      </div>
+    </div>`);
     const { boundedWidth: chartSectionWidth, boundedHeight: chartSectionHeight } =
         chartDimensions(chartSectionId);
+   
     /***********************
      *3. Scale
      ************************/
@@ -37,7 +55,7 @@ export async function circlepacking_1_5(realData, selector, type = "All Time") {
         (v) => d3.sum(v, (d) => +d.FOLLOWERS),
         (d) => d.PLATFORM
     );
-    let maxGroupValue = d3.max(groupedTotal.values());
+    let maxGroupValue = d3.max(Array.from(groupedTotal.values()));
     const rScale = d3
         .scaleSqrt()
         .domain([0, maxGroupValue])
@@ -45,23 +63,24 @@ export async function circlepacking_1_5(realData, selector, type = "All Time") {
         .range([0, chartSectionWidth / 3]);
 
     const circlePackingData = [];
-
+  
     // let uniquePlatform = [...new Set(data.map((d) => d.PLATFORM))];
     let uniquePlatform = ["Youtube", "Instagram", "Tiktok"];
     uniquePlatform.forEach((plat) => {
+        console.log()
         let processedData = d3.packSiblings(
             data
-                .filter((d) => d.PLATFORM == plat)
-                .sort((a, b) => d3.descending(a.FOLLOWERS, b.FOLLOWERS))
-                .map((d) => {
-                    return {
-                        r: rScale(d.FOLLOWERS),
-                        PLATFORM: d.PLATFORM,
-                        ARTIST_NAME: d.ARTIST_NAME,
-                        FOLLOWERS: d.FOLLOWERS,
-                        IMAGE_URL: d.IMAGE_URL,
-                    };
-                })
+            .filter((d) => d.PLATFORM == plat)
+            .sort((a, b) => d3.descending(a.FOLLOWERS, b.FOLLOWERS))
+            .map((d) => {
+                return {
+                    r: rScale(+d.FOLLOWERS),
+                    PLATFORM: d.PLATFORM,
+                    ARTIST_NAME: d.ARTIST_NAME,
+                    FOLLOWERS: d.FOLLOWERS,
+                    IMAGE_URL: d.IMAGE_URL,
+                };
+            })
         );
         processedData.forEach((d) => (d.angle = Math.atan2(d.y, d.x)));
         circlePackingData.push({
@@ -115,7 +134,6 @@ export async function circlepacking_1_5(realData, selector, type = "All Time") {
             .enter()
             .append("pattern")
             .attr("id", (d) => {
-             
                 return trimNames(d.ARTIST_NAME);
             }) // Unique ID for each pattern
             .attr("width", "100%")
@@ -216,11 +234,17 @@ export async function circlepacking_1_5(realData, selector, type = "All Time") {
         .attr("class", "text")
         .text((d) => d.PLATFORM);
     icons.append("div").attr("class", "icon").text("icon");
-}
-export async function drawCirclepacking_1_5(type) {
-    // await loadData();
-    await circlepacking_1_5(type);
-    setupResizeListener(circlepacking_1_5, type);
 
-    return (type) => circlepacking_1_5(type);
+    function update(data, selector, type) {
+        // await loadData();
+
+        setupResizeListener(circlepacking_1_5, data, selector, type);
+
+        return (data, selector, type) => circlepacking_1_5(data, selector, type);
+    }
+
+    update(data, selector, type);
+    return {
+        update: update,
+    };
 }

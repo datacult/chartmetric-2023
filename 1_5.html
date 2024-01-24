@@ -25,20 +25,7 @@ https://studio.datacult.com/ -->
 
 
     <!-- bottom -->
-    <div id="topArtistsByFollowersBubbles_bottom">
-      <div class="topArtistsByFollowersBubbles_bot-section" id="topArtistsByFollowersBubbles_bot-section1">
-        <div class="topArtistsByFollowersBubbles_bot-chart Youtube" id="topArtistsByFollowersBubbles_bot-chart"></div>
-        <div class="topArtistsByFollowersBubbles_bot-icon"></div>
-      </div>
-      <div class="topArtistsByFollowersBubbles_bot-section">
-        <div class="topArtistsByFollowersBubbles_bot-chart Instagram"></div>
-        <div class="topArtistsByFollowersBubbles_bot-icon"></div>
-      </div>
-      <div class="topArtistsByFollowersBubbles_bot-section">
-        <div class="topArtistsByFollowersBubbles_bot-chart Tiktok"></div>
-        <div class="topArtistsByFollowersBubbles_bot-icon"></div>
-      </div>
-    </div>
+
 
 
     <!--! Gordon added code ends-->
@@ -54,14 +41,15 @@ https://studio.datacult.com/ -->
 
 <script type="module">
   import {
-    drawCirclepacking_1_5
+    circlepacking_1_5
   } from './js/highFi/1_5.js'
 
 
 
   (async () => {
+    let data = await d3.csv("https://share.chartmetric.com/year-end-report/2023/viz_1_5_en.csv")
     let type = "Gained in 2023" // let type ="All Time" // or "Gained in 2023"
-    await drawCirclepacking_1_5(type)
+    circlepacking_1_5(data, 'vis', type)
     // setTimeout(() => drawCirclepacking_1_5("All Time"), 2000);
   })();
 </script>

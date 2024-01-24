@@ -231,7 +231,6 @@ let barchart = ((data, map, options, svg) => {
       .transition(t)
       .attr("y", d => yScale(d[map.y]))
       .attr("height", d => height - yScale(d[map.y]));
-
   }
 
   function wrap(text, width) {

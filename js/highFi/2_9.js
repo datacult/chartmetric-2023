@@ -11,7 +11,7 @@ export function gradientBar(
   /***********************
    *1. Access data
    ************************/
-
+console.log(dataset)
   dataset = dataset.sort((a, b) => d3.descending(a[widthKey], b[widthKey])); // .sort((a, b) => d3.descending(a.SPINS, b.SPINS));
   let countries_names = [...new Set(dataset.map((d) => d.COUNTRY_NAME))];
   countries_names.unshift("All Countries");
@@ -28,7 +28,10 @@ export function gradientBar(
    *3. Set up canvas
    ************************/
   const visElement = document.getElementById(chartContainerId);
-  const wrapper = d3.select(visElement);
+  const wrapper = d3
+    .select(visElement)
+    .append("div")
+    .attr("id", "topArtistsBankingBars_barChart");
 
   // Select the top 10 rows using d3.slice
 
@@ -113,7 +116,7 @@ export function gradientBar(
       });
   }
 
-  function update(data,selectedValue) {
+  function update(data, selectedValue) {
     if (selectedValue == "All Countries") {
       data = dataset.slice(0, 10);
       drawElements(data);
@@ -122,9 +125,9 @@ export function gradientBar(
       drawElements(data);
     }
   }
-  update(data,selectedValue);
+  update(data, selectedValue);
 
   return {
-    update:update
+    update: update,
   };
 }
