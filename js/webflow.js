@@ -427,6 +427,8 @@ import { SingleValues } from "./highFi/single_values.js";
                     visuals[viz_id].params.length < param_index
                 ) {
                     visuals[viz_id].update(visuals[viz_id].params[param_index]);
+                } else {
+                    console.log("error, params not found", viz_id, param_index);
                 }
             }
         });
