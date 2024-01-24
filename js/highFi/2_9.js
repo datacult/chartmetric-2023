@@ -5,9 +5,10 @@ import { setupResizeListener } from "../utility.js";
 export function gradientBar(
   dataset,
   chartContainerId,
-  widthKey,
+
   selectedValue
 ) {
+  let   widthKey = "CM_SCORE"
   /***********************
    *1. Access data
    ************************/

@@ -58,12 +58,8 @@ https://studio.datacult.com/ -->
     // whenever you scroll to a new section, 
     //TODO STEP1. pass in artistName to this function
     // STEP2. call this function
-    function scrollFunction(section) {
-        // d3.select(className)
-        const parts = section.className.split(" ");
-        const artistName = parts.slice(1).join(" ");
-        // scrollToArtist = artistName;
-        let artistNameId = trimNames(artistName);
+    function scrollFunction(className) {
+        let artistNameId = trimNames(className);
         const timeline = gsap.timeline();
         // select all band, and dim them
         timeline

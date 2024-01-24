@@ -3,7 +3,7 @@
 // https://studio.datacult.com/
 
 import { Sankey } from "./highFi/1_1.js";
-import { Table_1_3 } from './highFi/1_3.js'
+import { Table_1_3 } from "./highFi/1_3.js";
 import { circlepacking_1_5 } from "./highFi/1_5.js";
 import { circlepacking_2_1 } from "./highFi/2_1.js";
 import { Treemap } from "./highFi/2_2.js";
@@ -52,7 +52,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_1_3",
             },
-            params:[],
+            params: [], // unknown yet: the button value
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -67,7 +67,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_1_5",
             },
-            params:[],
+            params: ["Gained in 2023"], // or "All Time"
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -82,7 +82,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_1",
             },
-            params:[],
+            params: ["Artist Genres", "top_genres_for_artists_all_time"], // Or "Track Genres" + corresponding time
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -97,7 +97,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_2",
             },
-            params:[],
+            params: [],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -112,7 +112,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_3",
             },
-            params:[],
+            params: [],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -127,15 +127,15 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "#viz_2_5",
             },
-            params:[
-                'start_total',
-                'end_total',
+            params: [
+                "start_total",
+                "end_total",
                 "Undiscovered",
                 "Developing",
                 "Mid-Level",
                 "Mainstream",
                 "Superstar",
-                "Legendary"
+                "Legendary",
             ],
             update: function (param) {
                 // expects an object with 'bar' & 'arc' keys
@@ -159,7 +159,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_6",
             },
-            params:[],
+            params: [],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -181,7 +181,32 @@ import { SingleValues } from "./highFi/single_values.js";
                 y: "MONTHLY_ARTIST_RANK",
                 group: "NAME",
             },
-            params:[],
+            params: ["Drake"],
+            // below is the function to run when the scroll trigger is activated
+            // function scrollFunction(idName) {
+            //     let artistNameId = trimNames(idName); // trimNames is located in utility.js
+            //     const timeline = gsap.timeline();
+            //     // select all band, and dim them
+            //     timeline
+            //         .to(".area-2-8", {
+            //             duration: 0.5,
+            //             attr: {
+            //                 fill: options.fill,
+            //                 stroke: "none",
+            //                 opacity: .3,
+            //             },
+            //         })
+            //         // select targetted band, and hightlight it
+            //         .to("#" + artistNameId, {
+            //             duration: 0.8,
+            //             ease: "expoScale(0.5,7,none)",
+            //             attr: {
+            //                 fill: "#1781F7",
+            //                 stroke: "black",
+            //                 opacity: 1,
+            //             },
+            //         }, .2);
+            // }
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -196,7 +221,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_9",
             },
-            params:[],
+            params: ["United States"], // Any selected country
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -211,7 +236,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_10",
             },
-            params:[],
+            params: [],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -226,7 +251,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_11",
             },
-            params:[],
+            params: [],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -316,20 +341,54 @@ import { SingleValues } from "./highFi/single_values.js";
         visuals.viz_1_1.data,
         visuals.viz_1_1.options.selector
     );
-    visuals.viz_1_3.viz = Table_1_3(visuals.viz_1_3.data, visuals.viz_1_3.options.selector)
-    visuals.viz_1_5.viz = circlepacking_1_5(visuals.viz_1_5.data, visuals.viz_1_5.options.selector, "Gained in 2023")
-    // visuals.viz_2_1.viz = circlepacking_2_1(visuals.viz_2_1.data, visuals.viz_2_1.options.selector)
-    visuals.viz_2_2.viz = Treemap(visuals.viz_2_2.data, visuals.viz_2_2.options.selector, "Artist Genres", "top_genres_for_artists_all_time")
-    visuals.viz_2_3.viz = Table_2_3(visuals.viz_2_3.data, visuals.viz_2_3.options.selector)
-    visuals.viz_2_5.viz = barArc(visuals.viz_2_5.data, visuals.viz_2_5.options)
-    visuals.viz_2_6.viz = Calendar(visuals.viz_2_6.data, visuals.viz_2_6.options.selector)
-    visuals.viz_2_8.viz = BumpChart(visuals.viz_2_8.data, visuals.viz_2_9.options.selector,visuals.viz_2_8.mapping, visuals.viz_2_8.options, 'section-2-8')
-    visuals.viz_2_9.viz = gradientBar(visuals.viz_2_9.data, visuals.viz_2_9.options.selector, "CM_SCORE", "United States")
-    visuals.viz_2_10.viz = gradientBarMapComponent(visuals.viz_2_10.data, visuals.viz_2_10.options.selector);
-    // visuals.viz_2_11.viz = circlepacking_2_11(visuals.viz_2_11.data, visuals.viz_2_11.options.selector);
-    // setTimeout(() => visuals.viz_1_5.update('All Time'), 2000);
-
-    // setTimeout(() => visuals.viz_2_6.update(), 2000)
+    visuals.viz_1_3.viz = Table_1_3(
+        visuals.viz_1_3.data,
+        visuals.viz_1_3.options.selector
+    );
+    visuals.viz_1_5.viz = circlepacking_1_5(
+        visuals.viz_1_5.data,
+        visuals.viz_1_5.options.selector,
+        "Gained in 2023"
+    );
+    visuals.viz_2_1.viz = circlepacking_2_1(
+        visuals.viz_2_1.data,
+        visuals.viz_2_1.options.selector
+    );
+    visuals.viz_2_2.viz = Treemap(
+        visuals.viz_2_2.data,
+        visuals.viz_2_2.options.selector,
+        "Artist Genres",
+        "top_genres_for_artists_all_time"
+    );
+    visuals.viz_2_3.viz = Table_2_3(
+        visuals.viz_2_3.data,
+        visuals.viz_2_3.options.selector
+    );
+    visuals.viz_2_5.viz = barArc(visuals.viz_2_5.data, visuals.viz_2_5.options);
+    visuals.viz_2_6.viz = Calendar(
+        visuals.viz_2_6.data,
+        visuals.viz_2_6.options.selector
+    );
+    visuals.viz_2_8.viz = BumpChart(
+        visuals.viz_2_8.data,
+        visuals.viz_2_8.options.selector,
+        visuals.viz_2_8.mapping,
+        visuals.viz_2_8.options,
+        "section-2-8"
+    );
+    visuals.viz_2_9.viz = gradientBar(
+        visuals.viz_2_9.data,
+        visuals.viz_2_9.options.selector,
+        "United States"
+    );
+    visuals.viz_2_10.viz = gradientBarMapComponent(
+        visuals.viz_2_10.data,
+        visuals.viz_2_10.options.selector
+    );
+    visuals.viz_2_11.viz = circlepacking_2_11(
+        visuals.viz_2_11.data,
+        visuals.viz_2_11.options.selector
+    );
 
     //! Gordon Ignore below for now
     ////////////////////////////////
