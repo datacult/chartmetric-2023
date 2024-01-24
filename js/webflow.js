@@ -38,6 +38,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_1_1",
             },
+            params: [],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -424,7 +425,7 @@ import { SingleValues } from "./highFi/single_values.js";
 
                 if (
                     visuals.hasOwnProperty(viz_id) &&
-                    visuals[viz_id].params.length < param_index
+                    visuals[viz_id].params.length > param_index
                 ) {
                     visuals[viz_id].update(visuals[viz_id].params[param_index]);
                 } else {
