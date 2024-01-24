@@ -54,7 +54,7 @@ let barArc = ((data, options, bar_map, arc_map) => {
   })
 
   let bar_mapping = {
-    y: "start_total",
+    y: "end_total",
     x: "stage",
     fill: "fill",
     stroke: "stroke",
