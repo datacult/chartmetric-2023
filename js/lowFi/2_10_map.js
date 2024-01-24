@@ -2,7 +2,8 @@ import { chartDimensions, trimNames} from "../utility.js";
 let selectedCountries = ["Italy"];
 export async function drawMap(selectedCountries = [], chartContainerId='radioTopTracksMap_worldMap') {
 
-  let dataUrl = "./data/world.json";
+
+  let dataUrl = "https://datacult.github.io/chartmetric-2023/data/world.json";
   let trackDataUrl = "https://share.chartmetric.com/year-end-report/2023/viz_2_10_en.csv";
   let hoveredMapSelector = null;
   /***********************
@@ -53,9 +54,9 @@ export async function drawMap(selectedCountries = [], chartContainerId='radioTop
       if (selectedCountries.includes(d.properties.name)) {
         return "#193C3B";
       } else if ([...new Set(dataset.map((d) => d.NAME))].includes(d.properties.name)) {
-        return "#E3E0D7"
+        return "#C8D7D5"
       } else {
-        return "#FCF9F0";
+        return "#DAE2E1";
       }
     })
     .attr('class', (d) => {
