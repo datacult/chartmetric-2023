@@ -68,7 +68,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_1_5",
             },
-            params: ["Gained in 2023"], // or "All Time"
+            params: ["Gained in 2023", "All Time"],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -98,7 +98,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_2",
             },
-            params: ["Artist Genres", "top_genres_for_artists_all_time"], // Or "Track Genres" + corresponding time
+            params: ["Artist Genres", "Track Genres", "All Time", "2023"],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -431,19 +431,17 @@ import { SingleValues } from "./highFi/single_values.js";
         toggleWrapper.querySelectorAll(".toggle-switch").forEach((toggleSwitch) => {
             toggleSwitch.addEventListener("click", () => {
                 // Extract IDs from the element and its parent
-                const switchId = toggleSwitch.id;
-                const wrapperId = toggleWrapper.id;
+                const value = toggleWrapper.getAttribute("data");
+                const viz_id = toggleWrapper.id.split("-")[1]
 
-                console.log(switchId, wrapperId, toggleSwitch, toggleWrapper)
-
-                // if (
-                //     visuals.hasOwnProperty(viz_id) &&
-                //     visuals[viz_id].params.indexOf(value) > -1
-                // ) {
-                //     visuals[viz_id].update(value);
-                // } else {
-                //     console.log("error, params not found", viz_id, value);
-                // }
+                if (
+                    visuals.hasOwnProperty(viz_id) &&
+                    visuals[viz_id].params.indexOf(value) > -1
+                ) {
+                    visuals[viz_id].update(value);
+                } else {
+                    console.log("error, params not found", viz_id, value);
+                }
             });
         });
     });
