@@ -83,7 +83,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_1",
             },
-            params: [],
+            params: [true, false],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -394,7 +394,6 @@ import { SingleValues } from "./highFi/single_values.js";
         visuals.viz_2_11.options.selector
     );
 
-    //! Gordon Ignore below for now
     ////////////////////////////////
     /////// event listeners ////////
     ////////////////////////////////
@@ -428,24 +427,26 @@ import { SingleValues } from "./highFi/single_values.js";
     });
 
     // Event listener for toggle switches
-    // document.querySelectorAll(".toggle-wrapper").forEach((toggleWrapper) => {
-    //     toggleWrapper.querySelectorAll(".toggle-switch").forEach((toggleSwitch) => {
-    //         toggleSwitch.addEventListener("click", () => {
-    //             // Extract IDs from the element and its parent
-    //             const switchId = toggleSwitch.id;
-    //             const wrapperId = toggleWrapper.id;
+    document.querySelectorAll(".toggle-wrapper").forEach((toggleWrapper) => {
+        toggleWrapper.querySelectorAll(".toggle-switch").forEach((toggleSwitch) => {
+            toggleSwitch.addEventListener("click", () => {
+                // Extract IDs from the element and its parent
+                const switchId = toggleSwitch.id;
+                const wrapperId = toggleWrapper.id;
 
-    //             // Check if the corresponding function exists in visUpdates
-    //             if (
-    //                 visUpdates.hasOwnProperty(wrapperId) &&
-    //                 visUpdates[wrapperId].hasOwnProperty(switchId)
-    //             ) {
-    //                 // Run the corresponding function
-    //                 visUpdates[wrapperId][switchId]();
-    //             }
-    //         });
-    //     });
-    // });
+                console.log(switchId, wrapperId, toggleSwitch, toggleWrapper)
+
+                // if (
+                //     visuals.hasOwnProperty(viz_id) &&
+                //     visuals[viz_id].params.indexOf(value) > -1
+                // ) {
+                //     visuals[viz_id].update(value);
+                // } else {
+                //     console.log("error, params not found", viz_id, value);
+                // }
+            });
+        });
+    });
 
     // Event listener for dropdowns
     document.querySelectorAll(".dropdown").forEach((dropdown) => {
