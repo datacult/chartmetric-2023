@@ -294,7 +294,7 @@ import { SingleValues } from "./highFi/single_values.js";
     ///// populate dropdown ////////
     ////////////////////////////////
 
-    let countryDropdownContainer = document.querySelector("#dropdown_2_9");
+    let countryDropdownContainer = document.querySelector("#dropdown-2_9");
     let contryDropdown = document.createElement("select");
 
     let countries = visuals.viz_2_9.data.sort((a, b) =>
