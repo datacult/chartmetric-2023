@@ -197,7 +197,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_9",
             },
-            params: ["United States"], // Any selected country
+            params: [],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -301,6 +301,8 @@ import { SingleValues } from "./highFi/single_values.js";
         d3.ascending(a.COUNTRY_NAME, b.COUNTRY_NAME)
     );
     countries = Array.from(new Set(countries.map((d) => d.COUNTRY_NAME)));
+
+    visuals.viz_2_9.params = countries;
 
     countries.forEach((country) => {
         let option = document.createElement("option");
@@ -468,17 +470,19 @@ import { SingleValues } from "./highFi/single_values.js";
     // Event listener for dropdowns
     document.querySelectorAll(".dropdown").forEach((dropdown) => {
         dropdown.addEventListener("change", (event) => {
-            // Extract IDs from the element and its parent
-            const selectedOption = event.target.value;
-            const dropdownId = dropdown.id;
+            
+            const value = event.target.value;
+            const viz_id = dropdown.id.split("-")[1];
 
-            // Check if the corresponding function exists in visUpdates
+            console.log("dropdown: ", viz_id, value);
+
             if (
-                visUpdates.hasOwnProperty(dropdownId) &&
-                visUpdates[dropdownId][selectedOption]
+                visuals.hasOwnProperty(viz_id) &&
+                visuals[viz_id].params.indexOf(value) > -1
             ) {
-                // Run the corresponding function and pass the selected value
-                visUpdates[dropdownId][selectedOption](selectedOption);
+                visuals[viz_id].update(value);
+            } else {
+                console.log("error, params not found", viz_id, value);
             }
         });
     });
