@@ -53,7 +53,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_1_3",
             },
-            params: [], // unknown yet: the button value
+            params: [],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -291,8 +291,26 @@ import { SingleValues } from "./highFi/single_values.js";
     // });
 
     ////////////////////////////////
-    ///// populate dropdown ////////
+    ///// populate dropdowns ///////
     ////////////////////////////////
+
+    let platformDropdownContainer = document.querySelector("#dropdown-1_3");
+    let platformDropdown = document.createElement("select");
+
+    let platforms = visuals.viz_1_3.data.sort((a, b) =>
+        d3.ascending(a.PLATFORM, b.PLATFORM)
+    );
+    platforms = Array.from(new Set(platforms.map((d) => d.PLATFORM)));
+
+    visuals.viz_1_3.params = platforms;
+
+    platforms.forEach((country) => {
+        let option = document.createElement("option");
+        option.text = country;
+        platformDropdown.add(option);
+    });
+
+    platformDropdownContainer.appendChild(platformDropdown)
 
     let countryDropdownContainer = document.querySelector("#dropdown-2_9");
     let contryDropdown = document.createElement("select");
@@ -378,44 +396,6 @@ import { SingleValues } from "./highFi/single_values.js";
 
     //! Gordon Ignore below for now
     ////////////////////////////////
-    ///////// viz updates //////////
-    ////////////////////////////////
-
-    const visUpdates = {
-        track1: {
-            "track1-trigger1": () => {
-                console.log("Function for scrollTrack1, scrollTrigger1");
-            },
-        },
-        track2_5: {
-            "track2_5-trigger1": () => {
-                console.log("Function for track2_5-trigger1");
-            },
-            "track2_5-trigger2": () => {
-                console.log("Function for track2_5-trigger2");
-            },
-            "track2_5-trigger3": () => {
-                console.log("Function for track2_5-trigger3");
-            },
-            "track2_5-trigger4": () => {
-                console.log("Function for track2_5-trigger4");
-            },
-        },
-        toggle1: {
-            "toggle1-option1": () => {
-                console.log("Function for toggleWrapper1, toggleSwitch1");
-            },
-        },
-        dropdown1: {
-            "dropdown1-option1": (selectedValue) => {
-                console.log(
-                    `Function for dropdown1, dropdownOption1 with value: ${selectedValue}`
-                );
-            },
-        },
-    };
-
-    ////////////////////////////////
     /////// event listeners ////////
     ////////////////////////////////
 
@@ -448,24 +428,24 @@ import { SingleValues } from "./highFi/single_values.js";
     });
 
     // Event listener for toggle switches
-    document.querySelectorAll(".toggle-wrapper").forEach((toggleWrapper) => {
-        toggleWrapper.querySelectorAll(".toggle-switch").forEach((toggleSwitch) => {
-            toggleSwitch.addEventListener("click", () => {
-                // Extract IDs from the element and its parent
-                const switchId = toggleSwitch.id;
-                const wrapperId = toggleWrapper.id;
+    // document.querySelectorAll(".toggle-wrapper").forEach((toggleWrapper) => {
+    //     toggleWrapper.querySelectorAll(".toggle-switch").forEach((toggleSwitch) => {
+    //         toggleSwitch.addEventListener("click", () => {
+    //             // Extract IDs from the element and its parent
+    //             const switchId = toggleSwitch.id;
+    //             const wrapperId = toggleWrapper.id;
 
-                // Check if the corresponding function exists in visUpdates
-                if (
-                    visUpdates.hasOwnProperty(wrapperId) &&
-                    visUpdates[wrapperId].hasOwnProperty(switchId)
-                ) {
-                    // Run the corresponding function
-                    visUpdates[wrapperId][switchId]();
-                }
-            });
-        });
-    });
+    //             // Check if the corresponding function exists in visUpdates
+    //             if (
+    //                 visUpdates.hasOwnProperty(wrapperId) &&
+    //                 visUpdates[wrapperId].hasOwnProperty(switchId)
+    //             ) {
+    //                 // Run the corresponding function
+    //                 visUpdates[wrapperId][switchId]();
+    //             }
+    //         });
+    //     });
+    // });
 
     // Event listener for dropdowns
     document.querySelectorAll(".dropdown").forEach((dropdown) => {
