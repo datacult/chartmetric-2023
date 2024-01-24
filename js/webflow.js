@@ -36,7 +36,7 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "1_1",
+                selector: "viz_1_1",
             },
             update: function (param) {
                 if (param) {
@@ -50,7 +50,7 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "1_3",
+                selector: "viz_1_3",
             },
             params: [], // unknown yet: the button value
             update: function (param) {
@@ -65,7 +65,7 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "1_5",
+                selector: "viz_1_5",
             },
             params: ["Gained in 2023"], // or "All Time"
             update: function (param) {
@@ -80,9 +80,9 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "2_1",
+                selector: "viz_2_1",
             },
-            params:[],
+            params: [],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -95,7 +95,7 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "2_2",
+                selector: "viz_2_2",
             },
             params: ["Artist Genres", "top_genres_for_artists_all_time"], // Or "Track Genres" + corresponding time
             update: function (param) {
@@ -110,7 +110,7 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "2_3",
+                selector: "viz_2_3",
             },
             params: [],
             update: function (param) {
@@ -125,17 +125,17 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "#2_5",
+                selector: "#viz_2_5",
             },
             params: [
-                {bar:"start_total"},
-                {bar:"end_total"},
-                {arc:"Undiscovered"},
-                {arc:"Developing"},
-                {arc:"Mid-Level"},
-                {arc:"Mainstream"},
-                {arc:"Superstar"},
-                {arc:"Legendary"},
+                { bar: "start_total" },
+                { bar: "end_total" },
+                { arc: "Undiscovered" },
+                { arc: "Developing" },
+                { arc: "Mid-Level" },
+                { arc: "Mainstream" },
+                { arc: "Superstar" },
+                { arc: "Legendary" },
             ],
             update: function (param) {
                 // expects an object with 'bar' & 'arc' keys
@@ -157,7 +157,7 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "2_6",
+                selector: "viz_2_6",
             },
             params: [],
             update: function (param) {
@@ -172,7 +172,7 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "2_8",
+                selector: "viz_2_8",
                 fill: "#1781F7",
                 stroke: "black",
             },
@@ -194,7 +194,7 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "2_9",
+                selector: "viz_2_9",
             },
             params: ["United States"], // Any selected country
             update: function (param) {
@@ -209,7 +209,7 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "2_10",
+                selector: "viz_2_10",
             },
             params: [],
             update: function (param) {
@@ -224,7 +224,7 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "2_11",
+                selector: "viz_2_11",
             },
             params: [],
             update: function (param) {
@@ -339,11 +339,14 @@ import { SingleValues } from "./highFi/single_values.js";
     //     visuals.viz_2_3.data,
     //     visuals.viz_2_3.options.selector
     // );
-    visuals.viz_2_5.viz = barArc(visuals.viz_2_5.data, visuals.viz_2_5.options);
-    visuals.viz_2_6.viz = Calendar(
-        visuals.viz_2_6.data,
-        visuals.viz_2_6.options.selector
+    visuals.viz_2_5.viz = barArc(
+        visuals.viz_2_5.data,
+        visuals.viz_2_5.options
     );
+    // visuals.viz_2_6.viz = Calendar(
+    //     visuals.viz_2_6.data,
+    //     visuals.viz_2_6.options.selector
+    // );
     // visuals.viz_2_8.viz = BumpChart(
     //     visuals.viz_2_8.data,
     //     visuals.viz_2_8.options.selector,
