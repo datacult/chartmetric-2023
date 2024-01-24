@@ -82,7 +82,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_1",
             },
-            params: ["Artist Genres", "top_genres_for_artists_all_time"], // Or "Track Genres" + corresponding time
+            params:[],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -97,7 +97,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_2",
             },
-            params: [],
+            params: ["Artist Genres", "top_genres_for_artists_all_time"], // Or "Track Genres" + corresponding time
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -128,14 +128,14 @@ import { SingleValues } from "./highFi/single_values.js";
                 selector: "#viz_2_5",
             },
             params: [
-                "start_total",
-                "end_total",
-                "Undiscovered",
-                "Developing",
-                "Mid-Level",
-                "Mainstream",
-                "Superstar",
-                "Legendary",
+                {bar:"start_total"},
+                {bar:"end_total"},
+                {arc:"Undiscovered"},
+                {arc:"Developing"},
+                {arc:"Mid-Level"},
+                {arc:"Mainstream"},
+                {arc:"Superstar"},
+                {arc:"Legendary"},
             ],
             update: function (param) {
                 // expects an object with 'bar' & 'arc' keys
@@ -182,31 +182,6 @@ import { SingleValues } from "./highFi/single_values.js";
                 group: "NAME",
             },
             params: ["Drake"],
-            // below is the function to run when the scroll trigger is activated
-            // function scrollFunction(idName) {
-            //     let artistNameId = trimNames(idName); // trimNames is located in utility.js
-            //     const timeline = gsap.timeline();
-            //     // select all band, and dim them
-            //     timeline
-            //         .to(".area-2-8", {
-            //             duration: 0.5,
-            //             attr: {
-            //                 fill: options.fill,
-            //                 stroke: "none",
-            //                 opacity: .3,
-            //             },
-            //         })
-            //         // select targetted band, and hightlight it
-            //         .to("#" + artistNameId, {
-            //             duration: 0.8,
-            //             ease: "expoScale(0.5,7,none)",
-            //             attr: {
-            //                 fill: "#1781F7",
-            //                 stroke: "black",
-            //                 opacity: 1,
-            //             },
-            //         }, .2);
-            // }
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
