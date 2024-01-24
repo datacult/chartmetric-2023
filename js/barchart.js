@@ -257,8 +257,6 @@ let barchart = ((data, map, options, svg) => {
     });
   }
 
-  // call for initial bar render
-  update()
 
   return {
     update: update,
