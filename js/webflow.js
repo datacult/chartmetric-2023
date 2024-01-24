@@ -420,6 +420,8 @@ import { SingleValues } from "./highFi/single_values.js";
                 const viz_id = entry.target.id.split("-")[0]
                 const param_index = entry.target.id.split("-")[1]
 
+                console.log("scroll trigger: ", viz_id, param_index);
+
                 if (
                     visuals.hasOwnProperty(viz_id) &&
                     visuals[viz_id].params.length < param_index
