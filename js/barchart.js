@@ -212,7 +212,7 @@ let barchart = ((data, map, options, svg) => {
     lineData.push({ x: data[0][map.x], y: 0 })
 
     data.forEach(function (d) {
-      lineData.push({ x: d[map.x], y: d[map.y] })
+      lineData.push({ x: map.x ? d[map.x] : 0, y: map.y ? d[map.y] : 0 })
     });
 
     lineData.push({ x: "", y: 0 })
@@ -229,8 +229,8 @@ let barchart = ((data, map, options, svg) => {
 
     bars
       .transition(t)
-      .attr("y", d => yScale(d[map.y]))
-      .attr("height", d => height - yScale(d[map.y]));
+      .attr("y", d => map.y ? yScale(d[map.y]) : yScale(0))
+      .attr("height", d => map.y ? height - yScale(d[map.y]) : height - yScale(0));
   }
 
   function wrap(text, width) {

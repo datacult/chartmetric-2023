@@ -31,7 +31,9 @@ https://studio.datacult.com/ -->
 <script>
     (async () => {
 
-        let bararc = await barArc('/data/viz_2_5_en.csv')
+        let data = await d3.csv('./data/viz_2_5_en.csv', d3.autoType)
+
+        let bararc = barArc(data)
 
         let example_updates = [
             'start_total',
