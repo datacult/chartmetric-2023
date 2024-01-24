@@ -147,7 +147,7 @@ import { SingleValues } from "./highFi/single_values.js";
                 }
 
                 if (param.hasOwnProperty("arc")) {
-                    this.viz.arc.update(null, { y: param.arc });
+                    this.viz.arc.update(null, { focus: param.arc });
                 } else {
                     this.viz.bar.update(this.data);
                 }
