@@ -430,9 +430,8 @@ import { SingleValues } from "./highFi/single_values.js";
     document.querySelectorAll(".toggle-wrapper").forEach((toggleWrapper) => {
         toggleWrapper.querySelectorAll(".toggle-switch").forEach((toggleSwitch) => {
             toggleSwitch.addEventListener("click", () => {
-                // Extract IDs from the element and its parent
-                const value = toggleWrapper.getAttribute("data");
-                const viz_id = toggleWrapper.id.split("-")[1]
+                const value = toggleSwitch.getAttribute("data");
+                const viz_id = "viz_" + toggleWrapper.id.split("-")[1]
 
                 console.log("toggle: ", viz_id, value);
 
