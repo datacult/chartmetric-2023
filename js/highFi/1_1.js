@@ -1,12 +1,8 @@
 import { chartDimensions } from "../utility.js";
 
-export async function Sankey(
-  data = [],
-  chartContainerId = "vis",
-
-) {
+export async function Sankey(data = [], chartContainerId = "vis") {
   const nodeId = "source";
-  const padding =100;
+  const padding = 100;
   const padding_chart = 105;
   /***********************
    *1. Access data
@@ -58,8 +54,8 @@ export async function Sankey(
   const svg = d3
     .select(visElement)
     .append("svg")
-    .attr("width", width)
-    .attr("height", width);
+    .attr("width", '100%')
+    .attr("height", '100%');
 
   /***********************
    *4. Create scales
@@ -86,7 +82,9 @@ export async function Sankey(
     .attr("class", "sankey")
     .attr(
       "transform",
-      `translate(${padding_chart*2}, ${padding_chart*3}) rotate(90, ${cx}, ${cy})`
+      `translate(${padding_chart * 2}, ${
+        padding_chart * 3
+      }) rotate(90, ${cx}, ${cy})`
     );
 
   const { nodes: sankeyNodes, links: sankeyLinks } = sankey({
@@ -107,24 +105,30 @@ export async function Sankey(
     })
     .style("mix-blend-mode", "multiply");
 
-    const color = d3.scaleOrdinal(d3.schemeCategory10);
-   // gradient link
-      const gradient = link.append("linearGradient")
-      .attr("id", d => `link-gradient-${d.source.name}-${d.target.name}`)
-          .attr("gradientUnits", "userSpaceOnUse")
-          .attr("x1", d => d.source.x1)
-          .attr("x2", d => d.target.x0);
-      gradient.append("stop")
-          .attr("offset", "0%")
-          .attr("stop-color", d => color(d.source.name));
-      gradient.append("stop")
-          .attr("offset", "100%")
-          .attr("stop-color", d => color(d.target.name));
-  
+  const color = d3.scaleOrdinal(d3.schemeCategory10);
+  // gradient link
+  const gradient = link
+    .append("linearGradient")
+    .attr("id", (d) => `link-gradient-${d.source.name}-${d.target.name}`)
+    .attr("gradientUnits", "userSpaceOnUse")
+    .attr("x1", (d) => d.source.x1)
+    .attr("x2", (d) => d.target.x0);
+  gradient
+    .append("stop")
+    .attr("offset", "0%")
+    .attr("stop-color", (d) => color(d.source.name));
+  gradient
+    .append("stop")
+    .attr("offset", "100%")
+    .attr("stop-color", (d) => color(d.target.name));
+
   link
     .append("path")
     .attr("d", d3.sankeyLinkHorizontal())
-    .attr("stroke", (d,i) => `url(#link-gradient-${d.source.name}-${d.target.name})`)
+    .attr(
+      "stroke",
+      (d, i) => `url(#link-gradient-${d.source.name}-${d.target.name})`
+    )
     .attr("stroke-width", (d) => Math.max(1, d.width));
 
   // rect bar
@@ -165,4 +169,6 @@ export async function Sankey(
     .append("tspan")
     .attr("fill-opacity", 0.8)
     .text((d) => ` ${d.value.toLocaleString()}`);
+
+  return function update() {};
 }

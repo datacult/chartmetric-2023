@@ -154,7 +154,6 @@ let arcchart = ((data = [], map, options, svg) => {
         .attr("stroke-dashoffset", 0);
 
     } else {
-
       arc
         .transition(t)
         .delay((d, i) => xScale.domain().indexOf(d[map.source]) * (options.transition / targets.length))

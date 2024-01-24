@@ -113,7 +113,7 @@ export async function gradientBar(
       });
   }
 
-  function updateChart(selectedValue) {
+  function update(data,selectedValue) {
     if (selectedValue == "All Countries") {
       data = dataset.slice(0, 10);
       drawElements(data);
@@ -122,7 +122,7 @@ export async function gradientBar(
       drawElements(data);
     }
   }
-  updateChart(selectedValue);
+  update(data,selectedValue);
 
-  return updateChart;
+  return update;
 }

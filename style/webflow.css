@@ -7,5 +7,18 @@ body {
 }
 
 .viz {
-    width:500px;
+    width: 500px;
+}
+
+/* import Inter Font */
+:root {
+    font-family: Inter, sans-serif;
+    font-feature-settings: "liga" 1, "calt" 1;
+    /* fix for Chrome */
+}
+
+@supports (font-variation-settings: normal) {
+    :root {
+        font-family: InterVariable, sans-serif;
+    }
 }

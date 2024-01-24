@@ -286,6 +286,8 @@ import { circlepacking_2_11 } from './highFi/2_11.js';
     visuals.viz_2_10.viz = gradientBarMapComponent(visuals.viz_2_10.data, visuals.viz_2_10.options.selector);
     visuals.viz_2_11.viz = circlepacking_2_11(visuals.viz_2_11.data, visuals.viz_2_11.options.selector);
 
+    //! Gordon Ignore below for now
+    setTimeout(() => visuals.viz_2_9.update('China'), 5000);
     ////////////////////////////////
     ///////// viz updates //////////
     ////////////////////////////////
