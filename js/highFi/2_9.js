@@ -2,7 +2,7 @@
 
 import { chartDimensions } from "../chartDimensions.js";
 import { setupResizeListener } from "../utility.js";
-export async function gradientBar(
+export function gradientBar(
   dataset,
   chartContainerId,
   widthKey,
@@ -124,5 +124,7 @@ export async function gradientBar(
   }
   update(data,selectedValue);
 
-  return update;
+  return {
+    update:update
+  };
 }
