@@ -294,7 +294,8 @@ import { SingleValues } from "./highFi/single_values.js";
     ///// populate dropdown ////////
     ////////////////////////////////
 
-    let artistDropdown = document.querySelector("#dropdown_2_9");
+    let countryDropdownContainer = document.querySelector("#dropdown_2_9");
+    let contryDropdown = document.createElement("select");
 
     let countries = visuals.viz_2_9.data.sort((a, b) =>
         d3.ascending(a.COUNTRY_NAME, b.COUNTRY_NAME)
@@ -304,8 +305,10 @@ import { SingleValues } from "./highFi/single_values.js";
     countries.forEach((country) => {
         let option = document.createElement("option");
         option.text = country;
-        artistDropdown.add(option);
+        contryDropdown.add(option);
     });
+
+    countryDropdownContainer.appendChild(contryDropdown)
 
     ////////////////////////////////
     /////// load visuals ///////////
