@@ -71,9 +71,7 @@ export function gradientBarMapComponent(dataset, selector) {
       .attr(
         "id",
         (d) => trimNames(d[yKey])
-        // .replace(/[^a-zA-Z0-9-_]/g, "") // Remove special characters
-        // .replace(/\s/g, "_") // Replace spaces with underscores
-        // .replace(/\(|\)/g, "")
+   
       )
       .on("click", async function (event, d) {
         d3.select("#radioTopTracksMap_worldMap_svg").selectAll("*").remove();
@@ -94,12 +92,13 @@ export function gradientBarMapComponent(dataset, selector) {
           .select(this)
           .node()
           .getBoundingClientRect().width;
+          
         console.log(profileBarWidth, fromRight);
         gsap.fromTo(
           "#tooltip_2_10",
-          { right: fromRight, opacity: 0 },
+          { left: profileBarWidth+fromRight, opacity: 0 },
           {
-            right: -profileBarWidth+fromRight,
+            left: profileBarWidth*.5,
             opacity: 1,
             duration: 0.5,
             ease: "power2.inOut",
