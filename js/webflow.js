@@ -294,23 +294,23 @@ import { SingleValues } from "./highFi/single_values.js";
     ///// populate dropdowns ///////
     ////////////////////////////////
 
-    let platformDropdownContainer = document.querySelector("#dropdown-1_3");
-    let platformDropdown = document.createElement("select");
+    // let platformDropdownContainer = document.querySelector("#dropdown-1_3");
+    // let platformDropdown = document.createElement("select");
 
-    let platforms = visuals.viz_1_3.data.sort((a, b) =>
-        d3.ascending(a.PLATFORM, b.PLATFORM)
-    );
-    platforms = Array.from(new Set(platforms.map((d) => d.PLATFORM)));
+    // let platforms = visuals.viz_1_3.data.sort((a, b) =>
+    //     d3.ascending(a.PLATFORM, b.PLATFORM)
+    // );
+    // platforms = Array.from(new Set(platforms.map((d) => d.PLATFORM)));
 
-    visuals.viz_1_3.params = platforms;
+    // visuals.viz_1_3.params = platforms;
 
-    platforms.forEach((country) => {
-        let option = document.createElement("option");
-        option.text = country;
-        platformDropdown.add(option);
-    });
+    // platforms.forEach((country) => {
+    //     let option = document.createElement("option");
+    //     option.text = country;
+    //     platformDropdown.add(option);
+    // });
 
-    platformDropdownContainer.appendChild(platformDropdown)
+    // platformDropdownContainer.appendChild(platformDropdown)
 
     let countryDropdownContainer = document.querySelector("#dropdown-2_9");
     let contryDropdown = document.createElement("select");
