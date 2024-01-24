@@ -129,7 +129,7 @@ import { SingleValues } from "./highFi/single_values.js";
                 selector: "#viz_2_5",
             },
             params: [
-                { bar: "start_total" },
+                // { bar: "start_total" },
                 { bar: "end_total" },
                 { arc: "Undiscovered" },
                 { arc: "Developing" },
@@ -281,7 +281,7 @@ import { SingleValues } from "./highFi/single_values.js";
     // // grab the selected language from dropdown on initial load
     // let language = document.querySelector("#language").value;
 
-    // await loadData("en");
+    await loadData("en");
 
     // document.querySelector("#language").addEventListener("change", async (e) => {
     //     // check the language has changed
