@@ -130,6 +130,7 @@ import { SingleValues } from "./highFi/single_values.js";
             },
             params: [
                 { bar: "end_total", arc: { focus: null, opacity: 0 } },
+                { bar: "end_total", arc: { focus: null, opacity: 0.03 } },
                 { bar: "Undiscovered", arc: { focus: "Undiscovered", opacity: 0.03 } },
                 { bar: "Developing", arc: { focus: "Developing", opacity: 0.03 } },
                 { bar: "Mid-Level", arc: { focus: "Mid-Level", opacity: 0.03 } },
