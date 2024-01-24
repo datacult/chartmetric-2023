@@ -76,30 +76,34 @@ export function gradientBarMapComponent(dataset, selector) {
         // .replace(/\(|\)/g, "")
       )
       .on("click", async function (event, d) {
-        d3.select('#radioTopTracksMap_worldMap_svg').selectAll("*").remove()
-        await drawMap(
-          d.data.map((d) => d.NAME)
-        );
+        d3.select("#radioTopTracksMap_worldMap_svg").selectAll("*").remove();
+        await drawMap(d.data.map((d) => d.NAME));
       })
       .on("mouseenter", function (event, d) {
         d3.select(this).style("border", "1px solid black");
 
-        d3.select(this).append("div").attr("class", "tooltip").html(`
+        d3.select(this).append("div").attr("class", "tooltip").attr('id', 'tooltip_2_10').html(`
       <div class='name'>${d.data[0].ARTIST_NAME}</div>
       <div class="flag"> </div>
-      <div class="card-stack">
-        <div class="card">R&B/Soul</div>
-        <div class="card">Jazz</div>
-        <div class="card">Pop</div>
-      </div>`);
+     `);
         let fromRight = d3
-          .select(".tooltip")
+          .select("#tooltip_2_10")
           .node()
           .getBoundingClientRect().width;
+        let profileBarWidth = d3
+          .select(this)
+          .node()
+          .getBoundingClientRect().width;
+        console.log(profileBarWidth, fromRight);
         gsap.fromTo(
-          ".tooltip",
-          { left: -fromRight, opacity: 0 },
-          { left: 0, opacity: 1, duration: 0.5, ease: "power2.inOut" }
+          "#tooltip_2_10",
+          { right: fromRight, opacity: 0 },
+          {
+            right: -profileBarWidth+fromRight,
+            opacity: 1,
+            duration: 0.5,
+            ease: "power2.inOut",
+          }
         );
       })
       .on("mouseleave", function (d) {

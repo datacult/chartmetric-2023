@@ -971,10 +971,15 @@ Bar
   display: flex;
   align-items: center;
   padding: 10px;
+
+  /* background-image: linear-gradient(to right,
+  #f5f5f5 0%,
+  #f5f5f5 40%,
+  transparent 100%); */
   background-image: linear-gradient(to right,
-      #eae7df 0%,
-      #eae7df 20%,
-      #f5f4f0 100%);
+      #E4E0D8 0%,
+      #EBE8E0 20%,
+      transparent 100%);
   border-radius: 50px;
 }
 
@@ -991,6 +996,7 @@ Bar
 
 #viz_2_10 .artist-name {
   max-width: 50%;
+  overflow: hidden;
 }
 
 #viz_2_10 .artist-name span {
@@ -1102,7 +1108,10 @@ Bar
 
   /* Ensure there is enough space for the cards to pop */
 }
-
+#tooltip_2_10 {
+  margin-left: 130px;
+  position: absolute;
+}
 #viz_2_10 .card {
   position: absolute;
   padding: 0px 10%;
