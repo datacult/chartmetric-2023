@@ -1,19 +1,21 @@
 import { chartDimensions, trimNames } from "../utility.js";
 import { drawMap } from "./2_10_Map.js";
+
 export function gradientBarMapComponent(dataset, selector) {
   let widthKey = "SPINS";
   let yKey = "TRACK_NAME";
   d3.select("#" + selector).html(`
-<div id="radioTopTracksMap_worldMap">
-    <svg></svg>
-    <div class="map-tooltip">
-       
-    </div>
-</div>
-
-<div id="radioTopTracksMap_gradientBar">
-
-</div>`);
+  <div id="radioTopTracksMap_worldMap">
+      <svg id='radioTopTracksMap_worldMap_svg'></svg>
+      <div class="map-tooltip">
+         
+      </div>
+  </div>
+  
+  <div id="radioTopTracksMap_gradientBar">
+  
+  </div>`);
+  drawMap();
   let chartContainerId = "radioTopTracksMap_gradientBar";
   /***********************
    *1. Access data
@@ -40,7 +42,7 @@ export function gradientBarMapComponent(dataset, selector) {
      *3. Set up canvas
      ************************/
     const wrapper = d3.select(visElement);
-      console.log(wrapper)
+    console.log(wrapper);
     /***********************
      *4. Create scales
      ************************/
@@ -74,9 +76,9 @@ export function gradientBarMapComponent(dataset, selector) {
         // .replace(/\(|\)/g, "")
       )
       .on("click", async function (event, d) {
+        d3.select('#radioTopTracksMap_worldMap_svg').selectAll("*").remove()
         await drawMap(
-          d.data.map((d) => d.NAME),
-          chartContainerId
+          d.data.map((d) => d.NAME)
         );
       })
       .on("mouseenter", function (event, d) {
@@ -121,8 +123,6 @@ export function gradientBarMapComponent(dataset, selector) {
         return widthScale(d.data[0][widthKey]) + "px";
       })
       .style("transform", (d, i) => `translateY(${yScale(d[yKey])}px)`);
-
-    
   }
   function update(data) {
     draw(data);

@@ -1,7 +1,7 @@
 import { chartDimensions, trimNames} from "../utility.js";
 let selectedCountries = ["Italy"];
-export async function drawMap(selectedCountries = [], chartContainerId) {
-  // parameters
+export async function drawMap(selectedCountries = [], chartContainerId='radioTopTracksMap_worldMap') {
+
   let dataUrl = "./data/world.json";
   let trackDataUrl = "https://share.chartmetric.com/year-end-report/2023/viz_2_10_en.csv";
   let hoveredMapSelector = null;
@@ -24,6 +24,7 @@ export async function drawMap(selectedCountries = [], chartContainerId) {
   // Get the bounding rectangle of the element
   
   const dimensions = chartDimensions(chartContainerId);
+
   /***********************
    *3. Set up canvas
    ************************/
@@ -32,13 +33,13 @@ export async function drawMap(selectedCountries = [], chartContainerId) {
 
     .fitSize([dimensions.boundedWidth, dimensions.boundedHeight], countries);
   const path = d3.geoPath(projection);
-  console.log(1)
+
   // Create the SVG container.
   const svg = d3
-    .select("svg")
+    .select("#radioTopTracksMap_worldMap_svg")
     .attr("width", dimensions.boundedWidth)
     .attr("height", dimensions.boundedHeight)
-    .attr("viewBox", [0, 0, dimensions.boundedWidth, dimensions.boundedHeight])
+
     .attr("style", "max-width: 100%; height: 100%;");
 
   // Add a path for each country and color it according te this data.
