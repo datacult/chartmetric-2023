@@ -52,6 +52,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_1_3",
             },
+            params:[],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -66,6 +67,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_1_5",
             },
+            params:[],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -80,6 +82,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_1",
             },
+            params:[],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -94,6 +97,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_2",
             },
+            params:[],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -108,6 +112,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_3",
             },
+            params:[],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -122,6 +127,16 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "#viz_2_5",
             },
+            params:[
+                'start_total',
+                'end_total',
+                "Undiscovered",
+                "Developing",
+                "Mid-Level",
+                "Mainstream",
+                "Superstar",
+                "Legendary"
+            ],
             update: function (param) {
                 // expects an object with 'bar' & 'arc' keys
 
@@ -144,6 +159,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_6",
             },
+            params:[],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -165,6 +181,7 @@ import { SingleValues } from "./highFi/single_values.js";
                 y: "MONTHLY_ARTIST_RANK",
                 group: "NAME",
             },
+            params:[],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -179,6 +196,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_9",
             },
+            params:[],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -193,6 +211,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_10",
             },
+            params:[],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -207,6 +226,7 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_11",
             },
+            params:[],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
