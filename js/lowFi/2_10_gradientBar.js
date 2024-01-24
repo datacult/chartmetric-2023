@@ -1,5 +1,5 @@
 import { chartDimensions, trimNames } from "../utility.js";
-import { drawMap } from "./2_10_Map.js";
+import { drawMap } from "./2_10_map.js";
 
 export function gradientBarMapComponent(dataset, selector) {
   let widthKey = "SPINS";
