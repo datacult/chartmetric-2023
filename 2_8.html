@@ -56,9 +56,10 @@ https://studio.datacult.com/ -->
     let artistName = BumpChart(dataUrl, mapping, options, 'background-chart-2-8', 'section-2-8', scrollFunction)
 
     // whenever you scroll to a new section, 
-    // STEP1. pass in the section element that has , not id, not class. Element
+    //TODO STEP1. pass in artistName to this function
     // STEP2. call this function
     function scrollFunction(section) {
+        // d3.select(className)
         const parts = section.className.split(" ");
         const artistName = parts.slice(1).join(" ");
         // scrollToArtist = artistName;

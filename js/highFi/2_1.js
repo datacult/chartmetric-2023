@@ -1,5 +1,5 @@
 import { chartDimensions } from "../chartDimensions.js";
-export async function circlepacking_2_1(realData, selector) {
+export async function circlepacking_2_1(realData, selector="top100ArtistCountriesGenderCirclePacking_chart") {
   let countryUrl = "./data/viz2-1_country.csv";
   let genderUrl = "./data/viz2-1_gender.csv";
 
@@ -16,7 +16,7 @@ export async function circlepacking_2_1(realData, selector) {
     d3.csv(genderUrl, d3.autoType),
   ]);
 
-  const countryData = realData.filter((d) => d.COUNTRY_NAME !== "Global");
+  // const countryData = realData.filter((d) => d.COUNTRY_NAME !== "Global");
 
   /***********************
    *2. Create chart dimensions
@@ -181,6 +181,7 @@ export async function circlepacking_2_1(realData, selector) {
     .attr("text-anchor", "middle");
   svg
     .append("defs")
+    // .selectAll("pattern")
     .append("pattern")
     .attr("id", "image-fill-") // Unique ID for each pattern
     .attr("width", "100%")
