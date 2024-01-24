@@ -269,6 +269,8 @@ import { SingleValues } from "./highFi/single_values.js";
                 }
             });
         }
+
+        console.log("data load complete")
     }
 
     // temp local data for viz_2_5
