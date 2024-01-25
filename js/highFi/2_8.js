@@ -137,7 +137,7 @@ export  function BumpChart(
     .curve(d3.curveBumpX);
 
   // Drawing areas
-  svg
+  let paths = svg
     .selectAll(".area")
     .data(nestedData)
     .join("path")
@@ -146,18 +146,6 @@ export  function BumpChart(
     .attr("d", (d) => area(d.values))
     .attr("fill", (d) => (map.fill != null ? d[map.fill] : options.fill))
     .attr("opacity", options.opacity)
-    .on("mouseover", (event, d) => {
-      d3.select(event.target)
-        .transition()
-        .duration(options.transition)
-        .attr("opacity", 1);
-    })
-    .on("mouseout", (event, d) => {
-      d3.select(event.target)
-        .transition()
-        .duration(options.transition)
-        .attr("opacity", options.opacity);
-    });
 
   svg
     .selectAll(".labels")
@@ -180,59 +168,15 @@ export  function BumpChart(
   ////////////////////////////////////////
   ////////////// Update //////////////////
   ////////////////////////////////////////
-  function scrollFunction(idName) {
-    // // d3.select(className)
 
-    // const parts = section.className.split(" ");
-    // const artistName = parts.slice(1).join(" ");
-    // scrollToArtist = artistName;
-    let artistNameId = trimNames(idName);
-    const timeline = gsap.timeline();
-    // select all band, and dim them
-    timeline
-      .to(".area-2-8", {
-        duration: 0.5,
-        attr: {
-          fill: options.fill,
-          stroke: "none",
-          opacity: 0.3,
-        },
-      })
-      // select targetted band, and hightlight it
-      .to(
-        "#" + artistNameId,
-        {
-          duration: 0.8,
-          ease: "expoScale(0.5,7,none)",
-          attr: {
-            fill: "#1781F7",
-            stroke: "black",
-            opacity: 1,
-          },
-        },
-        0.2
-      );
+  function update(newData = data, focus) {
+
+    paths
+        .transition()
+        .duration(options.transition)
+        .attr("opacity", d => d.name == focus ? 1 : options.opacity);
+    
   }
-  function update(newData = data, idName) {
-    // merge any new mapping and options
-    scrollFunction(idName);
-  }
-
-  // call for initial bar render
-  update(data, "Drake");
-
-  let scrollToArtist = "";
-  // only enter is observed on WebFlow
-  // gsap.utils.toArray("." + triggerSection).forEach((section) => {
-  //   ScrollTrigger.create({
-  //     trigger: section,
-  //     markers: true,
-  //     start: "top 50%",
-  //     end: "bottom 50%",
-  //     scrub: true,
-  //     onEnter: () => onEnterCallback(section),
-  //   });
-  // });
 
   return {
     update: update,
