@@ -22,7 +22,7 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
      *2. Create chart dimensions
      ************************/
 
-    const {  boundedHeight: height } =
+    const { boundedHeight: height } =
         chartDimensions(selector);
     d3.select(selector).html(`   <div id="topArtistsByFollowersBubbles_bottom">
       <div class="topArtistsByFollowersBubbles_bot-section" id="topArtistsByFollowersBubbles_bot-section1">
@@ -39,7 +39,7 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
       </div>
     </div>`);
     function draw(data = realData, type = type) {
-         data = realData.filter((d) => d.TYPE == type);
+        data = realData.filter((d) => d.TYPE == type);
         const {
             boundedWidth: width,
             boundedHeight: chartSectionHeight,
@@ -58,7 +58,7 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
             .scaleSqrt()
             .domain([0, maxGroupValue])
             // controls the size of the circles
-            .range([0, width/3]);
+            .range([0, width / 3]);
 
         const circlePackingData = [];
 
@@ -132,7 +132,7 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
                 .enter()
                 .append("pattern")
                 .attr("id", (d) => {
-                    return trimNames(d.ARTIST_NAME);
+                    return trimNames(d.ARTIST_NAME) + "_img";
                 }) // Unique ID for each pattern
                 .attr("width", "100%")
                 .attr("height", "100%")
@@ -179,7 +179,7 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
             .attr("class", "circle-1-5")
             .attr("stroke", (d) => "white")
             .attr("stroke-width", (d) => 3)
-            .attr("fill", (d, i) => `url(#${trimNames(d.ARTIST_NAME)})`)
+            .attr("fill", (d, i) => `url(#${trimNames(d.ARTIST_NAME) + "_img"})`)
             .attr("cx", (d) => Math.cos(d.angle) * (width / Math.SQRT2 + 160))
             .attr("cy", (d) => Math.sin(d.angle) * (width / Math.SQRT2 + 160))
             .attr("r", (d) => d.r - 0.25)
