@@ -43,7 +43,7 @@ export function gradientBarMapComponent(dataset, selector) {
      *3. Set up canvas
      ************************/
     const wrapper = d3.select(visElement);
-    console.log(wrapper);
+
     /***********************
      *4. Create scales
      ************************/
@@ -94,7 +94,7 @@ export function gradientBarMapComponent(dataset, selector) {
           .node()
           .getBoundingClientRect().width;
           
-        console.log(profileBarWidth, fromRight);
+        // console.log(profileBarWidth, fromRight);
         gsap.fromTo(
           "#tooltip_2_10",
           { left: profileBarWidth+fromRight, opacity: 0 },

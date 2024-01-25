@@ -15,7 +15,7 @@ export function gradientBar(
    ************************/
 
   dataset = dataset.sort((a, b) => d3.descending(a[widthKey], b[widthKey])); // .sort((a, b) => d3.descending(a.SPINS, b.SPINS));
-  console.log("viz29", dataset);
+
   let countries_names = [...new Set(dataset.map((d) => d.COUNTRY_NAME))];
   countries_names.unshift("All Countries");
   // let data = dataset.filter((d) => d.COUNTRY_NAME == selectedValue);
@@ -56,7 +56,7 @@ export function gradientBar(
     const barContainers = wrapper
       .selectAll("div.bar")
       .data(top10, (d) => d.ARTIST_NAME);
-    console.log(top10);
+   
     // Use join to handle enter, update, and exit selections
     const enterSelection = barContainers
       .enter()

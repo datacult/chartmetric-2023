@@ -121,7 +121,7 @@ export function circlepacking_2_1(
         if (d.data[0]) {
           return trimNames(d.data[0]);
         }
-        console.log(d);
+   
       })
       .attr("x", (d) => d.x)
       .attr("y", (d) => d.y)

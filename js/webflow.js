@@ -98,7 +98,10 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_2",
             },
-            params: ["Artist Genres", "Track Genres", "All Time", "2023"],
+        //! First Argument: "Artist Genres" // or  "Track Genres"
+        //! Second Argument:  "top_genres_for_artists_all_time" // Or "top_genres_for_artists_created_in_2023"
+        // i understand there are three buttons. The last two buttons are from the same column, `NAME`, and can be mutually exclusive
+            params: ["Artist Genres", "top_genres_for_artists_all_time", "All Time"],
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
@@ -355,12 +358,13 @@ import { SingleValues } from "./highFi/single_values.js";
         visuals.viz_2_1.data,
         visuals.viz_2_1.options.selector
     );
-    // visuals.viz_2_2.viz = Treemap(
-    //     visuals.viz_2_2.data,
-    //     visuals.viz_2_2.options.selector,
-    //     "Artist Genres",
-    //     "top_genres_for_artists_all_time"
-    // );
+    visuals.viz_2_2.viz = Treemap(
+        visuals.viz_2_2.data,
+        visuals.viz_2_2.options.selector,
+        "Artist Genres",
+        "top_genres_for_artists_all_time",
+        "All Time"
+    );
     visuals.viz_2_3.viz = Table_2_3(
         visuals.viz_2_3.data,
         visuals.viz_2_3.options.selector

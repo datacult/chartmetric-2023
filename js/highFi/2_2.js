@@ -1,23 +1,22 @@
 "use strict";
 
 import { TreemapComponent } from "../../components/Treemap.js";
-import { setupResizeListener,chartDimensions } from "../utility.js";
- function drawChart(dataset, selector, genreType, year) {
-  // parameters
+import { setupResizeListener, chartDimensions } from "../utility.js";
+function drawChart(data, selector, genreType, year, timeframe) {
   d3.select("#" + selector)
     .select("svg")
     .remove();
+    d3.select("#" + selector).append('div').attr('id', 'gentreTreemap_chart')
   /***********************
    *1. Access data
    ************************/
 
-  let data = dataset.map((d) => Object.assign({}, d));
-  console.log(
-    data.filter((d) => d.TITLE == genreType)
-    // .filter((d) => d.YEAR == year)
-  );
+
+ 
+  // console.log([...new Set(data.map((d) => d.TIMEFRAME))]);
   data = data
     .filter((d) => d.TITLE == genreType)
+    .filter((d) => d.TIMEFRAME == timeframe) // or 2023
     .filter((d) => d.NAME == year)
     .sort((a, b) => d3.descending(+a.VALUE, +b.VALUE))
     .map((d, i) => {
@@ -25,6 +24,7 @@ import { setupResizeListener,chartDimensions } from "../utility.js";
         GENRE_NAME: d.GENRE_NAME,
         VALUE: +d.VALUE,
         RANK: i + 1,
+        IMAGE_URL: d.IMAGE_URL,
       };
     })
     .slice(0, 10);
@@ -43,20 +43,16 @@ import { setupResizeListener,chartDimensions } from "../utility.js";
       left: boundedWidth * 0.02,
     }
   );
-  console.log(width, height);
+
   /***********************
    *3. Set up canvas
    ************************/
-  const visElement = document.getElementById(selector);
-  const wrapper = d3
-    .select(visElement)
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height * 0.98);
+  const visElement = d3.select("#" + selector);
+  console.log(width, height)
   // .attr("viewBox", `0 0 ${width*0.98} ${height*0.98}`)
   // .attr("preserveAspectRatio", "xMidYMid meet");
 
-  TreemapComponent(wrapper, data, {
+  TreemapComponent(visElement, data, {
     path: (d) => d.GENRE_NAME,
     value: (d) => d.VALUE,
     label: (d) => {
@@ -69,25 +65,19 @@ import { setupResizeListener,chartDimensions } from "../utility.js";
     width: width,
     height: height,
   });
-
-  d3.selectAll(".genre").on("click", (event) => {
-    // Calculate the new position for the background
-    let newPosition = event.target.offsetLeft;
-    // let newPosition = this.offsetLeft;
-
-    // Use GSAP to animate the background to the new position
-    gsap.to(".background", {
-      duration: 0.5, // Duration of the animation
-      left: newPosition,
-      ease: "power2.inOut", // Smoother animation easing
-    });
-  });
 }
 
-export  function Treemap(dataUrl, genreType, year) {
-  // await loadData();
-   drawChart(dataUrl, genreType, year);
-  setupResizeListener(drawChart, dataUrl, genreType, year);
+export function Treemap(data, selector, genreType, year, timeframe) {
+  // console.log(data, selector, genreType, year, timeframe);
 
-  return (genreType, year) => drawChart(dataUrl, genreType, year);
+  const update = (newData, newGenreType, newYear, newTimeframe) => {
+
+    drawChart(newData,selector,newGenreType, newYear, newTimeframe);
+  };
+
+  update(data, genreType, year, timeframe);
+
+  return {
+    update,
+  };
 }

@@ -1,12 +1,12 @@
 export function Table_1_3(data = [], selector = "vis", platform = "Spotify") {
-  console.log(data);
-  console.log(selector)
+  // console.log(data);
+ 
   function draw() {
 
     // Filtering objects based on the 'Platform' property
     const filteredData = data.filter(track => track["PLATFORM"] === platform);
 
-    console.log(filteredData);
+    // console.log(filteredData);
 
     // Sorting filtered array based on 'track_rank' in ascending order
     const sortedArray = filteredData.sort((a, b) => a.track_rank - b.track_rank);
