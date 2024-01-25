@@ -1109,7 +1109,7 @@ Bar
   /* Ensure there is enough space for the cards to pop */
 }
 #tooltip_2_10 {
-  margin-left: 130px;
+  margin-left:30px;
   position: absolute;
 }
 #viz_2_10 .card {
