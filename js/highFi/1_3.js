@@ -22,33 +22,19 @@ export function Table_1_3(data = [], selector = "vis", platform = "Spotify") {
     element.remove();
     });
 
-    // sortedArray.forEach(obj => {
-    // const htmlElement = document.createElement('div');
-    // htmlElement.className = "box1";
-    // htmlElement.innerHTML = `
-    //     <div class="rank">${obj["TRACK_RANK"]}</div>
-    //     <img src="${obj["IMAGE_URL"]}" alt="${obj["ARTIST_NAME"]}" style="width:100px;height:100px;">
-    //     <div class="track-text">
-    //         <div class="header">${obj["TRACK_NAME"]}</div>
-    //         <div class="subheader"><span class="color-bar"></span>${obj["ARTIST_NAME"]}</div>
-    //     </div>
-    // `;
-    // wrapper.appendChild(htmlElement);
-    // });
-
-    for (const obj of sortedArray) {
-        const htmlElement = document.createElement('div');
-        htmlElement.className = "box1";
-        htmlElement.innerHTML = `
-            <div class="rank">${obj["TRACK_RANK"]}</div>
-            <img src="${obj["IMAGE_URL"]}" alt="${obj["ARTIST_NAME"]}" style="width:100px;height:100px;">
-            <div class="track-text">
-                <div class="header">${obj["TRACK_NAME"]}</div>
-                <div class="subheader"><span class="color-bar"></span>${obj["ARTIST_NAME"]}</div>
-            </div>
-        `;
-        wrapper.appendChild(htmlElement);
-      }
+    sortedArray.forEach(obj => {
+    const htmlElement = document.createElement('div');
+    htmlElement.className = "box1";
+    htmlElement.innerHTML = `
+        <div class="rank">${obj["TRACK_RANK"]}</div>
+        <img class="rank-img" src="${obj["IMAGE_URL"]}" alt="${obj["ARTIST_NAME"]}">
+        <div class="track-text">
+            <div class="header">${obj["TRACK_NAME"]}</div>
+            <div class="subheader"><span class="color-bar"></span>${obj["ARTIST_NAME"]}</div>
+        </div>
+    `;
+    wrapper.appendChild(htmlElement);
+    });
 
   }
   function update(data) {

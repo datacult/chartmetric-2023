@@ -39,7 +39,7 @@ body {
 / Viz 1_3
 * * * * * * * * * * * * * * * */
 #viz_1_3 {
-  height: 1200px;
+  height: auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   /* Two columns with equal width */
@@ -90,6 +90,12 @@ body {
   filter: blur(7.5px);
 }
 
+#viz_1_3 .rank-img {
+  height: 85px;
+  width: 85px;
+  border: #ffffff 4px solid;
+}
+
 #viz_1_3 .track-text {
   display: flex;
   flex-direction: column;
@@ -99,13 +105,14 @@ body {
 
 #viz_1_3 .header {
   color: var(--text-primary, #1c1c1c);
-  text-align: right;
+  margin-bottom: 8px;
+  /* text-align: right; */
 
   /* Desktop/Body/Redacted/regular */
-  font-family: Redacted Script;
-  font-size: 30px;
+  font-family: Inter;
+  font-size: 22px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 100%;
   /* 30px */
 }
@@ -118,8 +125,8 @@ body {
   text-align: right;
 
   /* Desktop/Body/Redacted/sm */
-  font-family: Redacted Script;
-  font-size: 24px;
+  font-family: Inter;
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 100%;
