@@ -28,22 +28,21 @@ https://studio.datacult.com/ -->
 </html>
 <script>
     (async () => {
-        let a29 = await d3.csv('./data/A2-9.csv', d3.autoType)
+        let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_1_en.csv', d3.autoType)
 
         let mapping = {
-            selector: '#vis',
-            selector: '#vis',
-            value: "RANK_25_75",
+            value: "PEAK_CM_SCORE",
             label: "ARTIST_NAME",
             group: "COUNTRY_NAME"
         }
 
         let options = {
+            selector: '#vis',
             fill: "white",
             stroke: "black",
         }
 
-        let a29chart = circlepack(a29, mapping, options)
+        let chart = circlepack(data, mapping, options)
 
     })()
 

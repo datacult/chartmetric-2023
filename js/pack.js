@@ -13,7 +13,6 @@ let circlepack = ((data, map, options) => {
   ////////////////////////////////////////
 
   let mapping = {
-    selector: '#vis',
     fill: null,
     stroke: null,
     group: null,
@@ -25,6 +24,7 @@ let circlepack = ((data, map, options) => {
   map = { ...mapping, ...map };
 
   let defaults = {
+    selector: '#vis',
     width: 800,
     height: 800,
     margin: { top: 20, right: 20, bottom: 20, left: 20 },
@@ -43,7 +43,7 @@ let circlepack = ((data, map, options) => {
   ////////////// SVG Setup ///////////////
   ////////////////////////////////////////
 
-  const div = d3.select(map.selector);
+  const div = d3.select(options.selector);
 
   const container = div.append('div')
     .classed('vis-svg-container', true);
@@ -102,7 +102,7 @@ let circlepack = ((data, map, options) => {
           "value": d[map.value]
         });
       });
-      
+
     }
 
     return root;
@@ -129,7 +129,6 @@ let circlepack = ((data, map, options) => {
   ////////////// DOM Setup ///////////////
   ////////////////////////////////////////
 
-
   let node = svg.selectAll('.node')
     .data(root.descendants())
     .enter().append('g')
@@ -139,16 +138,44 @@ let circlepack = ((data, map, options) => {
   node.append('circle')
     .attr('r', d => d.r)
     .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
-    .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke);
+    .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
+    .attr('opacity', d => d.depth > 1 ? 0 : 1);
 
   node.append('text')
     .attr('dy', '.2em')
     .style('text-anchor', 'middle')
     .text(d => d.data.name ? d.data.name : '')
-    .attr('font-size', d => d.r / 5);
+    .attr('font-size', d => d.r / 5)
+    .attr('opacity', d => d.depth == 1 ? 1 : 0);
 
   node.append('title')
     .text(d => d.data.name + '\n' + d.value);
+
+  node
+    .filter(d => d.depth === 0)
+    .on('mouseover', function (d) {
+      node.selectAll('circle')
+        .transition()
+        .duration(200)
+        .attr('opacity', 1);
+
+      node.selectAll('text')
+        .transition()
+        .duration(200)
+        .attr('opacity', d => d.depth > 1 ? 1 : 0);
+
+    })
+    .on('mouseout', function (d) {
+      node.selectAll('circle')
+        .transition()
+        .duration(200)
+        .attr('opacity', d => d.depth > 1 ? 0 : 1);
+
+      node.selectAll('text')
+        .transition()
+        .duration(200)
+        .attr('opacity', d => d.depth == 1 ? 1 : 0);
+    })
 
 
   ////////////////////////////////////////
