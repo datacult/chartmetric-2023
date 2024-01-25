@@ -7,7 +7,7 @@ export function Table_2_3(data, selector) {
   /***********************
    *1. Access data
    ************************/
-   let platformsContainer =d3.select("#" + selector)
+  let platformsContainer = d3.select("#" + selector)
     .append("div")
     .attr("id", "platforms-container");
   // Select the container
@@ -15,6 +15,11 @@ export function Table_2_3(data, selector) {
   function draw() {
     // Platforms to loop through and create columns
     let platforms = ["Tiktok", "Instagram", "Youtube"];
+    let platformIcons = {
+      Tiktok: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c9668_tiktok-logo.svg" loading="lazy" width="30" alt="">',
+      Instagram: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c966a_instagram-logo.svg" loading="lazy" width="30" alt="">',
+      Youtube: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c9669_yt-logo.svg" loading="lazy" width="30" alt="">',
+    }
 
     const colorScale = d3.scaleOrdinal(platforms, [
       "#E7F0ED",
@@ -51,6 +56,21 @@ export function Table_2_3(data, selector) {
           .attr("class", "country-value")
           .text(formatPercentage(d.FOLLOWERS_2023_PROPORTION));
       });
+
+      let headingContainer = column
+        .append("div")
+        .attr("class", "header-container");
+
+      headingContainer
+        .append("div")
+        .attr("class", "text")
+        .text(platform);
+
+      headingContainer
+        .append("div")
+        .attr("class", "icon")
+        .html(platformIcons[platform]);
+
     });
 
     // Add event listeners

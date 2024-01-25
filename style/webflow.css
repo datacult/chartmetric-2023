@@ -552,6 +552,33 @@ body {
   color: white !important;
 }
 
+#viz_2_3 .header-container {
+  display: flex;
+  padding: 8px 0px;
+  justify-content: space-between;
+  align-items: flex-end;
+  align-self: stretch;
+  border-top: 3px solid #000;
+}
+
+#viz_2_3 .text {
+  font-size: 44px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 110%;
+  /* 48.4px */
+  letter-spacing: -1.76px;
+}
+
+#viz_2_3 .icon {
+  display: flex;
+  padding: 4.033px;
+  align-items: center;
+  gap: 1.134px;
+  border-radius: 2.268px;
+  box-shadow: 0px 0.756px 5.293px 0px rgba(0, 0, 0, 0.08);
+}
+
 /* * * * * * * * * * * * * * * 
 / Viz 2_6
 * * * * * * * * * * * * * * * */
