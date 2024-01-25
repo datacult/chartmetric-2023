@@ -178,15 +178,14 @@ export function circlepacking_2_1(
 
     let flippedCircles = new Map();
     const handleMouseEnter = function (event, frontData) {
-
-      const hoveredBackId = frontData.data[0] ?  "#back" + trimNames(frontData.data[0] + frontData.data[1]) :"#back" + trimNames('parent' + frontData.data[1]) 
-       
+      const hoveredBackId =
+        "#back" + trimNames(frontData.data[0] + frontData.data[1]);
       svg.select(`${hoveredBackId}`).classed("flipped", true);
       flippedCircles.set(hoveredBackId, Date.now());
       // Animate the top circle to scale down
       d3.select(this)
         .transition()
-        .duration(200)
+        .duration(300)
         .style("opacity", 0)
         .style("transform", "scaleX(0)")
         .end()
@@ -202,84 +201,50 @@ export function circlepacking_2_1(
             .style("opacity", 0)
             .style("transform", "scaleX(0)")
             .transition()
-            .duration(200)
+            .duration(300)
             .style("opacity", 1)
             .style("transform", "scaleX(1)")
             .attr("class", "flipped");
         });
     };
     frontCircles.on("mouseenter", handleMouseEnter);
-    let intervalId = null;
-
-    // Function to start the interval
-    function startInterval() {
-      if (!intervalId) {
-        intervalId = setInterval(checkFlippedCircles, 500); // Adjust interval as needed
-      }
-    }
-
-    // Function to stop the interval
-    function stopInterval() {
-      if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
-      }
-    }
-
-    // Function to check flipped circles
-    function checkFlippedCircles() {
-      if (flippedCircles.size === 0) {
-        stopInterval();
-        return;
-      }
-
+    setInterval(() => {
       flippedCircles.forEach((timeFlipped, id) => {
         if (Date.now() - timeFlipped > 2000) {
           // 2 seconds elapsed
           const circle = svg.select(`${id}`);
-          if (circle.empty() || circle.node().matches(":hover")) {
-            return;
-          }
-
-          // Assuming handleMouseLeave primarily changes circle styles or attributes
-          animateCircle(circle, id);
-          circle.classed("flipped", false);
-          flippedCircles.delete(id);
-        }
-      });
-    }
-
-    // Function to animate circles
-    function animateCircle(circle, id) {
-      circle
-        .transition()
-        .duration(300)
-        .style("opacity", 0)
-        .style("transform", "scaleX(0)")
-        .end()
-        .then(() => {
-          circle.style("display", "none");
-
-          const correspondingFrontId =
-            "#front" + id.replace("back", "").replace("#", "");
-          const frontCircle = svg.select(`${correspondingFrontId}`);
-          if (!frontCircle.empty()) {
-            frontCircle
-              .style("display", "block")
-              .style("opacity", 0)
-              .style("transform", "scaleX(0)")
+          if (!circle.node().matches(":hover")) {
+            // Extract the relevant logic from handleMouseLeave and apply it directly
+            // Assuming handleMouseLeave primarily changes circle styles or attributes
+            circle
               .transition()
               .duration(300)
-              .style("opacity", 1)
-              .style("transform", "scaleX(1)");
+              .style("opacity", 0)
+              .style("transform", "scaleX(0)")
+              .end()
+              .then(() => {
+                circle.style("display", "none");
+
+                // Handle the corresponding front circle, if needed
+                const correspondingFrontId = "#front" + id.replace("back", "").replace("#", "");
+                const frontCircle = svg.select(`${correspondingFrontId}`);
+          
+                frontCircle
+                  .style("display", "block")
+                  .style("opacity", 0)
+                  .style("transform", "scaleX(0)")
+                  .transition()
+                  .duration(300)
+                  .style("opacity", 1)
+                  .style("transform", "scaleX(1)");
+              });
+
+            circle.classed("flipped", false);
+            flippedCircles.delete(id);
           }
-        });
-    }
-
-    // Example usage
-    flippedCircles.set("someId", Date.now());
-    startInterval(); // Call this when you start flipping circles
-
+        }
+      });
+    }, 500); // Check e
     const handleMouseLeave = function (event, backData) {
       // Animate the back circle to scale down
       const hoveredFrontId =
@@ -288,6 +253,8 @@ export function circlepacking_2_1(
         "back" + trimNames(backData.data[0] + backData.data[1]);
       flippedCircles.delete(hoveredBackId);
 
+      console.log(hoveredFrontId)
+      // console.log(hoveredFrontId);
       d3.select(this)
         .transition()
         .duration(100)
