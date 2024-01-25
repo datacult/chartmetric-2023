@@ -48,7 +48,7 @@ export function circlepacking_2_1(
     .attr("font-size", 10)
     .attr("text-anchor", "middle");
   const defs = svg.append("defs");
-  console.log(realData);
+
   defs
     .selectAll("pattern")
     .data(realData)
@@ -75,7 +75,7 @@ export function circlepacking_2_1(
   }
   const v = ([, value]) => value;
   // Function to update visualization
-  function updateVisualization(data, valueAccessor, svg) {
+  function updateVisualization(data, valueAccessor, svg, hovering) {
     const sort = (a, b) => d3.descending(a.value, b.value);
     const title = (d, n) =>
       `${n
@@ -107,6 +107,39 @@ export function circlepacking_2_1(
 
     // Enter selection: New circles
     // front circles
+    svg.selectAll(".leaf-text").remove();
+
+    // Render leaf node texts only when isMouseHovering is false
+
+    const leafNodes = svg
+      .selectAll(".leaf")
+      .data(root.descendants().filter((d) => !d.children))
+      .enter()
+      .append("text")
+      .attr("class", "leaf-text")
+      .attr("id", (d) => {
+        if (d.data[0]) {
+          return trimNames(d.data[0]);
+        }
+        console.log(d);
+      })
+      .attr("x", (d) => d.x)
+      .attr("y", (d) => d.y)
+      .attr("text-anchor", "middle")
+      .attr("dy", ".35em")
+      .style("font-size", (d) => Math.min(8, d.r) + "px")
+      .style("font-weight", "bold")
+      .style("fill", "#1c1c1c")
+      .text((d) => {
+        if (d.data[0]) {
+          return d.data[0];
+        } else {
+          // country
+
+          return d.parent.data[0] + "\n" + d3.format("d")(d.data[1]);
+        }
+      });
+    // }
     nodes
       .enter()
       .append("circle")
@@ -178,9 +211,19 @@ export function circlepacking_2_1(
 
     let flippedCircles = new Map();
     const handleMouseEnter = function (event, frontData) {
+      const hoveredBackId = frontData.data[0]
+        ? "#back" + trimNames(frontData.data[0] + frontData.data[1])
+        : "#back" + trimNames("parent" + frontData.data[1]);
 
-      const hoveredBackId = frontData.data[0] ?  "#back" + trimNames(frontData.data[0] + frontData.data[1]) :"#back" + trimNames('parent' + frontData.data[1]) 
-       
+      // get rid of text
+      svg.selectAll(".leaf-text").each(function (d, i) {
+        const id = d3.select(this).attr("id");
+        if (hoveredBackId.includes(id)) {
+          d3.select(this).attr("opacity", 0);
+        }
+      });
+      // .remove();
+      // flip
       svg.select(`${hoveredBackId}`).classed("flipped", true);
       flippedCircles.set(hoveredBackId, Date.now());
       // Animate the top circle to scale down
@@ -205,7 +248,8 @@ export function circlepacking_2_1(
             .duration(200)
             .style("opacity", 1)
             .style("transform", "scaleX(1)")
-            .attr("class", "flipped");
+            .attr("class", "flipped")
+            .style("z-index", 1000);
         });
     };
     frontCircles.on("mouseenter", handleMouseEnter);
@@ -288,6 +332,14 @@ export function circlepacking_2_1(
         "back" + trimNames(backData.data[0] + backData.data[1]);
       flippedCircles.delete(hoveredBackId);
 
+      //add text
+      svg.selectAll(".leaf-text").each(function (d, i) {
+        const id = d3.select(this).attr("id");
+        if (hoveredBackId.includes(id)) {
+          d3.select(this).attr("opacity", 1);
+        }
+      });
+
       d3.select(this)
         .transition()
         .duration(100)
@@ -313,13 +365,12 @@ export function circlepacking_2_1(
     // Define the mouseout behavior for the back circle
     svg.selectAll(".back").on("mouseleave", handleMouseLeave);
   }
-
+  // Flag to track mouse hover state
+  let genderSection = false;
+  let isMouseHovering = false;
   // Initial data processing
   const initialData = processData(country, sizeKey, countryKey);
-  updateVisualization(initialData, v, svg);
-
-  let genderSection = false;
-  let isMouseHovering = false; // Flag to track mouse hover state
+  updateVisualization(initialData, v, svg, isMouseHovering);
 
   function updateOnMouseEnter(genderSection, hovering) {
     const dataToProcess = genderSection ? gender : country;
@@ -331,7 +382,7 @@ export function circlepacking_2_1(
       keyForGrouping,
       isMouseHovering && artistNameKey
     );
-    updateVisualization(updatedData, v, svg);
+    updateVisualization(updatedData, v, svg, hovering);
   }
 
   function updateOnMouseLeave(genderSection, hovering) {
@@ -344,7 +395,7 @@ export function circlepacking_2_1(
       keyForGrouping,
       isMouseHovering && !genderSection ? artistNameKey : null // Include artistNameKey based on hover state
     );
-    updateVisualization(updatedData, v, svg);
+    updateVisualization(updatedData, v, svg, hovering);
   }
 
   // Update the mouse hover state
