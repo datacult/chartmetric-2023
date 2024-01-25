@@ -6,7 +6,7 @@ export function circlepacking_2_1(
   // let selector = "top100ArtistCountriesGenderCirclePacking_chart";
 
   let sizeKey = "PEAK_CM_SCORE";
-  let genderKey = "PRONOUN";
+  let genderKey = "GENDER";
   let countryKey = "COUNTRY_NAME";
   let artistNameKey = "ARTIST_NAME";
 
