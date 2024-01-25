@@ -572,11 +572,9 @@ body {
 
 #viz_2_3 .icon {
   display: flex;
-  padding: 4.033px;
+ padding: 4.033px;
   align-items: center;
   gap: 1.134px;
-  border-radius: 2.268px;
-  box-shadow: 0px 0.756px 5.293px 0px rgba(0, 0, 0, 0.08);
 }
 
 /* * * * * * * * * * * * * * * 
