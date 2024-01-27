@@ -18,7 +18,7 @@ let circlepack = ((data, map, options) => {
     group: null,
     label: 'name',
     value: 'value',
-    image: 'image'
+    image: null
   }
 
   // merge default mapping with user mapping
@@ -35,8 +35,10 @@ let circlepack = ((data, map, options) => {
     size: 10,
     fill: "#69b3a2",
     stroke: "#000",
-    opacity: 0.5,
-    focus: -1
+    opacity: 0.2,
+    focus: -1,
+    background: null,
+    blend : "none"
   }
 
   // merge default options with user options
@@ -67,23 +69,26 @@ let circlepack = ((data, map, options) => {
     .append('g')
     .attr('transform', `translate(${options.margin.left},${options.margin.top})`);
 
-  const defs = svg.append("defs");
+  if (map.image != null) {
 
-  defs
-    .selectAll("pattern")
-    .data(data)
-    .join("pattern")
-    .attr("id", (d, i) => {
-      return "image-fill-" + d[map.label];
-    }) // Unique ID for each pattern
-    .attr("width", "100%")
-    .attr("height", "100%")
-    .attr("patternContentUnits", "objectBoundingBox")
-    .append("image")
-    .attr("xlink:href", (d) => d[map.image]) // URL of the image
-    .attr("width", 1)
-    .attr("height", 1)
-    .attr("preserveAspectRatio", "xMidYMid slice");
+    const defs = svg.append("defs");
+
+    defs
+      .selectAll("pattern")
+      .data(data)
+      .join("pattern")
+      .attr("id", (d, i) => {
+        return "image-fill-" + d[map.label];
+      }) // Unique ID for each pattern
+      .attr("width", "100%")
+      .attr("height", "100%")
+      .attr("patternContentUnits", "objectBoundingBox")
+      .append("image")
+      .attr("xlink:href", (d) => d[map.image]) // URL of the image
+      .attr("width", 1)
+      .attr("height", 1)
+      .attr("preserveAspectRatio", "xMidYMid slice");
+  }
 
   ////////////////////////////////////////
   ////////////// Wrangle /////////////////
@@ -153,6 +158,15 @@ let circlepack = ((data, map, options) => {
   ////////////// DOM Setup ///////////////
   ////////////////////////////////////////
 
+
+  if (options.background != null) {
+    svg.append("image")
+      .attr("xlink:href", options.background)
+      .attr("width", width)
+      .attr("height", height)
+  }
+
+
   let background = svg.append("rect")
     .attr("width", width)
     .attr("height", height)
@@ -171,7 +185,7 @@ let circlepack = ((data, map, options) => {
     .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
     .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
     .attr("fill-opacity", d => d.depth > options.focus + 1 ? options.opacity : 0)
-    .attr("mix-blend-mode", "screen")
+    .style("mix-blend-mode", options.blend)
     .attr("pointer-events", "all");
 
   node.append('text')
@@ -192,28 +206,30 @@ let circlepack = ((data, map, options) => {
         updateFocus(d.depth)
       }
 
-      if (d.depth == 2) {
+      if (d.depth == 2 && map.image != null) {
         d3.select(this).select('circle')
           .attr("fill", d => "url(#image-fill-" + d.data.name + ")")
           .attr("fill-opacity", 1)
+          .style("mix-blend-mode", "")
 
         d3.select(this).select('text')
           .attr("opacity", 0)
       }
 
     })
-  .on('mouseout', function (event, d) {
+    .on('mouseout', function (event, d) {
 
-    if (d.depth == 2) {
-      d3.select(this).select('circle')
-        .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
-        .attr("fill-opacity", options.opacity)
+      if (d.depth == 2 && map.image != null) {
+        d3.select(this).select('circle')
+          .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
+          .attr("fill-opacity", options.opacity)
+          .style("mix-blend-mode", options.blend);
 
-      d3.select(this).select('text')
-        .attr("opacity", 1)
-    }
+        d3.select(this).select('text')
+          .attr("opacity", 1)
+      }
 
-  })
+    })
 
 
   background
