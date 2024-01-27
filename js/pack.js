@@ -18,6 +18,7 @@ let circlepack = ((data, map, options) => {
     group: null,
     label: 'name',
     value: 'value',
+    image: 'image'
   }
 
   // merge default mapping with user mapping
@@ -34,10 +35,20 @@ let circlepack = ((data, map, options) => {
     size: 10,
     fill: "#69b3a2",
     stroke: "#000",
+    opacity: 0.5,
+    focus: -1
   }
 
   // merge default options with user options
   options = { ...defaults, ...options };
+
+  ////////////////////////////////////////
+  ////////////// Helpers /////////////////
+  ////////////////////////////////////////
+
+  const height = options.height - options.margin.top - options.margin.bottom;
+  const width = options.width - options.margin.left - options.margin.right;
+  const t = d3.transition().duration(options.transition).ease(d3.easeLinear)
 
   ////////////////////////////////////////
   ////////////// SVG Setup ///////////////
@@ -56,12 +67,23 @@ let circlepack = ((data, map, options) => {
     .append('g')
     .attr('transform', `translate(${options.margin.left},${options.margin.top})`);
 
-  ////////////////////////////////////////
-  ////////////// Helpers /////////////////
-  ////////////////////////////////////////
+  const defs = svg.append("defs");
 
-  const height = options.height - options.margin.top - options.margin.bottom;
-  const width = options.width - options.margin.left - options.margin.right;
+  defs
+    .selectAll("pattern")
+    .data(data)
+    .join("pattern")
+    .attr("id", (d, i) => {
+      return "image-fill-" + d[map.label];
+    }) // Unique ID for each pattern
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr("patternContentUnits", "objectBoundingBox")
+    .append("image")
+    .attr("xlink:href", (d) => d[map.image]) // URL of the image
+    .attr("width", 1)
+    .attr("height", 1)
+    .attr("preserveAspectRatio", "xMidYMid slice");
 
   ////////////////////////////////////////
   ////////////// Wrangle /////////////////
@@ -110,6 +132,8 @@ let circlepack = ((data, map, options) => {
 
   var hierarchicalData = transformData(data);
 
+  console.log(hierarchicalData)
+
   let root = d3.hierarchy(hierarchicalData)
     .sum(d => d.value)
     .sort((a, b) => b.value - a.value);
@@ -129,6 +153,13 @@ let circlepack = ((data, map, options) => {
   ////////////// DOM Setup ///////////////
   ////////////////////////////////////////
 
+  let background = svg.append("rect")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("x", 0)
+    .attr("y", 0)
+    .style("fill", "transparent")
+
   let node = svg.selectAll('.node')
     .data(root.descendants())
     .enter().append('g')
@@ -136,51 +167,82 @@ let circlepack = ((data, map, options) => {
     .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')');
 
   node.append('circle')
-    .attr('r', d => d.r)
+    .attr('r', d => d.depth > 1 ? options.focus == -1 ? 0 : d.r : d.r)
     .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
     .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
-    .attr('opacity', d => d.depth > 1 ? 0 : 1);
+    .attr("fill-opacity", d => d.depth > options.focus + 1 ? options.opacity : 0)
+    .attr("mix-blend-mode", "screen")
+    .attr("pointer-events", "all");
 
   node.append('text')
     .attr('dy', '.2em')
     .style('text-anchor', 'middle')
     .text(d => d.data.name ? d.data.name : '')
     .attr('font-size', d => d.r / 5)
-    .attr('opacity', d => d.depth == 1 ? 1 : 0);
+    .attr('opacity', d => d.depth == 0 ? 0 : d.depth == options.focus + 2 ? 1 : 0)
+    .attr("pointer-events", "none");
 
   node.append('title')
     .text(d => d.data.name + '\n' + d.value);
 
   node
-    .filter(d => d.depth === 0)
-    .on('mouseover', function (d) {
-      node.selectAll('circle')
-        .transition()
-        .duration(200)
-        .attr('opacity', 1);
+    .on('mouseover', function (event, d) {
 
-      node.selectAll('text')
-        .transition()
-        .duration(200)
-        .attr('opacity', d => d.depth > 1 ? 1 : 0);
+      if (d.depth < 1) {
+        updateFocus(d.depth)
+      }
+
+      if (d.depth == 2) {
+        d3.select(this).select('circle')
+          .attr("fill", d => "url(#image-fill-" + d.data.name + ")")
+          .attr("fill-opacity", 1)
+
+        d3.select(this).select('text')
+          .attr("opacity", 0)
+      }
 
     })
-    .on('mouseout', function (d) {
-      node.selectAll('circle')
-        .transition()
-        .duration(200)
-        .attr('opacity', d => d.depth > 1 ? 0 : 1);
+  .on('mouseout', function (event, d) {
 
-      node.selectAll('text')
-        .transition()
-        .duration(200)
-        .attr('opacity', d => d.depth == 1 ? 1 : 0);
+    if (d.depth == 2) {
+      d3.select(this).select('circle')
+        .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
+        .attr("fill-opacity", options.opacity)
+
+      d3.select(this).select('text')
+        .attr("opacity", 1)
+    }
+
+  })
+
+
+  background
+    .on("mouseover", function (event, d) {
+      updateFocus(-1)
+
     })
 
 
   ////////////////////////////////////////
   ////////////// Update //////////////////
   ////////////////////////////////////////
+
+  function updateFocus(focus) {
+
+    options.focus = focus;
+
+    node.selectAll('circle')
+      .transition()
+      .duration(options.transition)
+      .attr("fill-opacity", d => d.depth > options.focus + 1 ? options.opacity : 0)
+      .attr('r', d => d.depth > 1 ? options.focus == -1 ? 0 : d.r : d.r);
+
+    node.selectAll('text')
+      .transition()
+      .duration(options.transition)
+      .attr('opacity', d => d.depth == 0 ? 0 : d.depth == options.focus + 2 ? 1 : 0)
+
+  }
 
   function update(newData = data, newMap = map, newOptions = options) {
 
@@ -191,9 +253,6 @@ let circlepack = ((data, map, options) => {
     const t = d3.transition().duration(options.transition)
 
   }
-
-  // call for initial bar render
-  update(data)
 
   return {
     update: update,

@@ -33,13 +33,14 @@ https://studio.datacult.com/ -->
         let mapping = {
             value: "PEAK_CM_SCORE",
             label: "ARTIST_NAME",
-            group: "COUNTRY_NAME"
+            group: "COUNTRY_NAME",
+            image: "IMAGE_URL"
         }
 
         let options = {
             selector: '#vis',
-            fill: "white",
-            stroke: "black",
+            fill: "black",
+            stroke: "white",
         }
 
         let chart = circlepack(data, mapping, options)
