@@ -51,6 +51,7 @@ let circlepack = ((data, map, options) => {
   const height = options.height - options.margin.top - options.margin.bottom;
   const width = options.width - options.margin.left - options.margin.right;
   const t = d3.transition().duration(options.transition).ease(d3.easeLinear)
+  let node;
 
   ////////////////////////////////////////
   ////////////// SVG Setup ///////////////
@@ -135,20 +136,6 @@ let circlepack = ((data, map, options) => {
     return root;
   }
 
-  var hierarchicalData = transformData(data);
-
-  console.log(hierarchicalData)
-
-  let root = d3.hierarchy(hierarchicalData)
-    .sum(d => d.value)
-    .sort((a, b) => b.value - a.value);
-
-  let pack = d3.pack()
-    .size([width, height])
-    .padding(options.padding);
-
-  root = pack(root);
-
   ////////////////////////////////////////
   ////////////// Scales //////////////////
   ////////////////////////////////////////
@@ -167,76 +154,102 @@ let circlepack = ((data, map, options) => {
   }
 
 
-  let background = svg.append("rect")
+  let background_hover = svg.append("rect")
     .attr("width", width)
     .attr("height", height)
     .attr("x", 0)
     .attr("y", 0)
     .style("fill", "transparent")
-
-  let node = svg.selectAll('.node')
-    .data(root.descendants())
-    .enter().append('g')
-    .attr('class', 'node')
-    .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')');
-
-  node.append('circle')
-    .attr('r', d => d.depth > 1 ? options.focus == -1 ? 0 : d.r : d.r)
-    .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
-    .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
-    .attr("fill-opacity", d => d.depth > options.focus + 1 ? options.opacity : 0)
-    .style("mix-blend-mode", options.blend)
-    .attr("pointer-events", "all");
-
-  node.append('text')
-    .attr('dy', '.2em')
-    .style('text-anchor', 'middle')
-    .text(d => d.data.name ? d.data.name : '')
-    .attr('font-size', d => d.r / 5)
-    .attr('opacity', d => d.depth == 0 ? 0 : d.depth == options.focus + 2 ? 1 : 0)
-    .attr("pointer-events", "none");
-
-  node.append('title')
-    .text(d => d.data.name + '\n' + d.value);
-
-  node
-    .on('mouseover', function (event, d) {
-
-      if (d.depth < 1) {
-        updateFocus(d.depth)
-      }
-
-      if (d.depth == 2 && map.image != null) {
-        d3.select(this).select('circle')
-          .attr("fill", d => "url(#image-fill-" + d.data.name + ")")
-          .attr("fill-opacity", 1)
-          .style("mix-blend-mode", "")
-
-        d3.select(this).select('text')
-          .attr("opacity", 0)
-      }
-
-    })
-    .on('mouseout', function (event, d) {
-
-      if (d.depth == 2 && map.image != null) {
-        d3.select(this).select('circle')
-          .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
-          .attr("fill-opacity", options.opacity)
-          .style("mix-blend-mode", options.blend);
-
-        d3.select(this).select('text')
-          .attr("opacity", 1)
-      }
-
-    })
-
-
-  background
     .on("mouseover", function (event, d) {
       updateFocus(-1)
 
-    })
+    });
+
+  function addNodes() {
+
+    ////////////////////////////////////////
+    ////////////// Pack Data ///////////////
+    ////////////////////////////////////////
+
+    var hierarchicalData = transformData(data);
+
+    console.log(hierarchicalData)
+
+    let root = d3.hierarchy(hierarchicalData)
+      .sum(d => d.value)
+      .sort((a, b) => b.value - a.value);
+
+    let pack = d3.pack()
+      .size([width, height])
+      .padding(options.padding);
+
+    root = pack(root);
+
+    ////////////////////////////////////////
+    ////////////// Add Nodes ///////////////
+    ////////////////////////////////////////
+
+    svg.selectAll('.node').remove()
+
+    node = svg.selectAll('.node')
+      .data(root.descendants())
+      .enter().append('g')
+      .attr('class', 'node')
+      .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')');
+
+    node.append('circle')
+      .attr('r', d => d.depth > 1 ? options.focus == -1 ? 0 : d.r : d.r)
+      .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
+      .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
+      .attr("fill-opacity", d => d.depth > options.focus + 1 ? options.opacity : 0)
+      .style("mix-blend-mode", options.blend)
+      .attr("pointer-events", "all");
+
+    node.append('text')
+      .attr('dy', '.2em')
+      .style('text-anchor', 'middle')
+      .text(d => d.data.name ? d.data.name : '')
+      .attr('font-size', d => d.r / 5)
+      .attr('opacity', d => d.depth == 0 ? 0 : d.depth == options.focus + 2 ? 1 : 0)
+      .attr("pointer-events", "none");
+
+    node.append('title')
+      .text(d => d.data.name + '\n' + d.value);
+
+    node
+      .on('mouseover', function (event, d) {
+
+        if (d.depth < 1) {
+          updateFocus(d.depth)
+        }
+
+        if (d.depth == 2 && map.image != null) {
+          d3.select(this).select('circle')
+            .attr("fill", d => "url(#image-fill-" + d.data.name + ")")
+            .attr("fill-opacity", 1)
+            .style("mix-blend-mode", "")
+
+          d3.select(this).select('text')
+            .attr("opacity", 0)
+        }
+
+      })
+      .on('mouseout', function (event, d) {
+
+        if (d.depth == 2 && map.image != null) {
+          d3.select(this).select('circle')
+            .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
+            .attr("fill-opacity", options.opacity)
+            .style("mix-blend-mode", options.blend);
+
+          d3.select(this).select('text')
+            .attr("opacity", 1)
+        }
+
+      })
+  }
+
+  addNodes()
 
 
   ////////////////////////////////////////
@@ -270,80 +283,7 @@ let circlepack = ((data, map, options) => {
 
     const t = d3.transition().duration(options.transition)
 
-    if (newData != data || newMap != map || newOptions != options) {
-
-      node.remove()
-
-      hierarchicalData = transformData(data);
-
-      console.log(hierarchicalData)
-
-      root = d3.hierarchy(hierarchicalData)
-        .sum(d => d.value)
-        .sort((a, b) => b.value - a.value);
-
-      root = pack(root);
-
-      node = svg.selectAll('.node')
-        .data(root.descendants())
-
-      node = node.enter().append('g')
-        .attr('class', 'node')
-        .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')')
-        .merge(node);
-
-      node.append('circle')
-        .attr('r', d => d.depth > 1 ? options.focus == -1 ? 0 : d.r : d.r)
-        .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
-        .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
-        .attr("fill-opacity", d => d.depth > options.focus + 1 ? options.opacity : 0)
-        .style("mix-blend-mode", options.blend)
-        .attr("pointer-events", "all");
-
-      node.append('text')
-        .attr('dy', '.2em')
-        .style('text-anchor', 'middle')
-        .text(d => d.data.name ? d.data.name : '')
-        .attr('font-size', d => d.r / 5)
-        .attr('opacity', d => d.depth == 0 ? 0 : d.depth == options.focus + 2 ? 1 : 0)
-        .attr("pointer-events", "none");
-
-      node.append('title')
-        .text(d => d.data.name + '\n' + d.value);
-
-      node
-        .on('mouseover', function (event, d) {
-
-          if (d.depth < 1) {
-            updateFocus(d.depth)
-          }
-
-          if (d.depth == 2 && map.image != null) {
-            d3.select(this).select('circle')
-              .attr("fill", d => "url(#image-fill-" + d.data.name + ")")
-              .attr("fill-opacity", 1)
-              .style("mix-blend-mode", "")
-
-            d3.select(this).select('text')
-              .attr("opacity", 0)
-          }
-
-        })
-        .on('mouseout', function (event, d) {
-
-          if (d.depth == 2 && map.image != null) {
-            d3.select(this).select('circle')
-              .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
-              .attr("fill-opacity", options.opacity)
-              .style("mix-blend-mode", options.blend);
-
-            d3.select(this).select('text')
-              .attr("opacity", 1)
-          }
-
-        })
-
-    }
+    if (newData != data || newMap != map || newOptions != options) addNodes()
 
   }
 
