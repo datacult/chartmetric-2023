@@ -32,12 +32,8 @@ https://studio.datacult.com/ -->
 
         console.log(data)
 
-        data = data.filter(d => d.ID == 'G2.10')
-
         let mapping = {
-            value: "COUNT",
-            label: "GENRE_NAME",
-            group: "GENRE_NAME",
+            group: "GENRE",
         }
 
         let options = {
@@ -45,11 +41,12 @@ https://studio.datacult.com/ -->
             fill: "black",
             stroke: "white",
             text: "white",
-            background: "../assets/2_14_background.svg",
+            background: "../assets/2_14_gradient.svg",
             blend: "soft-light"
         }
 
-        let chart = circlepack(data, mapping, options)
+        let chart = circlepack(null, mapping, options)
+
 
     })()
 

@@ -14,8 +14,8 @@ export function circlepack(data, map, options) {
     fill: null,
     stroke: null,
     group: null,
-    label: 'name',
-    value: 'value',
+    label: null,
+    value: null,
     image: null,
     filter: [] // {key:'', value:''}
   }
@@ -77,7 +77,7 @@ export function circlepack(data, map, options) {
       .data(data)
       .join("pattern")
       .attr("id", (d, i) => {
-        return "image-fill-" + d[map.label];
+        return "image-fill-" + (map.label ? d[map.label] : d[map.group]);
       }) // Unique ID for each pattern
       .attr("width", "100%")
       .attr("height", "100%")
@@ -115,8 +115,8 @@ export function circlepack(data, map, options) {
         }
 
         groups[groupName].children.push({
-          "name": d[map.label],
-          "value": d[map.value]
+          "name": map.label ? d[map.label] : d[map.group],
+          "value": map.value ? d[map.value] : 1
         });
       });
 
@@ -124,8 +124,8 @@ export function circlepack(data, map, options) {
 
       data.forEach(function (d) {
         root.children.push({
-          "name": d[map.label],
-          "value": d[map.value]
+          "name": map.label ? d[map.label] : d[map.group],
+          "value": map.value ? d[map.value] : 1
         });
       });
 

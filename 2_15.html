@@ -32,13 +32,8 @@ https://studio.datacult.com/ -->
 
         console.log(data)
 
-        let countries = data.filter(d => d.NAME == "top_50_youtube_chart_track_countries")
-        let genres = data.filter(d => d.NAME == "top_50_youtube_chart_track_genres")
-
         let mapping = {
-            value: "TRACK_COUNT",
-            label: "NAME_1",
-            group: "NAME_1",
+            group: "COUNTRY",
         }
 
         let options = {
@@ -46,14 +41,14 @@ https://studio.datacult.com/ -->
             fill: "black",
             stroke: "white",
             text: "white",
-            background: "../assets/2_15_background.svg",
+            background: "../assets/2_15_gradient.svg",
             blend: "soft-light"
         }
 
-        let chart = circlepack(countries, mapping, options)
+        let chart = circlepack(data, mapping, options)
 
         setTimeout(() => {
-            chart.update(genres)
+            chart.update(null, {group: "GENRE"})
         }, 3000)
 
     })()
