@@ -17,7 +17,7 @@ export function Table_2_3(data, selector) {
     // Platforms to loop through and create columns
     let platforms = ["TikTok", "Instagram", "Youtube"];
     let platformIcons = {
-      Tiktok:
+      TikTok:
         '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c9668_tiktok-logo.svg" loading="lazy" width="30" alt="">',
       Instagram:
         '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c966a_instagram-logo.svg" loading="lazy" width="30" alt="">',
@@ -66,8 +66,13 @@ export function Table_2_3(data, selector) {
         .attr("class", "header-container");
       headingContainer
         .append("div")
-        .attr("class", "icon")
-        .html((d) => platformIcons[platform]);
+        .attr("class", (d) => {
+          console.log(d);
+          return "icon";
+        })
+        .html((d) => {
+          return platformIcons[platform];
+        });
       headingContainer.append("div").attr("class", "text").text(platform);
     });
 
