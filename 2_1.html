@@ -14,34 +14,43 @@ https://studio.datacult.com/ -->
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet"> -->
-    <link href='https://fonts.googleapis.com/css?family=Inter:wght@300;400;500;700;900&display=swap' rel='stylesheet'>
-    <link rel="stylesheet" href="style/highFi/2_1.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/index.css">
 </head>
 
 <body>
-    <div id="vis">
-        <div id="top100ArtistCountriesGenderCirclePacking_background"></div>
-        <div id="top100ArtistCountriesGenderCirclePacking_chartContainer">
-            <svg id="top100ArtistCountriesGenderCirclePacking_chart"></svg>
-        </div>
-
-        <div id="gender-section">
-            <!-- one cluster -->
-            <section class="gender">
-
-            </section>
-        </div>
-    </div>
-
+    <div id="vis"></div>
 
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
-<script type="module" src="./js/highFi/2_1.js"></script>
+<script src="js/pack.js"></script>
 
 </html>
-<script type="module">
+<script>
+    (async () => {
+        let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_1_en.csv', d3.autoType)
+
+        let mapping = {
+            value: "PEAK_CM_SCORE",
+            label: "ARTIST_NAME",
+            group: "COUNTRY_NAME",
+            image: "IMAGE_URL"
+        }
+
+        let options = {
+            selector: '#vis',
+            fill: "black",
+            stroke: "white",
+            background: "../assets/2_1_background.svg",
+            blend: "soft-light"
+        }
+
+        let chart = circlepack(data, mapping, options)
+
+        setTimeout(() => {
+            chart.update(null, {group: "GENDER"})
+        }, 5000)
+
+    })()
 
 </script>

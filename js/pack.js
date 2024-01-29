@@ -18,7 +18,8 @@ let circlepack = ((data, map, options) => {
     group: null,
     label: 'name',
     value: 'value',
-    image: null
+    image: null,
+    filter: [] // {key:'', value:''}
   }
 
   // merge default mapping with user mapping
@@ -28,7 +29,7 @@ let circlepack = ((data, map, options) => {
     selector: '#vis',
     width: 800,
     height: 800,
-    margin: { top: 20, right: 20, bottom: 20, left: 20 },
+    margin: { top: 100, right: 100, bottom: 100, left: 100 },
     transition: 400,
     delay: 100,
     padding: 0.1,
@@ -38,7 +39,8 @@ let circlepack = ((data, map, options) => {
     opacity: 0.2,
     focus: -1,
     background: null,
-    blend: "none"
+    blend: "none",
+    text: "#000"
   }
 
   // merge default options with user options
@@ -66,9 +68,7 @@ let circlepack = ((data, map, options) => {
     .attr('width', '100%') // Responsive width
     .attr('height', '100%') // Responsive height
     .attr('viewBox', `0 0 ${options.width} ${options.height}`)
-    .classed('vis-svg', true)
-    .append('g')
-    .attr('transform', `translate(${options.margin.left},${options.margin.top})`);
+    .classed('vis-svg', true);
 
   if (map.image != null) {
 
@@ -144,14 +144,14 @@ let circlepack = ((data, map, options) => {
   if (options.background != null) {
     svg.append("image")
       .attr("xlink:href", options.background)
-      .attr("width", width)
-      .attr("height", height)
+      .attr("width", options.width)
+      .attr("height", options.height)
   }
 
 
   let background_hover = svg.append("rect")
-    .attr("width", width)
-    .attr("height", height)
+    .attr("width", options.width)
+    .attr("height", options.height)
     .attr("x", 0)
     .attr("y", 0)
     .style("fill", "transparent")
@@ -160,11 +160,21 @@ let circlepack = ((data, map, options) => {
 
     });
 
+  const svg_inner_group = svg
+    .append('g')
+    .attr('transform', `translate(${options.margin.left},${options.margin.top})`);
+
   function addNodes() {
 
     ////////////////////////////////////////
     ////////////// Pack Data ///////////////
     ////////////////////////////////////////
+
+    if (map.filter.length > 0) {
+      map.filter.forEach(filter => {
+        data = data.filter(d => d[filter.key] == filter.value)
+      })
+    }
 
     var hierarchicalData = transformData(data);
 
@@ -184,9 +194,9 @@ let circlepack = ((data, map, options) => {
     ////////////// Add Nodes ///////////////
     ////////////////////////////////////////
 
-    svg.selectAll('.node').remove()
+    svg_inner_group.selectAll('.node').remove()
 
-    node = svg.selectAll('.node')
+    node = svg_inner_group.selectAll('.node')
       .data(root.descendants())
       .enter().append('g')
       .attr('class', 'node')
@@ -204,8 +214,9 @@ let circlepack = ((data, map, options) => {
       .attr('dy', '.2em')
       .style('text-anchor', 'middle')
       .text(d => d.data.name ? d.data.name : '')
-      .attr('font-size', d => d.r / 5)
+      .attr('font-size', d => d3.max([d.r / 5, options.size]) + 'px')
       .attr('opacity', d => d.depth == 0 ? 0 : d.depth == options.focus + 2 ? 1 : 0)
+      .attr('fill', options.text)
       .attr("pointer-events", "none");
 
     node.append('title')
