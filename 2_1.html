@@ -23,10 +23,11 @@ https://studio.datacult.com/ -->
 
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="js/pack.js"></script>
 
 </html>
-<script>
+<script type="module">
+    import { circlepack } from './js/pack.js';
+
     (async () => {
         let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_1_en.csv', d3.autoType)
 
@@ -47,9 +48,9 @@ https://studio.datacult.com/ -->
 
         let chart = circlepack(data, mapping, options)
 
-        setTimeout(() => {
-            chart.update(null, {group: "GENDER"})
-        }, 5000)
+        // setTimeout(() => {
+        //     chart.update(null, {group: "GENDER"})
+        // }, 5000)
 
     })()
 

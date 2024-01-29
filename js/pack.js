@@ -2,9 +2,7 @@
 // Released under the ISC license.
 // https://studio.datacult.com/ 
 
-'use strict'
-
-let circlepack = ((data, map, options) => {
+export function circlepack(data, map, options) {
 
   console.log(data)
 
@@ -298,4 +296,4 @@ let circlepack = ((data, map, options) => {
     update: update,
   }
 
-});
+};
