@@ -272,6 +272,7 @@ let circlepack = ((data, map, options) => {
 
     // merge any new mapping and options
     if (newData == null) newData = data;
+    data = newData
 
     map = { ...map, ...newMap };
     options = { ...options, ...newOptions };
