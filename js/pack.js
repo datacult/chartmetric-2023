@@ -38,7 +38,7 @@ let circlepack = ((data, map, options) => {
     opacity: 0.2,
     focus: -1,
     background: null,
-    blend : "none"
+    blend: "none"
   }
 
   // merge default options with user options
@@ -263,10 +263,87 @@ let circlepack = ((data, map, options) => {
   function update(newData = data, newMap = map, newOptions = options) {
 
     // merge any new mapping and options
+    if (newData == null) newData = data;
+
     map = { ...map, ...newMap };
     options = { ...options, ...newOptions };
 
     const t = d3.transition().duration(options.transition)
+
+    if (newData != data || newMap != map || newOptions != options) {
+
+      node.remove()
+
+      hierarchicalData = transformData(data);
+
+      console.log(hierarchicalData)
+
+      root = d3.hierarchy(hierarchicalData)
+        .sum(d => d.value)
+        .sort((a, b) => b.value - a.value);
+
+      root = pack(root);
+
+      node = svg.selectAll('.node')
+        .data(root.descendants())
+
+      node = node.enter().append('g')
+        .attr('class', 'node')
+        .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')')
+        .merge(node);
+
+      node.append('circle')
+        .attr('r', d => d.depth > 1 ? options.focus == -1 ? 0 : d.r : d.r)
+        .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
+        .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
+        .attr("fill-opacity", d => d.depth > options.focus + 1 ? options.opacity : 0)
+        .style("mix-blend-mode", options.blend)
+        .attr("pointer-events", "all");
+
+      node.append('text')
+        .attr('dy', '.2em')
+        .style('text-anchor', 'middle')
+        .text(d => d.data.name ? d.data.name : '')
+        .attr('font-size', d => d.r / 5)
+        .attr('opacity', d => d.depth == 0 ? 0 : d.depth == options.focus + 2 ? 1 : 0)
+        .attr("pointer-events", "none");
+
+      node.append('title')
+        .text(d => d.data.name + '\n' + d.value);
+
+      node
+        .on('mouseover', function (event, d) {
+
+          if (d.depth < 1) {
+            updateFocus(d.depth)
+          }
+
+          if (d.depth == 2 && map.image != null) {
+            d3.select(this).select('circle')
+              .attr("fill", d => "url(#image-fill-" + d.data.name + ")")
+              .attr("fill-opacity", 1)
+              .style("mix-blend-mode", "")
+
+            d3.select(this).select('text')
+              .attr("opacity", 0)
+          }
+
+        })
+        .on('mouseout', function (event, d) {
+
+          if (d.depth == 2 && map.image != null) {
+            d3.select(this).select('circle')
+              .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
+              .attr("fill-opacity", options.opacity)
+              .style("mix-blend-mode", options.blend);
+
+            d3.select(this).select('text')
+              .attr("opacity", 1)
+          }
+
+        })
+
+    }
 
   }
 

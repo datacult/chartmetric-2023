@@ -47,6 +47,10 @@ https://studio.datacult.com/ -->
 
         let chart = circlepack(data, mapping, options)
 
+        setTimeout(() => {
+            chart.update(null, {group: "GENDER"})
+        }, 2000)
+
     })()
 
 </script>
