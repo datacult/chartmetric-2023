@@ -117,7 +117,7 @@ export function TreemapComponent(
     .style("width", (d) => d.x1 - d.x0 + "px")
     .style("height", (d) => d.y1 - d.y0 + "px")
     .style("background-image", (d) => {
-      console.log(d)
+      // console.log(d)
       return `url(${d.data.IMAGE_URL})`;
     });
 

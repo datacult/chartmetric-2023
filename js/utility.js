@@ -54,3 +54,44 @@ export function chartDimensions(chartContainerId, customMargin = {}) {
     boundedHeight,
   };
 }
+export function setupResponsiveDimensions(elementId, margins, onResizeCallback, debounceTime = 100) {
+  const defaultMargins = { top: 0, right: 0, bottom: 0, left: 0 };
+  const effectiveMargins = { ...defaultMargins, ...margins };
+
+  const element = document.getElementById(elementId);
+  if (!element) {
+      console.error(`Element with id '${elementId}' not found.`);
+      return;
+  }
+
+  function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => {
+              func(...args);
+          }, wait);
+      };
+  }
+
+  function computeDimensions() {
+      const rect = element.getBoundingClientRect();
+      return {
+          width: rect.width - effectiveMargins.left - effectiveMargins.right,
+          height: rect.height - effectiveMargins.top - effectiveMargins.bottom,
+          margins: effectiveMargins
+      };
+  }
+
+  const debouncedOnResize = debounce(() => {
+      const dimensions = computeDimensions();
+      onResizeCallback(dimensions);
+  }, debounceTime);
+
+  const resizeObserver = new ResizeObserver(debouncedOnResize);
+  resizeObserver.observe(element);
+
+  // Initial dimensions
+  debouncedOnResize();
+}
+

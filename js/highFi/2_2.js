@@ -60,7 +60,7 @@ function drawChart(data, selector, genreType, year, timeframe) {
     },
     // title: (d, n) => `${d.name}\n${n.value.toLocaleString("en")}`, // text to show on hover
     stroke: "none",
-    paddingInner: "16",
+    paddingInner: "0",
     tile: d3.treemapSquarify,
     width: width,
     height: height,
