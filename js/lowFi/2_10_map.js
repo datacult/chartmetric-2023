@@ -1,10 +1,12 @@
-import { chartDimensions, trimNames} from "../utility.js";
+import { chartDimensions, trimNames } from "../utility.js";
 let selectedCountries = ["Italy"];
-export async function drawMap(selectedCountries = [], chartContainerId='radioTopTracksMap_worldMap') {
-
-
+export async function drawMap(
+  selectedCountries = [],
+  chartContainerId = "radioTopTracksMap_worldMap"
+) {
   let dataUrl = "https://datacult.github.io/chartmetric-2023/data/world.json";
-  let trackDataUrl = "https://share.chartmetric.com/year-end-report/2023/viz_2_10_en.csv";
+  let trackDataUrl =
+    "https://share.chartmetric.com/year-end-report/2023/viz_2_10_en.csv";
   let hoveredMapSelector = null;
   /***********************
    *1. Access data
@@ -15,7 +17,7 @@ export async function drawMap(selectedCountries = [], chartContainerId='radioTop
 
   //
   let dataset = await d3.csv(trackDataUrl, d3.autoType);
-  console.log()
+  console.log();
   /***********************
    *2. Create chart dimensions
    ************************/
@@ -23,7 +25,7 @@ export async function drawMap(selectedCountries = [], chartContainerId='radioTop
   const visElement = document.getElementById(chartContainerId);
 
   // Get the bounding rectangle of the element
-  
+
   const dimensions = chartDimensions(chartContainerId);
 
   /***********************
@@ -53,17 +55,21 @@ export async function drawMap(selectedCountries = [], chartContainerId='radioTop
     .attr("fill", (d) => {
       if (selectedCountries.includes(d.properties.name)) {
         return "#193C3B";
-      } else if ([...new Set(dataset.map((d) => d.NAME))].includes(d.properties.name)) {
-        return "#C8D7D5"
+      } else if (
+        [...new Set(dataset.map((d) => d.NAME))].includes(d.properties.name)
+      ) {
+        return "#C8D7D5";
       } else {
         return "#DAE2E1";
       }
     })
-    .attr('class', (d) => {
-      if ([...new Set(dataset.map((d) => d.NAME))].includes(d.properties.name)) {
-        return ""
+    .attr("class", (d) => {
+      if (
+        [...new Set(dataset.map((d) => d.NAME))].includes(d.properties.name)
+      ) {
+        return "";
       } else {
-        return "noData_Map"
+        return "noData_Map";
       }
     })
     .attr("d", path)
@@ -84,15 +90,14 @@ export async function drawMap(selectedCountries = [], chartContainerId='radioTop
           ? [...tracksWithLargestSpins.entries()][0][0]
           : "noData";
 
-      let hoveredTrackNameID = trimNames(hoveredTrackName)
-
+      let hoveredTrackNameID = trimNames(hoveredTrackName);
 
       hoveredMapSelector = `div#${hoveredTrackNameID}.gradient-bar`;
 
       d3.select(hoveredMapSelector).style("border", "1px solid black");
 
       //
-    
+
       const [x, y] = d3.pointer(event);
       if (filteredData.length > 0) {
         d3
@@ -109,6 +114,24 @@ export async function drawMap(selectedCountries = [], chartContainerId='radioTop
     .on("mouseleave", function (event, d) {
       d3.select(hoveredMapSelector).style("border", "0px solid black");
       d3.select(".map-tooltip").style("display", "none");
+    })
+    .on("click", function (event, mapData) {
+      let filteredData = dataset.filter(
+        (d) => d.NAME === mapData.properties.name
+      );
+      const hoveredTrackName =
+        d3.least(filteredData, (d) => d.SPINS)?.TRACK_NAME || "noData";
+      let hoveredTrackNameID = trimNames(hoveredTrackName);
+
+      //! Below scrolls , but moves the whole thing.
+      // document.getElementById( hoveredTrackNameID).scrollIntoView({
+      //   behavior: "smooth", // Use smooth scrolling for a smoother effect (optional)
+      //   block: "start", // Scroll to the top of the target element (you can change this)
+      // });
+      document.getElementById("radioTopTracksMap_gradientBar").scrollTo({
+        top: document.getElementById(hoveredTrackNameID).offsetTop,
+        behavior: "smooth", // Use smooth scrolling for a smoother effect (optional)
+      });
     });
 }
 // drawMap(selectedCountries);

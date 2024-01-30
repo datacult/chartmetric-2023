@@ -24,10 +24,7 @@ export function gradientBarMapComponent(dataset, selector) {
   function draw() {
     dataset = dataset.sort((a, b) => d3.descending(a[widthKey], b[widthKey]));
     // Select the top 10 tracks
-    const top10TrackNames = [...new Set(dataset.map((d) => d[yKey]))].slice(
-      0,
-      10
-    );
+    const top10TrackNames = [...new Set(dataset.map((d) => d[yKey]))]
 
     const top10 = dataset.filter((d) => top10TrackNames.includes(d.TRACK_NAME));
 
@@ -114,10 +111,10 @@ export function gradientBarMapComponent(dataset, selector) {
     let imageWidth = yScale.bandwidth() * 0.75;
 
     newElements.html(function (d) {
-      console.log()
+    
     return    `
     <img src="${d.data[0][imageKey]}" alt="${d[yKey]}" class="artist-image" 
-    style="width:${imageWidth}px; height:${imageWidth} px">
+    style=" height:100%">
     <div class="artist-name"><span>${d[yKey]}</span></div>
   `;
     });
