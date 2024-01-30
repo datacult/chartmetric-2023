@@ -19,11 +19,11 @@ import { SingleValues } from "./highFi/single_values.js";
     // hold data and vizualization instance in one object
     // all update functions should take the data as the first argument
     let visuals = {
-        viz_single_values: {
+        single_values: {
             viz: null,
             data: [],
             options: {
-                selector: "viz_single_values",
+                selector: "single_values",
             },
             update: function (param) {
                 if (param) {
@@ -407,9 +407,9 @@ import { SingleValues } from "./highFi/single_values.js";
     /////// load visuals ///////////
     ////////////////////////////////
 
-    // visuals.viz_single_values.viz = SingleValues(
+    // visuals.single_values.viz = SingleValues(
     // [],
-    //     visuals.viz_single_values.options.selector
+    //     visuals.single_values.options.selector
     // );
     // visuals.viz_1_1.viz = Sankey(
     //     visuals.viz_1_1.data,
