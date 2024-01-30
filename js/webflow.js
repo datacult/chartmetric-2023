@@ -5,7 +5,7 @@
 import { Sankey } from "./highFi/1_1.js";
 import { Table_1_3 } from "./highFi/1_3.js";
 import { circlepacking_1_5 } from "./highFi/1_5.js";
-import { circlepacking_2_1 } from "./highFi/2_1.js";
+import { circlepack } from './js/pack.js';
 import { Treemap } from "./highFi/2_2.js";
 import { Table_2_3 } from "./highFi/2_3.js";
 import { Calendar } from "./highFi/2_6.js";
@@ -82,11 +82,22 @@ import { SingleValues } from "./highFi/single_values.js";
             data: [],
             options: {
                 selector: "viz_2_1",
+                fill: "black",
+                stroke: "white",
+                background: "../assets/2_1_gradient.svg",
+                blend: "soft-light"
             },
-            params: [true, false],
+            mapping:{
+                value: "PEAK_CM_SCORE",
+                label: "ARTIST_NAME",
+                group: "COUNTRY_NAME",
+                image: "IMAGE_URL"
+            },
+            params: ["COUNTRY_NAME", "GENDER"],
             update: function (param) {
                 if (param) {
-                    this.viz.update(null, param);
+                    this.mapping.group = param;
+                    this.viz.update(null, this.mapping);
                 } else {
                     this.viz.update(this.data);
                 }
@@ -239,6 +250,61 @@ import { SingleValues } from "./highFi/single_values.js";
                 }
             },
         },
+        viz_2_14: {
+            viz: null,
+            data: [],
+            options: {
+                selector: "viz_2_14",
+                fill: "black",
+                stroke: "white",
+                text: "white",
+                background: "../assets/2_14_gradient.svg",
+                blend: "soft-light"
+            },
+            mapping:{
+                group: "GENRE",
+                label: "NAME",
+                image: "IMAGE_URL",
+                filter: {
+                    TYPE: "track"
+                }
+            },
+            params: ["track", "artist"],
+            update: function (param) {
+                if (param) {
+                    this.mapping.filter.TYPE = param;
+                    this.viz.update(null, this.mapping);
+                } else {
+                    this.viz.update(this.data);
+                }
+            },
+        },
+        viz_2_15: {
+            viz: null,
+            data: [],
+            options: {
+                selector: "viz_2_15",
+                fill: "black",
+                stroke: "white",
+                text: "white",
+                background: "../assets/2_15_gradient.svg",
+                blend: "soft-light"
+            },
+            mapping:{
+                group: "COUNTRY",
+                label: "TRACK_NAME",
+                image: "IMAGE_URL"
+            },
+            params: ["COUNTRY", "GENRE"],
+            update: function (param) {
+                if (param) {
+                    this.mapping.group = param;
+                    this.viz.update(null, this.mapping);
+                } else {
+                    this.viz.update(this.data);
+                }
+            },
+        },
     };
 
     ///////////////////////////
@@ -354,9 +420,10 @@ import { SingleValues } from "./highFi/single_values.js";
         visuals.viz_1_5.options.selector,
         "Gained in 2023"
     );
-    visuals.viz_2_1.viz = circlepacking_2_1(
+    visuals.viz_2_1.viz = circlepack(
         visuals.viz_2_1.data,
-        visuals.viz_2_1.options.selector
+        visuals.viz_2_1.mapping,
+        visuals.viz_2_1.options
     );
     visuals.viz_2_2.viz = Treemap(
         visuals.viz_2_2.data,
@@ -397,6 +464,16 @@ import { SingleValues } from "./highFi/single_values.js";
         visuals.viz_2_11.data,
         visuals.viz_2_11.options.selector
     );
+    // visuals.viz_2_14.viz = circlepack(
+    //     visuals.viz_2_14.data,
+    //     visuals.viz_2_15.mapping,
+    //     visuals.viz_2_14.options
+    // );
+    // visuals.viz_2_15.viz = circlepack(
+    //     visuals.viz_2_15.data,
+    //     visuals.viz_2_15.mapping,
+    //     visuals.viz_2_15.options
+    // );
 
     ////////////////////////////////
     /////// event listeners ////////
