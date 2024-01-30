@@ -227,13 +227,17 @@ export function circlepack(data, map, options) {
       .attr("pointer-events", "all");
 
     node.append('text')
-      .attr('dy', '.2em')
+      .attr('dy', '-0.5em')
       .style('text-anchor', 'middle')
       .text(d => d.data.name ? d.data.name : '')
       .attr('font-size', d => d3.max([d.r / 5, options.size]) + 'px')
       .attr('opacity', d => d.depth == 0 ? 0 : d.depth == options.focus + 2 ? 1 : 0)
       .attr('fill', options.text)
-      .attr("pointer-events", "none");
+      .attr("pointer-events", "none")
+      .append("tspan")
+      .attr("x", 0)
+      .attr("dy", "1.2em")
+      .text(d => d.depth == 1 ? d.children.length : "");
 
     node.append('title')
       .text(d => d.data.title);
