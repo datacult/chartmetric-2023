@@ -18,35 +18,35 @@ import { SingleValues } from "./highFi/single_values.js";
     // hold data and vizualization instance in one object
     // all update functions should take the data as the first argument
     let visuals = {
-        // viz_single_values: {
-        //     viz: null,
-        //     data: [],
-        //     options: {
-        //         selector: "viz_single_values",
-        //     },
-        //     update: function (param) {
-        //         if (param) {
-        //             this.viz.update(null, param);
-        //         } else {
-        //             this.viz.update(this.data);
-        //         }
-        //     },
-        // },
-        // viz_1_1: {
-        //     viz: null,
-        //     data: [],
-        //     options: {
-        //         selector: "viz_1_1",
-        //     },
-        //     params: [],
-        //     update: function (param) {
-        //         if (param) {
-        //             this.viz.update(null, param);
-        //         } else {
-        //             this.viz.update(this.data);
-        //         }
-        //     },
-        // },
+        viz_single_values: {
+            viz: null,
+            data: [],
+            options: {
+                selector: "viz_single_values",
+            },
+            update: function (param) {
+                if (param) {
+                    this.viz.update(null, param);
+                } else {
+                    this.viz.update(this.data);
+                }
+            },
+        },
+        viz_1_1: {
+            viz: null,
+            data: [],
+            options: {
+                selector: "viz_1_1",
+            },
+            params: [],
+            update: function (param) {
+                if (param) {
+                    this.viz.update(null, param);
+                } else {
+                    this.viz.update(this.data);
+                }
+            },
+        },
         viz_1_3: {
             viz: null,
             data: [],
@@ -250,61 +250,61 @@ import { SingleValues } from "./highFi/single_values.js";
                 }
             },
         },
-        // viz_2_14: {
-        //     viz: null,
-        //     data: [],
-        //     options: {
-        //         selector: "viz_2_14",
-        //         fill: "black",
-        //         stroke: "white",
-        //         text: "white",
-        //         background: "../assets/2_14_gradient.svg",
-        //         blend: "soft-light"
-        //     },
-        //     mapping:{
-        //         group: "GENRE",
-        //         label: "NAME",
-        //         image: "IMAGE_URL",
-        //         filter: {
-        //             TYPE: "track"
-        //         }
-        //     },
-        //     params: ["track", "artist"],
-        //     update: function (param) {
-        //         if (param) {
-        //             this.mapping.filter.TYPE = param;
-        //             this.viz.update(null, this.mapping);
-        //         } else {
-        //             this.viz.update(this.data);
-        //         }
-        //     },
-        // },
-        // viz_2_15: {
-        //     viz: null,
-        //     data: [],
-        //     options: {
-        //         selector: "viz_2_15",
-        //         fill: "black",
-        //         stroke: "white",
-        //         text: "white",
-        //         background: "../assets/2_15_gradient.svg",
-        //         blend: "soft-light"
-        //     },
-        //     mapping:{
-        //         group: "COUNTRY",
-        //         label: "TRACK_NAME",
-        //         image: "IMAGE_URL"
-        //     },
-        //     params: ["COUNTRY", "GENRE"],
-        //     update: function (param) {
-        //         if (param) {
-        //             this.mapping.group = param;
-        //             this.viz.update(null, this.mapping);
-        //         } else {
-        //             this.viz.update(this.data);
-        //         }
-        //     },
-        // },
+        viz_2_14: {
+            viz: null,
+            data: [],
+            options: {
+                selector: "viz_2_14",
+                fill: "black",
+                stroke: "white",
+                text: "white",
+                background: "../assets/2_14_gradient.svg",
+                blend: "soft-light"
+            },
+            mapping:{
+                group: "GENRE",
+                label: "NAME",
+                image: "IMAGE_URL",
+                filter: {
+                    TYPE: "track"
+                }
+            },
+            params: ["track", "artist"],
+            update: function (param) {
+                if (param) {
+                    this.mapping.filter.TYPE = param;
+                    this.viz.update(null, this.mapping);
+                } else {
+                    this.viz.update(this.data);
+                }
+            },
+        },
+        viz_2_15: {
+            viz: null,
+            data: [],
+            options: {
+                selector: "viz_2_15",
+                fill: "black",
+                stroke: "white",
+                text: "white",
+                background: "../assets/2_15_gradient.svg",
+                blend: "soft-light"
+            },
+            mapping:{
+                group: "COUNTRY",
+                label: "TRACK_NAME",
+                image: "IMAGE_URL"
+            },
+            params: ["COUNTRY", "GENRE"],
+            update: function (param) {
+                if (param) {
+                    this.mapping.group = param;
+                    this.viz.update(null, this.mapping);
+                } else {
+                    this.viz.update(this.data);
+                }
+            },
+        },
     };
 
     ///////////////////////////
@@ -467,16 +467,16 @@ import { SingleValues } from "./highFi/single_values.js";
         visuals.viz_2_11.data,
         visuals.viz_2_11.options.selector
     );
-    // visuals.viz_2_14.viz = circlepack(
-    //     visuals.viz_2_14.data,
-    //     visuals.viz_2_15.mapping,
-    //     visuals.viz_2_14.options
-    // );
-    // visuals.viz_2_15.viz = circlepack(
-    //     visuals.viz_2_15.data,
-    //     visuals.viz_2_15.mapping,
-    //     visuals.viz_2_15.options
-    // );
+    visuals.viz_2_14.viz = circlepack(
+        visuals.viz_2_14.data,
+        visuals.viz_2_15.mapping,
+        visuals.viz_2_14.options
+    );
+    visuals.viz_2_15.viz = circlepack(
+        visuals.viz_2_15.data,
+        visuals.viz_2_15.mapping,
+        visuals.viz_2_15.options
+    );
 
     ////////////////////////////////
     /////// event listeners ////////
