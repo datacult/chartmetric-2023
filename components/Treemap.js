@@ -124,6 +124,5 @@ export function TreemapComponent(
   nodes
     .append("div")
     .attr("class", "label-bg")
-
     .text((d) => label(d.data));
 }

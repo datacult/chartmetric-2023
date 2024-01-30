@@ -37,10 +37,10 @@ function drawChart(data, selector, genreType, year, timeframe) {
   const { boundedWidth: width, boundedHeight: height } = chartDimensions(
     selector,
     {
-      top: boundedHeight * 0.02,
-      right: boundedWidth * 0.02,
-      bottom: boundedHeight * 0.02,
-      left: boundedWidth * 0.02,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
     }
   );
 
