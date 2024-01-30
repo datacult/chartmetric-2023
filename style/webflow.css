@@ -798,6 +798,8 @@ Bar
 /* Tooltip */
 
 #viz_2_9 .tooltip {
+  max-width: 300px;
+  min-width: 200px;
   height: 50%;
   position: absolute;
   right: 0;
@@ -806,29 +808,32 @@ Bar
   padding-left: 16px;
   /** To be editted: this helps include the buttons=40px + margin-left for buttons */
   padding-right: 8px;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   border-radius: 78.488px;
   background: var(--colors-white, #fff);
   box-shadow: 0px 0px 15.698px 0px rgba(0, 0, 0, 0.08);
 }
 
-#viz_2_9 .name {
+/* #viz_2_9 .name {
   color: var(--800, #000);
   text-align: center;
 
-  /* Desktop/Label/14 */
+
   font-family: Inter;
   font-size: 16px;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
-}
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+} */
 
 #viz_2_9 .flag {
-  width: 24.61px;
-  height: 27.471px;
-  background-image: url("../../assets/us-flag.png");
+  width: 1.5rem;
+  height: 1.5rem;
+  background-image: url("../assets/us-flag.png");
   background-size: cover;
   /* or contain, depending on your needs */
   background-repeat: no-repeat;
@@ -837,37 +842,54 @@ Bar
   background-blend-mode: hue, difference, normal;
   border: none;
 }
+#viz_2_9 .career-stack {
+  padding: 2px 8px; /* Adjusts the size of the button */
+  background-color: #eeeeee;
+  border: 1px solid #9A9A9A; 
+  border-radius: 8px; /* Rounded corners */
+  font-size: 14px; /* Sets the font size */
 
-#viz_2_9 .card-stack {
-  display: flex;
+  color: #9e9e9e; /* Dark grey text color */
+  text-align: center; /* Centers the text */
+  display: inline-block; /* Allows it to be next to other inline or inline-block elements */
+  cursor: pointer; /* Changes cursor to pointer to indicate it's clickable */
+  text-transform: capitalize;
+}
+#viz_2_9 .genre-stack {
+  display: inline-flex;
   position: relative;
   height: 50%;
   /** To be editted: this helps include the buttons */
-  margin-left: 100px;
+  margin-left: 10px;
+  margin-bottom:3px
   /* Ensure there is enough space for the cards to pop */
 }
 
 #viz_2_9 .card {
   position: absolute;
-  padding: 0px 10%;
-  min-width: 100%;
+  padding: 0px 8px;
+  width: 50px;
   /* Adjusted to better reflect the image proportions */
   height: 100%;
   /* Adjusted to better reflect the image proportions */
   border: 1px solid #000;
-  background-color: #fff;
+  background-color: #f4f4f4;
+  color: #585858;
   text-align: center;
-
+  text-transform: capitalize;
   /* Adjust padding to vertically center the text */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
   transition: transform 0.3s ease, z-index 0.3s ease;
   border-radius: 4px;
   /* Slight rounding of corners as seen in the image */
   font-family: Inter;
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 /* Stacking cards with the left-most card on top */
@@ -877,28 +899,30 @@ Bar
 }
 
 #viz_2_9 .card:nth-child(2) {
-  left: 10px;
+  left: 15%;
   z-index: 2;
 }
 
 #viz_2_9 .card:nth-child(3) {
-  left: 20px;
+  left: 30%;
   z-index: 1;
 }
 
 /* Hover effect to pop the card */
 #viz_2_9 .card:hover {
   transform: scale(1.05);
+  width: 80px;
   /* Slight scale-up to make the card pop */
   z-index: 4;
   /* This ensures the hovered card is above others */
 }
 
 /* Return to the initial layout when not hovered */
-#viz_2_9 .card-stack .card:not(:hover) {
+#viz_2_9 .genre-stack .card:not(:hover) {
   transform: scale(1);
   transition: transform 0.3s ease, z-index 0s;
 }
+
 
 /* * * * * * * * * * * * * * * 
 / Viz 2_10

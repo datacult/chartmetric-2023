@@ -1,7 +1,7 @@
 "use strict";
 
 import { chartDimensions } from "../chartDimensions.js";
-import { setupResizeListener } from "../utility.js";
+import { setupResizeListener,trimNames } from "../utility.js";
 export function gradientBar(
   dataset,
   chartContainerId,
@@ -51,73 +51,89 @@ export function gradientBar(
   /***********************
    *5. Draw canvas
    ************************/
-  function drawElements(top10) {
+   function drawElements(top10) {
     // Bind the data to the elements with a key function for object constancy
-    const barContainers = wrapper
-      .selectAll("div.bar")
-      .data(top10, (d) => d.ARTIST_NAME);
-   
-    // Use join to handle enter, update, and exit selections
-    const enterSelection = barContainers
-      .enter()
-      .append("div")
-      .attr("class", "gradient-bar bar")
-      .html((d) => {
-        return `
-          <img style="width:${height / 18}px; height:${height / 18}px" 
-               src="${d[imageKey]}"
-               alt="${d.Group}" class="artist-image">
-          <span class="artist-name">${d.ARTIST_NAME}</span>
-        `;
-      })
-      .style("opacity", 0)
-      .style("width", 0);
+    const barContainers = wrapper.selectAll("div.bar").data(top10, (d) => {
+      return trimNames(d.ARTIST_NAME + d.COUNTRY_NAME);
+    });
 
-    // Animate entering elements
-    enterSelection
-      .transition()
-      .duration(3500) // Duration for enter transition
-      .style("opacity", 1)
-      .style("width", (d) => widthScale(d[widthKey]) + "px");
+    barContainers.join(
+      // Enter selection
+      (enter) => {
+        const divEnter = enter
+          .append("div")
+          .attr("class", "gradient-bar bar")
+          .html(
+            (d) => `
+            <img style="width:${height / 18}px; height:${height / 18}px" 
+            id=${d.ARTIST_NAME}
+                 src="${d[imageKey]}"
+                 alt="${d.Group}" class="artist-image">
+            <span class="artist-name" id=${d.ARTIST_NAME}>${d.ARTIST_NAME
+              }</span>
+          `
+          )
+          .style("opacity", 0)
+          .style("width", 0)
+          .transition()
+          .duration(1500) // Duration for enter transition
+          .style("opacity", 1)
+          .style("width", (d) => widthScale(d[widthKey]) + "px");
 
-    // Update selection
-    barContainers
-      .transition()
-      .duration(500) // Duration for update transition
-      .style("width", (d) => widthScale(d[widthKey]) + "px");
-
-    // Exit selection
-    barContainers
-      .exit()
-      .transition()
-      .duration(500) // Duration for exit transition
-      .style("width", 0)
-      .style("opacity", 0)
-      .remove();
+        return divEnter;
+      },
+      // Update selection
+      (update) =>
+        update
+          .transition()
+          .duration(500) // Duration for update transition
+          .style("width", (d) => widthScale(d[widthKey]) + "px"),
+      // Exit selection
+      (exit) =>
+        exit
+          .transition()
+          .duration(500) // Duration for exit transition
+          .style("width", 0)
+          .style("opacity", 0)
+          .style("left", -3000 + "px")
+          .remove()
+    );
     d3.selectAll(".gradient-bar.bar")
       .on("mouseenter", function (event, d) {
+        console.log(d);
+        let hoveredArtistGenres = JSON.parse(d.ARTIST_GENRES);
         d3.select(this).append("div").attr("class", "tooltip").html(`
-        <div class='name'>${d.COUNTRY_NAME}</div>
         <div class="flag"> </div>
-        <div class="card-stack">
-          <div class="card">R&B/Soul</div>
-          <div class="card">Jazz</div>
-          <div class="card">Pop</div>
-        </div>`);
-        let fromRight = d3
-          .select(".tooltip")
+        <div class="career-stack">
+        ${d.CAREER_STAGE}
+        </div>
+        <div class="genre-stack">
+          <div class="card">${hoveredArtistGenres[0]}</div>
+          <div class="card">${hoveredArtistGenres[1]}</div>
+          <div class="card">${hoveredArtistGenres[2]}</div>
+        </div>
+        `);
+        // get the tooltip width
+        let barElement = d3.select(this);
+
+        // get the bar width
+        let profileBarWidth = barElement.node().getBoundingClientRect().width;
+        // get the image width
+        let imageWidth = barElement
+          .select(".artist-image")
           .node()
           .getBoundingClientRect().width;
-        let profileBarWidth = d3
-          .select(this)
+        let nameWidth = barElement
+          .select(".artist-name")
           .node()
           .getBoundingClientRect().width;
-        console.log(profileBarWidth, fromRight);
+
+        let childWidth = imageWidth + nameWidth;
         gsap.fromTo(
           ".tooltip",
-          { right: -fromRight, opacity: 0 },
+          { left: profileBarWidth, opacity: 0 },
           {
-            right: profileBarWidth - fromRight * 1.5,
+            left: childWidth * 1.5,
             opacity: 1,
             duration: 0.5,
             ease: "power2.inOut",
@@ -128,6 +144,7 @@ export function gradientBar(
         d3.select(this).select("div.tooltip").remove();
       });
   }
+
 
   function update(data, selectedValue) {
     if (selectedValue == "All Countries") {
