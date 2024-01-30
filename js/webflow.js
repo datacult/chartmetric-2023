@@ -328,6 +328,7 @@ import { SingleValues } from "./highFi/single_values.js";
             })
         ).then(function (results) {
             results.forEach((result) => {
+                console.log(result)
                 visuals[result.name].data = result.data;
             });
         });
