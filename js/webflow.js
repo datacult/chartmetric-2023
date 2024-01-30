@@ -2,7 +2,7 @@
 // Released under the ISC license.
 // https://studio.datacult.com/
 
-import { Sankey } from "./highFi/1_1.js";
+// import { Sankey } from "./highFi/1_1.js";
 import { Table_1_3 } from "./highFi/1_3.js";
 import { circlepacking_1_5 } from "./highFi/1_5.js";
 import { circlepack } from './pack.js';
@@ -250,61 +250,61 @@ import { SingleValues } from "./highFi/single_values.js";
                 }
             },
         },
-        viz_2_14: {
-            viz: null,
-            data: [],
-            options: {
-                selector: "viz_2_14",
-                fill: "black",
-                stroke: "white",
-                text: "white",
-                background: "../assets/2_14_gradient.svg",
-                blend: "soft-light"
-            },
-            mapping:{
-                group: "GENRE",
-                label: "NAME",
-                image: "IMAGE_URL",
-                filter: {
-                    TYPE: "track"
-                }
-            },
-            params: ["track", "artist"],
-            update: function (param) {
-                if (param) {
-                    this.mapping.filter.TYPE = param;
-                    this.viz.update(null, this.mapping);
-                } else {
-                    this.viz.update(this.data);
-                }
-            },
-        },
-        viz_2_15: {
-            viz: null,
-            data: [],
-            options: {
-                selector: "viz_2_15",
-                fill: "black",
-                stroke: "white",
-                text: "white",
-                background: "../assets/2_15_gradient.svg",
-                blend: "soft-light"
-            },
-            mapping:{
-                group: "COUNTRY",
-                label: "TRACK_NAME",
-                image: "IMAGE_URL"
-            },
-            params: ["COUNTRY", "GENRE"],
-            update: function (param) {
-                if (param) {
-                    this.mapping.group = param;
-                    this.viz.update(null, this.mapping);
-                } else {
-                    this.viz.update(this.data);
-                }
-            },
-        },
+        // viz_2_14: {
+        //     viz: null,
+        //     data: [],
+        //     options: {
+        //         selector: "viz_2_14",
+        //         fill: "black",
+        //         stroke: "white",
+        //         text: "white",
+        //         background: "../assets/2_14_gradient.svg",
+        //         blend: "soft-light"
+        //     },
+        //     mapping:{
+        //         group: "GENRE",
+        //         label: "NAME",
+        //         image: "IMAGE_URL",
+        //         filter: {
+        //             TYPE: "track"
+        //         }
+        //     },
+        //     params: ["track", "artist"],
+        //     update: function (param) {
+        //         if (param) {
+        //             this.mapping.filter.TYPE = param;
+        //             this.viz.update(null, this.mapping);
+        //         } else {
+        //             this.viz.update(this.data);
+        //         }
+        //     },
+        // },
+        // viz_2_15: {
+        //     viz: null,
+        //     data: [],
+        //     options: {
+        //         selector: "viz_2_15",
+        //         fill: "black",
+        //         stroke: "white",
+        //         text: "white",
+        //         background: "../assets/2_15_gradient.svg",
+        //         blend: "soft-light"
+        //     },
+        //     mapping:{
+        //         group: "COUNTRY",
+        //         label: "TRACK_NAME",
+        //         image: "IMAGE_URL"
+        //     },
+        //     params: ["COUNTRY", "GENRE"],
+        //     update: function (param) {
+        //         if (param) {
+        //             this.mapping.group = param;
+        //             this.viz.update(null, this.mapping);
+        //         } else {
+        //             this.viz.update(this.data);
+        //         }
+        //     },
+        // },
     };
 
     ///////////////////////////
