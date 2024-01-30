@@ -238,7 +238,7 @@ export function barchart(data, map, options, svg) {
         word,
         line = [],
         lineNumber = 0, //<-- 0!
-        lineHeight = 2, // px
+        lineHeight = 1, // px
         x = text.attr("x"), //<-- include the x!
         dy = text.attr("dy") ? text.attr("dy") : 20, //<-- null check
         tspan = text.text(null).append("tspan").attr("x", x).attr("dy", dy);
