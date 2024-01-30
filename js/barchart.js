@@ -2,9 +2,7 @@
 // Released under the ISC license.
 // https://studio.datacult.com/ 
 
-'use strict'
-
-let barchart = ((data, map, options, svg) => {
+export function barchart(data, map, options, svg) {
 
   ////////////////////////////////////////
   /////////////// Defaults ///////////////
@@ -263,4 +261,4 @@ let barchart = ((data, map, options, svg) => {
     svg: svg,
   }
 
-});
+};

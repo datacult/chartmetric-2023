@@ -23,12 +23,11 @@ https://studio.datacult.com/ -->
 
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="js/barchart.js"></script>
-<script src="js/arc.js"></script>
-<script src="js/bararc.js"></script>
 
 </html>
-<script>
+<script type="module">
+    import { barArc } from './js/bararc.js';
+
     (async () => {
 
         let data = await d3.csv('./data/viz_2_5_en.csv', d3.autoType)

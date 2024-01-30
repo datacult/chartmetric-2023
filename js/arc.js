@@ -2,9 +2,7 @@
 // Released under the ISC license.
 // https://studio.datacult.com/ 
 
-'use strict'
-
-let arcchart = ((data = [], map, options, svg) => {
+export function arcchart(data = [], map, options, svg){
 
   ////////////////////////////////////////
   /////////////// Defaults ///////////////
@@ -170,4 +168,4 @@ let arcchart = ((data = [], map, options, svg) => {
     svg: svg,
   }
 
-});
+};

@@ -2,9 +2,10 @@
 // Released under the ISC license.
 // https://studio.datacult.com/ 
 
-'use strict'
+import { barchart } from './barchart.js';
+import { arcchart } from './arc.js';
 
-let barArc = ((data, options, bar_map, arc_map) => {
+export function barArc(data, options, bar_map, arc_map){
 
   //data cleaning
   data.forEach(d => {
@@ -90,4 +91,4 @@ let barArc = ((data, options, bar_map, arc_map) => {
     arc: a,
   }
 
-});
+};

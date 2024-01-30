@@ -6,6 +6,7 @@
 import { Table_1_3 } from "./highFi/1_3.js";
 import { circlepacking_1_5 } from "./highFi/1_5.js";
 import { circlepack } from './pack.js';
+import { barArc } from './js/bararc.js';
 import { Treemap } from "./highFi/2_2.js";
 import { Table_2_3 } from "./highFi/2_3.js";
 import { Calendar } from "./highFi/2_6.js";
