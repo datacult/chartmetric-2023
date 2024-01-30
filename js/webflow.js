@@ -85,7 +85,7 @@ import { SingleValues } from "./highFi/single_values.js";
                 selector: "#viz_2_1",
                 fill: "black",
                 stroke: "white",
-                background: "../assets/2_1_gradient.svg",
+                background: "https://datacult.github.io/chartmetric-2023/assets/2_1_gradient.svg",
                 blend: "soft-light"
             },
             mapping:{
@@ -259,7 +259,7 @@ import { SingleValues } from "./highFi/single_values.js";
                 fill: "black",
                 stroke: "white",
                 text: "white",
-                background: "../assets/2_14_gradient.svg",
+                background: "https://datacult.github.io/chartmetric-2023/assets/2_14_gradient.svg",
                 blend: "soft-light"
             },
             mapping:{
@@ -288,7 +288,7 @@ import { SingleValues } from "./highFi/single_values.js";
                 fill: "black",
                 stroke: "white",
                 text: "white",
-                background: "../assets/2_15_gradient.svg",
+                background: "https://datacult.github.io/chartmetric-2023/assets/2_15_gradient.svg",
                 blend: "soft-light"
             },
             mapping:{
