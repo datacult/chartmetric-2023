@@ -34,6 +34,7 @@ https://studio.datacult.com/ -->
 
         let mapping = {
             group: "COUNTRY",
+            label: "TRACK_NAME",
             image: "IMAGE_URL"
         }
 
@@ -49,7 +50,7 @@ https://studio.datacult.com/ -->
         let chart = circlepack(data, mapping, options)
 
         setTimeout(() => {
-            mapping.group = "GENRE"
+            mapping.group = ["GENRE"]
             chart.update(null, mapping)
         }, 3000)
 

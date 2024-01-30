@@ -17,7 +17,7 @@ export function circlepack(data, map, options) {
     label: null,
     value: null,
     image: null,
-    filter: [] // {key:'', value:''}
+    filter: {}
   }
 
   // merge default mapping with user mapping
@@ -77,7 +77,7 @@ export function circlepack(data, map, options) {
       .data(data)
       .join("pattern")
       .attr("id", (d, i) => {
-        return "image-fill-" + (map.label ? d[map.label] : d[map.group]);
+        return "image-fill-" + imageName(d[map.image]);
       }) // Unique ID for each pattern
       .attr("width", "100%")
       .attr("height", "100%")
@@ -93,9 +93,20 @@ export function circlepack(data, map, options) {
   ////////////// Wrangle /////////////////
   ////////////////////////////////////////
 
+  function imageName(url) {
+
+    let imageName = ""
+
+    if (url != null) {
+      imageName = url.split('/')[url.split('/').length - 1]
+    }
+
+    return imageName;
+  }
+
   function transformData(data) {
     var root = {
-      "name": "root",
+      "name": "",
       "children": []
     };
 
@@ -109,14 +120,17 @@ export function circlepack(data, map, options) {
         if (!groups[groupName]) {
           groups[groupName] = {
             "name": groupName,
+            "title": groupName,
             "children": []
           };
           root.children.push(groups[groupName]);
         }
 
         groups[groupName].children.push({
-          "name": map.label ? d[map.label] : d[map.group],
-          "value": map.value ? d[map.value] : 1
+          "name": "",
+          "title": map.label ? d[map.label] : d[map.group],
+          "value": map.value ? d[map.value] : 1,
+          "image": map.image ? imageName(d[map.image]) : null
         });
       });
 
@@ -124,8 +138,10 @@ export function circlepack(data, map, options) {
 
       data.forEach(function (d) {
         root.children.push({
-          "name": map.label ? d[map.label] : d[map.group],
-          "value": map.value ? d[map.value] : 1
+          "name": map.label ? d[map.label] : "",
+          "title": map.label ? d[map.label] : "",
+          "value": map.value ? d[map.value] : 1,
+          "image": map.image ? imageName(d[map.image]) : null
         });
       });
 
@@ -165,16 +181,22 @@ export function circlepack(data, map, options) {
   function addNodes() {
 
     ////////////////////////////////////////
-    ////////////// Pack Data ///////////////
+    ////////////// Filter Data /////////////
     ////////////////////////////////////////
 
-    if (map.filter.length > 0) {
-      map.filter.forEach(filter => {
-        data = data.filter(d => d[filter.key] == filter.value)
+    let filteredData = data;
+
+    if (Object.keys(map.filter).length > 0) {
+      Object.entries(map.filter).forEach(([key, value]) => {
+        filteredData = filteredData.filter(d => d[key] == value)
       })
     }
 
-    var hierarchicalData = transformData(data);
+    ////////////////////////////////////////
+    ////////////// Pack Data ///////////////
+    ////////////////////////////////////////
+
+    var hierarchicalData = transformData(filteredData);
 
     console.log(hierarchicalData)
 
@@ -218,7 +240,7 @@ export function circlepack(data, map, options) {
       .attr("pointer-events", "none");
 
     node.append('title')
-      .text(d => d.data.name + '\n' + d.value);
+      .text(d => d.data.title);
 
     node
       .on('mouseover', function (event, d) {
@@ -229,7 +251,7 @@ export function circlepack(data, map, options) {
 
         if (d.depth == 2 && map.image != null) {
           d3.select(this).select('circle')
-            .attr("fill", d => "url(#image-fill-" + d.data.name + ")")
+            .attr("fill", d => "url(#image-fill-" + d.data.image + ")")
             .attr("fill-opacity", 1)
             .style("mix-blend-mode", "")
 
