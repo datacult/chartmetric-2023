@@ -227,7 +227,7 @@ export function circlepack(data, map, options) {
       .attr("pointer-events", "all");
 
     node.append('text')
-      .attr('dy', '-0.5em')
+      .attr('dy', '-0.4em')
       .style('text-anchor', 'middle')
       .text(d => d.data.name ? d.data.name : '')
       .attr('font-size', d => d3.max([d.r / 5, options.size]) + 'px')
