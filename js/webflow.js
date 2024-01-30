@@ -467,7 +467,7 @@ import { SingleValues } from "./highFi/single_values.js";
     // );
     visuals.viz_2_14.viz = circlepack(
         visuals.viz_2_14.data,
-        visuals.viz_2_15.mapping,
+        visuals.viz_2_14.mapping,
         visuals.viz_2_14.options
     );
     visuals.viz_2_15.viz = circlepack(
