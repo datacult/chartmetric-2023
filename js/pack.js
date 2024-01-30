@@ -221,7 +221,7 @@ export function circlepack(data, map, options) {
     node.append('circle')
       .attr('r', d => d.depth > 1 ? options.focus == -1 ? 0 : d.r : d.r)
       .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
-      .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
+      .attr("stroke", d => d.depth > 0 ? map.stroke != null ? d[map.stroke] : options.stroke : "none")
       .attr("fill-opacity", d => d.depth > options.focus + 1 ? options.opacity : 0)
       .style("mix-blend-mode", options.blend)
       .attr("pointer-events", "all");
