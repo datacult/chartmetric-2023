@@ -4,8 +4,6 @@
 
 export function circlepack(data, map, options) {
 
-  console.log(data)
-
   ////////////////////////////////////////
   /////////////// Defaults ///////////////
   ////////////////////////////////////////
@@ -197,8 +195,6 @@ export function circlepack(data, map, options) {
     ////////////////////////////////////////
 
     var hierarchicalData = transformData(filteredData);
-
-    console.log(hierarchicalData)
 
     let root = d3.hierarchy(hierarchicalData)
       .sum(d => d.value)
