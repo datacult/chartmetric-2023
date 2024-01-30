@@ -321,7 +321,10 @@ import { SingleValues } from "./highFi/single_values.js";
                     )
                     .then((data) => {
                         return { name: viz, data: data };
-                    });
+                    })
+                    .catch(error => {
+                        console.error(error)
+                  });
             })
         ).then(function (results) {
             results.forEach((result) => {
