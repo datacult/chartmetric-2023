@@ -82,7 +82,7 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "viz_2_1",
+                selector: "#viz_2_1",
                 fill: "black",
                 stroke: "white",
                 background: "../assets/2_1_gradient.svg",
@@ -255,7 +255,7 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "viz_2_14",
+                selector: "#viz_2_14",
                 fill: "black",
                 stroke: "white",
                 text: "white",
@@ -284,7 +284,7 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "viz_2_15",
+                selector: "#viz_2_15",
                 fill: "black",
                 stroke: "white",
                 text: "white",
