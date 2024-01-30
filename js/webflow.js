@@ -32,21 +32,21 @@ import { SingleValues } from "./highFi/single_values.js";
         //         }
         //     },
         // },
-        viz_1_1: {
-            viz: null,
-            data: [],
-            options: {
-                selector: "viz_1_1",
-            },
-            params: [],
-            update: function (param) {
-                if (param) {
-                    this.viz.update(null, param);
-                } else {
-                    this.viz.update(this.data);
-                }
-            },
-        },
+        // viz_1_1: {
+        //     viz: null,
+        //     data: [],
+        //     options: {
+        //         selector: "viz_1_1",
+        //     },
+        //     params: [],
+        //     update: function (param) {
+        //         if (param) {
+        //             this.viz.update(null, param);
+        //         } else {
+        //             this.viz.update(this.data);
+        //         }
+        //     },
+        // },
         viz_1_3: {
             viz: null,
             data: [],
