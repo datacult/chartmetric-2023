@@ -116,14 +116,12 @@ import { SingleValues } from "./highFi/single_values.js";
             params: [["Artist Genres", "Track Genres"], ["All Time", 2023]],
             update: function (param, index) {
                 if (param && index) {
-
                     if (index == 0) {
                         this.options.genreType = param;
                     }
                     if (index == 1) {
                         this.options.timeframe = param;
                     }
-
                     this.viz.update(this.data, this.options);
                 } else {
                     this.viz.update(this.data);
@@ -512,7 +510,7 @@ import { SingleValues } from "./highFi/single_values.js";
     visuals.viz_2_9.viz = gradientBar(
         visuals.viz_2_9.data,
         visuals.viz_2_9.options.selector,
-        "United States"
+        "All Countries"
     );
     // visuals.viz_2_10.viz = gradientBarMapComponent(
     //     visuals.viz_2_10.data,
