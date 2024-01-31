@@ -163,7 +163,7 @@ import { SingleValues } from "./highFi/single_values.js";
                 // expects an object with 'bar' & 'arc' keys
 
                 if (param.hasOwnProperty("bar")) {
-                    this.viz.bar.update(null, { y: param.bar });
+                    this.viz.bar.update(null, { y: param.bar }, { focus: param.arc.focus });
                 } else {
                     this.viz.bar.update(this.data);
                 }

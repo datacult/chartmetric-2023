@@ -31,7 +31,8 @@ export function barchart(data, map, options, svg) {
     padding: 0.1,
     fill: "#69b3a2",
     stroke: "#000",
-    label_offset: 30
+    label_offset: 30,
+    focus: null,
   }
 
   // merge default options with user options
@@ -229,6 +230,10 @@ export function barchart(data, map, options, svg) {
       .transition(t)
       .attr("y", d => map.y ? yScale(d[map.y]) : yScale(0))
       .attr("height", d => map.y ? height - yScale(d[map.y]) : height - yScale(0));
+
+    labels
+    .transition(t)
+    .attr("font-weight", d => options.focus == d[map.x] ? "bold" : "normal")
   }
 
   function wrap(text, width) {
