@@ -138,7 +138,7 @@ export function circlepack(data, map, options) {
           duplicateTracker[groupName].add(JSON.stringify(child))
           groups[groupName].children.push(child);
         } else {
-          console.log("Duplicate found in group:", groupName, child)
+          // console.log("Duplicate found in group:", groupName, child)
         }
 
       });
