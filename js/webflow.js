@@ -10,10 +10,11 @@ import { barArc } from './bararc.js';
 import { Treemap } from "./highFi/2_2.js";
 import { Table_2_3 } from "./highFi/2_3.js";
 import { Calendar } from "./highFi/2_6.js";
+import { cluster } from './cluster.js';
 import { BumpChart } from "./highFi/2_8.js";
 import { gradientBar } from "./highFi/2_9.js";
 import { gradientBarMapComponent } from "./lowFi/2_10_gradientBar.js";
-import { circlepacking_2_11 } from "./highFi/2_11.js";
+import { scatter } from './scatter.js';
 import { SingleValues } from "./highFi/single_values.js";
 (async () => {
     // hold data and vizualization instance in one object
@@ -88,7 +89,7 @@ import { SingleValues } from "./highFi/single_values.js";
                 background: "https://datacult.github.io/chartmetric-2023/assets/2_1_gradient.svg",
                 blend: "soft-light"
             },
-            mapping:{
+            mapping: {
                 value: "PEAK_CM_SCORE",
                 label: "ARTIST_NAME",
                 group: "COUNTRY_NAME",
@@ -110,9 +111,9 @@ import { SingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "viz_2_2",
             },
-        //! First Argument: "Artist Genres" // or  "Track Genres"
-        //! Second Argument:  "top_genres_for_artists_all_time" // Or "top_genres_for_artists_created_in_2023"
-        // i understand there are three buttons. The last two buttons are from the same column, `NAME`, and can be mutually exclusive
+            //! First Argument: "Artist Genres" // or  "Track Genres"
+            //! Second Argument:  "top_genres_for_artists_all_time" // Or "top_genres_for_artists_created_in_2023"
+            // i understand there are three buttons. The last two buttons are from the same column, `NAME`, and can be mutually exclusive
             params: ["Artist Genres", "top_genres_for_artists_all_time", "All Time"],
             update: function (param) {
                 if (param) {
@@ -163,7 +164,7 @@ import { SingleValues } from "./highFi/single_values.js";
                 }
 
                 if (param.hasOwnProperty("arc")) {
-                    this.viz.arc.update(null, { focus: param.arc.focus }, {opacity: param.arc.opacity});
+                    this.viz.arc.update(null, { focus: param.arc.focus }, { opacity: param.arc.opacity });
                 } else {
                     this.viz.arc.update(this.data);
                 }
@@ -179,6 +180,28 @@ import { SingleValues } from "./highFi/single_values.js";
             update: function (param) {
                 if (param) {
                     this.viz.update(null, param);
+                } else {
+                    this.viz.update(this.data);
+                }
+            },
+        },
+        viz_2_7: {
+            viz: null,
+            data: [],
+            options: {
+                selector: "viz_2_7",
+                stroke: "white",
+            },
+            mapping: {
+                size: "ARTIST_COUNT",
+                label: "PRONOUN",
+                fill: "PRONOUN",
+                value: "PRONOUN_PCT"
+            },
+            params: ['start'],
+            update: function (param) {
+                if (param) {
+                    this.viz.update();
                 } else {
                     this.viz.update(this.data);
                 }
@@ -241,11 +264,34 @@ import { SingleValues } from "./highFi/single_values.js";
             data: [],
             options: {
                 selector: "viz_2_11",
+                stroke: "white",
             },
-            params: [],
+            mapping: {
+                x: "GENRE_NAME",
+                y: "ARTIST_COUNT",
+                size: "TRACKS_PER_ARTIST",
+                label: "GENRE_NAME",
+                fill: "GENRE_NAME",
+                focus: "GENRE_NAME"
+            },
+            params: [
+                "Latin",
+                "Indian",
+                "K-Pop",
+                "African",
+                "J-Pop",
+                "R&B/Soul/Funk",
+                "Country",
+                "Indie/Alternative",
+                "Hip-Hop/Rap",
+                "Dance/Electronic",
+                "Pop",
+                "Children's Music"
+            ],
             update: function (param) {
                 if (param) {
-                    this.viz.update(null, param);
+                    this.options.focus = param
+                    this.viz.update(null, null, this.options);
                 } else {
                     this.viz.update(this.data);
                 }
@@ -262,7 +308,7 @@ import { SingleValues } from "./highFi/single_values.js";
                 background: "https://datacult.github.io/chartmetric-2023/assets/2_14_gradient.svg",
                 blend: "soft-light"
             },
-            mapping:{
+            mapping: {
                 group: "GENRE",
                 label: "NAME",
                 image: "IMAGE_URL",
@@ -291,7 +337,7 @@ import { SingleValues } from "./highFi/single_values.js";
                 background: "https://datacult.github.io/chartmetric-2023/assets/2_15_gradient.svg",
                 blend: "soft-light"
             },
-            mapping:{
+            mapping: {
                 group: "COUNTRY",
                 label: "TRACK_NAME",
                 image: "IMAGE_URL"
@@ -445,6 +491,12 @@ import { SingleValues } from "./highFi/single_values.js";
     //     visuals.viz_2_6.data,
     //     visuals.viz_2_6.options.selector
     // );
+
+    visuals.viz_2_7.viz = cluster(
+        visuals.viz_2_7.data,
+        visuals.viz_2_7.mapping,
+        visuals.viz_2_7.options
+    );
     visuals.viz_2_8.viz = BumpChart(
         visuals.viz_2_8.data,
         visuals.viz_2_8.options.selector,
@@ -461,10 +513,11 @@ import { SingleValues } from "./highFi/single_values.js";
     //     visuals.viz_2_10.data,
     //     visuals.viz_2_10.options.selector
     // );
-    // visuals.viz_2_11.viz = circlepacking_2_11(
-    //     visuals.viz_2_11.data,
-    //     visuals.viz_2_11.options.selector
-    // );
+    visuals.viz_2_11.viz = scatter(
+        visuals.viz_2_11.data,
+        visuals.viz_2_11.mapping,
+        visuals.viz_2_11.options
+    );
     visuals.viz_2_14.viz = circlepack(
         visuals.viz_2_14.data,
         visuals.viz_2_14.mapping,
@@ -532,7 +585,7 @@ import { SingleValues } from "./highFi/single_values.js";
     // Event listener for dropdowns
     document.querySelectorAll(".dropdown").forEach((dropdown) => {
         dropdown.addEventListener("change", (event) => {
-            
+
             const value = event.target.value;
             const viz_id = 'viz_' + dropdown.id.split("-")[1];
 
