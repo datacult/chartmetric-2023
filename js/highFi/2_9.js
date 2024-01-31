@@ -1,7 +1,7 @@
 "use strict";
 
 import { chartDimensions } from "../chartDimensions.js";
-import { setupResizeListener,trimNames } from "../utility.js";
+import { setupResizeListener, trimNames } from "../utility.js";
 export function gradientBar(
   dataset,
   chartContainerId,
@@ -51,7 +51,7 @@ export function gradientBar(
   /***********************
    *5. Draw canvas
    ************************/
-   function drawElements(top10) {
+  function drawElements(top10) {
     // Bind the data to the elements with a key function for object constancy
     const barContainers = wrapper.selectAll("div.bar").data(top10, (d) => {
       return trimNames(d.ARTIST_NAME + d.COUNTRY_NAME);
@@ -101,16 +101,15 @@ export function gradientBar(
     d3.selectAll(".gradient-bar.bar")
       .on("mouseenter", function (event, d) {
         console.log(d);
-        let hoveredArtistGenres = JSON.parse(d.ARTIST_GENRES);
+        let hoveredArtistGenres = d.ARTIST_GENRE;
         d3.select(this).append("div").attr("class", "tooltip").html(`
         <div class="flag"> </div>
         <div class="career-stack">
-        ${d.CAREER_STAGE}
+        ${d["COALESCE(CAS.ARTIST_STAGE, 'NULL')"] == "Null" ? '' : d["COALESCE(CAS.ARTIST_STAGE, 'NULL')"]}
         </div>
         <div class="genre-stack">
-          <div class="card">${hoveredArtistGenres[0]}</div>
-          <div class="card">${hoveredArtistGenres[1]}</div>
-          <div class="card">${hoveredArtistGenres[2]}</div>
+          <div class="card">${hoveredArtistGenres}</div>
+          
         </div>
         `);
         // get the tooltip width
@@ -144,7 +143,6 @@ export function gradientBar(
         d3.select(this).select("div.tooltip").remove();
       });
   }
-
 
   function update(data, selectedValue) {
     if (selectedValue == "All Countries") {
