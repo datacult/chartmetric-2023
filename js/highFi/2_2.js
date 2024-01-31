@@ -2,32 +2,19 @@
 
 import { TreemapComponent } from "../../components/Treemap.js";
 import { setupResizeListener, chartDimensions } from "../utility.js";
-function drawChart(data, selector, genreType, year, timeframe) {
+
+export function Treemap(data, selector, options) {
+  // let selector = "viz_2_2";
   d3.select("#" + selector)
     .select("svg")
     .remove();
-    d3.select("#" + selector).append('div').attr('id', 'gentreTreemap_chart')
+  d3.select("#" + selector)
+    .append("div")
+    .attr("id", "gentreTreemap_chart");
   /***********************
    *1. Access data
    ************************/
-
-
- 
-  // console.log([...new Set(data.map((d) => d.TIMEFRAME))]);
-  data = data
-    .filter((d) => d.TITLE == genreType)
-    .filter((d) => d.TIMEFRAME == timeframe) // or 2023
-    .filter((d) => d.NAME == year)
-    .sort((a, b) => d3.descending(+a.VALUE, +b.VALUE))
-    .map((d, i) => {
-      return {
-        GENRE_NAME: d.GENRE_NAME,
-        VALUE: +d.VALUE,
-        RANK: i + 1,
-        IMAGE_URL: d.IMAGE_URL,
-      };
-    })
-    .slice(0, 10);
+  const { genreType, timeframe } = options;
 
   /***********************
    *2. Create chart dimensions
@@ -48,35 +35,36 @@ function drawChart(data, selector, genreType, year, timeframe) {
    *3. Set up canvas
    ************************/
   const visElement = d3.select("#" + selector);
-  console.log(width, height)
-  // .attr("viewBox", `0 0 ${width*0.98} ${height*0.98}`)
-  // .attr("preserveAspectRatio", "xMidYMid meet");
 
-  TreemapComponent(visElement, data, {
-    path: (d) => d.GENRE_NAME,
-    value: (d) => d.VALUE,
-    label: (d) => {
-      return [d.RANK, d.GENRE_NAME].join(" | ");
-    },
-    // title: (d, n) => `${d.name}\n${n.value.toLocaleString("en")}`, // text to show on hover
-    stroke: "none",
-    paddingInner: "8",
-    tile: d3.treemapSquarify,
-    width: width,
-    height: height,
-  });
-}
-
-export function Treemap(data, selector, genreType, year, timeframe) {
-  // console.log(data, selector, genreType, year, timeframe);
-
-  const update = (newData, newGenreType, newYear, newTimeframe) => {
-
-    drawChart(newData,selector,newGenreType, newYear, newTimeframe);
-  };
-
-  update(data, genreType, year, timeframe);
-
+  function update(data, options) {
+    const { genreType, timeframe } = options;
+    data = data
+      .filter((d) => d.TITLE == genreType)
+      .filter((d) => d.TIMEFRAME == timeframe) // or 2023
+      .sort((a, b) => d3.descending(+a.VALUE, +b.VALUE))
+      .map((d, i) => {
+        return {
+          GENRE_NAME: d.GENRE_NAME,
+          TIMEFRAME: d.TIMEFRAME,
+          VALUE: +d.VALUE,
+          RANK: i + 1,
+          IMAGE_URL: d.IMAGE_URL,
+        };
+      })
+      .slice(0, 10);
+    TreemapComponent(data, {
+      path: (d) => d.GENRE_NAME,
+      value: (d) => d.VALUE,
+      label: (d) => {
+        return [d.RANK, d.GENRE_NAME].join(" | ");
+      },
+      paddingInner: "8",
+      tile: d3.treemapSquarify,
+      width: width,
+      height: height,
+    });
+  }
+  update(data, options);
   return {
     update,
   };

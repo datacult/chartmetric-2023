@@ -3,7 +3,7 @@ import { chartDimensions, setupResponsiveDimensions } from "../utility.js";
 
 export function Sankey(data = [], selector = "vis", dimensions) {
   const nodeId = "source";
-
+  console.log(data)
   /***********************
    *1. Access data
    ************************/
@@ -54,7 +54,7 @@ export function Sankey(data = [], selector = "vis", dimensions) {
      *2. Create chart dimensions
      ************************/
     const padding_chart = (height * 150) / 700,
-      padding = 120;
+       padding = height *.12;
     const widthChart = width - padding_chart * 2,
       heightChart = height - padding_chart * 1.25;
 
@@ -112,78 +112,82 @@ export function Sankey(data = [], selector = "vis", dimensions) {
       .data(sankeyLinks)
       .join("g")
       .attr("opacity", 0.4)
-   
+
       .style("mix-blend-mode", "multiply");
 
-      const defs = svg.append("defs");
+    const defs = svg.append("defs");
 
-      // Create the linearGradient element
-      const gradients = [
-        {
-          id: "2023",
-          x1: "0%",
-          y1: "0%",
-          x2: "100%",
-          y2: "100%",
-          stops: [
-            { offset: "0", color: "#BFDBF9" },
-            { offset: "0.000002", color: "#D2CFF2", opacity: "0.970312" },
-            { offset: "1", color: "#EB6AF5", opacity: "0.94" },
-          ],
-        },
-        {
-          id: "2022",
-          x1: "0%",
-          y1: "0%",
-          x2: "100%",
-          y2: "100%",
-          stops: [
-            { offset: "0", color: "#BADAFF" },
-            { offset: "0.494792", color: "#CCCCCC" },
-            { offset: "1", color: "#FE7225", opacity: "0.73" },
-          ],
-        },
-        {
-          id: "Prior",
-          x1: "0%",
-          y1: "0%",
-          x2: "100%",
-          y2: "100%",
-          stops: [
-            { offset: "0", color: "#A9D2FF" },
-            { offset: "0.581186", color: "#DDE6E6" },
-            { offset: "1", color: "#FFD966" },
-          ],
-        },
-      ];
+    // Create the linearGradient element
+    const gradients = [
+      {
+        id: "2023",
+        x1: "0%",
+        y1: "0%",
+        x2: "100%",
+        y2: "100%",
+        stops: [
+          { offset: "0.4", color: "#BFDBF9" },
+          { offset: "0.494792", color: "#D2CFF2", opacity: "0.970312" },
+          { offset: "1", color: "#EB6AF5", opacity: "0.94" },
+        ],
+      },
+      {
+        id: "2022",
+        x1: "0%",
+        y1: "0%",
+        x2: "100%",
+        y2: "100%",
+        stops: [
+          { offset: "0.4", color: "#BADAFF" },
+          { offset: "0.494792", color: "#CCCCCC" },
+          { offset: "1", color: "#FE7225", opacity: "0.73" },
+        ],
+      },
+      {
+        id: "Prior",
+        x1: "0%",
+        y1: "0%",
+        x2: "100%",
+        y2: "100%",
+        stops: [
+          { offset: "0.4", color: "#A9D2FF" },
+          { offset: "0.581186", color: "#DDE6E6" },
+          { offset: "1", color: "#FFD966" },
+        ],
+      },
+    ];
 
-      const colorScale = d3.scaleOrdinal().domain(["2023", "2022", "Prior", "All Time"]).range(["#EB6AF5", "#FE7225", "#FFD966", "#1681F7"]);
-      // Create gradients
-      gradients.forEach((gradientData) => {
-        const linearGradient = defs
-          .append("linearGradient")
-          .attr("id", gradientData.id)
-          .attr("x1", gradientData.x1)
-          .attr("y1", gradientData.y1)
-          .attr("x2", gradientData.x2)
-          .attr("y2", gradientData.y2)
-          .attr("gradientUnits", "userSpaceOnUse");
-      
-        gradientData.stops.forEach((stop) => {
-          linearGradient
-            .append("stop")
-            .attr("offset", stop.offset)
-            .attr("stop-color", stop.color)
-            .attr("stop-opacity", stop.opacity || null);
-        });
+    const colorScale = d3
+      .scaleOrdinal()
+      .domain(["2023", "2022", "Prior", "All Time"])
+      .range(["#EB6AF5", "#FE7225", "#FFD966", "#1681F7"]);
+    // Create gradients
+    gradients.forEach((gradientData) => {
+      const linearGradient = defs
+        .append("linearGradient")
+        .attr("id", gradientData.id)
+        .attr("x1", gradientData.x1)
+        .attr("y1", gradientData.y1)
+        .attr("x2", gradientData.x2)
+        .attr("y2", gradientData.y2)
+        .attr("gradientUnits", "objectBoundingBox")
+        .attr("gradientTransform", "rotate(-45,0.5,0.5) translate(0, -.4)")
+        // .attr("gradientTransform", "translate(-1%,0)");
+      gradientData.stops.forEach((stop) => {
+        linearGradient
+          .append("stop")
+          .attr("offset", stop.offset)
+          .attr("stop-color", stop.color)
+          .attr("stop-opacity", stop.opacity || null);
       });
+    });
 
     link
       .append("path")
       .attr("d", d3.sankeyLinkHorizontal())
       .attr("stroke", (d, i) => {
-        console.log(d.target.name)
-        return `url(#${d.target.name})`
+        console.log(d.target.name);
+        return `url(#${d.target.name})`;
       })
       .attr("stroke-width", (d) => Math.max(1, d.width));
 
@@ -197,9 +201,9 @@ export function Sankey(data = [], selector = "vis", dimensions) {
       .attr("x", (d) => d.x0)
       .attr("y", (d) => d.y0)
       .attr("height", (d) => d.y1 - d.y0)
-      .attr("width", (d) =>Math.min(30,( d.x1 - d.x0)*10))
+      .attr("width", (d) => Math.min(30, (d.x1 - d.x0) * 10))
 
-      .attr("fill", d=> colorScale(d.name))
+      .attr("fill", (d) => colorScale(d.name))
       .append("title");
     // .text((d) => `${d[nodeId]}\n${d.value.toLocaleString()}`);
 
@@ -212,8 +216,8 @@ export function Sankey(data = [], selector = "vis", dimensions) {
       .join("text")
       .style("fill", (d) => "#C2C2C1")
       .attr("x", (d) => (d.x0 < width / 2 ? d.x1 : d.x0))
-      .attr("y", (d) => (d.y1 + d.y0) / 2)
-      .attr("dy", (d) => (d.value === 103861101 ? "-4.5em" : "1em"))
+      .attr("y", (d) => (d.y1 + d.y0) / 2+16)
+      .attr("dy", (d) => (d.value >93861101 ? "-4em" : "1em"))
       .style("text-edge", "cap")
       .attr("font-weight", "700")
       .attr("transform", (d) => {
@@ -232,20 +236,20 @@ export function Sankey(data = [], selector = "vis", dimensions) {
       .join("text")
       .style("fill", (d) => "#1C1C1C")
       .style("text-edge", "cap")
-      .attr("x", (d) => (d.x0 < width / 2 ? d.x1 + 6 : d.x0 - 6))
-      .attr("y", (d) => (d.y1 + d.y0) / 2)
-      .attr("dy", (d) => (d.value === 103861101 ? "-.5em" : "1em"))
+      .attr("x", (d) => (d.x0 < width / 2 ? d.x1  : d.x0 - 6))
+      .attr("y", (d) => (d.y1 + d.y0) / 2+30)
+      .attr("dy", (d) => (d.value > 93861101 ? "-.7em" : "1em"))
       .attr("font-weight", "700")
       .attr("font-size", (d) => (d.value === 103861101 ? "4rem" : "2rem"))
       .attr("transform", (d) => {
-        const x = d.x1;
-        const y = 5 + (d.y1 + d.y0) / 2;
+        const x = d.x1*1;
+        const y = 5+ (d.y1 + d.y0) / 2;
 
         return `rotate(270, ${x}, ${y})`;
       })
       .attr("text-anchor", (d) => "middle")
       .text((d) =>
-        d.value === 103861101
+        d.value > 93861101
           ? `${d3.format(",")(d.value)}`
           : `${d3.format(".3s")(d.value)}`
       );

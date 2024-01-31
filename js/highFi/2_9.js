@@ -69,8 +69,9 @@ export function gradientBar(
             id=${d.ARTIST_NAME}
                  src="${d[imageKey]}"
                  alt="${d.Group}" class="artist-image">
-            <span class="artist-name" id=${d.ARTIST_NAME}>${d.ARTIST_NAME
-              }</span>
+            <span class="artist-name" id=${d.ARTIST_NAME}>${
+              d.ARTIST_NAME
+            }</span>
           `
           )
           .style("opacity", 0)
@@ -105,7 +106,11 @@ export function gradientBar(
         d3.select(this).append("div").attr("class", "tooltip").html(`
         <div class="flag"> </div>
         <div class="career-stack">
-        ${d["COALESCE(CAS.ARTIST_STAGE, 'NULL')"] == "Null" ? '' : d["COALESCE(CAS.ARTIST_STAGE, 'NULL')"]}
+        ${
+          d["COALESCE(CAS.ARTIST_STAGE, 'NULL')"] == "Null"
+            ? ""
+            : d["COALESCE(CAS.ARTIST_STAGE, 'NULL')"]
+        }
         </div>
         <div class="genre-stack">
           <div class="card">${hoveredArtistGenres}</div>
