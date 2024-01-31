@@ -16,6 +16,7 @@ https://studio.datacult.com/ -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style/index.css">
+
 <body>
     <div id="vis">
     </div>
@@ -26,25 +27,25 @@ https://studio.datacult.com/ -->
 </html>
 
 <script type="module">
-    import {scatter} from './js/scatter.js';
+    import { scatter } from './js/scatter.js';
     let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_11_en.csv', d3.autoType)
 
     console.log(data);
 
     let mapping = {
-        x: "GENRE_NAME",
-        y: "ARTIST_COUNT",
-        size: "TRACKS_PER_ARTIST",
+        x: "ORDERING",
+        y: "TRACKS_PER_ARTIST",
+        size: "ARTIST_COUNT",
         label: "GENRE_NAME",
         fill: "GENRE_NAME",
         focus: "GENRE_NAME"
     }
 
-    let options = {
-        selector: "#vis",
-        stroke: "white",
-        width: 1200
-    }
+        let options = {
+            selector: "#vis",
+            stroke: "white",
+            width: 1200
+        }
 
     // scrolltrigger to be added
     let vis = scatter(data, mapping, options);

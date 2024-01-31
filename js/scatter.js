@@ -95,7 +95,7 @@ export function scatter(data, map, options, svg) {
 
   const colorScale = d3
     .scaleSequential()
-    .domain([1, fillValues.length+1])
+    .domain([1, fillValues.length + 1])
     .interpolator(d3.interpolateRainbow);
 
   fillValues.forEach((d, i) => {
@@ -118,15 +118,24 @@ export function scatter(data, map, options, svg) {
       .style("stop-opacity", 1);
   })
 
+  let grescale = defs.append("filter")
+    .attr("id", "grayscale");
+
+    grescale.append("feColorMatrix")
+    .attr("type", "matrix")
+    .attr("values", `0.3333 0.3333 0.3333 0 0
+                   0.3333 0.3333 0.3333 0 0
+                   0.3333 0.3333 0.3333 0 0
+                   0      0      0      1 0`);
+
 
   ////////////////////////////////////////
   ////////////// Scales //////////////////
   ////////////////////////////////////////
 
-  const xScale = d3.scaleBand()
-    .domain(data.map(d => d[map.x]))
+  const xScale = d3.scaleLinear()
+    .domain(d3.extent(data, d => d[map.x]))
     .range([0, width])
-    .paddingInner(options.padding);
 
   const yScale = d3.scaleLinear()
     .domain([0, d3.max(data, d => d[map.y])])
@@ -143,34 +152,32 @@ export function scatter(data, map, options, svg) {
   const circles = svg.selectAll(".circle")
     .data(data)
     .join("circle")
-    .attr("cx", d => xScale(d[map.x]) + xScale.bandwidth() / 2)
+    .attr("cx", d => xScale(d[map.x]))
     .attr("cy", d => yScale(d[map.y]))
     .attr("r", d => rScale(d[map.size]))
     .attr("fill", d => `url(#${trimNames(d[map.fill])})`)
     .classed("circle", true)
-  .style("filter", "url(#blur)");
+    .style("filter", "url(#grayscale) url(#blur)");
 
   const rings = svg.selectAll(".ring")
     .data(data)
     .join("circle")
-    .attr("cx", d => xScale(d[map.x]) + xScale.bandwidth() / 2)
+    .attr("cx", d => xScale(d[map.x]))
     .attr("cy", d => yScale(d[map.y]))
     .attr("r", d => rScale(d[map.size] * 0.8))
     .attr("fill", d => "none")
     .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
-    .attr("stroke-opacity", d => d[map.focus] == options.focus && options.focus != null ? 0.5 : 0)
     .classed("ring", true);
 
 
   const labels = svg.selectAll(".text")
     .data(data)
     .join("text")
-    .attr("x", d => xScale(d[map.x]) + xScale.bandwidth() / 2)
+    .attr("x", d => xScale(d[map.x]))
     .attr("y", d => yScale(d[map.y]))
     .attr("text-anchor", "middle")
     .attr("font-size", "0.5em")
     .attr("fill", options.text)
-    .attr("opacity", d => d[map.focus] == options.focus && options.focus != null ? 1 : 0)
     .text(d => map.label != null ? d[map.label] : "")
     .attr("pointer-events", "none")
     .style("text-transform", "uppercase")
@@ -194,27 +201,28 @@ export function scatter(data, map, options, svg) {
     circles
       .data(data)
       .transition(t)
-      .attr("cx", d => xScale(d[map.x]) + xScale.bandwidth() / 2)
+      .attr("cx", d => xScale(d[map.x]))
       .attr("cy", d => yScale(d[map.y]))
       .attr("r", d => rScale(d[map.size]))
+      .style("filter", d => options.focus != null ? d[map.focus] == options.focus ? "url(#blur)" : "url(#grayscale) url(#blur)" : "url(#blur)")
 
-    rings
-      .data(data)
-      .transition(t)
-      .attr("cx", d => xScale(d[map.x]) + xScale.bandwidth() / 2)
-      .attr("cy", d => yScale(d[map.y]))
-      .attr("r", d => rScale(d[map.size] * 0.8))
-      .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
-      .attr("stroke-opacity", d => d[map.focus] == options.focus && options.focus != null ? 0.5 : 0)
+    // rings
+    //   .data(data)
+    //   .transition(t)
+    //   .attr("cx", d => xScale(d[map.x]))
+    //   .attr("cy", d => yScale(d[map.y]))
+    //   .attr("r", d => rScale(d[map.size] * 0.8))
+    //   .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
+    //   .attr("stroke-opacity", d => d[map.focus] == options.focus && options.focus != null ? 0.5 : 0)
 
-    labels
-      .data(data)
-      .transition(t)
-      .attr("x", d => xScale(d[map.x]) + xScale.bandwidth() / 2)
-      .attr("y", d => yScale(d[map.y]))
-      .attr("fill", options.text)
-      .attr("opacity", d => d[map.focus] == options.focus && options.focus != null ? 1 : 0)
-      .text(d => map.label != null ? d[map.label] : "")
+    // labels
+    //   .data(data)
+    //   .transition(t)
+    //   .attr("x", d => xScale(d[map.x]))
+    //   .attr("y", d => yScale(d[map.y]))
+    //   .attr("fill", options.text)
+    //   .attr("opacity", d => d[map.focus] == options.focus && options.focus != null ? 1 : 0)
+    //   .text(d => map.label != null ? d[map.label] : "")
 
   }
 

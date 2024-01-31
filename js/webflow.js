@@ -258,9 +258,9 @@ import { SingleValues } from "./highFi/single_values.js";
                 stroke: "white",
             },
             mapping: {
-                x: "GENRE_NAME",
-                y: "ARTIST_COUNT",
-                size: "TRACKS_PER_ARTIST",
+                x: "ORDERING",
+                y: "TRACKS_PER_ARTIST",
+                size: "ARTIST_COUNT",
                 label: "GENRE_NAME",
                 fill: "GENRE_NAME",
                 focus: "GENRE_NAME"
