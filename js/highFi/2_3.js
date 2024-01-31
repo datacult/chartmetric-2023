@@ -61,6 +61,7 @@ export function Table_2_3(data, selector) {
           .text(formatPercentage(d.FOLLOWERS_2023_PROPORTION));
       });
 
+      // icon and platform name
       let headingContainer = column
         .append("div")
         .attr("class", "header-container");

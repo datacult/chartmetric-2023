@@ -148,8 +148,8 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
     const circlesSelection = groups.selectAll("circle").data(
       (d) => d.circlepackingData,
       (d) => {
-        console.log(d);
-        return d.PLATFORM + d.ARTIST_NAME;
+        
+        return trimNames(d.PLATFORM + d.ARTIST_NAME)
       }
     );
 
