@@ -85,7 +85,7 @@ export function cluster(data, map, options, svg) {
     .attr("height", "200%")
     .attr("width", "200%")
   filter.append("feGaussianBlur")
-    .attr("stdDeviation", "5")
+    .attr("stdDeviation", "20")
     .attr("result", "coloredBlur");
 
   // add color gradients
