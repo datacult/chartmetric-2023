@@ -19,6 +19,7 @@ export function cluster(data, map, options, svg) {
     stroke: null,
     group: null,
     label: null,
+    value: null,
   }
 
   // merge default mapping with user mapping
@@ -34,7 +35,8 @@ export function cluster(data, map, options, svg) {
     size: 10,
     fill: "#69b3a2",
     stroke: "#000",
-    text: "black"
+    text: "black",
+    format: ".0%"
   }
 
   // merge default options with user options
@@ -209,7 +211,7 @@ export function cluster(data, map, options, svg) {
     .attr("text-anchor", "middle")
     .attr("fill", options.text)
     .attr("font-size", d => sizeScale(d[map.size]) / 3)
-    .text(d => map.size != null ? d3.format(",")(d[map.size]) : "")
+    .text(d => map.size != null ? d3.format(options.format)(d[map.value]) : "")
     .attr("transform", d => `translate(${width / 2},${height / 2})`)
     .attr("opacity", 0)
     .attr("pointer-events", "none");
