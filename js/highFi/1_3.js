@@ -36,7 +36,7 @@ export function Table_1_3(data = [], selector = "vis", platform = "Radio") {
             <div class="subheader"><span class="color-bar"></span>${obj["ARTIST_NAME"]}</div>
         </div>
     `;
-      wrapper.appendChild(htmlElement);
+      if (wrapper) wrapper.appendChild(htmlElement);
     });
 
   }
