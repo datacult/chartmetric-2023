@@ -200,6 +200,7 @@ export function barchart(data, map, options, svg) {
 
   function update(newData = data, newMap = map, newOptions = options) {
 
+    console.log(newOptions)
     // merge any new mapping and options
     map = { ...map, ...newMap };
     options = { ...options, ...newOptions };
@@ -231,9 +232,9 @@ export function barchart(data, map, options, svg) {
       .attr("y", d => map.y ? yScale(d[map.y]) : yScale(0))
       .attr("height", d => map.y ? height - yScale(d[map.y]) : height - yScale(0));
 
-    labels
-    .transition(t)
-    .attr("font-weight", d => options.focus == d[map.x] ? "bold" : "normal")
+    text
+      .transition(t)
+      .attr("font-weight", d => options.focus != null ?options.focus == d[map.x] ? "bold": "normal" : "bold")
   }
 
   function wrap(text, width) {

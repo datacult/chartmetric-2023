@@ -48,7 +48,7 @@ https://studio.datacult.com/ -->
         // separate updates for bar and arc
         example_updates.forEach((update, i) => {
             setTimeout(() => {
-                bararc.bar.update(null, { y: update })
+                bararc.bar.update(null, { y: update }, {focus: i > 1 ? update: null})
                 if (i > 1) {
                     bararc.arc.update(null, { focus: update })
                 }
