@@ -214,7 +214,7 @@ export function cluster(data, map, options, svg) {
     .join("text")
     .attr("text-anchor", "middle")
     .attr("fill", options.text)
-    .attr("font-size", d => sizeScale(d[map.size]) / 3)
+    .attr("font-size", d => d3.max([sizeScale(d[map.size]) / 3, 20]))
     .text(d => map.size != null ? d3.format(options.format)(d[map.value] * 100) + "%" : "")
     .attr("transform", d => `translate(${width / 2},${height / 2})`)
     .attr("opacity", 0)
@@ -224,7 +224,7 @@ export function cluster(data, map, options, svg) {
     .append("tspan")
     .attr("x", 0)
     .attr("dy", "1.2em")
-    .attr("font-size", d => sizeScale(d[map.size]) / 6)
+    .attr("font-size", d => d3.max([sizeScale(d[map.size]) / 6, 15]))
     .text(d => map.label != null ? d[map.label] : 0);
 
 
