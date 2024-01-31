@@ -52,10 +52,13 @@ export function Treemap(data, selector, options) {
         };
       })
       .slice(0, 10);
+
+
     TreemapComponent(data, {
       path: (d) => d.GENRE_NAME,
       value: (d) => d.VALUE,
       label: (d) => {
+        
         return [d.RANK, d.GENRE_NAME].join(" | ");
       },
       paddingInner: "8",

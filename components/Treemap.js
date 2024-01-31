@@ -2,7 +2,7 @@
 // Released under the ISC license.
 // https://observablehq.com/@d3/treemap
 export function TreemapComponent(
-  svg,
+
   data,
   {
     // data is either tabular (array of objects) or hierarchy (nested objects)
@@ -12,7 +12,9 @@ export function TreemapComponent(
     children, // if hierarchical data, given a d in data, returns its children
     value, // given a node d, returns a quantitative value (for area encoding; null for count)
     sort = (a, b) => d3.descending(a.value, b.value), // how to sort nodes prior to layout
-    label, // given a leaf node d, returns the name to display on the rectangle
+    label = (d) => {
+      return [d.RANK, d.GENRE_NAME].join(" | ");
+    }, // given a leaf node d, returns the name to display on the rectangle
     group, // given a leaf node d, returns a categorical value (for color encoding)
     title, // given a leaf node d, returns its hover text
     link, // given a leaf node d, its link (if any)
@@ -35,12 +37,7 @@ export function TreemapComponent(
     round = true, // whether to round to exact pixels
     colors = d3.schemeTableau10, // array of colors
     zDomain, // array of values for the color scale
-    fill = "#ccc", // fill for node rects (if no group color encoding)
-    fillOpacity = group == null ? null : 0.6, // fill opacity for node rects
-    stroke, // stroke for node rects
-    strokeWidth, // stroke width for node rects
-    strokeOpacity, // stroke opacity for node rects
-    strokeLinejoin, // stroke line join for node rects
+
   } = {}
 ) {
   // If id and parentId options are specified, or the path option, use d3.stratify
@@ -50,6 +47,7 @@ export function TreemapComponent(
 
   // We take special care of any node that has both a value and children, see
   // https://observablehq.com/@d3/treemap-parent-with-value.
+
 
   const stratify = (data) =>
     d3
