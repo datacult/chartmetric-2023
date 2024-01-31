@@ -37,7 +37,7 @@ export function cluster(data, map, options, svg) {
     stroke: "#000",
     text: "black",
     format: ".0%",
-    force: 0.1
+    force: 0.3
   }
 
   // merge default options with user options
@@ -122,7 +122,7 @@ export function cluster(data, map, options, svg) {
 
   const sizeScale = d3.scaleLinear()
     .domain(d3.extent(data, d => map.size != null ? d[map.size] : options.size))
-    .range([options.width / 100, options.width / 10])
+    .range([options.width * 0.05, options.width * 0.3])
 
   ////////////////////////////////////////
   ////////////// Simulation //////////////
@@ -132,16 +132,15 @@ export function cluster(data, map, options, svg) {
   data.forEach(d => {
     d.x = width / 2;
     d.y = height / 2;
+    d.r = 0;
   });
 
   const simulation = d3.forceSimulation()
     .force('charge', d3.forceManyBody().strength(options.force))
     .force('x', d3.forceX().strength(options.force).x(width / 2))
     .force('y', d3.forceY().strength(options.force).y(height / 2))
-    .force("collision", d3.forceCollide().radius(d => map.size != null ? sizeScale(d[map.size]) : sizeScale(options.size)))
+    .force("collision", d3.forceCollide().radius(d => d.r))
     .on("tick", ticked);
-
-  simulation.stop()
 
   const drag = simulation => {
 
@@ -181,8 +180,6 @@ export function cluster(data, map, options, svg) {
       .attr("transform", d => `translate(${d.x},${d.y})`)
 
   }
-
-  simulation.nodes(data);
 
   ////////////////////////////////////////
   ////////////// DOM Setup ///////////////
@@ -244,6 +241,10 @@ export function cluster(data, map, options, svg) {
 
     if (newData != null) data = newData;
 
+    data.forEach(d => {
+      d.r = map.size != null ? sizeScale(d[map.size]) : sizeScale(options.size);
+    });
+
     const t = d3.transition().duration(options.transition);
 
     // update scales
@@ -253,23 +254,23 @@ export function cluster(data, map, options, svg) {
     bubbles
       .data(data)
       .transition(t)
-      .attr("r", d => map.size != null ? sizeScale(d[map.size] + (d[map.size] * options.padding)) : sizeScale(options.size + (options.size * options.padding)))
+      .attr("r", d => d.r)
       .attr("fill", d => map.fill != null ? `url(#${trimNames(d[map.fill])})` : options.fill)
       .attr("stroke", d => d[map.stroke] || options.stroke)
 
     rings
       .data(data)
       .transition(t)
-      .attr("r", d => map.size != null ? sizeScale(d[map.size] * 0.9) : sizeScale(options.size))
+      .attr("r", d => d.r)
       .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
 
     labels
       .data(data)
       .transition(t)
       .delay(options.transition / 2)
-      .attr("opacity", 1)
+      .attr("opacity", 1);
 
-
+    simulation.nodes(data);
     simulation.restart()
 
   }
