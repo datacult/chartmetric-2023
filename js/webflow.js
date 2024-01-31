@@ -576,16 +576,14 @@ import { SingleValues } from "./highFi/single_values.js";
 
                 console.log("toggle: ", viz_id, index, value);
 
-                if (
-                    visuals.hasOwnProperty(viz_id) &&
-                    visuals[viz_id].params.length > index
-                ) {
+                if ( visuals.hasOwnProperty(viz_id)) {
                     if (
                         Array.isArray(visuals[viz_id].params[index]) &&
                         visuals[viz_id].params[index].indexOf(value) > -1
                     ) {
                         visuals[viz_id].update(value, index);
                     } else if (
+                        visuals[viz_id].params.length > index &&
                         visuals[viz_id].params.indexOf(value) > -1
                     ) {
                         visuals[viz_id].update(value);
