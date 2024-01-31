@@ -415,8 +415,12 @@ import { SingleValues } from "./highFi/single_values.js";
     ///// populate dropdowns ///////
     ////////////////////////////////
 
+    let platformDropdownSpan = document.createElement("span");
+    platformDropdownSpan.classList.add("arrow");
+
     let platformDropdownContainer = document.querySelector("#dropdown-1_3");
     let platformDropdown = document.createElement("select");
+    platformDropdown.appendChild(platformDropdownSpan);
 
     let platforms = visuals.viz_1_3.data.sort((a, b) =>
         d3.ascending(a.PLATFORM, b.PLATFORM)
@@ -433,8 +437,12 @@ import { SingleValues } from "./highFi/single_values.js";
     
     if (platformDropdownContainer) platformDropdownContainer.appendChild(platformDropdown)
 
+    let countryDropdownSpan = document.createElement("span");
+    countryDropdownSpan.classList.add("arrow");
+
     let countryDropdownContainer = document.querySelector("#dropdown-2_9");
     let contryDropdown = document.createElement("select");
+    contryDropdown.appendChild(countryDropdownSpan);
 
     let countries = visuals.viz_2_9.data.sort((a, b) =>
         d3.ascending(a.COUNTRY_NAME, b.COUNTRY_NAME)
