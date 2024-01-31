@@ -430,8 +430,8 @@ import { SingleValues } from "./highFi/single_values.js";
         option.text = country;
         platformDropdown.add(option);
     });
-
-    platformDropdownContainer.appendChild(platformDropdown)
+    
+    if (platformDropdownContainer) platformDropdownContainer.appendChild(platformDropdown)
 
     let countryDropdownContainer = document.querySelector("#dropdown-2_9");
     let contryDropdown = document.createElement("select");
@@ -449,7 +449,7 @@ import { SingleValues } from "./highFi/single_values.js";
         contryDropdown.add(option);
     });
 
-    countryDropdownContainer.appendChild(contryDropdown)
+    if (countryDropdownContainer) countryDropdownContainer.appendChild(contryDropdown)
 
     ////////////////////////////////
     /////// load visuals ///////////
