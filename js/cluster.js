@@ -121,7 +121,7 @@ export function cluster(data, map, options, svg) {
   ////////////////////////////////////////
 
   const sizeScale = d3.scaleLinear()
-    .domain(d3.extent(data, d => map.size != null ? d[map.size]: options.size))
+    .domain(d3.extent(data, d => map.size != null ? d[map.size] : options.size))
     .range([options.width / 100, options.width / 10])
 
   ////////////////////////////////////////
@@ -130,8 +130,8 @@ export function cluster(data, map, options, svg) {
 
   // initial positions
   data.forEach(d => {
-    d.x = Math.random() * width;
-    d.y = Math.random() * height;
+    d.x = width / 2;
+    d.y = height / 2;
   });
 
   const simulation = d3.forceSimulation()
@@ -223,7 +223,7 @@ export function cluster(data, map, options, svg) {
     .attr("opacity", 0)
     .attr("pointer-events", "none");
 
-  labels
+  const value_labels = labels
     .append("tspan")
     .attr("x", 0)
     .attr("dy", "1.2em")
@@ -244,7 +244,7 @@ export function cluster(data, map, options, svg) {
 
     if (newData != null) data = newData;
 
-    const t = d3.transition().duration(options.transition).ease(d3.easeLinear);
+    const t = d3.transition().duration(options.transition);
 
     // update scales
     sizeScale
@@ -266,7 +266,9 @@ export function cluster(data, map, options, svg) {
     labels
       .data(data)
       .transition(t)
+      .delay(options.transition / 2)
       .attr("opacity", 1)
+
 
     simulation.restart()
 
