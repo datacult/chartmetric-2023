@@ -189,7 +189,7 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "viz_2_7",
+                selector: "#viz_2_7",
                 stroke: "white",
             },
             mapping: {
@@ -263,7 +263,7 @@ import { SingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "viz_2_11",
+                selector: "#viz_2_11",
                 stroke: "white",
             },
             mapping: {
