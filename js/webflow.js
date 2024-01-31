@@ -586,7 +586,7 @@ import { SingleValues } from "./highFi/single_values.js";
                     ) {
                         visuals[viz_id].update(value, index);
                     } else if (
-                        visuals[viz_id].indexOf(value) > -1
+                        visuals[viz_id].params.indexOf(value) > -1
                     ) {
                         visuals[viz_id].update(value);
                     } else {
