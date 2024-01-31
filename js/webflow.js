@@ -117,10 +117,10 @@ import { SingleValues } from "./highFi/single_values.js";
             update: function (param, index) {
                 if (param && index) {
 
-                    if (index == 0){
+                    if (index == 0) {
                         this.options.genreType = param;
                     }
-                    if (index == 1){
+                    if (index == 1) {
                         this.options.timeframe = param;
                     }
 
@@ -576,22 +576,22 @@ import { SingleValues } from "./highFi/single_values.js";
 
                 console.log("toggle: ", viz_id, index, value);
 
-                if ( visuals.hasOwnProperty(viz_id)) {
-                    if (
-                        Array.isArray(visuals[viz_id].params[index]) &&
-                        visuals[viz_id].params[index].indexOf(value) > -1
-                    ) {
-                        visuals[viz_id].update(value, index);
-                    } else if (
-                        visuals[viz_id].params.length > index &&
-                        visuals[viz_id].params.indexOf(value) > -1
-                    ) {
-                        visuals[viz_id].update(value);
+                if (visuals.hasOwnProperty(viz_id)) {
+                    if (Array.isArray(visuals[viz_id].params[index])) {
+                        if (visuals[viz_id].params[index].indexOf(value) > -1) {
+                            visuals[viz_id].update(value, index);
+                        } else {
+                            console.log("params detected as an array but value is not an accepted param", viz_id, index, value);
+                        }
                     } else {
-                        console.log("error, params not found", viz_id, index, value);
+                        if (visuals[viz_id].params.indexOf(value) > -1) {
+                            visuals[viz_id].update(value);
+                        } else {
+                            console.log("value is not an accepted param", viz_id, index, value);
+                        }
                     }
                 } else {
-                    console.log("error, params not found", viz_id, index, value);
+                    console.log("error, visual id not found", viz_id, index, value);
                 }
             });
         });
