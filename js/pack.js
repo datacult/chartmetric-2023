@@ -111,6 +111,7 @@ export function circlepack(data, map, options) {
     if (map.group != null) {
 
       var groups = {};
+      let duplicateTracker = {}
 
       data.forEach(function (d) {
         var groupName = d[map.group];
@@ -122,14 +123,24 @@ export function circlepack(data, map, options) {
             "children": []
           };
           root.children.push(groups[groupName]);
+          duplicateTracker[groupName] = new Set()
         }
 
-        groups[groupName].children.push({
+        let child = {
           "name": "",
           "title": map.label ? d[map.label] : d[map.group],
           "value": map.value ? d[map.value] : 1,
           "image": map.image ? imageName(d[map.image]) : null
-        });
+        }
+
+        // check for duplicates before adding
+        if (!duplicateTracker[groupName].has(JSON.stringify(child))){
+          duplicateTracker[groupName].add(JSON.stringify(child))
+          groups[groupName].children.push(child);
+        } else {
+          console.log("Duplicate found in group:", groupName, child)
+        }
+
       });
 
     } else {
