@@ -110,15 +110,20 @@ import { SingleValues } from "./highFi/single_values.js";
             data: [],
             options: {
                 selector: "viz_2_2",
-                genreType: "Artist Genres", 
+                genreType: "Artist Genres",
                 timeframe: "All Time"
             },
-            //! First Argument: "Artist Genres" // or  "Track Genres"
-            //! Second Argument:  "top_genres_for_artists_all_time" // Or "top_genres_for_artists_created_in_2023"
-            // i understand there are three buttons. The last two buttons are from the same column, `NAME`, and can be mutually exclusive
-            params: ["Artist Genres", "top_genres_for_artists_all_time", "All Time"],
-            update: function (param) {
-                if (param) {
+            params: [["Artist Genres", "Track Genres"], ["All Time", 2023]],
+            update: function (param, index) {
+                if (param && index) {
+
+                    if (index == 0){
+                        this.options.genreType = param;
+                    }
+                    if (index == 1){
+                        this.options.timeframe = param;
+                    }
+
                     this.viz.update(this.data, this.options);
                 } else {
                     this.viz.update(this.data);
@@ -566,17 +571,29 @@ import { SingleValues } from "./highFi/single_values.js";
         toggleWrapper.querySelectorAll(".toggle-switch").forEach((toggleSwitch) => {
             toggleSwitch.addEventListener("click", () => {
                 const value = toggleSwitch.getAttribute("data");
-                const viz_id = "viz_" + toggleWrapper.id.split("-")[1]
+                const viz_id = "viz_" + toggleWrapper.parentNode.id.split("-")[1]
+                const index = toggleWrapper.getAttribute("index");
 
-                console.log("toggle: ", viz_id, value);
+                console.log("toggle: ", viz_id, index, value);
 
                 if (
                     visuals.hasOwnProperty(viz_id) &&
-                    visuals[viz_id].params.indexOf(value) > -1
+                    visuals[viz_id].params.length > index
                 ) {
-                    visuals[viz_id].update(value);
+                    if (
+                        Array.isArray(visuals[viz_id].params[index]) &&
+                        visuals[viz_id].params[index].indexOf(value) > -1
+                    ) {
+                        visuals[viz_id].update(value, index);
+                    } else if (
+                        visuals[viz_id].indexOf(value) > -1
+                    ) {
+                        visuals[viz_id].update(value);
+                    } else {
+                        console.log("error, params not found", viz_id, index, value);
+                    }
                 } else {
-                    console.log("error, params not found", viz_id, value);
+                    console.log("error, params not found", viz_id, index, value);
                 }
             });
         });
