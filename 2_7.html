@@ -30,15 +30,15 @@ https://studio.datacult.com/ -->
     let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_7_en.csv', d3.autoType)
 
     let mapping = {
-        "size": "ARTIST_COUNT",
-        "label": "PRONOUN",
-        "fill": "PRONOUN",
+        size: "ARTIST_COUNT",
+        label: "PRONOUN",
+        fill: "PRONOUN",
         value: "PRONOUN_PCT"
     }
 
     let options = {
         selector: "#vis",
-        "stroke": "white",
+        stroke: "white",
     }
 
     // scrolltrigger to be added
