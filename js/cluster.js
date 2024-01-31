@@ -36,7 +36,7 @@ export function cluster(data, map, options, svg) {
     fill: "#69b3a2",
     stroke: "#000",
     text: "black",
-    format: ".0%",
+    format: ".2r",
     force: 0.3
   }
 
@@ -215,7 +215,7 @@ export function cluster(data, map, options, svg) {
     .attr("text-anchor", "middle")
     .attr("fill", options.text)
     .attr("font-size", d => sizeScale(d[map.size]) / 3)
-    .text(d => map.size != null ? d3.format(options.format)(d[map.value]) : "")
+    .text(d => map.size != null ? d3.format(options.format)(d[map.value] * 100) + "%" : "")
     .attr("transform", d => `translate(${width / 2},${height / 2})`)
     .attr("opacity", 0)
     .attr("pointer-events", "none");
