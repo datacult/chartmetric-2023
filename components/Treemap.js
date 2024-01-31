@@ -2,7 +2,6 @@
 // Released under the ISC license.
 // https://observablehq.com/@d3/treemap
 export function TreemapComponent(
-
   data,
   {
     // data is either tabular (array of objects) or hierarchy (nested objects)
@@ -37,7 +36,6 @@ export function TreemapComponent(
     round = true, // whether to round to exact pixels
     colors = d3.schemeTableau10, // array of colors
     zDomain, // array of values for the color scale
-
   } = {}
 ) {
   // If id and parentId options are specified, or the path option, use d3.stratify
@@ -47,7 +45,6 @@ export function TreemapComponent(
 
   // We take special care of any node that has both a value and children, see
   // https://observablehq.com/@d3/treemap-parent-with-value.
-
 
   const stratify = (data) =>
     d3
