@@ -570,7 +570,7 @@ import { SingleValues } from "./highFi/single_values.js";
     document.querySelectorAll(".toggle-wrapper").forEach((toggleWrapper) => {
         toggleWrapper.querySelectorAll(".toggle-switch").forEach((toggleSwitch) => {
             toggleSwitch.addEventListener("click", () => {
-                const value = toggleSwitch.getAttribute("data");
+                const value = d3.autoType({value: toggleSwitch.getAttribute("data")}).value;
                 const viz_id = "viz_" + toggleWrapper.parentNode.id.split("-")[1]
                 const index = toggleWrapper.getAttribute("index");
 
