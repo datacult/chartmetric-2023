@@ -31,12 +31,13 @@ export function cluster(data, map, options, svg) {
     margin: { top: 20, right: 20, bottom: 20, left: 20 },
     transition: 400,
     delay: 100,
-    padding: 0.1,
+    padding: 0.05,
     size: 10,
     fill: "#69b3a2",
     stroke: "#000",
     text: "black",
-    format: ".0%"
+    format: ".0%",
+    force: 0.1
   }
 
   // merge default options with user options
@@ -120,17 +121,23 @@ export function cluster(data, map, options, svg) {
   ////////////////////////////////////////
 
   const sizeScale = d3.scaleLinear()
-    .domain(d3.extent(data, d => map.size != null ? d[map.size] : options.size))
+    .domain(d3.extent(data, d => map.size != null ? d[map.size]: options.size))
     .range([options.width / 100, options.width / 10])
 
   ////////////////////////////////////////
   ////////////// Simulation //////////////
   ////////////////////////////////////////
 
+  // initial positions
+  data.forEach(d => {
+    d.x = Math.random() * width;
+    d.y = Math.random() * height;
+  });
+
   const simulation = d3.forceSimulation()
-    .force('charge', d3.forceManyBody().strength(0.1))
-    .force('x', d3.forceX().strength(0.3).x(width / 2))
-    .force('y', d3.forceY().strength(0.3).y(height / 2))
+    .force('charge', d3.forceManyBody().strength(options.force))
+    .force('x', d3.forceX().strength(options.force).x(width / 2))
+    .force('y', d3.forceY().strength(options.force).y(height / 2))
     .force("collision", d3.forceCollide().radius(d => map.size != null ? sizeScale(d[map.size]) : sizeScale(options.size)))
     .on("tick", ticked);
 
@@ -139,7 +146,7 @@ export function cluster(data, map, options, svg) {
   const drag = simulation => {
 
     function dragstarted(event, d) {
-      if (!event.active) simulation.alphaTarget(0.3).restart();
+      if (!event.active) simulation.alphaTarget(options.force).restart();
       d.fx = d.x;
       d.fy = d.y;
     }
@@ -199,7 +206,7 @@ export function cluster(data, map, options, svg) {
     .join("circle")
     .attr("cx", width / 2)
     .attr("cy", height / 2)
-    .attr("r", d => map.size != null ? sizeScale(d[map.size] * 0.9) : sizeScale(options.size))
+    .attr("r", 0)
     .attr("fill", d => "none")
     .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
     .attr("stroke-opacity", 0.5)
@@ -246,7 +253,7 @@ export function cluster(data, map, options, svg) {
     bubbles
       .data(data)
       .transition(t)
-      .attr("r", d => map.size != null ? sizeScale(d[map.size]) : sizeScale(options.size))
+      .attr("r", d => map.size != null ? sizeScale(d[map.size] + (d[map.size] * options.padding)) : sizeScale(options.size + (options.size * options.padding)))
       .attr("fill", d => map.fill != null ? `url(#${trimNames(d[map.fill])})` : options.fill)
       .attr("stroke", d => d[map.stroke] || options.stroke)
 
@@ -265,7 +272,7 @@ export function cluster(data, map, options, svg) {
 
   }
 
-  // // call for initial bar render
+  // call for initial bar render
   update(data)
 
   return {
