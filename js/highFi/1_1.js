@@ -124,7 +124,7 @@ export function Sankey(data = [], selector = "vis", dimensions) {
           x1: "0%",
           y1: "0%",
           x2: "100%",
-          y2: "0%",
+          y2: "100%",
           stops: [
             { offset: "0", color: "#BFDBF9" },
             { offset: "0.000002", color: "#D2CFF2", opacity: "0.970312" },
@@ -136,7 +136,7 @@ export function Sankey(data = [], selector = "vis", dimensions) {
           x1: "0%",
           y1: "0%",
           x2: "100%",
-          y2: "0%",
+          y2: "100%",
           stops: [
             { offset: "0", color: "#BADAFF" },
             { offset: "0.494792", color: "#CCCCCC" },
@@ -148,7 +148,7 @@ export function Sankey(data = [], selector = "vis", dimensions) {
           x1: "0%",
           y1: "0%",
           x2: "100%",
-          y2: "0%",
+          y2: "100%",
           stops: [
             { offset: "0", color: "#A9D2FF" },
             { offset: "0.581186", color: "#DDE6E6" },
