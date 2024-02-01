@@ -450,82 +450,113 @@ import { scatter } from './scatter.js';
     /////// load visuals ///////////
     ////////////////////////////////
 
-    // visuals.viz_1_1.viz = Sankey(
-    //     visuals.viz_1_1.data,
-    //     visuals.viz_1_1.options.selector
-    // );
-    visuals.viz_1_3.viz = Table_1_3(
-        visuals.viz_1_3.data,
-        visuals.viz_1_3.options.selector
-    );
-    visuals.viz_1_5.viz = circlepacking_1_5(
-        visuals.viz_1_5.data,
-        visuals.viz_1_5.options.selector,
-        "Gained in 2023"
-    );
-    visuals.viz_2_1.viz = circlepack(
-        visuals.viz_2_1.data,
-        visuals.viz_2_1.mapping,
-        visuals.viz_2_1.options
-    );
-    visuals.viz_2_2.viz = Treemap(
-        visuals.viz_2_2.data,
-        visuals.viz_2_2.options.selector,
-        visuals.viz_2_2.options
-    );
-    visuals.viz_2_3.viz = Table_2_3(
-        visuals.viz_2_3.data,
-        visuals.viz_2_3.options.selector
-    );
-    visuals.viz_2_5.viz = barArc(
-        visuals.viz_2_5.data,
-        visuals.viz_2_5.options
-    );
-    visuals.viz_2_6.viz = Calendar(
-        visuals.viz_2_6.data,
-        visuals.viz_2_6.options.selector
-    );
-
-    visuals.viz_2_7.viz = cluster(
-        visuals.viz_2_7.data,
-        visuals.viz_2_7.mapping,
-        visuals.viz_2_7.options
-    );
-    visuals.viz_2_8.viz = BumpChart(
-        visuals.viz_2_8.data,
-        visuals.viz_2_8.options.selector,
-        visuals.viz_2_8.mapping,
-        visuals.viz_2_8.options,
-        "section-2-8"
-    );
-    visuals.viz_2_9.viz = gradientBar(
-        visuals.viz_2_9.data,
-        visuals.viz_2_9.options.selector,
-        "All Countries"
-    );
-    visuals.viz_2_10.viz = gradientBarMapComponent(
-        visuals.viz_2_10.data,
-        visuals.viz_2_10.options.selector
-    );
-    visuals.viz_2_11.viz = scatter(
-        visuals.viz_2_11.data,
-        visuals.viz_2_11.mapping,
-        visuals.viz_2_11.options
-    );
-    visuals.viz_2_14.viz = circlepack(
-        visuals.viz_2_14.data,
-        visuals.viz_2_14.mapping,
-        visuals.viz_2_14.options
-    );
-    visuals.viz_2_15.viz = circlepack(
-        visuals.viz_2_15.data,
-        visuals.viz_2_15.mapping,
-        visuals.viz_2_15.options
-    );
-    // visuals.viz_2_19.viz = SingleValues(
-    // [],
-    //     visuals.viz_2_19.options.selector
-    // );
+    if (document.querySelector("#" + visuals.viz_1_1.options.selector)) {
+        // visuals.viz_1_1.viz = Sankey(
+        //     visuals.viz_1_1.data,
+        //     visuals.viz_1_1.options.selector
+        // );
+    }
+    if (document.querySelector("#" + visuals.viz_1_3.options.selector)) {
+        visuals.viz_1_3.viz = Table_1_3(
+            visuals.viz_1_3.data,
+            visuals.viz_1_3.options.selector
+        );
+    }
+    if (document.querySelector("#" + visuals.viz_1_5.options.selector)) {
+        visuals.viz_1_5.viz = circlepacking_1_5(
+            visuals.viz_1_5.data,
+            visuals.viz_1_5.options.selector,
+            "Gained in 2023"
+        );
+    }
+    if (document.querySelector(visuals.viz_2_1.options.selector)) {
+        visuals.viz_2_1.viz = circlepack(
+            visuals.viz_2_1.data,
+            visuals.viz_2_1.mapping,
+            visuals.viz_2_1.options
+        );
+    }
+    if (document.querySelector("#" + visuals.viz_2_2.options.selector)) {
+        visuals.viz_2_2.viz = Treemap(
+            visuals.viz_2_2.data,
+            visuals.viz_2_2.options.selector,
+            visuals.viz_2_2.options
+        );
+    }
+    if (document.querySelector("#" + visuals.viz_2_3.options.selector)) {
+        visuals.viz_2_3.viz = Table_2_3(
+            visuals.viz_2_3.data,
+            visuals.viz_2_3.options.selector
+        );
+    }
+    if (document.querySelector(visuals.viz_2_5.options.selector)) {
+        visuals.viz_2_5.viz = barArc(
+            visuals.viz_2_5.data,
+            visuals.viz_2_5.options
+        );
+    }
+    if (document.querySelector("#" + visuals.viz_2_6.options.selector)) {
+        visuals.viz_2_6.viz = Calendar(
+            visuals.viz_2_6.data,
+            visuals.viz_2_6.options.selector
+        );
+    }
+    if (document.querySelector(visuals.viz_2_7.options.selector)) {
+        visuals.viz_2_7.viz = cluster(
+            visuals.viz_2_7.data,
+            visuals.viz_2_7.mapping,
+            visuals.viz_2_7.options
+        );
+    }
+    if (document.querySelector("#" + visuals.viz_2_8.options.selector)) {
+        visuals.viz_2_8.viz = BumpChart(
+            visuals.viz_2_8.data,
+            visuals.viz_2_8.options.selector,
+            visuals.viz_2_8.mapping,
+            visuals.viz_2_8.options,
+            "section-2-8"
+        );
+    }
+    if (document.querySelector("#" + visuals.viz_2_9.options.selector)) {
+        visuals.viz_2_9.viz = gradientBar(
+            visuals.viz_2_9.data,
+            visuals.viz_2_9.options.selector,
+            "All Countries"
+        );
+    }
+    if (document.querySelector("#" + visuals.viz_2_10.options.selector)) {
+        visuals.viz_2_10.viz = gradientBarMapComponent(
+            visuals.viz_2_10.data,
+            visuals.viz_2_10.options.selector
+        );
+    }
+    if (document.querySelector(visuals.viz_2_11.options.selector)) {
+        visuals.viz_2_11.viz = scatter(
+            visuals.viz_2_11.data,
+            visuals.viz_2_11.mapping,
+            visuals.viz_2_11.options
+        );
+    }
+    if (document.querySelector(visuals.viz_2_14.options.selector)) {
+        visuals.viz_2_14.viz = circlepack(
+            visuals.viz_2_14.data,
+            visuals.viz_2_14.mapping,
+            visuals.viz_2_14.options
+        );
+    }
+    if (document.querySelector(visuals.viz_2_15.options.selector)) {
+        visuals.viz_2_15.viz = circlepack(
+            visuals.viz_2_15.data,
+            visuals.viz_2_15.mapping,
+            visuals.viz_2_15.options
+        );
+    }
+    if (document.querySelector("#" + visuals.viz_2_19.options.selector)) {
+        // visuals.viz_2_19.viz = SingleValues(
+        // [],
+        //     visuals.viz_2_19.options.selector
+        // );
+    }
 
     ////////////////////////////////
     /////// event listeners ////////
