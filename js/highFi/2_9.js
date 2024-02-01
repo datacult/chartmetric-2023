@@ -69,9 +69,8 @@ export function gradientBar(
             id=${d.ARTIST_NAME}
                  src="${d[imageKey]}"
                  alt="${d.Group}" class="artist-image">
-            <span class="artist-name" id=${d.ARTIST_NAME}>${
-              d.ARTIST_NAME
-            }</span>
+            <span class="artist-name" id=${d.ARTIST_NAME}>${d.ARTIST_NAME
+              }</span>
           `
           )
           .style("opacity", 0)
@@ -101,16 +100,15 @@ export function gradientBar(
     );
     d3.selectAll(".gradient-bar.bar")
       .on("mouseenter", function (event, d) {
-        console.log(d);
+        
         let hoveredArtistGenres = d.ARTIST_GENRE;
         d3.select(this).append("div").attr("class", "tooltip").html(`
         <div class="flag"> </div>
         <div class="career-stack">
-        ${
-          d["COALESCE(CAS.ARTIST_STAGE, 'NULL')"] == "Null"
+        ${d["ARTIST_STAGE"] == "Null"
             ? ""
-            : d["COALESCE(CAS.ARTIST_STAGE, 'NULL')"]
-        }
+            : d["ARTIST_STAGE"]
+          }
         </div>
         <div class="genre-stack">
           <div class="card">${hoveredArtistGenres}</div>
@@ -150,13 +148,8 @@ export function gradientBar(
   }
 
   function update(data, selectedValue) {
-    if (selectedValue == "All Countries") {
-      data = dataset.slice(0, 10);
-      drawElements(data);
-    } else {
-      data = dataset.filter((d) => d.COUNTRY_NAME == selectedValue);
-      drawElements(data);
-    }
+    data = dataset.filter((d) => d.COUNTRY_NAME == selectedValue);
+    drawElements(data);
   }
   update(data, selectedValue);
 
