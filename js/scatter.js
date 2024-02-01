@@ -149,9 +149,16 @@ export function scatter(data, map, options, svg) {
   ////////////// DOM Setup ///////////////
   ////////////////////////////////////////
 
-  const circles = svg.selectAll(".circle")
+  const circle_group = svg.selectAll(".circle-group")
     .data(data)
-    .join("circle")
+    .join("g")
+    .classed("circle-group", true)
+    .on("mouseover", function () {
+      var el = d3.select(this);
+      el.raise();
+    });
+
+  const circles = circle_group.append("circle")
     .attr("cx", d => xScale(d[map.x]))
     .attr("cy", d => yScale(d[map.y]))
     .attr("r", d => rScale(d[map.size]))
@@ -159,9 +166,8 @@ export function scatter(data, map, options, svg) {
     .classed("circle", true)
     .style("filter", "url(#grayscale) url(#blur)");
 
-  const rings = svg.selectAll(".ring")
-    .data(data)
-    .join("circle")
+
+  const rings = circle_group.append("circle")
     .attr("cx", d => xScale(d[map.x]))
     .attr("cy", d => yScale(d[map.y]))
     .attr("r", d => rScale(d[map.size] * 0.8))
@@ -170,9 +176,7 @@ export function scatter(data, map, options, svg) {
     .classed("ring", true);
 
 
-  const labels = svg.selectAll(".text")
-    .data(data)
-    .join("text")
+  const labels = circle_group.append("text")
     .attr("x", d => xScale(d[map.x]))
     .attr("y", d => yScale(d[map.y]))
     .attr("text-anchor", "middle")
@@ -196,11 +200,19 @@ export function scatter(data, map, options, svg) {
     options = { ...options, ...newOptions };
 
     //hard code fix for 'other' option
-    if (options.focus.indexOf(12) > -1) options.focus = [0,2,3,5,6,9,10,11]
+    if (options.focus.indexOf(12) > -1) options.focus = [0, 2, 3, 5, 6, 9, 10, 11]
 
     if (newData != null) data = newData
 
     const t = d3.transition().duration(options.transition).ease(d3.easeLinear)
+
+    circle_group
+      .each(function(d){
+        if (options.focus.indexOf(d[map.focus]) > -1) {
+          var el = d3.select(this);
+          el.raise();
+        }
+      })
 
     circles
       .data(data)
@@ -213,7 +225,7 @@ export function scatter(data, map, options, svg) {
   }
 
   function wrap(text, width) {
-    text.each(function() {
+    text.each(function () {
       var text = d3.select(this),
         words = text.text().split(/\s+/).reverse(),
         word,
@@ -223,10 +235,10 @@ export function scatter(data, map, options, svg) {
         x = text.attr("x"),
         y = parseFloat(text.attr("y")),
         dy = parseFloat(text.attr("dy") || 0);
-  
+
       // Create an initial tspan for measurement
       var tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
-  
+
       while (word = words.pop()) {
         line.push(word);
         tspan.text(line.join(" "));
@@ -238,22 +250,22 @@ export function scatter(data, map, options, svg) {
           tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", (++lineNumber * lineHeight + dy) + "em").text(word);
         }
       }
-  
+
       var totalLines = text.selectAll("tspan").size();
       var textBlockHeight = totalLines * lineHeight;
       var initialOffset = (textBlockHeight / 2) - lineHeight / 2;
-  
+
       // Adjust each tspan's dy to center the text block
-      text.selectAll("tspan").attr("dy", function(d, i) {
+      text.selectAll("tspan").attr("dy", function (d, i) {
         return ((i - totalLines / 2) * lineHeight + dy) + "em";
       });
-  
+
       // Adjust the y position of the text to center around the original y-coordinate
       text.attr("y", y - initialOffset + "em");
     });
   }
-  
-  
+
+
 
   update()
 
