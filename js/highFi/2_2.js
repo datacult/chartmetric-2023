@@ -4,6 +4,7 @@ import { TreemapComponent } from "../../components/Treemap.js";
 import { setupResizeListener, chartDimensions } from "../utility.js";
 
 export function Treemap(data, selector, options) {
+  console.log(data)
   // let selector = "viz_2_2";
   d3.select("#" + selector)
     .select("svg")
@@ -36,6 +37,8 @@ export function Treemap(data, selector, options) {
    ************************/
   const visElement = d3.select("#" + selector);
 
+  // .attr("viewBox", `0 0 ${width*0.98} ${height*0.98}`)
+  // .attr("preserveAspectRatio", "xMidYMid meet");
   function update(data, options) {
     const { genreType, timeframe } = options;
     data = data
@@ -52,7 +55,6 @@ export function Treemap(data, selector, options) {
         };
       })
       .slice(0, 10);
-
     TreemapComponent(data, {
       path: (d) => d.GENRE_NAME,
       value: (d) => d.VALUE,

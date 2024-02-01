@@ -1,23 +1,24 @@
 // Copyright 2021-2023 Observable, Inc.
 // Released under the ISC license.
 // https://observablehq.com/@d3/treemap
+export function trimNames(str) {
+  return str
+    .replace(/[^a-zA-Z0-9-_]/g, "") // Remove special characters
+    .replace(/\s/g, "_") // Replace spaces with underscores
+    .replace(/\(|\)/g, "");
+}
 export function TreemapComponent(
   data,
   {
-    // data is either tabular (array of objects) or hierarchy (nested objects)
-    path, // as an alternative to id and parentId, returns an array identifier, imputing internal nodes
+    path,
     id = Array.isArray(data) ? (d) => d.id : null, // if tabular data, given a d in data, returns a unique identifier (string)
     parentId = Array.isArray(data) ? (d) => d.parentId : null, // if tabular data, given a node d, returns its parent’s identifier
     children, // if hierarchical data, given a d in data, returns its children
     value, // given a node d, returns a quantitative value (for area encoding; null for count)
     sort = (a, b) => d3.descending(a.value, b.value), // how to sort nodes prior to layout
-    label = (d) => {
-      return [d.RANK, d.GENRE_NAME].join(" | ");
-    }, // given a leaf node d, returns the name to display on the rectangle
+    label, // given a leaf node d, returns the name to display on the rectangle
     group, // given a leaf node d, returns a categorical value (for color encoding)
-    title, // given a leaf node d, returns its hover text
-    link, // given a leaf node d, its link (if any)
-    linkTarget = "_blank", // the target attribute for links (if any)
+
     tile = d3.treemapBinary, // treemap strategy
     width = 640, // outer width, in pixels
     height = 400, // outer height, in pixels
@@ -34,18 +35,10 @@ export function TreemapComponent(
     paddingBottom = paddingOuter, // to separate a node’s bottom edge from its children
     paddingLeft = paddingOuter, // to separate a node’s left edge from its children
     round = true, // whether to round to exact pixels
-    colors = d3.schemeTableau10, // array of colors
+
     zDomain, // array of values for the color scale
   } = {}
 ) {
-  // If id and parentId options are specified, or the path option, use d3.stratify
-  // to convert tabular data to a hierarchy; otherwise we assume that the data is
-  // specified as an object {children} with nested objects (a.k.a. the “flare.json”
-  // format), and use d3.hierarchy.
-
-  // We take special care of any node that has both a value and children, see
-  // https://observablehq.com/@d3/treemap-parent-with-value.
-
   const stratify = (data) =>
     d3
       .stratify()
@@ -101,23 +94,64 @@ export function TreemapComponent(
   const nodes = d3
     .select("#gentreTreemap_chart")
     .selectAll("div")
-    .data(leaves)
-    .enter()
-    .append("div")
-    .attr("class", "front-2-2-rect")
-    .attr("id", (d, i) => d.id + "-front")
-    .style("position", "absolute")
-    .style("left", (d) => d.x0 + "px")
-    .style("top", (d) => d.y0 + "px")
-    .style("width", (d) => d.x1 - d.x0 + "px")
-    .style("height", (d) => d.y1 - d.y0 + "px")
-    .style("background-image", (d) => {
-      // console.log(d)
-      return `url(${d.data.IMAGE_URL})`;
-    });
+    .data(leaves, (d) => {
+   
+      return trimNames(d.data.GENRE_NAME + d.data.TIMEFRAME + d.data.RANK);
+    })
+    .join(
+      (enter) => {
+        const divEnter = enter
+          .append("div")
+          .attr("class", "front-2-2-rect")
+          .attr("id", (d, i) => d.id + "-front")
+          .style("position", "absolute")
+          .style("left", (d) => d.x0 + "px")
+          .style("top", (d) => d.y0 + "px")
+          .style("width", (d) => d.x1 - d.x0 + "px")
+          .style("height", (d) => d.y1 - d.y0 + "px")
+          .style("background-image", (d) => `url(${d.data.IMAGE_URL})`);
+
+        gsap.fromTo(
+          divEnter.nodes(),
+          { opacity: 0, scale: 0 },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 1,
+            ease: "back.out(1.7)",
+            stagger: {
+              // wrap advanced options in an object
+              each: 0.05,
+              from: "center",
+              grid: "auto",
+              ease: "power2.inOut",
+            },
+          }
+        );
+        return divEnter;
+      },
+
+      (update) =>
+        update
+          .transition()
+          .duration(1000)
+          .style("left", (d) => d.x0 + "px")
+          .style("top", (d) => d.y0 + "px")
+          .style("width", (d) => d.x1 - d.x0 + "px")
+          .style("height", (d) => d.y1 - d.y0 + "px"),
+      (exit) =>
+        gsap.to(exit.nodes(), {
+          opacity: 0,
+          scale: 0,
+          duration: 1,
+          ease: "power2.out",
+          onComplete: () => exit.remove(),
+        })
+    );
 
   nodes
     .append("div")
     .attr("class", "label-bg")
+
     .text((d) => label(d.data));
 }

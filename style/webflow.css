@@ -602,8 +602,9 @@ body {
 / Viz 2_6
 * * * * * * * * * * * * * * * */
 #viz_2_6 {
+  width:600px;
   display: flex;
-
+  height: auto;
   justify-content: center;
 
   gap: 10px;
@@ -624,6 +625,21 @@ body {
   height: auto;
 }
 
+/* Calendar heatmap styling */
+
+#viz_2_6 .calendar-day-label,.calendar-month-label{
+  color: #646464;
+
+  /* Desktop/Label/XS/regular */
+  font-family: Inter;
+  font-size: min(1.2vw, 14px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+#viz_2_6 .calendar-month-label{
+  transform: translateX(-10%);
+}
 #viz_2_6 #rotatingPhotos {
   flex: 1;
   margin-top: 3%;
@@ -823,6 +839,21 @@ Bar
   box-shadow: 0px 0px 15.698px 0px rgba(0, 0, 0, 0.08);
 }
 
+/* #viz_2_9 .name {
+  color: var(--800, #000);
+  text-align: center;
+
+
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+} */
+
 #viz_2_9 .flag {
   width: 1.5rem;
   height: 1.5rem;
@@ -835,42 +866,33 @@ Bar
   background-blend-mode: hue, difference, normal;
   border: none;
 }
-
 #viz_2_9 .career-stack {
-  padding: 2px 8px;
-  /* Adjusts the size of the button */
+  padding: 2px 8px; /* Adjusts the size of the button */
   background-color: #eeeeee;
-  border: 1px solid #9a9a9a;
-  border-radius: 8px;
-  /* Rounded corners */
-  font-size: 14px;
-  /* Sets the font size */
+  border: 1px solid #9A9A9A; 
+  border-radius: 8px; /* Rounded corners */
+  font-size: 14px; /* Sets the font size */
 
-  color: #9e9e9e;
-  /* Dark grey text color */
-  text-align: center;
-  /* Centers the text */
-  display: inline-block;
-  /* Allows it to be next to other inline or inline-block elements */
-  cursor: pointer;
-  /* Changes cursor to pointer to indicate it's clickable */
+  color: #9e9e9e; /* Dark grey text color */
+  text-align: center; /* Centers the text */
+  display: inline-block; /* Allows it to be next to other inline or inline-block elements */
+  cursor: pointer; /* Changes cursor to pointer to indicate it's clickable */
   text-transform: capitalize;
 }
-
 #viz_2_9 .genre-stack {
   display: inline-flex;
   position: relative;
   height: 50%;
   /** To be editted: this helps include the buttons */
   margin-left: 10px;
-  margin-bottom: 3px;
+  margin-bottom:3px
   /* Ensure there is enough space for the cards to pop */
 }
 
 #viz_2_9 .card {
   position: absolute;
   padding: 0px 8px;
-  min-width: 50px;
+  width: 50px;
   /* Adjusted to better reflect the image proportions */
   height: 100%;
   /* Adjusted to better reflect the image proportions */
@@ -913,7 +935,7 @@ Bar
 /* Hover effect to pop the card */
 #viz_2_9 .card:hover {
   transform: scale(1.05);
-
+  width: 80px;
   /* Slight scale-up to make the card pop */
   z-index: 4;
   /* This ensures the hovered card is above others */
@@ -928,29 +950,29 @@ Bar
 /* * * * * * * * * * * * * * * 
 / Viz 2_10
 * * * * * * * * * * * * * * * */
-@media only screen and (min-height: 60px) {
+@media only screen and (min-width: 760px) {
   #viz_2_10 {
     font-family: "Inter", sans-serif;
     display: flex;
     gap: 52px;
     height: 600px;
   }
-}
 
-#viz_2_10 #radioTopTracksMap_worldMap {
-  flex: 2;
-  height: 100%;
-  position: relative;
-}
+  #viz_2_10 #radioTopTracksMap_worldMap {
+    flex: 2;
+    height: 100%;
+    position: relative;
+  }
 
-#viz_2_10 #radioTopTracksMap_path:hover {
-  cursor: pointer;
-  fill: #46706f;
-}
+  #viz_2_10 #radioTopTracksMap_path:hover {
+    cursor: pointer;
+    fill: #46706f;
+  }
 
-#viz_2_10 svg {
-  width: 100%;
-  height: 100%;
+  #viz_2_10 svg {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 #viz_2_10 {
@@ -969,9 +991,6 @@ Bar
   flex: 1;
   position: relative;
   overflow-y: scroll;
-  gap: 14px;
-  display: flex;
-  flex-direction: column;
 }
 
 #viz_2_10 .gradient-bar {
@@ -979,7 +998,7 @@ Bar
   display: flex;
   align-items: center;
   padding: 10px;
-  height: 6%;
+  height: 10%;
   /* background-image: linear-gradient(to right,
   #f5f5f5 0%,
   #f5f5f5 40%,
@@ -1000,9 +1019,8 @@ Bar
 #viz_2_10 .artist-image {
   /* Adjust as needed */
   border-radius: 50%;
-  height: 95%;
   /* This will make it a circle */
-  margin: 3px;
+  margin: 6.3px;
 }
 
 #viz_2_10 .artist-name {
@@ -1040,8 +1058,8 @@ Bar
 }
 
 #viz_2_10 .flag {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 24.61px;
+  height: 27.471px;
   background-image: url("../assets/us-flag.png");
   background-size: cover;
   /* or contain, depending on your needs */
@@ -1050,95 +1068,6 @@ Bar
 
   background-blend-mode: hue, difference, normal;
   border: none;
-}
-
-#viz_2_10 .career-stack {
-  padding: 2px 8px;
-  /* Adjusts the size of the button */
-  background-color: #eeeeee;
-  border: 1px solid #9a9a9a;
-  border-radius: 8px;
-  /* Rounded corners */
-  font-size: 14px;
-  /* Sets the font size */
-
-  color: #9e9e9e;
-  /* Dark grey text color */
-  text-align: center;
-  /* Centers the text */
-  display: inline-block;
-  /* Allows it to be next to other inline or inline-block elements */
-  cursor: pointer;
-  /* Changes cursor to pointer to indicate it's clickable */
-  text-transform: capitalize;
-}
-
-#viz_2_10 .genre-stack {
-  display: inline-flex;
-  position: relative;
-  height: 50%;
-  /** To be editted: this helps include the buttons */
-  margin-left: 10px;
-  margin-bottom: 3px;
-  /* Ensure there is enough space for the cards to pop */
-}
-
-#viz_2_10 .card {
-  position: absolute;
-  padding: 0px 8px;
-  width: 50px;
-  /* Adjusted to better reflect the image proportions */
-  height: 100%;
-  /* Adjusted to better reflect the image proportions */
-  border: 1px solid #000;
-  background-color: #f4f4f4;
-  color: #585858;
-  text-align: center;
-  text-transform: capitalize;
-  /* Adjust padding to vertically center the text */
-
-  transition: transform 0.3s ease, z-index 0.3s ease;
-  border-radius: 4px;
-  /* Slight rounding of corners as seen in the image */
-  font-family: Inter;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-/* Stacking cards with the left-most card on top */
-#viz_2_10 .card:nth-child(1) {
-  z-index: 3;
-  position: relative;
-}
-
-#viz_2_10 .card:nth-child(2) {
-  left: 15%;
-  z-index: 2;
-}
-
-#viz_2_10 .card:nth-child(3) {
-  left: 30%;
-  z-index: 1;
-}
-
-/* Hover effect to pop the card */
-#viz_2_10 .card:hover {
-  transform: scale(1.05);
-  width: 80px;
-  /* Slight scale-up to make the card pop */
-  z-index: 4;
-  /* This ensures the hovered card is above others */
-}
-
-/* Return to the initial layout when not hovered */
-#viz_2_10 .genre-stack .card:not(:hover) {
-  transform: scale(1);
-  transition: transform 0.3s ease, z-index 0s;
 }
 
 #viz_2_10 .map-tooltip__track {

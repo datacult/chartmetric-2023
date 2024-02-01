@@ -1,6 +1,4 @@
-// Copyright 2021 Observable, Inc.
-// Released under the ISC license.
-// https://observablehq.com/@d3/calendar-view
+
 export function CalendarComponent(
   svg,
   data,
@@ -8,7 +6,7 @@ export function CalendarComponent(
     x = ([x]) => x, // given d in data, returns the (temporal) x-value
     y = ([, y]) => y, // given d in data, returns the (quantitative) y-value
     title, // given d in data, returns the title text
-    width = 928, // width of the chart, in pixels
+    dimensions,
     // height = 200, // height of the chart, in pixels
     cellSize = 17, // width and height of an individual day, in pixels
     weekday = "monday", // either: weekday, sunday, or monday
@@ -21,136 +19,143 @@ export function CalendarComponent(
     paddingBetweenCells = 5,
   } = {}
 ) {
-  const X = d3.map(data, x);
-  const Y = d3.map(data, y);
-  const I = d3.range(X.length);
   // Compute values.
+  const { width, margins } = dimensions;
+  const X = data.map(x);
+
+  const Y = data.map(y);
+  const I = d3.range(X.length);
 
   const countDay = weekday === "sunday" ? (i) => i : (i) => (i + 6) % 7;
   const timeWeek = weekday === "sunday" ? d3.utcSunday : d3.utcMonday;
   const weekDays = weekday === "weekday" ? 5 : 7;
-  console.log(cellSize)
-  const height = cellSize * (weekDays + 2);
+  const height =
+    cellSize *
+    timeWeek.count(d3.utcYear(new Date("2023-01-01")), new Date("2023-12-30"));
 
+  d3.select("#calendarHeatmap").style("height", height+cellSize *3 + "px");
   // Compute a color scale. This assumes a diverging color scheme where the pivot
   // is zero, and we want symmetric difference around zero.
   const max = d3.quantile(Y, 0.9975, Math.abs);
-
-  const color = d3
-    .scaleSequential(d3.interpolateGnBu)
-    .domain(d3.extent(data, y));
+  const color = d3.scaleSequential(colors).domain(d3.extent(data, y));
 
   // Construct formats.
   formatMonth = d3.utcFormat(formatMonth);
-  // Group data by year, in reverse input order. (Since the dataset is chronological,
-  // this will show years in reverse chronological order.)
+
   // Group the index by year, in reverse input order. (Assuming that the input is
   // chronological, this will show years in reverse chronological order.)
   const years = d3.groups(I, (i) => X[i].getUTCFullYear()).reverse();
 
   function pathMonth(t) {
+    // t is the last day of the month
+    // count day returns  所处的一周内的天数
+    // Math.min保证了哪怕 countDay超过7，也能cap at 7
+    // Math.max保证了哪怕 小于0，也能cap at 0
     const d = Math.max(0, Math.min(weekDays, countDay(t.getUTCDay())));
+
+    // 从d3.utcYear(t)到t,一共几周
     const w = timeWeek.count(d3.utcYear(t), t);
+    // console.log(
+    //   "相当于Y值：所处于的周，的第几天，可能从周日开始算，可能从周一开始算。取决于开始的选项",
+    //   d
+    // );
+    // console.log("相当于X值：", w);
+
     return `${d === 0
-        ? `M${w * cellSize},0`
+        ? // 周一到了，从0开始，y= 0，x=已经过了几周
+        `M0,${w * cellSize}`
         : d === weekDays
-          ? `M${(w + 1) * cellSize},0`
-          : `M${(w + 1) * cellSize},0V${d * cellSize}H${w * cellSize}`
-      }V${weekDays * cellSize}`;
+          ? // 到了一周的最后一天（7），则从下一周的0开始
+          `M0,${(w + 1) * cellSize}`
+          : // +1 是因为要画在底部
+          `M${paddingBetweenCells * 0.5},${(w + 1) * cellSize}H${d * cellSize
+          }V${w * cellSize}`
+      }H${weekDays * cellSize - paddingBetweenCells * 0.5}`;
   }
 
+  console.log(margins);
   const year = svg
     .selectAll("g")
     .data(years)
     .join("g")
     .attr(
       "transform",
-      (d, i) => `translate(${monthSpace},${height * i + cellSize * 1.5})`
+      (d, i) => `translate(${margins?.left ?? 40.5},${cellSize * 1.5})`
     );
-  // each year
-  // there is a weekday
+
   year
     .append("g")
     .attr("text-anchor", "start")
-    .attr("class", "weekday-2-6")
     .selectAll("text")
     .data(weekday === "weekday" ? d3.range(1, 6) : d3.range(7))
     .join("text")
-    .attr("y", -15)
-    .attr("x", (i) => (countDay(i) + 0.1) * (cellSize + paddingBetweenCells))
-    .attr("dx", "0.31em")
-    .attr(
-      "transform",
-      (i) =>
-        `rotate(90, ${(countDay(i) + 0.1) * (cellSize + paddingBetweenCells)
-        }, -15)`
-    )
-    .text(formatDay);
-  // .
-  // .attr('transform', 'rotate(90)');
+    .attr("y", -5)
+    .attr("x", (i) => countDay(i) * cellSize + cellSize * 0.6)
+    .attr('class', 'calendar-day-label')
+    .attr("dy", "0.5em")
+    .attr("dx", "-2em")
+    .text(formatDay)
+    .attr("transform", (i) => `rotate(${90}, ${countDay(i) * cellSize + cellSize * 0.6}, -5)`);
 
   const cell = year
     .append("g")
     .selectAll("rect")
     .data(
-      weekday === "weekday"
-        ? ([, I]) => I.filter((i) => ![0, 6].includes(X[i].getUTCDay()))
-        : ([, I]) => I
+      ([, I]) => {
+        return I;
+      } // pass the data as it is
     )
     .join("rect")
-    .attr("width", cellSize - 1)
-    .attr("height", cellSize - 1)
-    .attr(
-      "x",
-      (i) => countDay(X[i].getUTCDay()) * (cellSize + paddingBetweenCells) + 0.5
-    )
-    // d3.utcYear is the last day of last year
-    // below counts how many weeks have passed since the last day of last year
-    .attr(
-      "y",
-      (i) =>
-        timeWeek.count(d3.utcYear(X[i]), X[i]) *
-        (cellSize + paddingBetweenCells) +
-        0.5
-    )
+    .attr("width", cellSize - paddingBetweenCells)
+    .attr("height", cellSize - paddingBetweenCells)
+    // 和pathMonth一样
+    // countDay直接告诉你今天是一周内的第几天
+    .attr("x", (i) => countDay(X[i].getUTCDay()) * cellSize + 0.5)
+    // 今年第一天：d3.utcYear(X[i])
+    // 当天X[i]
+    // 算出隔了几周，每有一周，就另起一行
+    .attr("y", (i) => timeWeek.count(d3.utcYear(X[i]), X[i]) * cellSize)
+    .attr("fill", (i) => {
+      return color(Y[i]);
+    });
 
-    .attr("fill", (i) => color(Y[i]));
+  if (title) cell.append("title").text(title);
 
   const month = year
     .append("g")
-
     .selectAll("g")
-    .data(([, I]) =>
-      d3.utcMonths(
-        d3.utcMonth.floor(X[I[I.length - 1]]),
-        d3.utcMonth.ceil(X[I[0]])
-      )
-    )
-    .join("g")
-    .attr("text-anchor", "end");
+    .data(([, I]) => {
+      return d3.utcMonths(d3.utcMonth(X[I[0]]), X[I[I.length - 1]]);
+    })
+    .join("g");
 
-  // month
-  //   .filter((d, i) => i)
-  //   .append("path")
-  //   .attr("fill", "none")
-  //   .attr("stroke", "#fff")
-  //   .attr("stroke-width", 3)
-  //   .attr("d", pathMonth);
-
+  let pathStrokeWidth = 1.2;
   month
+    .filter((d, i) => {
+      return i;
+    })
+    .append("path")
+    .attr("fill", "none")
+    .attr("stroke", "#1C1C1C")
+    .attr("stroke-width", pathStrokeWidth)
+    .attr("d", (d) => {
+      return pathMonth(d);
+    })
+    .attr(
+      "transform",
+      `translate(${-paddingBetweenCells * 0.5 + pathStrokeWidth / 2},${-paddingBetweenCells * 0.5
+      })`
+    );
+    month
     .append("text")
-    .attr("class", "month-2-6")
+    .attr('class', 'calendar-month-label')
+    .attr("x", 0)
     .attr(
       "y",
-      (d) =>
-        timeWeek.count(d3.utcYear(d), timeWeek.ceil(d)) *
-        (cellSize + paddingBetweenCells) +
-        cellSize +
-        paddingBetweenCells
+      (d) => timeWeek.count(d3.utcYear(d), timeWeek.ceil(d)) * cellSize + 2
     )
-    .attr("x", -10)
-    .text(formatMonth);
-
+   
+    .text(formatMonth)
   const photoData = [
     { date: "2023-02-24", name: "Cupid", artist: "FIFTY FIFTY" },
     {
@@ -174,8 +179,8 @@ export function CalendarComponent(
     .data(photoData)
     .enter()
     .append("div")
-    .style("width", cellSize*3+"px")
-    .style("height", cellSize*3+"px")
+    .style("width", cellSize * 3 + "px")
+    .style("height", cellSize * 3 + "px")
     .attr("class", "photo-frame")
     .style("top", ({ date, name }) => {
       const d = new Date(date);
@@ -184,7 +189,7 @@ export function CalendarComponent(
         (cellSize + paddingBetweenCells) +
         cellSize +
         paddingBetweenCells;
-     
+
       return value + "px";
     })
     .style("transform", function () {
@@ -193,24 +198,31 @@ export function CalendarComponent(
       return `rotate(${angle}deg)`;
     });
 
-  photoContainer
-    .append("img")
-    .attr("src", "./assets/cupid.png") // Replace with the actual path to your images
-    .attr("alt", "Photo")
-    .on("mouseover", function () {
-      // d3.select('').style("display", "block");
-      d3.select(this.parentNode).select(".photo-hover").style("display", "flex");
-    }).
-    on("mouseout", function () {
-      d3.select(this.parentNode).select(".photo-hover").style("display", "none");
-    });
+  // photoContainer
+  //   .append("img")
+  //   .attr("src", "./assets/cupid.png") // Replace with the actual path to your images
+  //   .attr("alt", "Photo")
+  //   .on("mouseover", function () {
+  //     // d3.select('').style("display", "block");
+  //     d3.select(this.parentNode)
+  //       .select(".photo-hover")
+  //       .style("display", "flex");
+  //   })
+  //   .on("mouseout", function () {
+  //     d3.select(this.parentNode)
+  //       .select(".photo-hover")
+  //       .style("display", "none");
+  //   });
 
-    photoContainer
-    .append("div")
-    .attr("class", "photo-hover")
-    .style("display", "none").html(d=>`
-    <div class="track-name">${d.name}</div>
-    <div class="artist-name">${d.artist}</div>
-    <div class="date">${d.date}</div>
-    `);
+  // photoContainer
+  //   .append("div")
+  //   .attr("class", "photo-hover")
+  //   .style("display", "none")
+  //   .html(
+  //     (d) => `
+  //   <div class="track-name">${d.name}</div>
+  //   <div class="artist-name">${d.artist}</div>
+  //   <div class="date">${d.date}</div>
+  //   `
+  //   );
 }

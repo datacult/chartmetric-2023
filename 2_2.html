@@ -20,11 +20,10 @@ https://studio.datacult.com/ -->
 </head>
 
 <body>
-    <div id="vis">
+    <div id="vis" class="viz_2_2">
         <!--! Gordon added code begins-->
         <!-- UI -->
 
-        <div id="gentreTreemap_chart"></div>
         <!--! Gordon added code ends-->
     </div>
 
@@ -36,19 +35,24 @@ https://studio.datacult.com/ -->
 
 </html>
 <script type="module">
-    //TODO  rename with chart types
-    import { Treemap } from './js/highFi/2_2.js'
+  //TODO  rename with chart types
+  import { Treemap } from './js/highFi/2_2.js'
 
-    (async () => {
-        // dynamic data url
-        // preferred to be loaded in HTML first
-        let dataUrl =
-            "https://share.chartmetric.com/year-end-report/2023/viz_2_2_en.csv";
-        let genreType = "Artist Genres" // or  "Track Genres"
-        let year = "top_genres_for_artists_all_time" // "top_genres_for_artists_all_time"
-        let updateTreemap = await Treemap(dataUrl, genreType, year)
+(async () => {
+    // dynamic data url
+    // preferred to be loaded in HTML first
+    let dataUrl =
+        "https://share.chartmetric.com/year-end-report/2023/viz_2_2_en.csv";
+    let data = await d3.csv(dataUrl)
+    let options = { genreType: "Artist Genres", timeframe: "All Time" }
+    let updateTreemap = Treemap(data, 'vis', options)
+    
+    console.log(updateTreemap)
 
-        // consistent way to update existing DOM elements 
-        // setTimeout(() => updateTreemap("Artist Genres", "top_genres_for_artists_all_time_2023"), 2000);
-    })()
+    setTimeout(
+        () =>
+            updateTreemap.update(data, { genreType: "Track Genres", timeframe: 2023 }),
+        2000
+    );
+})()
 </script>

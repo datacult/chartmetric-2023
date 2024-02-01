@@ -15,7 +15,7 @@ import { BumpChart } from "./highFi/2_8.js";
 import { gradientBar } from "./highFi/2_9.js";
 import { gradientBarMapComponent } from "./lowFi/2_10_gradientBar.js";
 import { scatter } from './scatter.js';
-import { SingleValues } from "./highFi/single_values.js";
+// import { SingleValues } from "./highFi/single_values.js";
 (async () => {
     // hold data and vizualization instance in one object
     // all update functions should take the data as the first argument
@@ -494,10 +494,10 @@ import { SingleValues } from "./highFi/single_values.js";
         visuals.viz_2_5.data,
         visuals.viz_2_5.options
     );
-    // visuals.viz_2_6.viz = Calendar(
-    //     visuals.viz_2_6.data,
-    //     visuals.viz_2_6.options.selector
-    // );
+    visuals.viz_2_6.viz = Calendar(
+        visuals.viz_2_6.data,
+        visuals.viz_2_6.options.selector
+    );
 
     visuals.viz_2_7.viz = cluster(
         visuals.viz_2_7.data,
@@ -516,10 +516,10 @@ import { SingleValues } from "./highFi/single_values.js";
         visuals.viz_2_9.options.selector,
         "All Countries"
     );
-    // visuals.viz_2_10.viz = gradientBarMapComponent(
-    //     visuals.viz_2_10.data,
-    //     visuals.viz_2_10.options.selector
-    // );
+    visuals.viz_2_10.viz = gradientBarMapComponent(
+        visuals.viz_2_10.data,
+        visuals.viz_2_10.options.selector
+    );
     visuals.viz_2_11.viz = scatter(
         visuals.viz_2_11.data,
         visuals.viz_2_11.mapping,

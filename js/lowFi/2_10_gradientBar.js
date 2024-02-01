@@ -2,7 +2,6 @@ import { chartDimensions, trimNames } from "../utility.js";
 import { drawMap } from "./2_10_map.js";
 
 export function gradientBarMapComponent(dataset, selector) {
-  console.log(dataset);
   let widthKey = "SPINS";
   let yKey = "TRACK_NAME";
   let imageKey = "IMAGE_URL";
@@ -25,7 +24,7 @@ export function gradientBarMapComponent(dataset, selector) {
   function draw() {
     dataset = dataset.sort((a, b) => d3.descending(a[widthKey], b[widthKey]));
     // Select the top 10 tracks
-    const top10TrackNames = [...new Set(dataset.map((d) => d[yKey]))];
+    const top10TrackNames = [...new Set(dataset.map((d) => d[yKey]))]
 
     const top10 = dataset.filter((d) => top10TrackNames.includes(d.TRACK_NAME));
 
@@ -67,42 +66,37 @@ export function gradientBarMapComponent(dataset, selector) {
     const newElements = barContainers
       .join("div")
       .attr("class", "gradient-bar")
-      .attr("id", (d) => trimNames(d[yKey]))
+      .attr(
+        "id",
+        (d) => trimNames(d[yKey])
+   
+      )
       .on("click", async function (event, d) {
         d3.select("#radioTopTracksMap_worldMap_svg").selectAll("*").remove();
         await drawMap(d.data.map((d) => d.NAME));
       })
       .on("mouseenter", function (event, d) {
-        console.log(d.data[0].NAME)
-        d3.select(this).append("div").attr("class", "tooltip").html(`
-        <div class='name'>${d.data[0].NAME}</div>
-        <div class="flag"> </div>
-        <div class="career-stack">
-       Career 
-        </div>
-        
-        `); // get the tooltip width
-        let barElement = d3.select(this);
+        d3.select(this).style("border", "1px solid black");
 
-        // get the bar width
-        let profileBarWidth = barElement.node().getBoundingClientRect().width;
-        // get the image width
-        let imageWidth = barElement
-          .select(".artist-image")
+        d3.select(this).append("div").attr("class", "tooltip").attr('id', 'tooltip_2_10').html(`
+      <div class='name'>${d.data[0].ARTIST_NAME}</div>
+      <div class="flag"> </div>
+     `);
+        let fromRight = d3
+          .select("#tooltip_2_10")
           .node()
           .getBoundingClientRect().width;
-        let nameWidth = barElement
-          .select(".artist-name")
+        let profileBarWidth = d3
+          .select(this)
           .node()
           .getBoundingClientRect().width;
-
-        let childWidth = imageWidth + nameWidth;
-        console.log(childWidth)
+          
+        // console.log(profileBarWidth, fromRight);
         gsap.fromTo(
-          ".tooltip",
-          { left: profileBarWidth, opacity: 0 },
+          "#tooltip_2_10",
+          { left: profileBarWidth+fromRight, opacity: 0 },
           {
-            left: childWidth * 1.5,
+            left: profileBarWidth*.5,
             opacity: 1,
             duration: 0.5,
             ease: "power2.inOut",
@@ -117,7 +111,8 @@ export function gradientBarMapComponent(dataset, selector) {
     let imageWidth = yScale.bandwidth() * 0.75;
 
     newElements.html(function (d) {
-      return `
+    
+    return    `
     <img src="${d.data[0][imageKey]}" alt="${d[yKey]}" class="artist-image" 
     style=" height:100%">
     <div class="artist-name"><span>${d[yKey]}</span></div>

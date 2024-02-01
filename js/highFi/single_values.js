@@ -1,5 +1,5 @@
 import { chartDimensions } from "../chartDimensions.js";
-export function SingleValues(data,triggerElementId) {
+export function drawSingleValues(triggerElementId) {
   const metaDataGenerator = (width, height) => [
     {
       group: "Chartmetric daily artists ingested",
@@ -7,7 +7,7 @@ export function SingleValues(data,triggerElementId) {
       offsetXY: { x: 0, y: 0 },
       targetXY:
         width > 760
-          ? { x: -width * 0.31, y: height * -0.12 }
+          ? { x: -width * 0.2777, y: height * -0.03 }
           : { x: 0, y: height * -0.3 },
 
       icon: "🎵",
@@ -18,29 +18,40 @@ export function SingleValues(data,triggerElementId) {
       offsetXY: { x: 0, y: 0 },
       targetXY:
         width > 760
-          ? { x: width * 0.025, y: height * -0.22 }
+          ? { x: width * 0.0707, y: width<1200 ? height * 0.3: height * 0.18}
           : { x: 0, y: height * 0.02 },
 
       icon: "🏈",
     },
     {
       group: "MLB players",
-      size: 975,
+      size: 780,
       offsetXY: { x: 0, y: 0 },
       targetXY:
         width > 760
-          ? { x: width * 0.23, y: height * 0.15 }
+          ? { x: width * 0.34795, y: height * 0.04116 }
           : { x: 0, y: height * 0.25 },
 
       icon: "⚾",
     },
     {
-      group: "NBA players",
-      size: 540,
+      group: "NHL players",
+      size: 736,
       offsetXY: { x: 0, y: 0 },
       targetXY:
         width > 760
-          ? { x: width * 0.386, y: height * -0.094 }
+          ? { x: width * 0, y: width<1200 ? height * -0.35: height * -0.3 }
+          : { x: 0, y: height * 0.25 },
+
+      icon: "🏒",
+    },
+    {
+      group: "NBA players",
+      size: 450,
+      offsetXY: { x: 0, y: 0 },
+      targetXY:
+        width > 760
+          ? { x: width * 0.20175, y: height * -0.2188 }
           : { x: 0, y: height * 0.42 },
 
       icon: "🏀",
@@ -48,8 +59,8 @@ export function SingleValues(data,triggerElementId) {
   ];
   const chartId = "dailyIngestionFunFactBubbles_Chart";
   const chartContainerId = "dailyIngestionFunFactBubbles_ChartContainer";
-  let subgroupRadius = 2.5;
-  const padding = 1;
+  let subgroupRadius = 2;
+  const padding = 2.2;
 
   const container = document.querySelector("#" + chartContainerId);
   const canvas = document.createElement("canvas");
@@ -71,9 +82,10 @@ export function SingleValues(data,triggerElementId) {
 
   const colorScale = d3.scaleOrdinal(groups, [
     "#1B81F7",
-    "#FC803B",
     "#FEC641",
+    "#FF7324",
     "#EC76F4",
+    "#26BDB9",
   ]);
 
   // const texts = svg
@@ -143,7 +155,7 @@ export function SingleValues(data,triggerElementId) {
   //   const textWidth = this.getBBox().width;
   //   d3.select(this).attr("x", boundedWidth / 2 - textWidth / 2);
   // });
-  function update(meta) {
+  function resizeCanvas() {
     const scale = window.devicePixelRatio;
     console.log(scale);
     const { boundedWidth: width, boundedHeight: height } =
@@ -169,15 +181,13 @@ export function SingleValues(data,triggerElementId) {
           }))
         )
       );
-
-   
     });
-    movedCircles.forEach(dataset => {
-      let xExtent = d3.extent(dataset, d=>d.x)
-      let radius = Math.abs((xExtent[1] - xExtent[0])/2)
-      dataset.radius = radius
-      dataset.dataset = dataset
-    })
+    movedCircles.forEach((dataset) => {
+      let xExtent = d3.extent(dataset, (d) => d.x);
+      let radius = Math.abs((xExtent[1] - xExtent[0]) / 2);
+      dataset.radius = radius;
+      dataset.dataset = dataset;
+    });
     drawCircles(context, width, height);
 
     let tl = gsap.timeline({ paused: true });
@@ -237,15 +247,14 @@ export function SingleValues(data,triggerElementId) {
                 .selectAll(".text-container-single-values")
                 .nodes()[index];
               const textWidth = textElement.getBBox().width;
-              
+
               const x = meta[index].targetXY.x + width / 2 - textWidth / 2;
               const y = meta[index].targetXY.y + height / 2;
               if (meta[index].group === "Chartmetric daily artists ingested") {
-                return `translate(${x-15}, ${y})`;
+                return `translate(${x - 15}, ${y})`;
               } else {
                 return `translate(${x}, ${y})`;
               }
-             
             },
           },
         },
@@ -260,7 +269,7 @@ export function SingleValues(data,triggerElementId) {
             const { width: textWidth, height: textHeight } =
               textElement.getBBox();
             if (meta[index].group === "Chartmetric daily artists ingested") {
-              return `translate(${textWidth*.5-20}, ${-textHeight / 2})`;
+              return `translate(${textWidth * 0.5 - 20}, ${-textHeight / 2})`;
             } else {
               const x = textWidth / 8;
               const y = -textHeight / 2;
@@ -276,12 +285,13 @@ export function SingleValues(data,triggerElementId) {
       onEnter: ({ progress }) => {
         tl.play();
       },
+      onEnterback: ({ progress }) => {}
     });
   }
 
   function drawCircles(context, width, height) {
     context.clearRect(-width / 2, -height / 2, width, height);
-    movedCircles.forEach(({dataset}) => {
+    movedCircles.forEach(({ dataset }) => {
       dataset.forEach((circle) => {
         let groupMeta = meta.find((m) => m.group === circle.group);
         context.beginPath();
@@ -298,10 +308,6 @@ export function SingleValues(data,triggerElementId) {
     });
   }
 
-
-  update(meta);
-  window.addEventListener("resize", update);
-  return {
-    update:update
-  }
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
 }
