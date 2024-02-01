@@ -492,16 +492,7 @@ body {
   gap: 32px;
 }
 
-@media (max-width: 760px) {
-  #viz_2_3 #platforms-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
-    gap: 32px;
-  }
-}
+
 
 #viz_2_3 .country-row {
   display: flex;
@@ -515,7 +506,7 @@ body {
 
 #viz_2_3 .column {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   min-width: 32%;
   gap: 4px;
 }
@@ -558,17 +549,15 @@ body {
   display: flex;
   gap: 16px;
   padding: 8px 0px;
-  border-top: 1px solid #c2c2c1;
+  border-bottom: 1px solid #c2c2c1;
   /* copied */
   color: #333;
   line-height: 20px;
   font-size: 0.9259259259259258vw;
   align-items: center;
-  
 }
 
 #viz_2_3 .text {
-
   color: #1c1c1c;
   letter-spacing: -0.5px;
   font-family: Inter, sans-serif;
@@ -585,7 +574,7 @@ body {
   display: flex;
 
   align-items: center;
- 
+
   vertical-align: middle;
 }
 
@@ -597,12 +586,29 @@ body {
   vertical-align: middle;
   display: inline-block;
 }
+@media (min-width: 760px) {
+  #viz_2_3 #platforms-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    gap: 32px;
+  }
 
+  #viz_2_3 .column {
+    flex-direction: column;
+  }
+  #viz_2_3 .header-container {
+    border-bottom: none;
+    border-top: 1px solid #c2c2c1;
+  }
+}
 /* * * * * * * * * * * * * * * 
 / Viz 2_6
 * * * * * * * * * * * * * * * */
 #viz_2_6 {
-  width:600px;
+  width: 600px;
   display: flex;
   height: auto;
   justify-content: center;
@@ -627,7 +633,8 @@ body {
 
 /* Calendar heatmap styling */
 
-#viz_2_6 .calendar-day-label,.calendar-month-label{
+#viz_2_6 .calendar-day-label,
+.calendar-month-label {
   color: #646464;
 
   /* Desktop/Label/XS/regular */
@@ -637,7 +644,7 @@ body {
   font-weight: 400;
   line-height: normal;
 }
-#viz_2_6 .calendar-month-label{
+#viz_2_6 .calendar-month-label {
   transform: translateX(-10%);
 }
 #viz_2_6 #rotatingPhotos {
@@ -869,7 +876,7 @@ Bar
 #viz_2_9 .career-stack {
   padding: 2px 8px; /* Adjusts the size of the button */
   background-color: #eeeeee;
-  border: 1px solid #9A9A9A; 
+  border: 1px solid #9a9a9a;
   border-radius: 8px; /* Rounded corners */
   font-size: 14px; /* Sets the font size */
 
@@ -885,7 +892,7 @@ Bar
   height: 50%;
   /** To be editted: this helps include the buttons */
   margin-left: 10px;
-  margin-bottom:3px
+  margin-bottom: 3px;
   /* Ensure there is enough space for the cards to pop */
 }
 

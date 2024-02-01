@@ -42,10 +42,15 @@ export function Table_2_3(data, selector) {
       let column = platformsContainer
         .append("div")
         .attr("class", `column ${platform.toLowerCase()}`);
+      //* for each platform, there are two sections in a column: The icon and the platform text
+      //* let's append the country section
+      let countrySection = column.append("div").attr("class", "country-section");
+      //* let's append the country section
+      let iconSection = column.append("div").attr("class", "icon-section");
 
-      // Append a div for each country within the sorted data
+      // platformData has 10 rows
       platformData.forEach((d, i) => {
-        let countryRow = column
+        let countryRow = countrySection
           .append("div")
           .attr("class", "country-row")
           .style("background-color", () => {
@@ -59,16 +64,17 @@ export function Table_2_3(data, selector) {
           .append("span")
           .attr("class", "country-value")
           .text(formatPercentage(d.FOLLOWERS_2023_PROPORTION));
+
       });
 
       // icon and platform name
-      let headingContainer = column
+      let headingContainer = iconSection
         .append("div")
         .attr("class", "header-container");
       headingContainer
         .append("div")
         .attr("class", (d) => {
-          console.log(d);
+         
           return "icon";
         })
         .html((d) => {
