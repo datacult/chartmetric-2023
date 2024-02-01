@@ -27,7 +27,7 @@ export function scatter(data, map, options, svg) {
     selector: '#vis',
     width: 800,
     height: 800,
-    margin: { top: 100, right: 100, bottom: 100, left: 100 },
+    margin: { top: 150, right: 150, bottom: 150, left: 150 },
     transition: 400,
     delay: 100,
     padding: 0.1,
@@ -35,7 +35,7 @@ export function scatter(data, map, options, svg) {
     stroke: "#000",
     label_offset: 30,
     text: "white",
-    focus: null
+    focus: []
   }
 
   // merge default options with user options
@@ -84,8 +84,8 @@ export function scatter(data, map, options, svg) {
     .attr("id", "blur")
     .attr("x", "-50%")
     .attr("y", "-50%")
-    .attr("height", "200%")
-    .attr("width", "200%")
+    .attr("height", "300%")
+    .attr("width", "300%")
   filter.append("feGaussianBlur")
     .attr("stdDeviation", "15")
     .attr("result", "coloredBlur");
@@ -121,7 +121,7 @@ export function scatter(data, map, options, svg) {
   let grescale = defs.append("filter")
     .attr("id", "grayscale");
 
-    grescale.append("feColorMatrix")
+  grescale.append("feColorMatrix")
     .attr("type", "matrix")
     .attr("values", `0.3333 0.3333 0.3333 0 0
                    0.3333 0.3333 0.3333 0 0
@@ -176,13 +176,14 @@ export function scatter(data, map, options, svg) {
     .attr("x", d => xScale(d[map.x]))
     .attr("y", d => yScale(d[map.y]))
     .attr("text-anchor", "middle")
-    .attr("font-size", "0.5em")
+    .attr("font-size", "1.2em")
+    .attr("dominant-baseline", "middle")
     .attr("fill", options.text)
-    .text(d => map.label != null ? d[map.label] : "")
+    .text(d => map.label != null ? d[map.label].replace(/\//g, " ") : "")
     .attr("pointer-events", "none")
     .style("text-transform", "uppercase")
-    .classed("text", true);
-
+    .classed("text", true)
+    .call(wrap, 20);
 
   ////////////////////////////////////////
   ////////////// Update //////////////////
@@ -194,6 +195,9 @@ export function scatter(data, map, options, svg) {
     map = { ...map, ...newMap };
     options = { ...options, ...newOptions };
 
+    //hard code fix for 'other' option
+    if (options.focus.indexOf(12) > -1) options.focus = [0,2,3,5,6,9,10,11]
+
     if (newData != null) data = newData
 
     const t = d3.transition().duration(options.transition).ease(d3.easeLinear)
@@ -204,27 +208,52 @@ export function scatter(data, map, options, svg) {
       .attr("cx", d => xScale(d[map.x]))
       .attr("cy", d => yScale(d[map.y]))
       .attr("r", d => rScale(d[map.size]))
-      .style("filter", d => options.focus != null ? d[map.focus] == options.focus ? "url(#blur)" : "url(#grayscale) url(#blur)" : "url(#blur)")
-
-    // rings
-    //   .data(data)
-    //   .transition(t)
-    //   .attr("cx", d => xScale(d[map.x]))
-    //   .attr("cy", d => yScale(d[map.y]))
-    //   .attr("r", d => rScale(d[map.size] * 0.8))
-    //   .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
-    //   .attr("stroke-opacity", d => d[map.focus] == options.focus && options.focus != null ? 0.5 : 0)
-
-    // labels
-    //   .data(data)
-    //   .transition(t)
-    //   .attr("x", d => xScale(d[map.x]))
-    //   .attr("y", d => yScale(d[map.y]))
-    //   .attr("fill", options.text)
-    //   .attr("opacity", d => d[map.focus] == options.focus && options.focus != null ? 1 : 0)
-    //   .text(d => map.label != null ? d[map.label] : "")
+      .style("filter", d => options.focus.length > 0 ? options.focus.indexOf(d[map.focus]) > -1 ? "url(#blur)" : "url(#grayscale) url(#blur)" : "url(#blur)")
 
   }
+
+  function wrap(text, width) {
+    text.each(function() {
+      var text = d3.select(this),
+        words = text.text().split(/\s+/).reverse(),
+        word,
+        line = [],
+        lineNumber = 0,
+        lineHeight = 1.1, // Adjust line height if needed
+        x = text.attr("x"),
+        y = parseFloat(text.attr("y")),
+        dy = parseFloat(text.attr("dy") || 0);
+  
+      // Create an initial tspan for measurement
+      var tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+  
+      while (word = words.pop()) {
+        line.push(word);
+        tspan.text(line.join(" "));
+        if (tspan.node().getComputedTextLength() > width) {
+          line.pop();
+          tspan.text(line.join(" "));
+          line = [word];
+          // Increment lineNumber and add a new tspan
+          tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", (++lineNumber * lineHeight + dy) + "em").text(word);
+        }
+      }
+  
+      var totalLines = text.selectAll("tspan").size();
+      var textBlockHeight = totalLines * lineHeight;
+      var initialOffset = (textBlockHeight / 2) - lineHeight / 2;
+  
+      // Adjust each tspan's dy to center the text block
+      text.selectAll("tspan").attr("dy", function(d, i) {
+        return ((i - totalLines / 2) * lineHeight + dy) + "em";
+      });
+  
+      // Adjust the y position of the text to center around the original y-coordinate
+      text.attr("y", y - initialOffset + "em");
+    });
+  }
+  
+  
 
   update()
 

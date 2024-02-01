@@ -263,25 +263,12 @@ import { scatter } from './scatter.js';
                 size: "ARTIST_COUNT",
                 label: "GENRE_NAME",
                 fill: "GENRE_NAME",
-                focus: "GENRE_NAME"
+                focus: "ORDERING"
             },
-            params: [
-                "Latin",
-                "Indian",
-                "K-Pop",
-                "African",
-                "J-Pop",
-                "R&B/Soul/Funk",
-                "Country",
-                "Indie/Alternative",
-                "Hip-Hop/Rap",
-                "Dance/Electronic",
-                "Pop",
-                "Children's Music"
-            ],
+            params: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
             update: function (param) {
                 if (param) {
-                    this.options.focus = param
+                    this.options.focus = [param]
                     this.viz.update(null, null, this.options);
                 } else {
                     this.viz.update(this.data);
@@ -434,7 +421,7 @@ import { scatter } from './scatter.js';
         option.text = country;
         platformDropdown.add(option);
     });
-    
+
     if (platformDropdownContainer) platformDropdownContainer.appendChild(platformDropdown)
 
     let countryDropdownSpan = document.createElement("span");
@@ -576,7 +563,7 @@ import { scatter } from './scatter.js';
     document.querySelectorAll(".toggle-wrapper").forEach((toggleWrapper) => {
         toggleWrapper.querySelectorAll(".toggle-switch").forEach((toggleSwitch) => {
             toggleSwitch.addEventListener("click", () => {
-                const value = d3.autoType({value: toggleSwitch.getAttribute("data")}).value;
+                const value = d3.autoType({ value: toggleSwitch.getAttribute("data") }).value;
                 const viz_id = "viz_" + toggleWrapper.parentNode.id.split("-")[1]
                 const index = toggleWrapper.getAttribute("index");
 

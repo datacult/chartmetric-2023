@@ -38,7 +38,7 @@ https://studio.datacult.com/ -->
         size: "ARTIST_COUNT",
         label: "GENRE_NAME",
         fill: "GENRE_NAME",
-        focus: "GENRE_NAME"
+        focus: "ORDERING"
     }
 
         let options = {
@@ -51,7 +51,7 @@ https://studio.datacult.com/ -->
     let vis = scatter(data, mapping, options);
 
     setTimeout(() => {
-        options.focus = "Latin"
+        options.focus = [12]
         return vis.update(null, null, options)
     }, 3000)
 </script>
