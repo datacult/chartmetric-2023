@@ -28,8 +28,8 @@ export function cluster(data, map, options, svg) {
   let defaults = {
     width: 800,
     height: 800,
-    margin: { top: 20, right: 20, bottom: 20, left: 20 },
-    transition: 400,
+    margin: { top: 100, right: 100, bottom: 100, left: 100 },
+    transition: 1000,
     delay: 100,
     padding: 0.05,
     size: 10,
@@ -37,7 +37,7 @@ export function cluster(data, map, options, svg) {
     stroke: "#000",
     text: "black",
     format: ".2r",
-    force: 0.3
+    force: 1
   }
 
   // merge default options with user options
@@ -132,7 +132,7 @@ export function cluster(data, map, options, svg) {
   data.forEach(d => {
     d.x = width / 2;
     d.y = height / 2;
-    d.r = 0;
+    d.r = map.size != null ? sizeScale(d[map.size]) : sizeScale(options.size);
   });
 
   const simulation = d3.forceSimulation()
@@ -151,8 +151,9 @@ export function cluster(data, map, options, svg) {
     }
 
     function dragged(event, d) {
-      d.fx = event.x;
-      d.fy = event.y;
+
+      d.fx = Math.max(d.r, Math.min(width - d.r, event.x));
+      d.fy = Math.max(d.r, Math.min(height - d.r, event.y));
     }
 
     function dragended(event, d) {
@@ -227,7 +228,7 @@ export function cluster(data, map, options, svg) {
     .attr("font-size", d => d3.max([sizeScale(d[map.size]) / 6, 15]))
     .text(d => map.label != null ? d[map.label] : 0);
 
-
+    simulation.nodes(data);
 
   ////////////////////////////////////////
   ////////////// Update //////////////////
@@ -241,10 +242,6 @@ export function cluster(data, map, options, svg) {
 
     if (newData != null) data = newData;
 
-    data.forEach(d => {
-      d.r = map.size != null ? sizeScale(d[map.size]) : sizeScale(options.size);
-    });
-
     const t = d3.transition().duration(options.transition);
 
     // update scales
@@ -254,7 +251,10 @@ export function cluster(data, map, options, svg) {
     bubbles
       .data(data)
       .transition(t)
-      .attr("r", d => d.r)
+      .attrTween("r", d => {
+        const i = d3.interpolate(0, d.r);
+        return t => d.r = i(t);
+      })
       .attr("fill", d => map.fill != null ? `url(#${trimNames(d[map.fill])})` : options.fill)
       .attr("stroke", d => d[map.stroke] || options.stroke)
 
@@ -270,7 +270,6 @@ export function cluster(data, map, options, svg) {
       .delay(options.transition / 2)
       .attr("opacity", 1);
 
-    simulation.nodes(data);
     simulation.restart()
 
   }
