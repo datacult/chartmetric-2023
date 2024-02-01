@@ -892,7 +892,7 @@ Bar
 #viz_2_9 .card {
   position: absolute;
   padding: 0px 8px;
-  width: 50px;
+  /* width: 50px; */
   /* Adjusted to better reflect the image proportions */
   height: 100%;
   /* Adjusted to better reflect the image proportions */
@@ -935,7 +935,7 @@ Bar
 /* Hover effect to pop the card */
 #viz_2_9 .card:hover {
   transform: scale(1.05);
-  width: 80px;
+  /* width: 80px; */
   /* Slight scale-up to make the card pop */
   z-index: 4;
   /* This ensures the hovered card is above others */
