@@ -60,6 +60,8 @@ export function gradientBar(
     barContainers.join(
       // Enter selection
       (enter) => {
+        
+        const exitDuration = 450
         const divEnter = enter
           .append("div")
           .attr("class", "gradient-bar bar")
@@ -73,11 +75,15 @@ export function gradientBar(
               }</span>
           `
           )
+
           .style("opacity", 0)
           .style("width", 0)
+          .style("transfrom", "translateX(-1000px)")
           .transition()
-          .duration(1500) // Duration for enter transition
+          .duration(1000) // Duration for enter transition
+          .delay((d,i)=> exitDuration+i * 30)
           .style("opacity", 1)
+          .style("transfrom", "translateX(0px)")
           .style("width", (d) => widthScale(d[widthKey]) + "px");
 
         return divEnter;
@@ -93,6 +99,7 @@ export function gradientBar(
         exit
           .transition()
           .duration(500) // Duration for exit transition
+          .delay((d,i)=> i * 30)
           .style("width", 0)
           .style("opacity", 0)
           .style("left", -3000 + "px")
