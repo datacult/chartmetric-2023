@@ -4,8 +4,6 @@
 
 export function artistinfo(data, map, options) {
 
-  console.log(data)
-
   ////////////////////////////////////////
   /////////////// Defaults ///////////////
   ////////////////////////////////////////
@@ -49,8 +47,6 @@ export function artistinfo(data, map, options) {
 
   const img_container = div.append('div')
     .classed('img_container', true);
-
-    console.log(options.selector, div)
 
   const text_container = div.append('div')
     .classed('text_container', true);
@@ -122,8 +118,6 @@ export function artistinfo(data, map, options) {
     options = { ...options, ...newOptions };
 
     if (newData != null) data = newData;
-
-    console.log("artist details update:", data)
 
     const t = d3.transition().duration(options.transition).ease(d3.easeLinear)
 

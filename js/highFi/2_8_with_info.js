@@ -72,7 +72,10 @@ export function viz_2_8(data, map, options) {
 
 
     // Assuming `data` is your array of objects from the CSV
-    const uniqueMonths = [...new Set(data.map(item => item[map.x]))];
+    const uniqueMonths = [...new Set(data.map(item => {
+        return JSON.stringify({[map.x]: item[map.x], [map.sort]: item[map.sort]})
+    }))];
+    console.log(uniqueMonths)
     const artistsInfo = {}; // Object to hold artist name to ID mapping
 
     // Populate artistsInfo with artist names as keys and their IDs as values
@@ -85,19 +88,21 @@ export function viz_2_8(data, map, options) {
     let info = artistinfo(options.focus != null ? [artistsInfo[options.focus]] : [], map, { selector: '#artist_info_container' });
 
     // Function to find an entry for a specific month and artist
-    function findEntry(x, group) {
-        return data.find(item => item[map.x] === x && item[map.group] === group);
+    function findEntry(month, artist) {
+        return data.find(item => item[map.x] === month && item[map.group] === artist);
     }
 
     // Fill in missing entries
     let filledData = [...data]; // Clone the original data
     uniqueMonths.forEach(month => {
+        month = JSON.parse(month)
         Object.keys(artistsInfo).forEach(artist => {
-            const entryExists = findEntry(month, artist);
+            const entryExists = findEntry(month[map.x], artist);
             if (!entryExists) {
                 filledData.push({
                     ...artistsInfo[artist],
-                    [map.x]: month,
+                    [map.x]: month[map.x],
+                    [map.sort]: month[map.sort],
                     [map.group]: artist,
                     [map.y]: 10
                 });
@@ -105,7 +110,9 @@ export function viz_2_8(data, map, options) {
         });
     });
 
-    if (map.sort != null) filledData = filledData.sort((a, b) => a[map.sort] - b[map.sort]);
+    if (map.sort) filledData = d3.sort(filledData, (a, b) => d3.ascending(a[map.sort], b[map.sort]))
+
+    console.log(filledData)
 
     let nestedData = d3.groups(filledData, d => d[map.group])
         .map(group => ({ name: group[0], values: group[1] }));
