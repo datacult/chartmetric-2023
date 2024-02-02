@@ -553,7 +553,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
     }
     if (document.querySelector("#" + visuals.viz_2_19.options.selector)) {
         visuals.viz_2_19.viz = drawSingleValues(
-        [],
+        //[],
             visuals.viz_2_19.options.selector
         );
     }
