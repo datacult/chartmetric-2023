@@ -1,0 +1,205 @@
+import { trimNames } from '../utility.js'
+
+import { artistinfo } from '../artist_info.js';
+
+export function viz_2_8(data, map, options) {
+
+    ////////////////////////////////////////
+    /////////////// Defaults ///////////////
+    ////////////////////////////////////////
+
+    let mapping = {
+        x: "x",
+        y: "y",
+        group: "group",
+    };
+
+    // merge default mapping with user mapping
+    map = { ...mapping, ...map };
+
+    let defaults = {
+        selector: "#vis",
+        width: 1200,
+        height: 600,
+        margin: { top: 20, right: 20, bottom: 20, left: 20 },
+        transition: 400,
+        delay: 100,
+        fill: "#69b3a2",
+        stroke: "#000",
+        padding: 0.1,
+        opacity: 0.3,
+    };
+
+    // merge default options with user options
+    options = { ...defaults, ...options };
+
+    ////////////////////////////////////////
+    ////////////// DIV Setup ///////////////
+    ////////////////////////////////////////
+
+    const div = d3.select(options.selector);
+
+    const vis_container = div.append('div')
+        .classed('vis-svg-container', true);
+
+    const info_container = div.append('div')
+        .attr('id', 'artist_info_container')
+        .classed('info_container', true);
+
+    let artist_info = options.focus != null ? data.filter(d => d[map.group] == options.focus) : [];
+
+    let info = artistinfo(artist_info, map, { selector: '#artist_info_container' });
+
+    ////////////////////////////////////////
+    ////////////// SVG Setup ///////////////
+    ////////////////////////////////////////
+
+    const svg = vis_container.append('svg')
+        .attr('width', '100%') // Responsive width
+        .attr('height', '100%') // Responsive height
+        .attr('viewBox', `0 0 ${options.width} ${options.height}`)
+        .classed('vis-svg', true)
+        .append('g')
+        .attr('transform', `translate(${options.margin.left},${options.margin.top})`);
+
+    ////////////////////////////////////////
+    ////////////// Helpers /////////////////
+    ////////////////////////////////////////
+
+    const height = options.height - options.margin.top - options.margin.bottom;
+    const width = options.width - options.margin.left - options.margin.right;
+
+    ////////////////////////////////////////
+    ////////////// Transform ///////////////
+    ////////////////////////////////////////
+
+
+    // Assuming `data` is your array of objects from the CSV
+    const uniqueMonths = [...new Set(data.map(item => item[map.x]))];
+    const artistsInfo = {}; // Object to hold artist name to ID mapping
+
+    // Populate artistsInfo with artist names as keys and their IDs as values
+    data.forEach(item => {
+        if (!artistsInfo[item.NAME]) {
+            artistsInfo[item.NAME] = item;
+        }
+    });
+
+    // Function to find an entry for a specific month and artist
+    function findEntry(x, group) {
+        return data.find(item => item[map.x] === x && item[map.group] === group);
+    }
+
+    // Fill in missing entries
+    const filledData = [...data]; // Clone the original data
+    uniqueMonths.forEach(month => {
+        Object.keys(artistsInfo).forEach(artist => {
+            const entryExists = findEntry(month, artist);
+            if (!entryExists) {
+                filledData.push({
+                    ...artistsInfo[artist],
+                    [map.x]: month,
+                    [map.group]: artist,
+                    [map.y]: 10
+                });
+            }
+        });
+    });
+
+    filledData.sort((a, b) => a[map.x] - b[map.x]);
+
+    let nestedData = d3.groups(filledData, d => d[map.group])
+        .map(group => ({ name: group[0], values: group[1] }));
+
+    let firstAppearance = data.reduce((accumulator, current) => {
+        if (!accumulator.some(d => d[map.group] === current[map.group])) {
+            accumulator.push(current);
+        }
+        return accumulator;
+    }, []);
+
+
+    ////////////////////////////////////////
+    ////////////// Scales //////////////////
+    ////////////////////////////////////////
+
+    const xScale = d3
+        .scaleLinear()
+        .domain(d3.extent(data, (d) => d[map.x]))
+        .range([0, width]);
+
+    const yScale = d3
+        .scaleLinear()
+        .domain([0, d3.max(data, (d) => d[map.y])])
+        .range([0, height]);
+
+    ////////////////////////////////////////
+    ////////////// DOM Setup ///////////////
+    ////////////////////////////////////////
+
+    // Area generator
+    const area = d3
+        .area()
+        .x((d) => xScale(d[map.x]))
+        .y0((d) => (d[map.y] === 10 ? height : yScale(d[map.y] - 1)))
+        .y1((d) => yScale(d[map.y]))
+        .curve(d3.curveBumpX);
+
+    // Drawing areas
+    let paths = svg
+        .selectAll(".area")
+        .data(nestedData)
+        .join("path")
+        .attr("d", (d) => area(d.values))
+        .attr("fill", options.fill)
+        .attr("opacity", options.opacity)
+        .on("click", function (event, d) {
+            info.update(artistsInfo[d.name]);
+            labels.attr("font-weight", x => d.name == x[map.group] ? "bold" : "normal");
+            paths.attr("opacity", x => d.name == x.name ? 1 : options.opacity);
+        });
+
+    let labels = svg
+        .selectAll(".labels")
+        .data(firstAppearance)
+        .join("text")
+        .attr("class", "labels")
+        .attr("x", (d) => xScale(d[map.x]))
+        .attr("y", (d) => yScale(d[map.y] - 0.5))
+        .text((d) => d[map.group])
+        .on("click", function (event, d) {
+            info.update(artistsInfo[d[map.group]]);
+            paths.attr("opacity", x => d[map.group] == x.name ? 1 : options.opacity);
+            labels.attr("font-weight", x => d[map.group] == x[map.group] ? "bold" : "normal");
+        });
+
+    ////////////////////////////////////////
+    //////////////// Axis //////////////////
+    ////////////////////////////////////////
+
+    const xAxis = svg
+        .append("g")
+        .attr("transform", `translate(0,${height})`)
+        .call(d3.axisBottom(xScale));
+
+    ////////////////////////////////////////
+    ////////////// Update //////////////////
+    ////////////////////////////////////////
+
+    function update(newData = data, focus) {
+
+        paths
+            .transition()
+            .duration(options.transition)
+            .attr("opacity", d => d.name == focus ? 1 : options.opacity);
+
+        info.update(newData.filter(d => d[map.group] == focus));
+
+    }
+
+    return {
+        update: update,
+    };
+
+
+}
