@@ -73,7 +73,7 @@ export function CalendarComponent(
       }H${weekDays * cellSize - paddingBetweenCells * 0.5}`;
   }
 
-  console.log(margins);
+  
   const year = svg
     .selectAll("g")
     .data(years)
@@ -156,69 +156,10 @@ export function CalendarComponent(
     )
 
     .text(formatMonth)
-  const photoData = [
-    { date: "2023-02-24", name: "Cupid", artist: "FIFTY FIFTY" },
-    {
-      date: "2023-03-17",
-      name: "Ella Baila Sola",
-      artist: "Eslabon Armado and Peso Pluma",
-    },
-    { date: "2023-05-18", name: "Padam Padam", artist: "Kylie Minogue" },
-    { date: "2023-07-28", name: "Back on 74", artist: "Jungle" },
-    {
-      date: "2023-09-13",
-      name: "Will Anybody Ever Love Me?",
-      artist: "Sufjan Stevens",
-    },
-    { date: "2023-12-08", name: "FTCU", artist: "Nicki Minaj" },
-  ];
-  {/* 
-  <div class="photo-card">
-  <div class="image-container">
-    <img src=" 
-     </div>
-  <div class="text-container">
-    <h1>"Cupid"</h1>
-    <p>FIFTY FIFTY</p>
-    <hr>
-    <p>FEBRUARY 24</p>
-  </div>
-</div> */}
-  const photoCard = d3
-    .select("#rotatingPhotos")
-    .selectAll(".photo-card")
-    .data(photoData)
-    .enter()
-    .append("div")
-    .style("width", cellSize * 3 + "px")
-    .style("height", cellSize * 3 + "px")
-    .style("top", ({ date, name }) => {
-      const d = new Date(date);
-      let value =
-        timeWeek.count(d3.utcYear(d), timeWeek.floor(d)) *
-        (cellSize + paddingBetweenCells) +
-        cellSize +
-        paddingBetweenCells;
 
-      return value + "px";
-    })
- 
-    // photo
-  photoCard.append("div").attr('class', 'image-container')
-    .append('img')
-    .attr("src", "./assets/cupid.png")
-    .attr("alt", "Photo")
-    .style("transform", function () {
-      // Generate a random rotation angle between -20 and 20 degrees for each photo frame
-      const angle = Math.floor(Math.random() * 41) - 20;
-      return `rotate(${angle}deg)`;
-    }); 
-    // text next to photo
-  photoCard.append("div").attr('class', 'text-container').html(`iv class="text-container">
-    <h1>"Cupid"</h1>
-    <p>FIFTY FIFTY</p>
-    <hr>
-    <p>FEBRUARY 24</p>`)
+
+
+  
   // photoContainer
   //   .append("img")
   //   .attr("src", "./assets/cupid.png") // Replace with the actual path to your images

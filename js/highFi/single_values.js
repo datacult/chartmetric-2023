@@ -144,7 +144,7 @@ export function drawSingleValues(triggerElementId) {
   // });
   function resizeCanvas() {
     const scale = window.devicePixelRatio;
-    console.log(scale)
+    // console.log(scale)
     const { boundedWidth: width, boundedHeight } =
       chartDimensions(chartContainerId);
       // so that i can reassign height laster
@@ -174,7 +174,7 @@ export function drawSingleValues(triggerElementId) {
     movedCircles.forEach((dataset) => {
       let xExtent = d3.extent(dataset, (d) => d.x);
       let diameter = Math.abs((xExtent[1] - xExtent[0]));
-      console.log(xExtent)
+      // console.log(xExtent)
       totalVerticalHeightArray.push(diameter)
       dataset.dataset = dataset;
     });

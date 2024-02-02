@@ -91,8 +91,7 @@ export function setupResponsiveDimensions(elementId, margins, onResizeCallback, 
   const resizeObserver = new ResizeObserver(debouncedOnResize);
   resizeObserver.observe(element);
 
-  // Initial dimensions
-  debouncedOnResize();
+  
 }
 
 // Make the Canvas element DPi
