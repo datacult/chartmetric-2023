@@ -552,10 +552,10 @@ import { scatter } from './scatter.js';
         );
     }
     if (document.querySelector("#" + visuals.viz_2_19.options.selector)) {
-        // visuals.viz_2_19.viz = SingleValues(
-        // [],
-        //     visuals.viz_2_19.options.selector
-        // );
+        visuals.viz_2_19.viz = SingleValues(
+        [],
+            visuals.viz_2_19.options.selector
+        );
     }
 
     ////////////////////////////////
