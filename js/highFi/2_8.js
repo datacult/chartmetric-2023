@@ -126,7 +126,7 @@ export  function BumpChart(
   ////////////////////////////////////////
   ////////////// DOM Setup ///////////////
   ////////////////////////////////////////
-  // let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_8_en.csv', d3.autoType);
+  
 
   // Area generator
   const area = d3
@@ -146,6 +146,9 @@ export  function BumpChart(
     .attr("d", (d) => area(d.values))
     .attr("fill", (d) => (map.fill != null ? d[map.fill] : options.fill))
     .attr("opacity", options.opacity)
+    .on('click', function(event,d) {
+
+    })
 
   svg
     .selectAll(".labels")

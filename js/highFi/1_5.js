@@ -20,8 +20,9 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
    *2. Create chart dimensions
    ************************/
 
+   // get the current container height
   const { boundedHeight: height } = chartDimensions(selector);
-  d3.select(selector).html(`   <div id="topArtistsByFollowersBubbles_bottom">
+  d3.select(selector).html(`<div id="topArtistsByFollowersBubbles_bottom">
       <div class="topArtistsByFollowersBubbles_bot-section" id="topArtistsByFollowersBubbles_bot-section1">
         <div class="topArtistsByFollowersBubbles_bot-chart Youtube" id="topArtistsByFollowersBubbles_bot-chart"></div>
         <div class="topArtistsByFollowersBubbles_bot-icon"></div>

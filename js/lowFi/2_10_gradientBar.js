@@ -125,12 +125,14 @@ export function gradientBarMapComponent(dataset, selector) {
         return widthScale(d.data[0][widthKey]) + "px";
       })
       .style("transform", (d, i) => `translateY(${yScale(d[yKey])}px)`);
+
+   
   }
   function update(data) {
     draw(data);
   }
   update(dataset);
-
+ 
   return {
     update: update,
   };

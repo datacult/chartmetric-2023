@@ -1,4 +1,4 @@
-import { chartDimensions } from "../chartDimensions.js";
+import { chartDimensions } from "../utility.js";
 export function drawSingleValues(triggerElementId) {
   const metaDataGenerator = (width, height) => [
     {
@@ -8,7 +8,7 @@ export function drawSingleValues(triggerElementId) {
       targetXY:
         width > 760
           ? { x: -width * 0.2777, y: height * -0.03 }
-          : { x: 0, y: height * -0.3 },
+          : window.devicePixelRatio== 2? { x: 0, y: height * -0.5 }:{ x: 0, y: height * -0.39 },
 
       icon: "🎵",
     },
@@ -18,8 +18,8 @@ export function drawSingleValues(triggerElementId) {
       offsetXY: { x: 0, y: 0 },
       targetXY:
         width > 760
-          ? { x: width * 0.0707, y: width<1200 ? height * 0.3: height * 0.18}
-          : { x: 0, y: height * 0.02 },
+          ? { x: width * 0.0707, y: width < 1200 ? height * 0.3 : height * 0.18 }
+          :  window.devicePixelRatio== 2? { x: 0, y: height * -.15 }:{ x: 0, y: height * -0.1 },
 
       icon: "🏈",
     },
@@ -30,7 +30,7 @@ export function drawSingleValues(triggerElementId) {
       targetXY:
         width > 760
           ? { x: width * 0.34795, y: height * 0.04116 }
-          : { x: 0, y: height * 0.25 },
+          : window.devicePixelRatio== 2? { x: 0, y: height * .1 }:{ x: 0, y: height * .12 },
 
       icon: "⚾",
     },
@@ -40,8 +40,8 @@ export function drawSingleValues(triggerElementId) {
       offsetXY: { x: 0, y: 0 },
       targetXY:
         width > 760
-          ? { x: width * 0, y: width<1200 ? height * -0.35: height * -0.3 }
-          : { x: 0, y: height * 0.25 },
+          ? { x: width * 0, y: width < 1200 ? height * -0.35 : height * -0.3 }
+          : window.devicePixelRatio== 2? { x: 0, y: height * .3 }:{ x: 0, y: height * .31 },
 
       icon: "🏒",
     },
@@ -52,7 +52,7 @@ export function drawSingleValues(triggerElementId) {
       targetXY:
         width > 760
           ? { x: width * 0.20175, y: height * -0.2188 }
-          : { x: 0, y: height * 0.42 },
+          : { x: 0, y: height * 0.48},
 
       icon: "🏀",
     },
@@ -60,7 +60,7 @@ export function drawSingleValues(triggerElementId) {
   const chartId = "dailyIngestionFunFactBubbles_Chart";
   const chartContainerId = "dailyIngestionFunFactBubbles_ChartContainer";
   let subgroupRadius = 2;
-  const padding = 2.2;
+  let padding = 2.2;
 
   const container = document.querySelector("#" + chartContainerId);
   const canvas = document.createElement("canvas");
@@ -88,19 +88,6 @@ export function drawSingleValues(triggerElementId) {
     "#26BDB9",
   ]);
 
-  // const texts = svg
-  //   .selectAll("text")
-  //   .data(meta)
-  //   .join("text")
-  //   .attr("class", "text-single-values")
-  //   .attr("x", boundedWidth / 2)
-  //   .attr("y", boundedHeight / 2)
-  //   .attr("stroke", "rgba(255, 255, 255, 0.95)")
-  //   .attr("stroke-width", 9)
-  //   .attr("stroke-linecap", "round")
-  //   .attr("stroke-linejoin", "round")
-  //   .attr("paint-order", "stroke")
-  //   .text((d) => d.group);
 
   let iconSize = "65px";
   const textContainer = svg
@@ -121,7 +108,7 @@ export function drawSingleValues(triggerElementId) {
     .attr("dy", "2.5em")
     .each(function (d) {
       const text = d3.select(this);
-      let lines = [];
+     
 
       // Check if the text needs to be split and split it
 
@@ -157,19 +144,19 @@ export function drawSingleValues(triggerElementId) {
   // });
   function resizeCanvas() {
     const scale = window.devicePixelRatio;
-    console.log(scale);
-    const { boundedWidth: width, boundedHeight: height } =
+    console.log(scale)
+    const { boundedWidth: width, boundedHeight } =
       chartDimensions(chartContainerId);
-    canvas.width = width * scale;
-    canvas.height = height * scale;
-    let context = canvas.getContext("2d");
-    context.scale(scale, scale);
+      // so that i can reassign height laster
+      let height= boundedHeight
+
     meta = metaDataGenerator(width, height);
 
-    context.translate(width / 2, height * 0.5);
+
     // create new movedCircles array
     movedCircles.length = 0;
     subgroupRadius = width > 760 ? (2 / 1300) * width : 0.8;
+    padding = subgroupRadius * 0.81;
     groups.forEach((group) => {
       const currentGroup = meta.find((d) => d.group == group);
       movedCircles.push(
@@ -182,12 +169,35 @@ export function drawSingleValues(triggerElementId) {
         )
       );
     });
+
+    let totalVerticalHeightArray = []
     movedCircles.forEach((dataset) => {
       let xExtent = d3.extent(dataset, (d) => d.x);
-      let radius = Math.abs((xExtent[1] - xExtent[0]) / 2);
-      dataset.radius = radius;
+      let diameter = Math.abs((xExtent[1] - xExtent[0]));
+      console.log(xExtent)
+      totalVerticalHeightArray.push(diameter)
       dataset.dataset = dataset;
     });
+    let totalHeight = d3.sum(totalVerticalHeightArray)
+
+let gap  = 60
+    if (width < 760) {
+      // 50px gap between five clusters
+      d3.select("#" + triggerElementId).style('height', gap * 4 + totalHeight + 'px')
+      height =  gap * 4 + totalHeight
+    } else {
+      d3.select("#" + triggerElementId).style('height', '100%')
+    }
+    canvas.width = width * scale;
+    canvas.height = height * scale;
+
+
+    // Scale the CSS size of the canvas back down to fit its parent container.
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    let context = canvas.getContext("2d");
+    context.scale(scale, scale);
+    context.translate(width / 2, height / 2);
     drawCircles(context, width, height);
 
     let tl = gsap.timeline({ paused: true });
@@ -205,29 +215,7 @@ export function drawSingleValues(triggerElementId) {
         },
         0
       );
-      // text animation
-      // tl.fromTo(
-      //   ".text-single-values",
-      //   { opacity: 0, attr: { x: width / 2, y: height / 2 } },
-      //   {
-      //     opacity: 1,
-      //     duration: 1,
-      //     ease: "expo.in",
 
-      //     attr: {
-      //       x: (index) => {
-      //         let textElement = d3.selectAll(".text-single-values").nodes()[
-      //           index
-      //         ];
-      //         const textWidth = textElement.getBBox().width;
-      //         return meta[index].targetXY.x + width / 2 - textWidth / 2;
-      //       },
-      //       y: (index) => meta[index].targetXY.y + height / 2,
-      //       dy: "1em",
-      //     },
-      //   },
-      //   "0"
-      // );
       // icon animation
       tl.fromTo(
         ".text-container-single-values",
@@ -251,7 +239,7 @@ export function drawSingleValues(triggerElementId) {
               const x = meta[index].targetXY.x + width / 2 - textWidth / 2;
               const y = meta[index].targetXY.y + height / 2;
               if (meta[index].group === "Chartmetric daily artists ingested") {
-                return `translate(${x - 15}, ${y})`;
+                return `translate(${x }, ${y})`;
               } else {
                 return `translate(${x}, ${y})`;
               }
@@ -285,7 +273,7 @@ export function drawSingleValues(triggerElementId) {
       onEnter: ({ progress }) => {
         tl.play();
       },
-      onEnterback: ({ progress }) => {}
+      onEnterback: ({ progress }) => { }
     });
   }
 

@@ -33,7 +33,7 @@ export function CalendarComponent(
     cellSize *
     timeWeek.count(d3.utcYear(new Date("2023-01-01")), new Date("2023-12-30"));
 
-  d3.select("#calendarHeatmap").style("height", height+cellSize *3 + "px");
+  d3.select("#calendarHeatmap").style("height", height + cellSize * 3 + "px");
   // Compute a color scale. This assumes a diverging color scheme where the pivot
   // is zero, and we want symmetric difference around zero.
   const max = d3.quantile(Y, 0.9975, Math.abs);
@@ -62,14 +62,14 @@ export function CalendarComponent(
     // console.log("相当于X值：", w);
 
     return `${d === 0
-        ? // 周一到了，从0开始，y= 0，x=已经过了几周
-        `M0,${w * cellSize}`
-        : d === weekDays
-          ? // 到了一周的最后一天（7），则从下一周的0开始
-          `M0,${(w + 1) * cellSize}`
-          : // +1 是因为要画在底部
-          `M${paddingBetweenCells * 0.5},${(w + 1) * cellSize}H${d * cellSize
-          }V${w * cellSize}`
+      ? // 周一到了，从0开始，y= 0，x=已经过了几周
+      `M0,${w * cellSize}`
+      : d === weekDays
+        ? // 到了一周的最后一天（7），则从下一周的0开始
+        `M0,${(w + 1) * cellSize}`
+        : // +1 是因为要画在底部
+        `M${paddingBetweenCells * 0.5},${(w + 1) * cellSize}H${d * cellSize
+        }V${w * cellSize}`
       }H${weekDays * cellSize - paddingBetweenCells * 0.5}`;
   }
 
@@ -146,7 +146,7 @@ export function CalendarComponent(
       `translate(${-paddingBetweenCells * 0.5 + pathStrokeWidth / 2},${-paddingBetweenCells * 0.5
       })`
     );
-    month
+  month
     .append("text")
     .attr('class', 'calendar-month-label')
     .attr("x", 0)
@@ -154,7 +154,7 @@ export function CalendarComponent(
       "y",
       (d) => timeWeek.count(d3.utcYear(d), timeWeek.ceil(d)) * cellSize + 2
     )
-   
+
     .text(formatMonth)
   const photoData = [
     { date: "2023-02-24", name: "Cupid", artist: "FIFTY FIFTY" },
@@ -172,16 +172,26 @@ export function CalendarComponent(
     },
     { date: "2023-12-08", name: "FTCU", artist: "Nicki Minaj" },
   ];
-
-  const photoContainer = d3
+  {/* 
+  <div class="photo-card">
+  <div class="image-container">
+    <img src=" 
+     </div>
+  <div class="text-container">
+    <h1>"Cupid"</h1>
+    <p>FIFTY FIFTY</p>
+    <hr>
+    <p>FEBRUARY 24</p>
+  </div>
+</div> */}
+  const photoCard = d3
     .select("#rotatingPhotos")
-    .selectAll(".photo-frame")
+    .selectAll(".photo-card")
     .data(photoData)
     .enter()
     .append("div")
     .style("width", cellSize * 3 + "px")
     .style("height", cellSize * 3 + "px")
-    .attr("class", "photo-frame")
     .style("top", ({ date, name }) => {
       const d = new Date(date);
       let value =
@@ -192,12 +202,23 @@ export function CalendarComponent(
 
       return value + "px";
     })
+ 
+    // photo
+  photoCard.append("div").attr('class', 'image-container')
+    .append('img')
+    .attr("src", "./assets/cupid.png")
+    .attr("alt", "Photo")
     .style("transform", function () {
       // Generate a random rotation angle between -20 and 20 degrees for each photo frame
       const angle = Math.floor(Math.random() * 41) - 20;
       return `rotate(${angle}deg)`;
-    });
-
+    }); 
+    // text next to photo
+  photoCard.append("div").attr('class', 'text-container').html(`iv class="text-container">
+    <h1>"Cupid"</h1>
+    <p>FIFTY FIFTY</p>
+    <hr>
+    <p>FEBRUARY 24</p>`)
   // photoContainer
   //   .append("img")
   //   .attr("src", "./assets/cupid.png") // Replace with the actual path to your images

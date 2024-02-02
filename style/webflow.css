@@ -492,8 +492,6 @@ body {
   gap: 32px;
 }
 
-
-
 #viz_2_3 .country-row {
   display: flex;
   padding: 12px 24px 12px 20px;
@@ -652,89 +650,47 @@ body {
   margin-top: 3%;
   position: relative;
 }
-
-#viz_2_6 .photo-frame {
-  position: absolute;
-  /* transform: rotate(-10deg); */
-  /* Rotate the frame to the left */
-  overflow: hidden;
-  /* Ensure the contents don't spill out */
-  border: 10px solid white;
-  /* Give it a border to look like a frame */
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
-  /* Optional: Add some shadow for effect */
+#viz_2_6 .photo-card {
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  background-color: white;
-  /* In case the image is transparent */
-  margin-bottom: 16px;
+  position:absolute
 }
 
-#viz_2_6 .photo-frame img {
-  width: 100%;
-  /* Make the image fill the frame */
+#viz_2_6 .image-container {
+ 
+  border: 40px solid white; /*  Adjust the thickness of the stroke as needed */
+  margin-right: 50px; /* Adjust the space between the image and text */
+  border-radius:20px
+}
+
+.image-container img {
+  display: block; /* This removes any extra space beneath the image */
+  width: 100px; /* Adjust based on your actual image size */
   height: auto;
-  /* Keep the image aspect ratio */
+  border-radius: 10px
 }
 
-#viz_2_6 .photo-frame img:hover {
-  border-radius: 2.2px;
-  background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.8) 0%,
-      rgba(255, 255, 255, 0.8) 100%
-    ),
-    url(../../assets/cupid.png), lightgray 50% / cover no-repeat;
 
-  filter: blur(6px);
+
+.text-container h1 {
+  margin: 0;
+  font-size: 2em; /* Adjust font-size as needed */
 }
 
-#viz_2_6 .photo-hover {
-  position: absolute;
-  display: inline-flex;
-  padding: 8.8px;
-  align-items: center;
-  justify-content: space-around;
-
-  gap: 2.475px;
+.text-container p {
+  margin: 0;
+  font-size: 1.5em; /* Adjust font-size as needed */
 }
 
-#viz_2_6 .photo-hover .track-name {
-  color: var(--text-primary, #1c1c1c);
-  text-align: center;
-
-  /* Desktop/Label/XS/bold */
-  font-family: Inter;
-  font-size: 10px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
+.text-container hr {
+  border: none;
+  height: 2px; /* Adjust the thickness of the line */
+  background-color: black; /* Adjust color as needed */
+  margin: 10px 0; /* Adjust spacing around the line */
 }
 
-#viz_2_6 .photo-hover .artist-name {
-  color: var(--text-primary, #1c1c1c);
-  text-align: center;
 
-  /* Desktop/Label/XS/regular */
-  font-family: Inter;
-  font-size: 10px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-}
-
-#viz_2_6 .photo-hover .date {
-  color: var(--text-primary, #1c1c1c);
-  text-align: center;
-  font-family: Inter;
-  font-size: 10px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-}
 
 #viz_2_6 .month-text-2-6 {
   font-size: 14px;
@@ -957,37 +913,15 @@ Bar
 /* * * * * * * * * * * * * * * 
 / Viz 2_10
 * * * * * * * * * * * * * * * */
-@media only screen and (min-width: 760px) {
-  #viz_2_10 {
-    font-family: "Inter", sans-serif;
-    display: flex;
-    gap: 52px;
-    height: 600px;
-  }
-
-  #viz_2_10 #radioTopTracksMap_worldMap {
-    flex: 2;
-    height: 100%;
-    position: relative;
-  }
-
-  #viz_2_10 #radioTopTracksMap_path:hover {
-    cursor: pointer;
-    fill: #46706f;
-  }
-
-  #viz_2_10 svg {
-    width: 100%;
-    height: 100%;
-  }
-}
 
 #viz_2_10 {
   font-family: "Inter", sans-serif;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 52px;
-  height: 600px;
+  /* ! responsive h please */
+  height: 1600px;
+  position: relative;
 }
 
 #viz_2_10 path:hover {
@@ -1046,6 +980,12 @@ Bar
   /* Adjust as needed */
 }
 
+/* Map */
+
+#viz_2_10 #radioTopTracksMap_worldMap {
+  flex: 2;
+  
+}
 /* Map tooltip */
 #viz_2_10 .map-tooltip {
   position: absolute;
@@ -1205,4 +1145,25 @@ Bar
 
 #viz_2_10 .noData_Map {
   pointer-events: none;
+}
+@media (min-width: 760px) {
+  #viz_2_10 {
+    flex-direction: row;
+  }
+
+  #viz_2_10 #radioTopTracksMap_worldMap {
+    flex: 2;
+    height: 100%;
+    position: relative;
+  }
+
+  #viz_2_10 #radioTopTracksMap_path:hover {
+    cursor: pointer;
+    fill: #46706f;
+  }
+
+  #viz_2_10 svg {
+    width: 100%;
+    height: 100%;
+  }
 }

@@ -95,3 +95,26 @@ export function setupResponsiveDimensions(elementId, margins, onResizeCallback, 
   debouncedOnResize();
 }
 
+// Make the Canvas element DPi
+export function setPixelDensity(canvas, width, height) {
+
+  // Get the device pixel ratio.
+  let pixelRatio = window.devicePixelRatio;
+
+  // Set our canvas size equal to that of the screen size x the pixel ratio.
+  canvas.width = width * pixelRatio;
+  canvas.height = height * pixelRatio;
+
+  // Shrink back down the canvas CSS size by the pixel ratio, thereby 'compressing' the pixels.
+  canvas.style.width = (canvas.width / pixelRatio) + 'px';
+  canvas.style.height = (canvas.height / pixelRatio) + 'px';
+  
+  // Fetch the context.
+  let context = canvas.getContext('2d');
+
+  // Scale all canvas operations by the pixelRatio, so you don't have to calculate these manually.
+  context.scale(pixelRatio, pixelRatio);
+
+  // Return the modified context.
+  return context;
+} 
