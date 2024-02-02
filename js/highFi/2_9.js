@@ -36,22 +36,24 @@ export function gradientBar(
     .append("div")
     .attr("id", "topArtistsBankingBars_barChart");
 
-  // Select the top 10 rows using d3.slice
-
-  const globalTop10 = data.slice(0, 10);
-
-  /***********************
-   *4. Create scales
-   ************************/
-  const widthScale = d3
-    .scaleLinear()
-    .domain([0, d3.max(globalTop10, (d) => d[widthKey])])
-    .range([350, width]);
 
   /***********************
    *5. Draw canvas
    ************************/
   function drawElements(top10) {
+
+    // Select the top 10 rows using d3.slice
+
+    const globalTop10 = top10.slice(0, 10);
+
+    /***********************
+     *4. Create scales
+     ************************/
+    const widthScale = d3
+      .scaleLinear()
+      .domain([0, d3.max(globalTop10, (d) => d[widthKey])])
+      .range([350, width]);
+
     // Bind the data to the elements with a key function for object constancy
     const barContainers = wrapper.selectAll("div.bar").data(top10, (d) => {
       return trimNames(d.ARTIST_NAME + d.COUNTRY_NAME);
@@ -64,12 +66,12 @@ export function gradientBar(
           .append("div")
           .attr("class", "gradient-bar bar")
           .html(
-            (d,i) => `
+            (d, i) => `
             <img style="width:${height / 18}px; height:${height / 18}px" 
             id=${d.ARTIST_NAME}
                  src="${d[imageKey]}"
                  alt="${d.Group}" class="artist-image">
-            <span class="artist-name" id=${d.ARTIST_NAME}>${i}. ${d.ARTIST_NAME
+            <span class="artist-name" id=${d.ARTIST_NAME}>${i + 1}. ${d.ARTIST_NAME
               }</span>
           `
           )
@@ -100,7 +102,7 @@ export function gradientBar(
     );
     d3.selectAll(".gradient-bar.bar")
       .on("mouseenter", function (event, d) {
-        
+
         let hoveredArtistGenres = d.ARTIST_GENRE;
         d3.select(this).append("div").attr("class", "tooltip").html(`
         <div class="career-stack">
