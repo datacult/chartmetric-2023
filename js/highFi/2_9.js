@@ -103,7 +103,6 @@ export function gradientBar(
         
         let hoveredArtistGenres = d.ARTIST_GENRE;
         d3.select(this).append("div").attr("class", "tooltip").html(`
-        <div class="flag"> </div>
         <div class="career-stack">
         ${d["ARTIST_STAGE"] == "Null"
             ? ""
