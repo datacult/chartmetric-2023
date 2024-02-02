@@ -64,12 +64,12 @@ export function gradientBar(
           .append("div")
           .attr("class", "gradient-bar bar")
           .html(
-            (d) => `
+            (d,i) => `
             <img style="width:${height / 18}px; height:${height / 18}px" 
             id=${d.ARTIST_NAME}
                  src="${d[imageKey]}"
                  alt="${d.Group}" class="artist-image">
-            <span class="artist-name" id=${d.ARTIST_NAME}>${d.ARTIST_NAME
+            <span class="artist-name" id=${d.ARTIST_NAME}>${i}. ${d.ARTIST_NAME
               }</span>
           `
           )
