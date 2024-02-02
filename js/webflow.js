@@ -15,7 +15,7 @@ import { BumpChart } from "./highFi/2_8.js";
 import { gradientBar } from "./highFi/2_9.js";
 import { gradientBarMapComponent } from "./lowFi/2_10_gradientBar.js";
 import { scatter } from './scatter.js';
-// import { SingleValues } from "./highFi/single_values.js";
+import { SingleValues } from "./highFi/single_values.js";
 (async () => {
     // hold data and vizualization instance in one object
     // all update functions should take the data as the first argument
