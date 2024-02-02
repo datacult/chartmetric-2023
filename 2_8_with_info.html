@@ -37,15 +37,25 @@ https://studio.datacult.com/ -->
         console.log(data)
 
         let mapping = {
-            x: 'SCORE_MONTH',
+            x: 'MONTH_LABEL',
             y: 'MONTHLY_ARTIST_RANK',
-            group: 'NAME'
+            group: 'NAME',
+            sort: 'MONTH_LABEL',
+            title: 'NAME',
+            location:'ARTIST_HOME_COUNTRY',
+            type: 'ARTIST_TYPE',
+            artist_image: 'IMAGE_URL',
+            pronouns: 'PRONOUN',
+            rank:'PEAK_CM_RANK',
+            rank_start: 'START_RANK',
+            rank_end: 'END_RANK'
         }
 
         let options = {
             selector: '#viz_2_8',
             fill: "#1781F7",
             stroke: "black",
+            focus: "Drake"
         }
 
         let bump = viz_2_8(data, mapping, options)

@@ -12,6 +12,7 @@ export function viz_2_8(data, map, options) {
         x: "x",
         y: "y",
         group: "group",
+        sort: null
     };
 
     // merge default mapping with user mapping
@@ -46,10 +47,6 @@ export function viz_2_8(data, map, options) {
         .attr('id', 'artist_info_container')
         .classed('info_container', true);
 
-    let artist_info = options.focus != null ? data.filter(d => d[map.group] == options.focus) : [];
-
-    let info = artistinfo(artist_info, map, { selector: '#artist_info_container' });
-
     ////////////////////////////////////////
     ////////////// SVG Setup ///////////////
     ////////////////////////////////////////
@@ -80,10 +77,12 @@ export function viz_2_8(data, map, options) {
 
     // Populate artistsInfo with artist names as keys and their IDs as values
     data.forEach(item => {
-        if (!artistsInfo[item.NAME]) {
-            artistsInfo[item.NAME] = item;
+        if (!artistsInfo[item[map.group]]) {
+            artistsInfo[item[map.group]] = item;
         }
     });
+
+    let info = artistinfo(options.focus != null ? [artistsInfo[options.focus]] : [], map, { selector: '#artist_info_container' });
 
     // Function to find an entry for a specific month and artist
     function findEntry(x, group) {
@@ -91,7 +90,7 @@ export function viz_2_8(data, map, options) {
     }
 
     // Fill in missing entries
-    const filledData = [...data]; // Clone the original data
+    let filledData = [...data]; // Clone the original data
     uniqueMonths.forEach(month => {
         Object.keys(artistsInfo).forEach(artist => {
             const entryExists = findEntry(month, artist);
@@ -106,7 +105,7 @@ export function viz_2_8(data, map, options) {
         });
     });
 
-    filledData.sort((a, b) => a[map.x] - b[map.x]);
+    if (map.sort != null) filledData = filledData.sort((a, b) => a[map.sort] - b[map.sort]);
 
     let nestedData = d3.groups(filledData, d => d[map.group])
         .map(group => ({ name: group[0], values: group[1] }));
@@ -124,8 +123,8 @@ export function viz_2_8(data, map, options) {
     ////////////////////////////////////////
 
     const xScale = d3
-        .scaleLinear()
-        .domain(d3.extent(data, (d) => d[map.x]))
+        .scalePoint()
+        .domain(data.map(d => d[map.x]))
         .range([0, width]);
 
     const yScale = d3
@@ -154,7 +153,7 @@ export function viz_2_8(data, map, options) {
         .attr("fill", options.fill)
         .attr("opacity", options.opacity)
         .on("click", function (event, d) {
-            info.update(artistsInfo[d.name]);
+            info.update([artistsInfo[d.name]]);
             labels.attr("font-weight", x => d.name == x[map.group] ? "bold" : "normal");
             paths.attr("opacity", x => d.name == x.name ? 1 : options.opacity);
         });
@@ -168,7 +167,7 @@ export function viz_2_8(data, map, options) {
         .attr("y", (d) => yScale(d[map.y] - 0.5))
         .text((d) => d[map.group])
         .on("click", function (event, d) {
-            info.update(artistsInfo[d[map.group]]);
+            info.update([artistsInfo[d[map.group]]]);
             paths.attr("opacity", x => d[map.group] == x.name ? 1 : options.opacity);
             labels.attr("font-weight", x => d[map.group] == x[map.group] ? "bold" : "normal");
         });
@@ -196,6 +195,8 @@ export function viz_2_8(data, map, options) {
         info.update(newData.filter(d => d[map.group] == focus));
 
     }
+
+    update(data, options.focus)
 
     return {
         update: update,
