@@ -58,7 +58,7 @@ export function drawSingleValues(triggerElementId) {
     },
   ];
   const chartId = "dailyIngestionFunFactBubbles_Chart";
-  const chartContainerId = "dailyIngestionFunFactBubbles_ChartContainer";
+  const chartContainerId = triggerElementId;
   let subgroupRadius = 2;
   let padding = 2.2;
 
