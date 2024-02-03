@@ -2,9 +2,6 @@
 Released under the ISC license.
 https://studio.datacult.com/  */
 
-body {
-  font-family: Helvetica, Arial, Sans-Serif;
-}
 
 .viz {
   width: 100%;
@@ -656,12 +653,9 @@ body {
   position: relative;
 }
 
-body {
-  background-color: grey 
- }
  #photo-card {
    display: flex;
-   align-items： center;
+   align-items: center;
    justify-content: center;
    height:100px;
    
