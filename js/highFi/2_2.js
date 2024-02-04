@@ -20,7 +20,7 @@ export function Treemap(data, selector, options) {
   /***********************
    *2. Create chart dimensions
    ************************/
-  const initialDimensions = chartDimensions(
+  let initialDimensions = chartDimensions(
     selector,
     {
       top: 0,
@@ -71,10 +71,13 @@ export function Treemap(data, selector, options) {
     chartContainerId,
     { top: 0, right: 0, bottom: 0, left: 0 },
     (updatedDimensions) => {
-      console.log(data);
+      
       // if there is elements, meaning charts already exist
       if (!d3.select("#" + chartContainerId).empty()) {
         update(data, options,updatedDimensions);
+        // without the line below, the initialDimensions will not be updated
+        // consequently, when clicking to filter the chartdata, update fn is called with the initialDimensions instead of the updatedDimensions
+         initialDimensions = updatedDimensions;
       }
     }
   );
