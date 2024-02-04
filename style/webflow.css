@@ -135,6 +135,8 @@ https://studio.datacult.com/  */
 * * * * * * * * * * * * * * * */
 
 #viz_1_5 {
+  width: 100%;
+  height: 400px;
   padding: 96px 64px 64px 64px;
 
   display: flex;
@@ -362,6 +364,7 @@ https://studio.datacult.com/  */
   font-size: 15px;
   /* white-space: pre-line; */
 }
+
 
 /* * * * * * * * * * * * * * * 
 / Viz 2_1
