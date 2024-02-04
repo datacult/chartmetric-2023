@@ -756,7 +756,7 @@ Bar
 */
 #viz_2_9 #topArtistsBankingBars_barChart {
   flex: 3;
-
+  overflow:hidden;
   height: 100%;
   display: flex;
 

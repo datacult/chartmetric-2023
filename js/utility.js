@@ -60,43 +60,42 @@ export function setupResponsiveDimensions(elementId, margins, onResizeCallback, 
 
   const element = document.getElementById(elementId);
   if (!element) {
-      console.error(`Element with id '${elementId}' not found.`);
-      return;
+    console.error(`Element with id '${elementId}' not found.`);
+    return;
   }
 
   function debounce(func, wait) {
-      let timeout;
-      return function executedFunction(...args) {
-          clearTimeout(timeout);
-          timeout = setTimeout(() => {
-              func(...args);
-          }, wait);
-      };
+    let timeout;
+    return function executedFunction(...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        func(...args);
+      }, wait);
+    };
   }
 
   function computeDimensions() {
-      const rect = element.getBoundingClientRect();
-      return {
-          width: rect.width - effectiveMargins.left - effectiveMargins.right,
-          height: rect.height - effectiveMargins.top - effectiveMargins.bottom,
-          margins: effectiveMargins
-      };
+    const rect = element.getBoundingClientRect();
+    return {
+      width: rect.width,
+      height: rect.height,
+      boundedWidth: rect.width - effectiveMargins.left - effectiveMargins.right,
+      boundedHeight: rect.height - effectiveMargins.top - effectiveMargins.bottom,
+      margins: effectiveMargins
+    };
   }
 
   const debouncedOnResize = debounce(() => {
-      const dimensions = computeDimensions();
-      onResizeCallback(dimensions);
+    const dimensions = computeDimensions();
+    onResizeCallback(dimensions);
   }, debounceTime);
 
   const resizeObserver = new ResizeObserver(debouncedOnResize);
   resizeObserver.observe(element);
-
-  
 }
 
 // Make the Canvas element DPi
 export function setPixelDensity(canvas, width, height) {
-
   // Get the device pixel ratio.
   let pixelRatio = window.devicePixelRatio;
 
@@ -107,7 +106,7 @@ export function setPixelDensity(canvas, width, height) {
   // Shrink back down the canvas CSS size by the pixel ratio, thereby 'compressing' the pixels.
   canvas.style.width = (canvas.width / pixelRatio) + 'px';
   canvas.style.height = (canvas.height / pixelRatio) + 'px';
-  
+
   // Fetch the context.
   let context = canvas.getContext('2d');
 

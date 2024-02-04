@@ -11,6 +11,7 @@ function formatAlbumDate(str) {
 import { CalendarComponent } from "../../components/CalendarComponent.js";
 import { chartDimensions, setupResponsiveDimensions } from "../utility.js";
 export function Calendar(data, selector, chartContainerId = "calendarHeatmap") {
+ 
   d3.select("#" + selector)
     .append("div")
     .attr("id", "calendarHeatmap");
@@ -131,7 +132,7 @@ export function Calendar(data, selector, chartContainerId = "calendarHeatmap") {
 
   update(dataset, dimensions);
 
-  console.log(dimensions);
+
   setupResponsiveDimensions(
     chartContainerId,
     { top: 10, right: 20, bottom: 10, left: 60 },

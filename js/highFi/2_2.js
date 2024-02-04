@@ -1,17 +1,17 @@
 "use strict";
 
 import { TreemapComponent } from "../../components/Treemap.js";
-import { setupResizeListener, chartDimensions } from "../utility.js";
+import { setupResponsiveDimensions, chartDimensions } from "../utility.js";
 
 export function Treemap(data, selector, options) {
-  console.log(data)
+  let chartContainerId = "gentreTreemap_chart";
   // let selector = "viz_2_2";
   d3.select("#" + selector)
     .select("svg")
     .remove();
   d3.select("#" + selector)
     .append("div")
-    .attr("id", "gentreTreemap_chart");
+    .attr("id", chartContainerId);
   /***********************
    *1. Access data
    ************************/
@@ -20,9 +20,7 @@ export function Treemap(data, selector, options) {
   /***********************
    *2. Create chart dimensions
    ************************/
-
-  const { boundedWidth, boundedHeight } = chartDimensions(selector);
-  const { boundedWidth: width, boundedHeight: height } = chartDimensions(
+  const initialDimensions = chartDimensions(
     selector,
     {
       top: 0,
@@ -35,11 +33,12 @@ export function Treemap(data, selector, options) {
   /***********************
    *3. Set up canvas
    ************************/
-  const visElement = d3.select("#" + selector);
+  // const visElement = d3.select("#" + selector);
 
   // .attr("viewBox", `0 0 ${width*0.98} ${height*0.98}`)
   // .attr("preserveAspectRatio", "xMidYMid meet");
-  function update(data, options) {
+  function update(data, options,dimensions=initialDimensions) {
+    const { boundedWidth: width, boundedHeight: height } = dimensions;
     const { genreType, timeframe } = options;
     data = data
       .filter((d) => d.TITLE == genreType)
@@ -67,7 +66,18 @@ export function Treemap(data, selector, options) {
       height: height,
     });
   }
-  update(data, options);
+  update(data, options,initialDimensions);
+  setupResponsiveDimensions(
+    chartContainerId,
+    { top: 0, right: 0, bottom: 0, left: 0 },
+    (updatedDimensions) => {
+      console.log(data);
+      // if there is elements, meaning charts already exist
+      if (!d3.select("#" + chartContainerId).empty()) {
+        update(data, options,updatedDimensions);
+      }
+    }
+  );
   return {
     update,
   };
