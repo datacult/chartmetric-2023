@@ -28,7 +28,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             },
             params: [],
             update: function (param) {
-                if (param) {
+                if (param !== undefined && param !== null) {
                     this.viz.update(null, param);
                 } else {
                     this.viz.update(this.data);
@@ -43,7 +43,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             },
             params: [],
             update: function (param) {
-                if (param) {
+                if (param !== undefined && param !== null) {
                     this.viz.update(null, param);
                 } else {
                     this.viz.update(this.data);
@@ -58,7 +58,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             },
             params: ["Gained in 2023", "All Time"],
             update: function (param) {
-                if (param) {
+                if (param !== undefined && param !== null) {
                     this.viz.update(null, param);
                 } else {
                     this.viz.update(this.data);
@@ -83,7 +83,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             },
             params: ["COUNTRY_NAME", "GENDER"],
             update: function (param) {
-                if (param) {
+                if (param !== undefined && param !== null) {
                     this.mapping.group = param;
                     this.viz.update(null, this.mapping);
                 } else {
@@ -122,7 +122,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             },
             params: [],
             update: function (param) {
-                if (param) {
+                if (param !== undefined && param !== null) {
                     this.viz.update(null, param);
                 } else {
                     this.viz.update(this.data);
@@ -169,7 +169,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             },
             params: [],
             update: function (param) {
-                if (param) {
+                if (param !== undefined && param !== null) {
                     this.viz.update(null, param);
                 } else {
                     this.viz.update(this.data);
@@ -191,7 +191,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             },
             params: ['start'],
             update: function (param) {
-                if (param) {
+                if (param !== undefined && param !== null) {
                     this.viz.update();
                 } else {
                     this.viz.update(this.data);
@@ -213,7 +213,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             },
             params: ["Drake"],
             update: function (param) {
-                if (param) {
+                if (param !== undefined && param !== null) {
                     this.viz.update(null, param);
                 } else {
                     this.viz.update(this.data);
@@ -228,7 +228,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             },
             params: [],
             update: function (param) {
-                if (param) {
+                if (param !== undefined && param !== null) {
                     this.viz.update(null, param);
                 } else {
                     this.viz.update(this.data);
@@ -243,7 +243,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             },
             params: [],
             update: function (param) {
-                if (param) {
+                if (param !== undefined && param !== null) {
                     this.viz.update(null, param);
                 } else {
                     this.viz.update(this.data);
@@ -269,11 +269,10 @@ import { drawSingleValues } from "./highFi/single_values.js";
             },
             params: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
             update: function (param) {
-                if (param) {
+                if (param !== undefined && param !== null) {
                     this.options.focus = [param]
                     if (param === 12) this.options.focus = [2, 3, 5, 6, 9, 10, 11]
                     if (param === 0) this.options.focus = []
-                    console.log("update", this.options.focus, param)
                     this.viz.update(null, null, this.options);
                 } else {
                     this.viz.update(this.data);
@@ -301,7 +300,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             },
             params: ["track", "artist"],
             update: function (param) {
-                if (param) {
+                if (param !== undefined && param !== null) {
                     this.mapping.filter.TYPE = param;
                     this.viz.update(null, this.mapping);
                 } else {
@@ -327,7 +326,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             },
             params: ["COUNTRY", "GENRE"],
             update: function (param) {
-                if (param) {
+                if (param !== undefined && param !== null) {
                     this.mapping.group = param;
                     this.viz.update(null, this.mapping);
                 } else {
@@ -342,7 +341,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
                 selector: "viz_2_19",
             },
             update: function (param) {
-                if (param) {
+                if (param !== undefined && param !== null) {
                     this.viz.update(null, param);
                 } else {
                     this.viz.update(this.data);
@@ -579,7 +578,6 @@ import { drawSingleValues } from "./highFi/single_values.js";
                     visuals.hasOwnProperty(viz_id) &&
                     visuals[viz_id].params.length > param_index
                 ) {
-                    console.log(visuals[viz_id].params[param_index])
                     visuals[viz_id].update(visuals[viz_id].params[param_index]);
                 } else {
                     console.log("error, params not found", viz_id, param_index);
