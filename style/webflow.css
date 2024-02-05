@@ -952,7 +952,7 @@ Bar
   font-family: "Inter", sans-serif;
   display: flex;
   flex-direction: column;
-  gap: 52px;
+  gap: 16px;
   /* ! responsive h please */
   height: 1600px;
   position: relative;
@@ -973,7 +973,7 @@ Bar
   display: flex;
   align-items: center;
   padding: 10px;
-  height: 10%;
+  /* height: 10%; */
   /* background-image: linear-gradient(to right,
   #f5f5f5 0%,
   #f5f5f5 40%,
@@ -996,6 +996,8 @@ Bar
   border-radius: 50%;
   /* This will make it a circle */
   margin: 6.3px;
+  width: 50px;
+  height: 50px !important;
 }
 
 #viz_2_10 .artist-name {
@@ -1040,7 +1042,7 @@ Bar
 #viz_2_10 .flag {
   width: 24.61px;
   height: 27.471px;
-  background-image: url("../assets/us-flag.png");
+  /* background-image: url("../assets/us-flag.png"); */
   background-size: cover;
   /* or contain, depending on your needs */
   background-repeat: no-repeat;
@@ -1094,19 +1096,6 @@ Bar
   font-style: normal;
   font-weight: 900;
   line-height: normal;
-}
-
-#viz_2_10 .flag {
-  width: 24.61px;
-  height: 27.471px;
-  background-image: url("../../assets/us-flag.png");
-  background-size: cover;
-  /* or contain, depending on your needs */
-  background-repeat: no-repeat;
-  background-position: center;
-
-  background-blend-mode: hue, difference, normal;
-  border: none;
 }
 
 #viz_2_10 .card-stack {
