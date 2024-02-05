@@ -104,10 +104,10 @@ export function scatter(data, map, options, svg) {
     .attr("id", "blur")
     .attr("x", "-50%")
     .attr("y", "-50%")
-    .attr("height", "500%")
-    .attr("width", "500%")
+    .attr("height", "300%")
+    .attr("width", "300%")
   filter.append("feGaussianBlur")
-    .attr("stdDeviation", "15")
+    .attr("stdDeviation", "10")
     .attr("result", "coloredBlur");
 
   // add color gradients
