@@ -273,7 +273,6 @@ import { drawSingleValues } from "./highFi/single_values.js";
                     this.options.focus = [param]
                     if (param == 12) this.options.focus = [2, 3, 5, 6, 9, 10, 11]
                     if (param == 0) this.options.focus = []
-                    console.log(this.options.focus)
                     this.viz.update(null, null, this.options);
                 } else {
                     this.viz.update(this.data);
