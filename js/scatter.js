@@ -18,6 +18,7 @@ export function scatter(data, map, options, svg) {
     fill: null,
     stroke: null,
     focus: null,
+    sort: null,
   }
 
   // merge default mapping with user mapping
@@ -35,11 +36,30 @@ export function scatter(data, map, options, svg) {
     stroke: "#000",
     label_offset: 30,
     text: "white",
-    focus: []
+    focus: [],
+    sort: [],
+    direction: 1,
   }
 
   // merge default options with user options
   options = { ...defaults, ...options };
+
+  ////////////////////////////////////////
+  //////////// Data Sorting //////////////
+  ////////////////////////////////////////
+
+  if (map.sort != null) {
+    if (options.direction > 0) {
+      data = data.sort((a, b) => a[map.sort] < b[map.sort] ? 1 : -1);
+    } else {
+      data = data.sort((a, b) => a[map.sort] > b[map.sort] ? 1 : -1);
+    }
+
+    if (options.sort.length > 0) {
+      data = data.sort((a, b) => options.sort.indexOf(a[map.sort]) - options.sort.indexOf(b[map.sort]));
+    }
+
+  }
 
   ////////////////////////////////////////
   //////////// Data Wrangling ////////////
@@ -199,15 +219,12 @@ export function scatter(data, map, options, svg) {
     map = { ...map, ...newMap };
     options = { ...options, ...newOptions };
 
-    //hard code fix for 'other' option
-    if (options.focus.indexOf(12) > -1) options.focus = [0, 2, 3, 5, 6, 9, 10, 11]
-
     if (newData != null) data = newData
 
     const t = d3.transition().duration(options.transition).ease(d3.easeLinear)
 
     circle_group
-      .each(function(d){
+      .each(function (d) {
         if (options.focus.indexOf(d[map.focus]) > -1) {
           var el = d3.select(this);
           el.raise();

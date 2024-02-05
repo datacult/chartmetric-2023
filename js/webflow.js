@@ -256,7 +256,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "#viz_2_11",
                 stroke: "white",
-                width: 1200
+                width: 1000
             },
             mapping: {
                 x: "ORDERING",
@@ -264,12 +264,15 @@ import { drawSingleValues } from "./highFi/single_values.js";
                 size: "ARTIST_COUNT",
                 label: "GENRE_NAME",
                 fill: "GENRE_NAME",
+                sort: "ARTIST_COUNT",
                 focus: "ORDERING"
             },
             params: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
             update: function (param) {
                 if (param) {
                     this.options.focus = [param]
+                    if (param == 12) this.options.focus = [2, 3, 5, 6, 9, 10, 11]
+                    if (param == 0) this.options.focus = []
                     this.viz.update(null, null, this.options);
                 } else {
                     this.viz.update(this.data);

@@ -38,20 +38,21 @@ https://studio.datacult.com/ -->
         size: "ARTIST_COUNT",
         label: "GENRE_NAME",
         fill: "GENRE_NAME",
-        focus: "ORDERING"
+        focus: "ORDERING",
+        sort: "ARTIST_COUNT"
     }
 
         let options = {
             selector: "#vis",
             stroke: "white",
-            width: 1200
+            width: 1000
         }
 
     // scrolltrigger to be added
     let vis = scatter(data, mapping, options);
 
     setTimeout(() => {
-        options.focus = [6]
+        options.focus = [9,10]
         return vis.update(null, null, options)
     }, 3000)
 </script>
