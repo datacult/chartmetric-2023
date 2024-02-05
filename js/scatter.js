@@ -223,8 +223,6 @@ export function scatter(data, map, options, svg) {
 
     const t = d3.transition().duration(options.transition).ease(d3.easeLinear)
 
-    console.log("focus: ", options.focus)
-
     circle_group
       .each(function (d) {
         if (options.focus.indexOf(d[map.focus]) > -1) {
