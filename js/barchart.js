@@ -15,7 +15,6 @@ export function barchart(data, map, options, svg) {
     fill: null,
     stroke: null,
     sort: null,
-    direction: 1,
   }
 
   // merge default mapping with user mapping
@@ -33,6 +32,8 @@ export function barchart(data, map, options, svg) {
     stroke: "#000",
     label_offset: 30,
     focus: null,
+    sort:[],
+    direction: 1,
   }
 
   // merge default options with user options
@@ -43,14 +44,14 @@ export function barchart(data, map, options, svg) {
   ////////////////////////////////////////
 
   if (map.sort != null) {
-    if (map.direction > 0) {
+    if (options.direction > 0) {
       data = data.sort((a, b) => a[map.sort] < b[map.sort] ? 1 : -1);
     } else {
       data = data.sort((a, b) => a[map.sort] > b[map.sort] ? 1 : -1);
     }
 
-    if (options.sort != null) {
-      targets = targets.sort((a, b) => options.sort.indexOf(a[map.sort]) - options.sort.indexOf(b[map.sort]));
+    if (options.sort.length > 0) {
+      data = data.sort((a, b) => options.sort.indexOf(a[map.sort]) - options.sort.indexOf(b[map.sort]));
     }
 
   }
