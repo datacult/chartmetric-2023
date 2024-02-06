@@ -215,10 +215,10 @@ import { drawSingleValues } from "./highFi/single_values.js";
                 sort: 'SCORE_MONTH',
                 title: 'NAME',
                 location:'ARTIST_HOME_COUNTRY',
+                flag:"COUNTRY_CODE",
                 type: 'ARTIST_TYPE',
                 artist_image: 'IMAGE_URL',
                 pronouns: 'PRONOUN',
-                rank:'PEAK_CM_RANK',
                 rank_start: 'START_RANK',
                 rank_end: 'END_RANK'
             },

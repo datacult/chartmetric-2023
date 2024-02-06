@@ -11,8 +11,8 @@ export function artistinfo(data, map, options) {
   let mapping = {
     title: 'title',
     location: 'location',
+    flag: 'flag',
     pronouns: 'pronouns',
-    rank: 'rank',
     type: 'type',
     rank_start: 'rank_start',
     rank_end: 'rank_end',
@@ -60,9 +60,6 @@ export function artistinfo(data, map, options) {
   const pronouns_div = text_container.append('div')
     .classed('pronouns', true);
 
-  const rank_div = text_container.append('div')
-    .classed('rank', true);
-
   const rank_history_div = text_container.append('div')
     .classed('rank_history', true);
 
@@ -83,11 +80,19 @@ export function artistinfo(data, map, options) {
     .join('h3')
     .text(d => d[map.title]);
 
-  const location = location_div
-    .selectAll('p')
+  const flag = location_div
+    .selectAll('.flag')
     .data(data)
-    .join('p')
-    .text(d => d[map.location]);
+    .join('span')
+    .text(d => "")
+    .classed('flag', true);
+
+  const country = location_div
+    .selectAll('.country')
+    .data(data)
+    .join('span')
+    .text(d => d[map.location])
+    .classed('country', true);
 
   const pronouns = pronouns_div
     .selectAll('p')
@@ -123,9 +128,18 @@ export function artistinfo(data, map, options) {
       .data(data)
       .text(d => d[map.title]);
 
-    location
+    d3.json('https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/index.json').then(flag_data => {
+
+      flag
+        .data(data)
+        .text(d => flag_data.find(x => x.code == d[map.flag]).emoji);
+
+    })
+
+
+    country
       .data(data)
-      .text(d => `:${d[map.location]}: ${d[map.location]}`);
+      .text(d => d[map.location]);
 
     pronouns
       .data(data)
