@@ -73,7 +73,7 @@ export function gradientBarMapComponent(dataset, selector) {
       )
       .on("click", async function (event, d) {
         d3.select("#radioTopTracksMap_worldMap_svg").selectAll("*").remove();
-        await drawMap(d.data.map((d) => d.NAME));
+        drawMap(d.data.map((d) => d.NAME));
       })
       .on("mouseenter", function (event, d) {
         d3.select(this).style("border", "1px solid black");

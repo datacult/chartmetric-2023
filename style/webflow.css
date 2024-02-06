@@ -1026,7 +1026,7 @@ Bar
   flex-direction: column;
   gap: 16px;
   /* ! responsive h please */
-  height: 1600px;
+  height: 100vh;
   position: relative;
 }
 
