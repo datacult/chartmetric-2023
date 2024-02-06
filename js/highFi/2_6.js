@@ -4,14 +4,14 @@
 // 当dimension变化时，更新calendarComponent和photoCard
 function formatAlbumDate(str) {
   let date = new Date(str);
-  let options = {month:"long",day: "numeric"};
+  let options = { month: "long", day: "numeric" };
   let formattedDate = date.toLocaleDateString("en-US", options);
   return formattedDate
 }
 import { CalendarComponent } from "../../components/CalendarComponent.js";
 import { chartDimensions, setupResponsiveDimensions } from "../utility.js";
 export function Calendar(data, selector, chartContainerId = "calendarHeatmap") {
- 
+
   d3.select("#" + selector)
     .append("div")
     .attr("id", "calendarHeatmap");
@@ -51,45 +51,41 @@ export function Calendar(data, selector, chartContainerId = "calendarHeatmap") {
 
     .attr("style", "max-width: 100%");
 
-  const photoData = [
-    { date: "2023-02-24", name: "Cupid", artist: "FIFTY FIFTY" },
-    {
-      date: "2023-03-17",
-      name: "Ella Baila Sola",
-      artist: "Eslabon Armado and Peso Pluma",
-    },
-    { date: "2023-05-18", name: "Padam Padam", artist: "Kylie Minogue" },
-    { date: "2023-07-28", name: "Back on 74", artist: "Jungle" },
-    {
-      date: "2023-09-13",
-      name: "Will Anybody Ever Love Me?",
-      artist: "Sufjan Stevens",
-    },
-    { date: "2023-12-08", name: "FTCU", artist: "Nicki Minaj" },
-  ];
-  // individual photo
-  const photoCard = d3
-    .select("#viz_2_6")
-    .append("div")
-    .attr("id", "rotatingPhotos")
-    .selectAll(".photo-card")
-    .data(photoData)
-    .join("div")
-    .attr("class", "photo-card")
+  let photoCard, imageContainer, textContainer;
 
-  const imageContainer = photoCard
-    .append("div")
-    .attr("class", "image-container")
-    .style("transform", function () {
-      let min = -25
-      let max = 25
-      // Generate a random rotation angle between -20 and 20 degrees for each photo frame
-      const angle = Math.floor(Math.random() * (max - min + 1)) + min;
-      return `rotate(${angle}deg)`;
-    })
-    .append("img");
+  d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_6_1_en.csv', d3.autoType).then(photoData => {
 
-  const textContainer = photoCard.append("div").attr("class", "text-container");
+  const rotateScale = d3.scaleLinear().domain([0, 100]).range([-15, 15]);
+
+    // individual photo
+    photoCard = d3
+      .select("#viz_2_6")
+      .append("div")
+      .attr("id", "rotatingPhotos")
+      .selectAll(".photo-card")
+      .data(photoData)
+      .join("div")
+      .attr("class", "photo-card")
+
+    imageContainer = photoCard
+      .append("div")
+      .attr("class", "image-container")
+      .style("transform", function () {
+        let min = -25
+        let max = 25
+        // Generate a random rotation angle between -20 and 20 degrees for each photo frame
+        const angle = Math.floor(Math.random() * (max - min + 1)) + min;
+        return `rotate(${angle}deg)`;
+      })
+      .on("mousemove", function (event, d) {
+        d3.select(this).style("transform", `rotate(${rotateScale(event.offsetX)}deg)`);
+      })
+      .append("img");
+
+    textContainer = photoCard.append("div").attr("class", "text-container");
+
+  });
+
   function update(data, updatedDimensions) {
     let cellSize = updatedDimensions.width / 7;
     let paddingBetweenCells = 5;
@@ -102,33 +98,34 @@ export function Calendar(data, selector, chartContainerId = "calendarHeatmap") {
       paddingBetweenCells: paddingBetweenCells,
     });
 
-    photoCard.style("top", ({ date, name },i) => {
-      const d = new Date(date);
+    if (photoCard) photoCard.style("top", (d, i) => {
+      const date = new Date(d.RELEASE_DATE);
 
       let manualGapBetweenCards = 0;
-      if (i ==1) {
+      if (i == 1) {
         manualGapBetweenCards = 20;
       }
       let value =
-       ( d3.utcMonday.count(d3.utcYear(d), d3.utcMonday.floor(d))-2) *
-        (cellSize +paddingBetweenCells*.5) +manualGapBetweenCards;
+        (d3.utcMonday.count(d3.utcYear(date), d3.utcMonday.floor(date)) - 2) *
+        (cellSize + paddingBetweenCells * .5) + manualGapBetweenCards;
       return value + "px";
     });
-    imageContainer
+
+    if (imageContainer) imageContainer
       .style("width", cellSize * 2.5 + "px")
       .style("height", cellSize * 2.5 + "px")
-
-
-    // image
-    imageContainer.attr("src", "https://tse3-mm.cn.bing.net/th/id/OIP-C.mv0hS6FHQ0D4A5hey74wNAHaHa?rs=1&pid=ImgDetMain").attr("alt", "Photo");
+      .attr("src", d => d.IMAGE_URL)
+      .attr("alt", "Photo");
 
     // text next to photo
-    textContainer.html(d=>`
-    <div class='track-name'>"${d.name}"</div>
-    <div class='artist-name'>${d.artist}</div>
+    if (textContainer) textContainer.html(d => {
+      return `<div class='track-name'>${d.ANNOTATION}</div>
+    <div class='artist-name'>${d.NAME}</div>
     <hr>
-    <div class='date'>${formatAlbumDate(d.date)}</>`);
-  }
+    <div class='date'>${formatAlbumDate(d.RELEASE_DATE)}</>`
+    });
+
+  };
 
   update(dataset, dimensions);
 

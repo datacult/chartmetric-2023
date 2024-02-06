@@ -25,13 +25,18 @@ https://studio.datacult.com/ -->
 
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script type="module" src="./components/Calendar.js"></script>
+<!-- <script type="module" src="./components/Calendar.js"></script>
 <script type="module" src="./js/highFi/2_6.js"></script>
-<script type="module" src="./js/highFi/calendarHeatmapPhoto.js"></script>
+<script type="module" src="./js/highFi/calendarHeatmapPhoto.js"></script> -->
 
 </html>
 <script type="module" >
     import {Calendar} from './js/highFi/2_6.js';
-    let chartContainerId = "calendarHeatmap";
-    Calendar(chartContainerId)
+    (async () => {
+        let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_6_en.csv', d3.autoType)
+        let images = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_6_1_en.csv', d3.autoType)
+        console.log(images)
+        Calendar(data, "vis")
+    })()
+    
 </script>
