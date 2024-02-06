@@ -95,12 +95,6 @@ export function artistinfo(data, map, options) {
     .join('p')
     .text(d => `${d[map.pronouns]}, ${d[map.type]}`);
 
-  const rank = rank_div
-    .selectAll('p')
-    .data(data)
-    .join('p')
-    .text(d => `Peak Rank ${d[map.rank]}`);
-
   const rank_history = rank_history_div
     .selectAll('p')
     .data(data)
@@ -123,32 +117,22 @@ export function artistinfo(data, map, options) {
 
     img
       .data(data)
-      .transition(t)
-      .attr('src', d => d[map.artist_image])
+      .attr('src', d => `${d[map.artist_image]}`)
 
     title
       .data(data)
-      .transition(t)
       .text(d => d[map.title]);
 
     location
       .data(data)
-      .transition(t)
       .text(d => `:${d[map.location]}: ${d[map.location]}`);
 
     pronouns
       .data(data)
-      .transition(t)
       .text(d => `${d[map.pronouns]}, ${d[map.type]}`);
-
-    rank
-      .data(data)
-      .transition(t)
-      .text(d => `Peak Rank ${d[map.rank]}`);
 
     rank_history
       .data(data)
-      .transition(t)
       .text(d => `Starting: ${d[map.rank_start]} Ending: ${d[map.rank_end]}`);
 
   }
