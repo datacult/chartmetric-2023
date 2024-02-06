@@ -11,7 +11,7 @@ import { Treemap } from "./highFi/2_2.js";
 import { Table_2_3 } from "./highFi/2_3.js";
 import { Calendar } from "./highFi/2_6.js";
 import { cluster } from './cluster.js';
-import { BumpChart } from "./highFi/2_8.js";
+import { viz_2_8 } from "./highFi/2_8.js";
 import { gradientBar } from "./highFi/2_9.js";
 import { gradientBarMapComponent } from "./lowFi/2_10_gradientBar.js";
 import { scatter } from './scatter.js';
@@ -205,13 +205,23 @@ import { drawSingleValues } from "./highFi/single_values.js";
                 selector: "viz_2_8",
                 fill: "#1781F7",
                 stroke: "black",
+                focus: "Drake"
             },
             mapping: {
-                x: "SCORE_MONTH",
-                y: "MONTHLY_ARTIST_RANK",
-                group: "NAME",
+                x: 'MONTH_LABEL',
+                y: 'MONTHLY_ARTIST_RANK',
+                group: 'NAME',
+                sort: 'SCORE_MONTH',
+                title: 'NAME',
+                location:'ARTIST_HOME_COUNTRY',
+                type: 'ARTIST_TYPE',
+                artist_image: 'IMAGE_URL',
+                pronouns: 'PRONOUN',
+                rank:'PEAK_CM_RANK',
+                rank_start: 'START_RANK',
+                rank_end: 'END_RANK'
             },
-            params: ["Drake"],
+            params: [],
             update: function (param) {
                 if (param !== undefined && param !== null) {
                     this.viz.update(null, param);
@@ -513,12 +523,10 @@ import { drawSingleValues } from "./highFi/single_values.js";
         );
     }
     if (document.querySelector("#" + visuals.viz_2_8.options.selector)) {
-        visuals.viz_2_8.viz = BumpChart(
+        visuals.viz_2_8.viz = viz_2_8(
             visuals.viz_2_8.data,
-            visuals.viz_2_8.options.selector,
             visuals.viz_2_8.mapping,
             visuals.viz_2_8.options,
-            "section-2-8"
         );
     }
     if (document.querySelector("#" + visuals.viz_2_9.options.selector)) {
