@@ -68,9 +68,7 @@ export function imagecluster(data, map, options, svg) {
       .attr('transform', `translate(${options.margin.left},${options.margin.top})`);
   }
 
-  const tooltip = d3.select(options.selector)
-    .append("div")
-    .attr("id", "tooltip_" + options.selector)
+  const tooltip = d3.select(options.selector + "_tooltip")
 
   ////////////////////////////////////////
   ////////////// Helpers /////////////////

@@ -60,6 +60,8 @@ export function viz_1_5(data, mapping, options) {
 
   let visuals = []
 
+  let tooltip = d3.select(options.selector).append("div").attr("id", "viz_1_5_tooltip").attr("class", "tooltip")
+
   Object.keys(platforms).forEach((d, i) => {
 
     let container = d3.select(options.selector).append("div").attr("id", "viz_1_5_" + d).attr("class", "vis-container")
