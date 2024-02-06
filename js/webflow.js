@@ -4,7 +4,7 @@
 
 // import { Sankey } from "./highFi/1_1.js";
 import { Table_1_3 } from "./highFi/1_3.js";
-import { circlepacking_1_5 } from "./highFi/1_5.js";
+import { viz_1_5 } from "./1_5.js";
 import { circlepack } from './pack.js';
 import { barArc } from './bararc.js';
 import { Treemap } from "./highFi/2_2.js";
@@ -54,8 +54,9 @@ import { drawSingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "viz_1_5",
+                selector: "#viz_1_5",
             },
+            mapping:{},
             params: ["Gained in 2023", "All Time"],
             update: function (param) {
                 if (param !== undefined && param !== null) {
@@ -476,11 +477,11 @@ import { drawSingleValues } from "./highFi/single_values.js";
             visuals.viz_1_3.options.selector
         );
     }
-    if (document.querySelector("#" + visuals.viz_1_5.options.selector)) {
-        visuals.viz_1_5.viz = circlepacking_1_5(
+    if (document.querySelector(visuals.viz_1_5.options.selector)) {
+        visuals.viz_1_5.viz = viz_1_5(
             visuals.viz_1_5.data,
-            visuals.viz_1_5.options.selector,
-            "Gained in 2023"
+            visuals.viz_1_5.mapping,
+            visuals.viz_1_5.options,
         );
     }
     if (document.querySelector(visuals.viz_2_1.options.selector)) {

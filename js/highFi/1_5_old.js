@@ -40,13 +40,16 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
       </div>
     </div>`);
 
-  realData.forEach((entry) => {
-    if (entry.PLATFORM) {
-      entry.Combined = `${entry.PLATFORM}/${entry.ARTIST_NAME}`;
-    }
-  });
   function createOrUpdateChart(data, type) {
-    data = realData.filter((d) => d.TYPE == type);
+
+    data.forEach((entry) => {
+      if (entry.PLATFORM) {
+        entry.Combined = `${entry.PLATFORM}/${entry.ARTIST_NAME}`;
+      }
+    });
+
+    let filteredData = data.filter((d) => d.TYPE == type);
+    console.log(filteredData)
 
     // real width of each chart, instead of 1/3 of container
     const {
@@ -59,7 +62,7 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
      ************************/
     // rScale
     let groupedTotal = d3.rollup(
-      data,
+      filteredData,
       (v) => d3.sum(v, (d) => +d.FOLLOWERS),
       (d) => d.PLATFORM
     );
@@ -76,7 +79,7 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
     let uniquePlatform = [, "Youtube", "Instagram", "Tiktok"];
     uniquePlatform.forEach((plat) => {
       let processedData = d3.packSiblings(
-        data
+        filteredData
           .filter((d) => d.PLATFORM == plat)
           .sort((a, b) => d3.descending(a.FOLLOWERS, b.FOLLOWERS))
           .map((d) => {
@@ -95,6 +98,8 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
         circlepackingData: processedData,
       });
     });
+
+    console.log(circlePackingData)
 
     // color scale
     let platforms = ["Tiktok", "Instagram", "Youtube"];
@@ -138,7 +143,7 @@ export function circlepacking_1_5(realData, selector, type = "All Time") {
       d3.select("defs#defs-" + d.PLATFORM)
         .selectAll("pattern")
         // load all the images at once instead of at each button click
-        .data(realData.filter((r) => r.PLATFORM == d.PLATFORM))
+        .data(data.filter((r) => r.PLATFORM == d.PLATFORM))
         .enter()
         .append("pattern")
         .attr("id", (d) => {
