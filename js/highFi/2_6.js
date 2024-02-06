@@ -119,8 +119,8 @@ export function Calendar(data, selector, chartContainerId = "calendarHeatmap") {
 
     // text next to photo
     if (textContainer) textContainer.html(d => {
-      return `<div class='track-name'>${d.ANNOTATION}</div>
-    <div class='artist-name'>${d.NAME}</div>
+      return `<div class='track-name'>${d.NAME}</div>
+    <div class='artist-name'>${d.ANNOTATION}</div>
     <hr>
     <div class='date'>${formatAlbumDate(d.RELEASE_DATE)}</>`
     });
