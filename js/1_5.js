@@ -64,28 +64,10 @@ export function viz_1_5(data, mapping, options) {
 
   Object.keys(platforms).forEach((d, i) => {
 
-    let container = d3.select(options.selector).append("div").attr("id", "viz_1_5_" + d).attr("class", "vis-container")
-
     options.fill = platforms[d].color
     let vis = imagecluster(tranformed_data.filter(e => e.PLATFORM == d), mapping, { ...options, selector: "#viz_1_5_" + d })
 
     visuals.push(vis)
-
-    let iconSection = container.append("div").attr("class", "icon-section");
-
-    let headingContainer = iconSection
-      .append("div")
-      .attr("class", "header-container");
-
-    headingContainer
-      .append("div")
-      .attr("class", "icon")
-      .html(platforms[d].icon);
-
-    headingContainer
-      .append("div")
-      .attr("class", "text")
-      .text(d);
 
   });
 
