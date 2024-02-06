@@ -9,19 +9,19 @@
     width: 90vw;
 }
 
-.vis-svg-container {
+#viz_2_8 .vis-svg-container {
     flex-basis: 60%;
 }
 
-text {
+#viz_2_8 text {
     font-size: 16px;
 }
 
-.labels {
+#viz_2_8 .labels {
     font-size: 20px;
 }
 
-#artist_info_container {
+#viz_2_8 #artist_info_container {
     display: flex;
     padding: 16px;
     background: white;
@@ -32,7 +32,7 @@ text {
     flex-basis: 40%;
 }
 
-.img_container {
+#viz_2_8 .img_container {
     object-fit: cover;
     position: relative;
     height: 15vw;
@@ -40,14 +40,14 @@ text {
     overflow: hidden;
 }
 
-.artist_image {
+#viz_2_8 .artist_image {
     width: 100%;
     height: auto;
     object-fit: cover;
     border-radius: 4px;
 }
 
-.text-container {
+#viz_2_8 .text-container {
     font-family: Inter, sans-serif;
 }
 
@@ -55,13 +55,13 @@ text {
     #viz_2_8 {
         flex-direction: column;
     }
-    .vis-svg-container {
+    #viz_2_8 .vis-svg-container {
         width: 100%
     }
-    #artist_info_container {
+    #viz_2_8 #artist_info_container {
         width: 100%
     }
-    .img_container {
+    #viz_2_8 .img_container {
         height: 35vw;
         width: 35vw;
     }
