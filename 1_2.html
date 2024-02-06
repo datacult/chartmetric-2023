@@ -1,0 +1,71 @@
+<!-- © 2023 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <!-- Google fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/index.css">
+</head>
+
+<body>
+    <div id="viz_1_2"></div>
+
+</body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+</html>
+<script type="module">
+    import { barchart } from './js/1_2.js';
+
+    (async () => {
+        let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_1_2_en.csv', d3.autoType)
+
+        let bar_data = data.filter(d => d.type == 'age')
+
+        console.log(bar_data)
+
+        let mapping = {
+            x: 'sub_type',
+            y: "percentage",
+        }
+
+        let platforms = {
+            "Tiktok": { color: "#99D8DB", icon: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c9668_tiktok-logo.svg" loading="lazy" width="30" alt="">' },
+            "Instagram": { color: "#72A8DF", icon: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c966a_instagram-logo.svg" loading="lazy" width="30" alt="">' },
+            "Youtube": { color: "#E2B5FD", icon: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c9669_yt-logo.svg" loading="lazy" width="30" alt="">' }
+        }
+
+        let options = {
+            selector: '#viz_1_2',
+        }
+
+        let visuals = []
+
+        Object.keys(platforms).forEach((d, i) => {
+
+            d3.select(options.selector).append("div").attr("id", options.selector.substring(1) + "_" + d)
+
+            options.fill = platforms[d].color
+            let vis = barchart(bar_data.filter(e => e.platform == d), mapping, {selector: options.selector + "_" + d, fill: platforms[d].color})
+            visuals.push(vis)
+
+        });
+
+
+        // let chart = barchart(data, mapping, options)
+
+
+    })()
+
+</script>
