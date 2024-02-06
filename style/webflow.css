@@ -141,11 +141,15 @@ https://studio.datacult.com/  */
 
   display: flex;
 
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
   align-self: stretch;
-  margin-bottom: 400px;
+}
+
+#viz_1_5 .header-container {
+  display: flex;
+  column-gap: 16px;
 }
 
 #viz_1_5 #topArtistsByFollowersBubbles_header {
@@ -283,11 +287,6 @@ https://studio.datacult.com/  */
 
 #viz_1_5 .icon {
   display: flex;
-  padding: 4.033px;
-  align-items: center;
-  gap: 1.134px;
-  border-radius: 2.268px;
-  box-shadow: 0px 0.756px 5.293px 0px rgba(0, 0, 0, 0.08);
 }
 
 #viz_1_5 #tooltip_1_5 {
