@@ -202,7 +202,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             viz: null,
             data: [],
             options: {
-                selector: "viz_2_8",
+                selector: "#viz_2_8",
                 fill: "#1781F7",
                 stroke: "black",
                 focus: "Drake"
