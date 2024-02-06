@@ -22,7 +22,7 @@ export function viz_2_8(data, map, options) {
         selector: "#vis",
         width: 1200,
         height: 600,
-        margin: { top: 20, right: 20, bottom: 20, left: 20 },
+        margin: { top: 20, right: 20, bottom: 30, left: 20 },
         transition: 400,
         delay: 100,
         fill: "#69b3a2",
@@ -74,7 +74,7 @@ export function viz_2_8(data, map, options) {
 
     // Assuming `data` is your array of objects from the CSV
     const uniqueMonths = [...new Set(data.map(item => {
-        return JSON.stringify({[map.x]: item[map.x], [map.sort]: item[map.sort]})
+        return JSON.stringify({ [map.x]: item[map.x], [map.sort]: item[map.sort] })
     }))];
 
     const artistsInfo = {}; // Object to hold artist name to ID mapping
@@ -158,6 +158,7 @@ export function viz_2_8(data, map, options) {
         .attr("d", (d) => area(d.values))
         .attr("fill", options.fill)
         .attr("opacity", options.opacity)
+        .style("cursor", "pointer")
         .on("click", function (event, d) {
             options.focus = d.name;
             info.update([artistsInfo[d.name]]);
@@ -166,10 +167,12 @@ export function viz_2_8(data, map, options) {
         })
         .on("mouseover", function (event, d) {
             d3.select(this).attr("opacity", x => options.focus == x.name ? 1 : 0.7);
+            paths.style("cursor", d => d.name != options.focus ? "pointer" : "default");
         })
         .on("mouseout", function (event, d) {
             paths.attr("opacity", x => options.focus == x.name ? 1 : options.opacity);
         });
+
 
     let labels = svg
         .selectAll(".labels")
@@ -178,13 +181,17 @@ export function viz_2_8(data, map, options) {
         .attr("class", "labels")
         .attr("x", (d) => xScale(d[map.x]))
         .attr("y", (d) => yScale(d[map.y] - 0.5))
+        .style("cursor", "pointer")
         .text((d) => d[map.group])
         .on("click", function (event, d) {
             options.focus = d[map.group];
 
             info.update([artistsInfo[d[map.group]]]);
             paths.attr("opacity", x => d[map.group] == x.name ? 1 : options.opacity);
-            labels.attr("font-weight", x => d[map.group] == x[map.group] ? "bold" : "normal");
+
+            labels
+                .attr("font-weight", x => d[map.group] == x[map.group] ? "bold" : "normal")
+                .style("cursor", d => d[map.group] != options.focus ? "pointer" : "default");
         })
 
 
