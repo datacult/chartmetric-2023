@@ -75,7 +75,7 @@ export function circlepack(data, map, options) {
       .data(data)
       .join("pattern")
       .attr("id", (d, i) => {
-        return "image-fill-" + imageName(d[map.image]);
+        return "image-fill-" + d[map.image];
       }) // Unique ID for each pattern
       .attr("width", "100%")
       .attr("height", "100%")
@@ -90,17 +90,6 @@ export function circlepack(data, map, options) {
   ////////////////////////////////////////
   ////////////// Wrangle /////////////////
   ////////////////////////////////////////
-
-  function imageName(url) {
-
-    let imageName = ""
-
-    if (url != null) {
-      imageName = url.split('/')[url.split('/').length - 1]
-    }
-
-    return imageName;
-  }
 
   function transformData(data) {
     var root = {
@@ -130,7 +119,7 @@ export function circlepack(data, map, options) {
           "name": "",
           "title": map.label ? d[map.label] : d[map.group],
           "value": map.value ? d[map.value] : 1,
-          "image": map.image ? imageName(d[map.image]) : null
+          "image": map.image ? d[map.image] : null
         }
 
         // check for duplicates before adding
@@ -150,7 +139,7 @@ export function circlepack(data, map, options) {
           "name": map.label ? d[map.label] : "",
           "title": map.label ? d[map.label] : "",
           "value": map.value ? d[map.value] : 1,
-          "image": map.image ? imageName(d[map.image]) : null
+          "image": map.image ? d[map.image] : null
         });
       });
 
