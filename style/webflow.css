@@ -752,15 +752,15 @@ https://studio.datacult.com/  */
   column-gap: 24px;
   align-items: stretch;
   border-radius: 8px;
-  box-shadow: 1px 1px 10px 8px rgb(0 0 0 / 8%);
+  box-shadow: 1px 1px 10px 8px rgb(0 0 0 / 6%);
   flex-basis: 40%;
 }
 
 #viz_2_8 .img_container {
   object-fit: cover;
   position: relative;
-  height: 15vw;
-  width: 15vw;
+  height: 10vw;
+  width: 10vw;
   overflow: hidden;
 }
 
@@ -848,7 +848,7 @@ Bar
   display: flex;
 
   align-items: center;
-  padding: 10px;
+  padding: 16px;
   background-image: linear-gradient(
     to right,
     #f5f5f5 0%,
