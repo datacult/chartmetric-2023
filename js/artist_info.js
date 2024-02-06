@@ -78,9 +78,9 @@ export function artistinfo(data, map, options) {
     .classed('artist_image', true);
 
   const title = title_div
-    .selectAll('h1')
+    .selectAll('h3')
     .data(data)
-    .join('h1')
+    .join('h3')
     .text(d => d[map.title]);
 
   const location = location_div
