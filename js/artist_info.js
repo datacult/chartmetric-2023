@@ -136,7 +136,6 @@ export function artistinfo(data, map, options) {
 
     })
 
-
     country
       .data(data)
       .text(d => d[map.location]);
