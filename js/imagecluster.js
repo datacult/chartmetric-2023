@@ -178,6 +178,7 @@ export function imagecluster(data, map, options, svg) {
   const sizeScale = d3.scaleLinear()
     .domain(options.domain != null ? options.domain : d3.extent(data, d => map.size != null ? d[map.size] : options.size))
     .range(options.range != null ? options.range : [options.width * 0.05, options.width * (data.length / 100)])
+    .unknown(0)
 
   ////////////////////////////////////////
   ////////////// Simulation //////////////

@@ -45,8 +45,8 @@ export function viz_1_5(data, mapping, options) {
       IMAGE_URL: d.IMAGE_URL,
       PLATFORM: d.PLATFORM,
       ID: d.ID,
-      "Gained in 2023": 0,
-      "All Time": 0
+      "Gained in 2023": null,
+      "All Time": null
     }
 
     transformedMap[d.ARTIST_NAME + "-" + d.PLATFORM][d.TYPE] = d.FOLLOWERS
