@@ -522,7 +522,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             visuals.viz_2_7.options
         );
     }
-    if (document.querySelector("#" + visuals.viz_2_8.options.selector)) {
+    if (document.querySelector(visuals.viz_2_8.options.selector)) {
         visuals.viz_2_8.viz = viz_2_8(
             visuals.viz_2_8.data,
             visuals.viz_2_8.mapping,
