@@ -29,6 +29,7 @@ export function viz_2_8(data, map, options) {
         stroke: "#000",
         padding: 0.1,
         opacity: 0.3,
+        focus: null
     };
 
     // merge default options with user options
@@ -75,7 +76,7 @@ export function viz_2_8(data, map, options) {
     const uniqueMonths = [...new Set(data.map(item => {
         return JSON.stringify({[map.x]: item[map.x], [map.sort]: item[map.sort]})
     }))];
-    console.log(uniqueMonths)
+
     const artistsInfo = {}; // Object to hold artist name to ID mapping
 
     // Populate artistsInfo with artist names as keys and their IDs as values
@@ -111,8 +112,6 @@ export function viz_2_8(data, map, options) {
     });
 
     if (map.sort) filledData = d3.sort(filledData, (a, b) => d3.ascending(a[map.sort], b[map.sort]))
-
-    console.log(filledData)
 
     let nestedData = d3.groups(filledData, d => d[map.group])
         .map(group => ({ name: group[0], values: group[1] }));
@@ -160,9 +159,16 @@ export function viz_2_8(data, map, options) {
         .attr("fill", options.fill)
         .attr("opacity", options.opacity)
         .on("click", function (event, d) {
+            options.focus = d.name;
             info.update([artistsInfo[d.name]]);
-            labels.attr("font-weight", x => d.name == x[map.group] ? "bold" : "normal");
-            paths.attr("opacity", x => d.name == x.name ? 1 : options.opacity);
+            labels.attr("font-weight", x => options.focus == x[map.group] ? "bold" : "normal");
+            paths.attr("opacity", x => options.focus == x.name ? 1 : options.opacity);
+        })
+        .on("mouseover", function (event, d) {
+            d3.select(this).attr("opacity", x => options.focus == x.name ? 1 : 0.7);
+        })
+        .on("mouseout", function (event, d) {
+            paths.attr("opacity", x => options.focus == x.name ? 1 : options.opacity);
         });
 
     let labels = svg
@@ -174,10 +180,13 @@ export function viz_2_8(data, map, options) {
         .attr("y", (d) => yScale(d[map.y] - 0.5))
         .text((d) => d[map.group])
         .on("click", function (event, d) {
+            options.focus = d[map.group];
+
             info.update([artistsInfo[d[map.group]]]);
             paths.attr("opacity", x => d[map.group] == x.name ? 1 : options.opacity);
             labels.attr("font-weight", x => d[map.group] == x[map.group] ? "bold" : "normal");
-        });
+        })
+
 
     ////////////////////////////////////////
     //////////////// Axis //////////////////
