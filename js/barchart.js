@@ -30,7 +30,7 @@ export function barchart(data, map, options, svg) {
     padding: 0.1,
     fill: "#69b3a2",
     stroke: "#000",
-    label_offset: 30,
+    label_offset: 35,
     focus: null,
     sort:[],
     direction: 1,
@@ -158,9 +158,10 @@ export function barchart(data, map, options, svg) {
     .data(data)
     .join("text")
     .attr("x", d => xScale(d[map.x]) + xScale.bandwidth() / 2)
-    .attr("y", d => height + 20)
+    .attr("y", d => height + 25)
     .attr("text-anchor", "middle")
     .attr("font-weight", "bold")
+    .attr("font-size", "1.2em")
     .text(d => d[map.x])
     .classed("text", true);
 
@@ -190,6 +191,7 @@ export function barchart(data, map, options, svg) {
     .attr("x", d => xScale(d[map.x]) + xScale.bandwidth() / 2)
     .attr("y", (d, i) => yScale(0) + options.label_offset)
     .attr("text-anchor", "middle")
+    .attr("font-size", "1.2em")
     .text(d => d[map.label])
     .classed("label", true)
     .call(wrap, xScale.bandwidth() * 0.9);

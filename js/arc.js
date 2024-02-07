@@ -30,7 +30,7 @@ export function arcchart(data = [], map, options, svg){
     fill: "#69b3a2",
     stroke: "#000",
     opacity: 0.03,
-    offset: 80
+    offset: 100
   }
 
   // merge default options with user options
