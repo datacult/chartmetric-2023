@@ -27,13 +27,17 @@ https://studio.datacult.com/ -->
 </html>
 <script type="module">
     import { barchart } from './js/1_2.js';
+    import { gauge } from './js/gauge.js';
 
     (async () => {
         let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_1_2_en.csv', d3.autoType)
 
-        let bar_data = data.filter(d => d.type == 'age')
+        let gender_data = data.filter(d => d.type == "gender" && d.sub_type == "FEMALE_USERS")
 
-        console.log(bar_data)
+        let bar_data = data.filter(d => d.type == "age")
+
+
+        console.log(data, bar_data, gender_data)
 
         let mapping = {
             x: 'sub_type',
@@ -51,13 +55,15 @@ https://studio.datacult.com/ -->
         }
 
         let visuals = []
+        let gauges = []
 
         Object.keys(platforms).forEach((d, i) => {
 
             d3.select(options.selector).append("div").attr("id", options.selector.substring(1) + "_" + d)
 
             options.fill = platforms[d].color
-            let vis = barchart(bar_data.filter(e => e.platform == d), mapping, {selector: options.selector + "_" + d, fill: platforms[d].color})
+            let vis = barchart(bar_data.filter(e => e.platform == d), mapping, { selector: options.selector + "_" + d, fill: platforms[d].color })
+            let g = gauge({ selector: options.selector + "_" + d, fill: platforms[d].color, min: 0, max: 1, value: gender_data[i].percentage })
             visuals.push(vis)
 
         });

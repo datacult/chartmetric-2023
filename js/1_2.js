@@ -23,7 +23,7 @@ export function barchart(data, map, options, svg) {
   let defaults = {
     selector: '#vis',
     width: 600,
-    height: 600,
+    height: 400,
     margin: { top: 20, right: 20, bottom: 20, left: 20 },
     transition: 400,
     delay: 100,
