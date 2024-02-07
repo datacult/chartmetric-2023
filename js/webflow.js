@@ -387,6 +387,9 @@ import { drawSingleValues } from "./highFi/single_values.js";
             results.forEach((result) => {
                 if (result) {
                     visuals[result.name].data = result.data;
+                    visuals[result.name].data_update_required = true
+                } else {
+                    visuals[result.name].data_update_required = false
                 }
             });
         });
@@ -395,8 +398,11 @@ import { drawSingleValues } from "./highFi/single_values.js";
         if (update == true) {
             Object.keys(visuals).forEach((viz) => {
                 if (visuals[viz].viz != null) {
-                    // data gets updated in no param is passed
-                    visuals[viz].update();
+                    // new data gets updated in no param is passed
+                    if (visuals[viz].data_update_required == true){
+                        visuals[viz].update();
+                        visuals[viz].data_update_required = false
+                    }
                 }
             });
         }
