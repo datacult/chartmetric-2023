@@ -14,9 +14,8 @@ export function artistinfo(data, map, options) {
     flag: 'flag',
     pronouns: 'pronouns',
     type: 'type',
-    rank_start: 'rank_start',
-    rank_end: 'rank_end',
-    artist_image: 'artist_image'
+    artist_image: 'artist_image',
+    months: 'months_in_top_10'
   }
 
   // merge default mapping with user mapping
@@ -60,7 +59,7 @@ export function artistinfo(data, map, options) {
   const pronouns_div = text_container.append('div')
     .classed('pronouns', true);
 
-  const rank_history_div = text_container.append('div')
+  const top_10_div = text_container.append('div')
     .classed('rank_history', true);
 
   ////////////////////////////////////////
@@ -100,11 +99,11 @@ export function artistinfo(data, map, options) {
     .join('p')
     .text(d => `${d[map.pronouns]}, ${d[map.type]}`);
 
-  const rank_history = rank_history_div
+  const months_in_top_10 = top_10_div
     .selectAll('p')
     .data(data)
     .join('p')
-    .text(d => `Starting: ${d[map.rank_start]} Ending: ${d[map.rank_end]}`);
+    .text(d => `Months in Top 10: ${d[map.months_in_top_10]}`);
 
 
   ////////////////////////////////////////
@@ -144,9 +143,9 @@ export function artistinfo(data, map, options) {
       .data(data)
       .text(d => `${d[map.pronouns]}, ${d[map.type]}`);
 
-    rank_history
+    months_in_top_10
       .data(data)
-      .text(d => `Starting: ${d[map.rank_start]} Ending: ${d[map.rank_end]}`);
+      .text(d => `Months in Top 10: ${d[map.months_in_top_10]}`);
 
   }
 

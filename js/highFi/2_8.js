@@ -22,7 +22,7 @@ export function viz_2_8(data, map, options) {
         selector: "#vis",
         width: 1200,
         height: 600,
-        margin: { top: 20, right: 20, bottom: 30, left: 20 },
+        margin: { top: 20, right: 20, bottom: 30, left: 50 },
         transition: 400,
         delay: 100,
         fill: "#69b3a2",
@@ -83,8 +83,10 @@ export function viz_2_8(data, map, options) {
     data.forEach(item => {
         if (!artistsInfo[item[map.group]]) {
             artistsInfo[item[map.group]] = item;
+            artistsInfo[item[map.group]].MONTHS_IN_TOP_10 = data.filter(d => d[map.group] === item[map.group]).length;
         }
     });
+
 
     let info = artistinfo(options.focus != null ? [artistsInfo[options.focus]] : [], map, { selector: '#artist_info_container' });
 
@@ -105,7 +107,7 @@ export function viz_2_8(data, map, options) {
                     [map.x]: month[map.x],
                     [map.sort]: month[map.sort],
                     [map.group]: artist,
-                    [map.y]: 10
+                    [map.y]: null
                 });
             }
         });
@@ -123,7 +125,6 @@ export function viz_2_8(data, map, options) {
         return accumulator;
     }, []);
 
-
     ////////////////////////////////////////
     ////////////// Scales //////////////////
     ////////////////////////////////////////
@@ -136,7 +137,7 @@ export function viz_2_8(data, map, options) {
     const yScale = d3
         .scaleLinear()
         .domain([0, d3.max(data, (d) => d[map.y])])
-        .range([0, height]);
+        .range([0, height])
 
     ////////////////////////////////////////
     ////////////// DOM Setup ///////////////
@@ -146,8 +147,8 @@ export function viz_2_8(data, map, options) {
     const area = d3
         .area()
         .x((d) => xScale(d[map.x]))
-        .y0((d) => (d[map.y] === 10 ? height : yScale(d[map.y] - 1)))
-        .y1((d) => yScale(d[map.y]))
+        .y0((d) => d[map.y] == null ? height : yScale(d[map.y] - 1))
+        .y1((d) => d[map.y] == null ? height : yScale(d[map.y]))
         .curve(d3.curveBumpX);
 
     // Drawing areas
@@ -193,6 +194,15 @@ export function viz_2_8(data, map, options) {
                 .attr("font-weight", x => d[map.group] == x[map.group] ? "bold" : "normal")
                 .style("cursor", d => d[map.group] != options.focus ? "pointer" : "default");
         })
+
+    let position_labels = svg
+        .selectAll(".position_labels")
+        .data([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+        .join("text")
+        .attr("class", "position_labels")
+        .attr("x", -30)
+        .attr("y", (d) => yScale(d - 0.5))
+        .text((d) => d)
 
 
     ////////////////////////////////////////

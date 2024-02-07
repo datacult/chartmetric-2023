@@ -232,8 +232,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
                 type: 'ARTIST_TYPE',
                 artist_image: 'IMAGE_URL',
                 pronouns: 'PRONOUN',
-                rank_start: 'START_RANK',
-                rank_end: 'END_RANK'
+                months_in_top_10: 'MONTHS_IN_TOP_10'
             },
             params: [],
             update: function (param) {
