@@ -56,7 +56,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "#viz_1_5",
             },
-            mapping:{},
+            mapping: {},
             params: ["Gained in 2023", "All Time"],
             update: function (param) {
                 if (param !== undefined && param !== null) {
@@ -214,8 +214,8 @@ import { drawSingleValues } from "./highFi/single_values.js";
                 group: 'NAME',
                 sort: 'SCORE_MONTH',
                 title: 'NAME',
-                location:'ARTIST_HOME_COUNTRY',
-                flag:"COUNTRY_CODE",
+                location: 'ARTIST_HOME_COUNTRY',
+                flag: "COUNTRY_CODE",
                 type: 'ARTIST_TYPE',
                 artist_image: 'IMAGE_URL',
                 pronouns: 'PRONOUN',
@@ -401,17 +401,25 @@ import { drawSingleValues } from "./highFi/single_values.js";
     ///////////////////////////
 
     // // grab the selected language from dropdown on initial load
-    // let language = document.querySelector("#language").value;
+    let language = "en"
 
-    await loadData("en");
+    await loadData(language);
 
-    // document.querySelector("#language").addEventListener("change", async (e) => {
-    //     // check the language has changed
-    //     if (e.target.value != language) {
-    //         language = e.target.value;
-    //         await loadData(language, true);
-    //     }
-    // });
+    const list = document.getElementById('weglot-listbox');
+    if (list) list.addEventListener('click', function (event) {
+        let targetElement = event.target;
+
+        while (targetElement && targetElement !== this) {
+            if (targetElement.tagName === 'LI') {
+                language = targetElement.getAttribute("data-l")
+                console.log('List item clicked:', targetElement, language);
+                break;
+            }
+
+            // Move up the DOM tree to check if we're clicking inside a list item
+            targetElement = targetElement.parentNode;
+        }
+    });
 
     ////////////////////////////////
     ///// populate dropdowns ///////
