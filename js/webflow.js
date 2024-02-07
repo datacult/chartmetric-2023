@@ -23,6 +23,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_1_1: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "viz_1_1",
             },
@@ -38,6 +39,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_1_3: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "viz_1_3",
             },
@@ -53,6 +55,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_1_5: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "#viz_1_5",
             },
@@ -69,6 +72,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_2_1: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "#viz_2_1",
                 fill: "black",
@@ -95,6 +99,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_2_2: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "viz_2_2",
                 genreType: "Artist Genres",
@@ -118,6 +123,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_2_3: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "viz_2_3",
             },
@@ -133,6 +139,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_2_5: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "#viz_2_5",
             },
@@ -168,6 +175,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_2_6: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "viz_2_6",
             },
@@ -183,6 +191,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_2_7: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "#viz_2_7",
                 stroke: "white",
@@ -205,6 +214,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_2_8: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "#viz_2_8",
                 fill: "#1781F7",
@@ -237,6 +247,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_2_9: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "viz_2_9",
             },
@@ -252,6 +263,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_2_10: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "viz_2_10",
             },
@@ -267,6 +279,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_2_11: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "#viz_2_11",
                 stroke: "white",
@@ -296,6 +309,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_2_14: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "#viz_2_14",
                 fill: "black",
@@ -325,6 +339,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_2_15: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "#viz_2_15",
                 fill: "black",
@@ -351,6 +366,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
         viz_2_19: {
             viz: null,
             data: [],
+            pending_data_update: false,
             options: {
                 selector: "viz_2_19",
             },
@@ -387,9 +403,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             results.forEach((result) => {
                 if (result) {
                     visuals[result.name].data = result.data;
-                    visuals[result.name].data_update_required = true
-                } else {
-                    visuals[result.name].data_update_required = false
+                    visuals[result.name].pending_data_update = true
                 }
             });
         });
@@ -399,9 +413,9 @@ import { drawSingleValues } from "./highFi/single_values.js";
             Object.keys(visuals).forEach((viz) => {
                 if (visuals[viz].viz != null) {
                     // new data gets updated in no param is passed
-                    if (visuals[viz].data_update_required == true){
+                    if (visuals[viz].pending_data_update == true){
                         visuals[viz].update();
-                        visuals[viz].data_update_required = false
+                        visuals[viz].pending_data_update = false
                     }
                 }
             });
