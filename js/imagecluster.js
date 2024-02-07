@@ -101,7 +101,7 @@ export function imagecluster(data, map, options, svg) {
     .attr("height", "200%")
     .attr("width", "200%")
   blur.append("feGaussianBlur")
-    .attr("stdDeviation", "50")
+    .attr("stdDeviation", "80")
     .attr("result", "coloredBlur");
 
   let floodfilter = defs.append("filter")
@@ -240,7 +240,7 @@ export function imagecluster(data, map, options, svg) {
   ////////////////////////////////////////
 
   const background = svg.append("circle")
-    .attr("r", width / 2)
+    .attr("r", width * 0.4)
     .attr("cx", width / 2)
     .attr("cy", height / 2)
     .attr("fill", options.fill)
