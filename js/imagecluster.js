@@ -6,8 +6,6 @@ import { trimNames } from "./utility.js";
 
 export function imagecluster(data, map, options, svg) {
 
-  console.log(data)
-
   ////////////////////////////////////////
   /////////////// Defaults ///////////////
   ////////////////////////////////////////
@@ -320,8 +318,6 @@ export function imagecluster(data, map, options, svg) {
     options = { ...options, ...newOptions };
 
     if (newData != null) data = newData;
-
-    console.log(data, map, options)
 
     const t = d3.transition().duration(options.transition);
 

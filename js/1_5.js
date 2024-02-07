@@ -27,9 +27,9 @@ export function viz_1_5(data, mapping, options) {
   options = { ...defaults, ...options };
 
   let platforms = {
-    "Tiktok": { color: "#99D8DB", icon: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c9668_tiktok-logo.svg" loading="lazy" width="30" alt="">' },
+    "TikTok": { color: "#99D8DB", icon: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c9668_tiktok-logo.svg" loading="lazy" width="30" alt="">' },
     "Instagram": { color: "#72A8DF", icon: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c966a_instagram-logo.svg" loading="lazy" width="30" alt="">' },
-    "Youtube": { color: "#E2B5FD", icon: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c9669_yt-logo.svg" loading="lazy" width="30" alt="">' }
+    "YouTube": { color: "#E2B5FD", icon: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c9669_yt-logo.svg" loading="lazy" width="30" alt="">' }
   }
 
   ////////////////////////////////////////
@@ -53,6 +53,8 @@ export function viz_1_5(data, mapping, options) {
   })
 
   let tranformed_data = Object.values(transformedMap)
+
+  console.log(tranformed_data)
 
   ////////////////////////////////////////
   ///////// Create Visuals ///////////////
