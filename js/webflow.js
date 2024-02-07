@@ -375,11 +375,16 @@ import { drawSingleValues } from "./highFi/single_values.js";
                     )
                     .then((data) => {
                         return { name: viz, data: data };
+                    })
+                    .catch((error) => {
+                        return null;
                     });
             })
         ).then(function (results) {
             results.forEach((result) => {
-                visuals[result.name].data = result.data;
+                if (result) {
+                    visuals[result.name].data = result.data;
+                }
             });
         });
 
@@ -412,7 +417,8 @@ import { drawSingleValues } from "./highFi/single_values.js";
         while (targetElement && targetElement !== this) {
             if (targetElement.tagName === 'LI') {
                 language = targetElement.getAttribute("data-l")
-                console.log('List item clicked:', targetElement, language);
+                console.log('new language selected: ', language);
+                // loadData(language, true);
                 break;
             }
 
