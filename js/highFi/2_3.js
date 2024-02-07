@@ -15,13 +15,13 @@ export function Table_2_3(data, selector) {
 
   function draw() {
     // Platforms to loop through and create columns
-    let platforms = ["TikTok", "Instagram", "Youtube"];
+    let platforms = ["TikTok", "Instagram", "YouTube"];
     let platformIcons = {
       TikTok:
         '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c9668_tiktok-logo.svg" loading="lazy" width="30" alt="">',
       Instagram:
         '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c966a_instagram-logo.svg" loading="lazy" width="30" alt="">',
-      Youtube:
+      YouTube:
         '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c9669_yt-logo.svg" loading="lazy" width="30" alt="">',
     };
 
