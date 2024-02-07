@@ -245,7 +245,7 @@ export function circlepack(data, map, options) {
     node
       .on('mouseover', function (event, d) {
 
-        if (d.depth < 1) {
+        if (d.depth < 2) {
           updateFocus(d.depth)
         }
 
@@ -289,7 +289,7 @@ export function circlepack(data, map, options) {
     node.selectAll('circle')
       .transition()
       .duration(options.transition)
-      .attr("fill-opacity", d => d.depth > options.focus + 1 ? options.opacity : 0)
+      .attr("fill-opacity", d => d.depth == 2 ? options.opacity : d.depth > options.focus + 1 ? options.opacity : 0)
       .attr('r', d => d.depth > 1 ? options.focus == -1 ? 0 : d.r : d.r);
 
     node.selectAll('text')
