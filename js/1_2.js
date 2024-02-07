@@ -2,7 +2,73 @@
 // Released under the ISC license.
 // https://studio.datacult.com/ 
 
-export function barchart(data, map, options, svg) {
+import { gauge } from './gauge.js';
+
+export function viz_1_2(data, map, options) {
+
+  // temp data fix
+  data.forEach(d => {
+    if (d.platform == "Tiktok") d.platform = "TikTok"
+    if (d.platform == "Youtube") d.platform = "YouTube"
+  })
+
+  let gender_data = data.filter(d => d.type == "gender")
+
+  let bar_data = data.filter(d => d.type == "age")
+
+
+  console.log(data, bar_data, gender_data)
+
+  let mapping = {
+    x: 'sub_type',
+    y: "percentage",
+  }
+
+  map = { ...mapping, ...map };
+
+  let defaults = {
+    selector: '#viz_1_2',
+  }
+
+  options = { ...defaults, ...options };
+
+
+  let platforms = {
+    "TikTok": { color: "#99D8DB", icon: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c9668_tiktok-logo.svg" loading="lazy" width="30" alt="">' },
+    "Instagram": { color: "#72A8DF", icon: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c966a_instagram-logo.svg" loading="lazy" width="30" alt="">' },
+    "YouTube": { color: "#E2B5FD", icon: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c9669_yt-logo.svg" loading="lazy" width="30" alt="">' }
+  }
+
+  gender_data.forEach(d => {
+    d.color = d.sub_type == "MALE_USERS" ? "#fff" : platforms[d.platform].color
+  })
+
+
+  let visuals = []
+  let gauges = []
+
+  Object.keys(platforms).forEach((d, i) => {
+
+    d3.select(options.selector).append("div").attr("id", options.selector.substring(1) + "_" + d)
+
+    options.fill = platforms[d].color
+    let vis = barchart_1_2(bar_data.filter(e => e.platform == d), map, { selector: options.selector + "_" + d, fill: platforms[d].color })
+    let g = gauge(gender_data.filter(e => e.platform == d), { value: "percentage", label: "sub_type", fill: "color" }, { selector: options.selector + "_" + d, fill: platforms[d].color })
+    visuals.push(vis)
+    gauges.push(g)
+
+  });
+
+  function update(){
+
+  }
+
+  return {
+    update: update
+  }
+}
+
+function barchart_1_2(data, map, options) {
 
   ////////////////////////////////////////
   /////////////// Defaults ///////////////
@@ -27,12 +93,12 @@ export function barchart(data, map, options, svg) {
     margin: { top: 20, right: 20, bottom: 20, left: 20 },
     transition: 400,
     delay: 100,
-    padding: 0.1,
+    padding: 0.02,
     fill: "#69b3a2",
     stroke: "#000",
     label_offset: 30,
     focus: null,
-    sort:[],
+    sort: [],
     direction: 1,
   }
 
@@ -65,21 +131,18 @@ export function barchart(data, map, options, svg) {
   ////////////// SVG Setup ///////////////
   ////////////////////////////////////////
 
-  if (svg == null) {
+  const div = d3.select(options.selector);
 
-    const div = d3.select(options.selector);
+  const container = div.append('div')
+    .classed('vis-svg-container', true);
 
-    const container = div.append('div')
-      .classed('vis-svg-container', true);
-
-    svg = container.append('svg')
-      .attr('width', '100%') // Responsive width
-      .attr('height', '100%') // Responsive height
-      .attr('viewBox', `0 0 ${options.width} ${options.height}`)
-      .classed('vis-svg', true)
-      .append('g')
-      .attr('transform', `translate(${options.margin.left},${options.margin.top})`);
-  }
+  const svg = container.append('svg')
+    .attr('width', '100%') // Responsive width
+    .attr('height', '100%') // Responsive height
+    .attr('viewBox', `0 0 ${options.width} ${options.height}`)
+    .classed('vis-svg', true)
+    .append('g')
+    .attr('transform', `translate(${options.margin.left},${options.margin.top})`);
 
   ////////////////////////////////////////
   ////////////// Helpers /////////////////
@@ -116,9 +179,9 @@ export function barchart(data, map, options, svg) {
     .attr("stroke", d => "none")
     .classed("bar", true);
 
-    svg.append("g")
-      .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(xScale));
+  svg.append("g")
+    .attr("transform", `translate(0,${height})`)
+    .call(d3.axisBottom(xScale));
 
 
   ////////////////////////////////////////

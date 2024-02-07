@@ -26,50 +26,13 @@ https://studio.datacult.com/ -->
 
 </html>
 <script type="module">
-    import { barchart } from './js/1_2.js';
+    import { viz_1_2 } from './js/1_2.js';
     import { gauge } from './js/gauge.js';
 
     (async () => {
         let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_1_2_en.csv', d3.autoType)
 
-        let gender_data = data.filter(d => d.type == "gender" && d.sub_type == "FEMALE_USERS")
-
-        let bar_data = data.filter(d => d.type == "age")
-
-
-        console.log(data, bar_data, gender_data)
-
-        let mapping = {
-            x: 'sub_type',
-            y: "percentage",
-        }
-
-        let platforms = {
-            "Tiktok": { color: "#99D8DB", icon: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c9668_tiktok-logo.svg" loading="lazy" width="30" alt="">' },
-            "Instagram": { color: "#72A8DF", icon: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c966a_instagram-logo.svg" loading="lazy" width="30" alt="">' },
-            "Youtube": { color: "#E2B5FD", icon: '<img src="https://assets-global.website-files.com/65af667017937d540b1c9600/65af667017937d540b1c9669_yt-logo.svg" loading="lazy" width="30" alt="">' }
-        }
-
-        let options = {
-            selector: '#viz_1_2',
-        }
-
-        let visuals = []
-        let gauges = []
-
-        Object.keys(platforms).forEach((d, i) => {
-
-            d3.select(options.selector).append("div").attr("id", options.selector.substring(1) + "_" + d)
-
-            options.fill = platforms[d].color
-            let vis = barchart(bar_data.filter(e => e.platform == d), mapping, { selector: options.selector + "_" + d, fill: platforms[d].color })
-            let g = gauge({ selector: options.selector + "_" + d, fill: platforms[d].color, min: 0, max: 1, value: gender_data[i].percentage })
-            visuals.push(vis)
-
-        });
-
-
-        // let chart = barchart(data, mapping, options)
+        let chart = viz_1_2(data)
 
 
     })()
