@@ -418,7 +418,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             if (targetElement.tagName === 'LI') {
                 language = targetElement.getAttribute("data-l")
                 console.log('new language selected: ', language);
-                // loadData(language, true);
+                loadData(language, true);
                 break;
             }
 
