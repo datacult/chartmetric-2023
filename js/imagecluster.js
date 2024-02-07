@@ -11,7 +11,6 @@ export function imagecluster(data, map, options, svg) {
   ////////////////////////////////////////
 
   let mapping = {
-    selector: '#vis',
     size: null,
     fill: null,
     stroke: null,
@@ -24,6 +23,7 @@ export function imagecluster(data, map, options, svg) {
   map = { ...mapping, ...map };
 
   let defaults = {
+    selector: '#vis',
     width: 800,
     height: 800,
     margin: { top: 100, right: 100, bottom: 100, left: 100 },
@@ -95,13 +95,13 @@ export function imagecluster(data, map, options, svg) {
 
   //Filter for the outside glow
   var blur = defs.append("filter")
-    .attr("id", "blur")
+    .attr("id", options.selector.substring(1) + "-blur")
     .attr("x", "-50%")
     .attr("y", "-50%")
     .attr("height", "200%")
     .attr("width", "200%")
   blur.append("feGaussianBlur")
-    .attr("stdDeviation", "80")
+    .attr("stdDeviation", "50")
     .attr("result", "coloredBlur");
 
   let floodfilter = defs.append("filter")
@@ -245,7 +245,7 @@ export function imagecluster(data, map, options, svg) {
     .attr("cy", height / 2)
     .attr("fill", options.fill)
     .attr("fill-opacity", 0.8)
-    .style("filter", `url(#blur)`)
+    .style("filter", `url(${options.selector}-blur)`)
 
   const bubbles = svg.selectAll("bubbles")
     .data(data)
