@@ -148,17 +148,20 @@ import { drawSingleValues } from "./highFi/single_values.js";
             ],
             update: function (param) {
                 // expects an object with 'bar' & 'arc' keys
+                if (param !== undefined && param !== null) {
+                    if (param.hasOwnProperty("bar")) {
+                        this.viz.bar.update(null, { y: param.bar }, { focus: param.arc.focus });
+                    } else {
+                        this.viz.bar.update(this.data);
+                    }
 
-                if (param.hasOwnProperty("bar")) {
-                    this.viz.bar.update(null, { y: param.bar }, { focus: param.arc.focus });
+                    if (param.hasOwnProperty("arc")) {
+                        this.viz.arc.update(null, { focus: param.arc.focus }, { opacity: param.arc.opacity });
+                    } else {
+                        this.viz.arc.update(this.data);
+                    }
                 } else {
                     this.viz.bar.update(this.data);
-                }
-
-                if (param.hasOwnProperty("arc")) {
-                    this.viz.arc.update(null, { focus: param.arc.focus }, { opacity: param.arc.opacity });
-                } else {
-                    this.viz.arc.update(this.data);
                 }
             },
         },
