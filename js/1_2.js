@@ -49,7 +49,7 @@ export function viz_1_2(data, map, options) {
 
   Object.keys(platforms).forEach((d, i) => {
 
-    // d3.select(options.selector).append("div").attr("id", options.selector.substring(1) + "_" + d)
+    if (d3.select(options.selector + "_" + d).empty()) d3.select(options.selector).append("div").attr("id", options.selector.substring(1) + "_" + d)
 
     options.fill = platforms[d].color
     let vis = barchart_1_2(bar_data.filter(e => e.platform == d), map, { selector: options.selector + "_" + d, fill: platforms[d].color })

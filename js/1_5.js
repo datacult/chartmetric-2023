@@ -54,8 +54,6 @@ export function viz_1_5(data, mapping, options) {
 
   let tranformed_data = Object.values(transformedMap)
 
-  console.log(tranformed_data)
-
   ////////////////////////////////////////
   ///////// Create Visuals ///////////////
   ////////////////////////////////////////
@@ -66,8 +64,10 @@ export function viz_1_5(data, mapping, options) {
 
   Object.keys(platforms).forEach((d, i) => {
 
+    if (d3.select(options.selector + "_" + d).empty()) d3.select(options.selector).append("div").attr("id", options.selector.substring(1) + "_" + d)
+
     options.fill = platforms[d].color
-    let vis = imagecluster(tranformed_data.filter(e => e.PLATFORM == d), mapping, { ...options, selector: "#viz_1_5_" + d })
+    let vis = imagecluster(tranformed_data.filter(e => e.PLATFORM == d), mapping, { ...options, selector: options.selector + "_" + d })
 
     visuals.push(vis)
 

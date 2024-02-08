@@ -61,7 +61,7 @@ export function Calendar(data, selector, chartContainerId = "calendarHeatmap") {
       label: "MONTHLY_TRACK_RELEASE_COUNT"
     }
 
-    if (d3.select("#" + selector + "_summary")) {
+    if (!d3.select("#" + selector + "_summary").empty()) {
       let summary = calendarsummary(summaryData, summary_map, { selector: "#" + selector + "_summary" })
     }
   });
