@@ -15,6 +15,7 @@ import { cluster } from './cluster.js';
 import { viz_2_8 } from "./highFi/2_8.js";
 import { gradientBar } from "./highFi/2_9.js";
 import { gradientBarMapComponent } from "./lowFi/2_10_gradientBar.js";
+import { choropleth } from './choropleth.js';
 import { scatter } from './scatter.js';
 import { drawSingleValues } from "./highFi/single_values.js";
 (async () => {
@@ -349,6 +350,29 @@ import { drawSingleValues } from "./highFi/single_values.js";
                 }
             },
         },
+
+        viz_2_13: {
+            viz: null,
+            data: [],
+            pending_data_update: false,
+            options: {
+                selector: "#viz_2_13",
+                title: "No. of Artists"
+            },
+            mapping: {
+                id: 'COUNTRY_NAME',
+                value: 'ARTIST_COUNT',
+                label: 'COUNTRY_NAME'
+            },
+            params: [],
+            update: function (param) {
+                if (param !== undefined && param !== null) {
+                    this.viz.update(null, param);
+                } else {
+                    this.viz.update(this.data);
+                }
+            },
+        },
         viz_2_14: {
             viz: null,
             data: [],
@@ -643,6 +667,13 @@ import { drawSingleValues } from "./highFi/single_values.js";
             visuals.viz_2_11.data,
             visuals.viz_2_11.mapping,
             visuals.viz_2_11.options
+        );
+    }
+    if (document.querySelector(visuals.viz_2_13.options.selector)) {
+        visuals.viz_2_13.viz = choropleth(
+            visuals.viz_2_13.data,
+            visuals.viz_2_13.mapping,
+            visuals.viz_2_13.options
         );
     }
     if (document.querySelector(visuals.viz_2_14.options.selector)) {
