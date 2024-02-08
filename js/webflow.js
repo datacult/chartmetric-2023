@@ -240,6 +240,9 @@ import { drawSingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "#viz_2_7",
                 stroke: "white",
+                format: (d) => {
+                    return Math.floor(d * 100) > 0 ? d3.format(".0%")(d) : d3.format(".1r")(d * 100) + "%"
+                }
             },
             mapping: {
                 size: "ARTIST_COUNT",

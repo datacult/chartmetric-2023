@@ -39,6 +39,9 @@ https://studio.datacult.com/ -->
     let options = {
         selector: "#vis",
         stroke: "white",
+        format: (d) => {
+            return Math.floor(d * 100) > 0 ? d3.format(".0%")(d) : d3.format(".1r")(d * 100) + "%"
+        }
     }
 
     // scrolltrigger to be added
