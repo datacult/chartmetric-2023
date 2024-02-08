@@ -622,6 +622,15 @@ https://studio.datacult.com/  */
   }
 }
 /* * * * * * * * * * * * * * * 
+/ Viz 2_5
+* * * * * * * * * * * * * * * */
+@media (min-width: 568px) {
+  #viz_2_5 {
+   font-size: 2.2em;
+  }
+}
+
+/* * * * * * * * * * * * * * * 
 / Viz 2_6
 * * * * * * * * * * * * * * * */
 #viz_2_6 {
@@ -736,6 +745,11 @@ https://studio.datacult.com/  */
   font-size: 14px;
   transform: translateX(-1%);
 }
+@media (min-width: 568px) {
+  #viz_2_6_summary {
+   font-size: 2.3em;
+  }
+}
 
 /* * * * * * * * * * * * * * * 
 / Viz 2_8
@@ -804,6 +818,9 @@ https://studio.datacult.com/  */
   #viz_2_8 .img_container {
       height: 35vw;
       width: 35vw;
+  }
+  #viz_2_8 .labels {
+    font-size: 2em;
   }
 }
 
@@ -1277,5 +1294,15 @@ Bar
   #viz_2_10 svg {
     width: 100%;
     height: 100%;
+  }
+}
+
+/* * * * * * * * * * * * * * * 
+/ Viz 2_11
+* * * * * * * * * * * * * * * */
+
+@media (min-width: 568px) {
+  #viz_2_11 {
+   font-size: 3em;
   }
 }
