@@ -2,7 +2,7 @@
 // Released under the ISC license.
 // https://studio.datacult.com/
 
-// import { Sankey } from "./highFi/1_1.js";
+import { sankey } from "./highFi/1_1.js";
 import { viz_1_2 } from "./1_2.js";
 import { Table_1_3 } from "./highFi/1_3.js";
 import { viz_1_5 } from "./1_5.js";
@@ -26,7 +26,12 @@ import { drawSingleValues } from "./highFi/single_values.js";
             data: [],
             pending_data_update: false,
             options: {
-                selector: "viz_1_1",
+                selector: "#viz_1_1",
+            },
+            mapping:{
+                source: "SOURCE",
+                target: "TARGET",
+                value: "VALUE",
             },
             params: [],
             update: function (param) {
@@ -37,7 +42,6 @@ import { drawSingleValues } from "./highFi/single_values.js";
                 }
             },
         },
-
         viz_1_2: {
             viz: null,
             data: [],
@@ -61,6 +65,27 @@ import { drawSingleValues } from "./highFi/single_values.js";
             pending_data_update: false,
             options: {
                 selector: "viz_1_3",
+            },
+            params: [],
+            update: function (param) {
+                if (param !== undefined && param !== null) {
+                    this.viz.update(null, param);
+                } else {
+                    this.viz.update(this.data);
+                }
+            },
+        },
+        viz_1_4: {
+            viz: null,
+            data: [],
+            pending_data_update: false,
+            options: {
+                selector: "#viz_1_4",
+            },
+            mapping:{
+                source: "SOURCE",
+                target: "TARGET",
+                value: "VALUE",
             },
             params: [],
             update: function (param) {
@@ -520,11 +545,12 @@ import { drawSingleValues } from "./highFi/single_values.js";
     /////// load visuals ///////////
     ////////////////////////////////
 
-    if (document.querySelector("#" + visuals.viz_1_1.options.selector)) {
-        // visuals.viz_1_1.viz = Sankey(
-        //     visuals.viz_1_1.data,
-        //     visuals.viz_1_1.options.selector
-        // );
+    if (document.querySelector(visuals.viz_1_1.options.selector)) {
+        visuals.viz_1_1.viz = sankey(
+            visuals.viz_1_1.data,
+            visuals.viz_1_1.mapping,
+            visuals.viz_1_1.options
+        );
     }
     if (document.querySelector(visuals.viz_1_2.options.selector)) {
         visuals.viz_1_2.viz = viz_1_2(
@@ -537,6 +563,13 @@ import { drawSingleValues } from "./highFi/single_values.js";
         visuals.viz_1_3.viz = Table_1_3(
             visuals.viz_1_3.data,
             visuals.viz_1_3.options.selector
+        );
+    }
+    if (document.querySelector(visuals.viz_1_4.options.selector)) {
+        visuals.viz_1_4.viz = sankey(
+            visuals.viz_1_4.data,
+            visuals.viz_1_4.mapping,
+            visuals.viz_1_4.options
         );
     }
     if (document.querySelector(visuals.viz_1_5.options.selector)) {
