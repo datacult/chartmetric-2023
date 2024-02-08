@@ -76,75 +76,75 @@ export function Calendar(data, selector, chartContainerId = "calendarHeatmap") {
 
   d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_6_1_en.csv', d3.autoType).then(photoData => {
 
-    const rotateScale = d3.scaleLinear().domain([0, 100]).range([-15, 15]);
+  //   const rotateScale = d3.scaleLinear().domain([0, 100]).range([-15, 15]);
 
-    // individual photo
-    photoCard = d3
-      .select("#viz_2_6")
-      .append("div")
-      .attr("id", "rotatingPhotos")
-      .selectAll(".photo-card")
-      .data(photoData)
-      .join("div")
-      .attr("class", "photo-card")
+  //   // individual photo
+  //   photoCard = d3
+  //     .select("#viz_2_6")
+  //     .append("div")
+  //     .attr("id", "rotatingPhotos")
+  //     .selectAll(".photo-card")
+  //     .data(photoData)
+  //     .join("div")
+  //     .attr("class", "photo-card")
 
-    imageContainer = photoCard
-      .append("div")
-      .attr("class", "image-container")
-      .style("transform", function () {
-        let min = -25
-        let max = 25
-        // Generate a random rotation angle between -20 and 20 degrees for each photo frame
-        const angle = Math.floor(Math.random() * (max - min + 1)) + min;
-        return `rotate(${angle}deg)`;
-      })
-      .on("mousemove", function (event, d) {
-        d3.select(this).style("transform", `rotate(${rotateScale(event.offsetX)}deg)`);
-      })
-      .append("img");
+  //   imageContainer = photoCard
+  //     .append("div")
+  //     .attr("class", "image-container")
+  //     .style("transform", function () {
+  //       let min = -25
+  //       let max = 25
+  //       // Generate a random rotation angle between -20 and 20 degrees for each photo frame
+  //       const angle = Math.floor(Math.random() * (max - min + 1)) + min;
+  //       return `rotate(${angle}deg)`;
+  //     })
+  //     .on("mousemove", function (event, d) {
+  //       d3.select(this).style("transform", `rotate(${rotateScale(event.offsetX)}deg)`);
+  //     })
+  //     .append("img");
 
-    textContainer = photoCard.append("div").attr("class", "text-container");
+  //   textContainer = photoCard.append("div").attr("class", "text-container");
 
   });
 
   function update(data, updatedDimensions) {
-    let cellSize = updatedDimensions.width / 7;
-    let paddingBetweenCells = 5;
-    CalendarComponent(svg, data, {
-      x: (d) => d["RELEASE_DATE"],
-      y: (d) => d["DAILY_TRACK_RELEASE_COUNT"],
-      dimensions: updatedDimensions,
-      colors: ["#DFF3DB", "#0769AC"],
-      cellSize: cellSize,
-      paddingBetweenCells: paddingBetweenCells,
-    });
+    // let cellSize = updatedDimensions.width / 7;
+    // let paddingBetweenCells = 5;
+    // CalendarComponent(svg, data, {
+    //   x: (d) => d["RELEASE_DATE"],
+    //   y: (d) => d["DAILY_TRACK_RELEASE_COUNT"],
+    //   dimensions: updatedDimensions,
+    //   colors: ["#DFF3DB", "#0769AC"],
+    //   cellSize: cellSize,
+    //   paddingBetweenCells: paddingBetweenCells,
+    // });
 
-    if (photoCard) photoCard.style("top", (d, i) => {
-      const date = new Date(d.RELEASE_DATE);
+    // if (photoCard) photoCard.style("top", (d, i) => {
+    //   const date = new Date(d.RELEASE_DATE);
 
-      let manualGapBetweenCards = 0;
-      if (i == 1) {
-        manualGapBetweenCards = 20;
-      }
-      let value =
-        (d3.utcMonday.count(d3.utcYear(date), d3.utcMonday.floor(date)) - 2) *
-        (cellSize + paddingBetweenCells * .5) + manualGapBetweenCards;
-      return value + "px";
-    });
+    //   let manualGapBetweenCards = 0;
+    //   if (i == 1) {
+    //     manualGapBetweenCards = 20;
+    //   }
+    //   let value =
+    //     (d3.utcMonday.count(d3.utcYear(date), d3.utcMonday.floor(date)) - 2) *
+    //     (cellSize + paddingBetweenCells * .5) + manualGapBetweenCards;
+    //   return value + "px";
+    // });
 
-    if (imageContainer) imageContainer
-      .style("width", cellSize * 2.5 + "px")
-      .style("height", cellSize * 2.5 + "px")
-      .attr("src", d => d.IMAGE_URL)
-      .attr("alt", "Photo");
+    // if (imageContainer) imageContainer
+    //   .style("width", cellSize * 2.5 + "px")
+    //   .style("height", cellSize * 2.5 + "px")
+    //   .attr("src", d => d.IMAGE_URL)
+    //   .attr("alt", "Photo");
 
-    // text next to photo
-    if (textContainer) textContainer.html(d => {
-      return `<div class='track-name'>${d.NAME}</div>
-    <div class='artist-name'>${d.ANNOTATION}</div>
-    <hr>
-    <div class='date'>${formatAlbumDate(d.RELEASE_DATE)}</>`
-    });
+    // // text next to photo
+    // if (textContainer) textContainer.html(d => {
+    //   return `<div class='track-name'>${d.NAME}</div>
+    // <div class='artist-name'>${d.ANNOTATION}</div>
+    // <hr>
+    // <div class='date'>${formatAlbumDate(d.RELEASE_DATE)}</>`
+    // });
 
   };
 
