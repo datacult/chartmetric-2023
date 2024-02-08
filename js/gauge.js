@@ -13,8 +13,8 @@ export function gauge(data, map, options) {
     let defaults = {
         selector: '#gauge',
         width: 800,
-        height: 500,
-        margin: { top: 50, right: 100, bottom: 100, left: 100 },
+        height: 600,
+        margin: { top: 50, right: 100, bottom: 200, left: 100 },
         fill: "#69b3a2",
         min: 0,
         max: 1,
@@ -80,17 +80,17 @@ export function gauge(data, map, options) {
         .range([-Math.PI / 2, Math.PI / 2]);
         
     const legendScale = d3.scaleBand()
-        .domain(data.map(d => d[map.label]))
-        .range([-width / 2, width / 2])
+        .domain(data.map(d => d[map.label]).sort((a, b) => a < b ? -1 : 1))
+        .range([-width / 2, width / 2]);
 
     ////////////////////////////////////////
     ////////////// DOM Setup ///////////////
     ////////////////////////////////////////
 
     const background = svg.append("circle")
-        .attr("r", options.width / 3)
+        .attr("r", options.width * 0.25)
         .attr("cx", 0)
-        .attr("cy", -options.height / 3)
+        .attr("cy", -options.height * 0.25)
         .attr("fill", options.fill)
         .attr("fill-opacity", 0.5)
         .style("filter", `url(#blur)`)

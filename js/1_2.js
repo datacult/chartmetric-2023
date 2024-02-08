@@ -40,7 +40,7 @@ export function viz_1_2(data, map, options) {
   }
 
   gender_data.forEach(d => {
-    d.color = d.sub_type == "MALE_USERS" ? "#fff" : platforms[d.platform].color
+    d.color = d.sub_type == "Male Users" ? "#fff" : platforms[d.platform].color
   })
 
 
@@ -60,7 +60,7 @@ export function viz_1_2(data, map, options) {
   });
 
   function update(){
-
+    console.log("no update function for viz_1_2 yet!")
   }
 
   return {
