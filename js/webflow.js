@@ -29,7 +29,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "#viz_1_1",
             },
-            mapping:{
+            mapping: {
                 source: "SOURCE",
                 target: "TARGET",
                 value: "VALUE",
@@ -50,7 +50,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "#viz_1_2",
             },
-            mapping:{},
+            mapping: {},
             params: [],
             update: function (param) {
                 if (param !== undefined && param !== null) {
@@ -83,7 +83,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             options: {
                 selector: "#viz_1_4",
             },
-            mapping:{
+            mapping: {
                 source: "SOURCE",
                 target: "TARGET",
                 value: "VALUE",
@@ -450,6 +450,15 @@ import { drawSingleValues } from "./highFi/single_values.js";
         },
     };
 
+    let loadVisualCheck = {}
+
+    Object.keys(visuals).forEach((viz) => {
+        let selector = visuals[viz].options.selector
+        if (selector[0] != "#") selector = "#" + selector
+        loadVisualCheck[viz] = document.querySelector(selector) ? true : false
+    });
+
+
     ///////////////////////////
     ///////// data ////////////
     ///////////////////////////
@@ -457,17 +466,21 @@ import { drawSingleValues } from "./highFi/single_values.js";
     async function loadData(lan, update = false) {
         await Promise.all(
             Object.keys(visuals).map((viz) => {
-                return d3
-                    .csv(
-                        `https://share.chartmetric.com/year-end-report/2023/${viz}_${lan}.csv`,
-                        d3.autoType
-                    )
-                    .then((data) => {
-                        return { name: viz, data: data };
-                    })
-                    .catch((error) => {
-                        return null;
-                    });
+                if (loadVisualCheck[viz] == true) {
+                    return d3
+                        .csv(
+                            `https://share.chartmetric.com/year-end-report/2023/${viz}_${lan}.csv`,
+                            d3.autoType
+                        )
+                        .then((data) => {
+                            return { name: viz, data: data };
+                        })
+                        .catch((error) => {
+                            return null;
+                        });
+                } else {
+                    return null;
+                }
             })
         ).then(function (results) {
             results.forEach((result) => {
@@ -483,7 +496,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             Object.keys(visuals).forEach((viz) => {
                 if (visuals[viz].viz != null) {
                     // new data gets updated in no param is passed
-                    if (visuals[viz].pending_data_update == true){
+                    if (visuals[viz].pending_data_update == true) {
                         visuals[viz].update();
                         visuals[viz].pending_data_update = false
                     }
@@ -572,128 +585,128 @@ import { drawSingleValues } from "./highFi/single_values.js";
     /////// load visuals ///////////
     ////////////////////////////////
 
-    if (document.querySelector(visuals.viz_1_1.options.selector)) {
+    if (loadVisualCheck.viz_1_1 == true) {
         visuals.viz_1_1.viz = sankey(
             visuals.viz_1_1.data,
             visuals.viz_1_1.mapping,
             visuals.viz_1_1.options
         );
     }
-    if (document.querySelector(visuals.viz_1_2.options.selector)) {
+    if (loadVisualCheck.viz_1_2 == true) {
         visuals.viz_1_2.viz = viz_1_2(
             visuals.viz_1_2.data,
             visuals.viz_1_2.mapping,
             visuals.viz_1_2.options,
         );
     }
-    if (document.querySelector("#" + visuals.viz_1_3.options.selector)) {
+    if (loadVisualCheck.viz_1_3 == true) {
         visuals.viz_1_3.viz = Table_1_3(
             visuals.viz_1_3.data,
             visuals.viz_1_3.options.selector
         );
     }
-    if (document.querySelector(visuals.viz_1_4.options.selector)) {
+    if (loadVisualCheck.viz_1_4 == true) {
         visuals.viz_1_4.viz = sankey(
             visuals.viz_1_4.data,
             visuals.viz_1_4.mapping,
             visuals.viz_1_4.options
         );
     }
-    if (document.querySelector(visuals.viz_1_5.options.selector)) {
+    if (loadVisualCheck.viz_1_5 == true) {
         visuals.viz_1_5.viz = viz_1_5(
             visuals.viz_1_5.data,
             visuals.viz_1_5.mapping,
             visuals.viz_1_5.options,
         );
     }
-    if (document.querySelector(visuals.viz_2_1.options.selector)) {
+    if (loadVisualCheck.viz_2_1 == true) {
         visuals.viz_2_1.viz = circlepack(
             visuals.viz_2_1.data,
             visuals.viz_2_1.mapping,
             visuals.viz_2_1.options
         );
     }
-    if (document.querySelector("#" + visuals.viz_2_2.options.selector)) {
+    if (loadVisualCheck.viz_2_2 == true) {
         visuals.viz_2_2.viz = Treemap(
             visuals.viz_2_2.data,
             visuals.viz_2_2.options.selector,
             visuals.viz_2_2.options
         );
     }
-    if (document.querySelector("#" + visuals.viz_2_3.options.selector)) {
+    if (loadVisualCheck.viz_2_3 == true) {
         visuals.viz_2_3.viz = Table_2_3(
             visuals.viz_2_3.data,
             visuals.viz_2_3.options.selector
         );
     }
-    if (document.querySelector(visuals.viz_2_5.options.selector)) {
+    if (loadVisualCheck.viz_2_5 == true) {
         visuals.viz_2_5.viz = barArc(
             visuals.viz_2_5.data,
             visuals.viz_2_5.options
         );
     }
-    if (document.querySelector("#" + visuals.viz_2_6.options.selector)) {
+    if (loadVisualCheck.viz_2_6 == true) {
         visuals.viz_2_6.viz = Calendar(
             visuals.viz_2_6.data,
             visuals.viz_2_6.options.selector
         );
     }
-    if (document.querySelector(visuals.viz_2_7.options.selector)) {
+    if (loadVisualCheck.viz_2_7 == true) {
         visuals.viz_2_7.viz = cluster(
             visuals.viz_2_7.data,
             visuals.viz_2_7.mapping,
             visuals.viz_2_7.options
         );
     }
-    if (document.querySelector(visuals.viz_2_8.options.selector)) {
+    if (loadVisualCheck.viz_2_8 == true) {
         visuals.viz_2_8.viz = viz_2_8(
             visuals.viz_2_8.data,
             visuals.viz_2_8.mapping,
             visuals.viz_2_8.options,
         );
     }
-    if (document.querySelector("#" + visuals.viz_2_9.options.selector)) {
+    if (loadVisualCheck.viz_2_9 == true) {
         visuals.viz_2_9.viz = gradientBar(
             visuals.viz_2_9.data,
             visuals.viz_2_9.options.selector,
             "All Countries"
         );
     }
-    if (document.querySelector("#" + visuals.viz_2_10.options.selector)) {
+    if (loadVisualCheck.viz_2_10 == true) {
         visuals.viz_2_10.viz = gradientBarMapComponent(
             visuals.viz_2_10.data,
             visuals.viz_2_10.options.selector
         );
     }
-    if (document.querySelector(visuals.viz_2_11.options.selector)) {
+    if (loadVisualCheck.viz_2_11 == true) {
         visuals.viz_2_11.viz = scatter(
             visuals.viz_2_11.data,
             visuals.viz_2_11.mapping,
             visuals.viz_2_11.options
         );
     }
-    if (document.querySelector(visuals.viz_2_13.options.selector)) {
+    if (loadVisualCheck.viz_2_13 == true) {
         visuals.viz_2_13.viz = choropleth(
             visuals.viz_2_13.data,
             visuals.viz_2_13.mapping,
             visuals.viz_2_13.options
         );
     }
-    if (document.querySelector(visuals.viz_2_14.options.selector)) {
+    if (loadVisualCheck.viz_2_14 == true) {
         visuals.viz_2_14.viz = circlepack(
             visuals.viz_2_14.data,
             visuals.viz_2_14.mapping,
             visuals.viz_2_14.options
         );
     }
-    if (document.querySelector(visuals.viz_2_15.options.selector)) {
+    if (loadVisualCheck.viz_2_15 == true) {
         visuals.viz_2_15.viz = circlepack(
             visuals.viz_2_15.data,
             visuals.viz_2_15.mapping,
             visuals.viz_2_15.options
         );
     }
-    if (document.querySelector("#" + visuals.viz_2_19.options.selector)) {
+    if (loadVisualCheck.viz_2_19 == true) {
         visuals.viz_2_19.viz = drawSingleValues(
             //[],
             visuals.viz_2_19.options.selector
