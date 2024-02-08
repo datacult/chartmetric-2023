@@ -624,7 +624,7 @@ https://studio.datacult.com/  */
 /* * * * * * * * * * * * * * * 
 / Viz 2_5
 * * * * * * * * * * * * * * * */
-@media (min-width: 568px) {
+@media (max-width: 568px) {
   #viz_2_5 {
    font-size: 2.2em;
   }
@@ -745,7 +745,7 @@ https://studio.datacult.com/  */
   font-size: 14px;
   transform: translateX(-1%);
 }
-@media (min-width: 568px) {
+@media (max-width: 568px) {
   #viz_2_6_summary {
    font-size: 2.3em;
   }
@@ -805,7 +805,7 @@ https://studio.datacult.com/  */
   font-family: Inter, sans-serif;
 }
 
-@media (max-width: 760px) {
+@media screen and (max-width: 760px) {
   #viz_2_8 {
       flex-direction: column;
   }
@@ -1301,7 +1301,7 @@ Bar
 / Viz 2_11
 * * * * * * * * * * * * * * * */
 
-@media (min-width: 568px) {
+@media screen and (max-width: 568px) {
   #viz_2_11 {
    font-size: 3em;
   }
