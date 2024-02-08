@@ -10,6 +10,8 @@ function formatAlbumDate(str) {
 }
 import { CalendarComponent } from "../../components/CalendarComponent.js";
 import { chartDimensions, setupResponsiveDimensions } from "../utility.js";
+import { calendarsummary } from "../calendar_summary.js";
+
 export function Calendar(data, selector, chartContainerId = "calendarHeatmap") {
 
   d3.select("#" + selector)
@@ -44,18 +46,37 @@ export function Calendar(data, selector, chartContainerId = "calendarHeatmap") {
   // Create the SVG container.
   const wrapper = d3.select(visElement);
 
+  d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_6_2_en.csv', d3.autoType).then(summaryData => {
+
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+    // replace month number with month name
+    summaryData.forEach(d => {
+      d["RELEASE_MONTH"] = months[d["RELEASE_MONTH"] - 1]
+    })
+
+    let summary_map = {
+      fill: "MONTHLY_TRACK_RELEASE_COUNT",
+      date: "RELEASE_MONTH",
+      label: "MONTHLY_TRACK_RELEASE_COUNT"
+    }
+
+    if (d3.select("#" + selector + "_summary")) {
+      let summary = calendarsummary(summaryData, summary_map, { selector: "#" + selector + "_summary" })
+    }
+  });
+
   const svg = wrapper
     .append("svg")
     .attr("width", "100%")
     .attr("height", "100%")
-
     .attr("style", "max-width: 100%");
 
   let photoCard, imageContainer, textContainer;
 
   d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_6_1_en.csv', d3.autoType).then(photoData => {
 
-  const rotateScale = d3.scaleLinear().domain([0, 100]).range([-15, 15]);
+    const rotateScale = d3.scaleLinear().domain([0, 100]).range([-15, 15]);
 
     // individual photo
     photoCard = d3
