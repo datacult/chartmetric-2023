@@ -36,7 +36,7 @@ export function cluster(data, map, options, svg) {
     fill: "#69b3a2",
     stroke: "#000",
     text: "black",
-    format: ".2r",
+    format: ".1r",
     force: 1
   }
 
