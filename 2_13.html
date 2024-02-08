@@ -1,0 +1,53 @@
+<!-- © 2023 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <!-- Google fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="viz_2_13"></div>
+
+</body>
+<!-- Include these! -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://d3js.org/topojson.v3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-geo@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-geo-projection@4"></script>
+
+</html>
+<script type="module">
+    import { choropleth } from './js/choropleth.js';
+    (async () => {
+        let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_13_en.csv', d3.autoType)
+
+        console.log(data)
+
+        let mapping = {
+            id: 'COUNTRY_NAME',
+            value: 'ARTIST_COUNT',
+            label: 'COUNTRY_NAME'
+        }
+
+        let options = {
+            selector: '#viz_2_13',
+            title: "No. of Artists"
+        }
+
+        let vis = choropleth(data, mapping, options)
+
+    })()
+
+</script>
