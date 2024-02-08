@@ -25,12 +25,12 @@ https://studio.datacult.com/  */
 /* * * * * * * * * * * * * * * 
 / Viz 1_1
 * * * * * * * * * * * * * * * */
-#viz_1_1 {
+/* #viz_1_1 {
   display: flex;
   justify-content: center;
   align-items: center;
   align-self: stretch;
-}
+} */
 
 /* * * * * * * * * * * * * * * 
 / Viz 1_3
