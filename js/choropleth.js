@@ -73,12 +73,19 @@ export function choropleth(data, map, options) {
     .append('g')
     .attr('transform', `translate(${options.margin.left},${options.margin.top})`);
 
+    const tooltip = d3.select(options.selector).append("div")
+    .classed(options.selector.substring(1) + "_tooltip", true)
+    .attr("opacity", 0)
+    .style("position", "fixed")
+    .style("pointer-events", "none")
+    .style("background-color", "white")
+    .style("padding", "5px")
+    .style("border-radius", "5px")
+
   ////////////////////////////////////////
   ////////////// Helpers /////////////////
   ////////////////////////////////////////
 
-  const centerX = options.width / 2;
-  const centerY = options.height / 2;
   const height = options.height - options.margin.top - options.margin.bottom;
   const width = options.width - options.margin.left - options.margin.right;
 
@@ -113,9 +120,16 @@ export function choropleth(data, map, options) {
       .attr("fill", d => colorScale(dataMap.get(d.properties.name) || 0))
       .on("mouseover", function (event, d) {
         d3.select(this).attr("stroke", options.stroke).attr("stroke-width", 2)
+
+        tooltip
+        .style("left", event.clientX + 20 + "px")
+        .style("top", event.clientY + 20 + "px")
+        .append("div")
+        .html(`${d.properties.name}: ${dataMap.get(d.properties.name) || 0}`)
       })
       .on("mouseout", function (event, d) {
         d3.select(this).attr("stroke", "none");
+        tooltip.selectAll("div").remove()
       });
 
   })
