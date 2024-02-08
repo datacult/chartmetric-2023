@@ -110,7 +110,7 @@ export function gradientBar(
     d3.selectAll(".gradient-bar.bar")
       .on("mouseenter", function (event, d) {
 
-        let hoveredArtistGenres = d.ARTIST_GENRE;
+        let hoveredArtistGenres = JSON.parse(d.ARTIST_GENRES);
         d3.select(this).append("div").attr("class", "tooltip").html(`
         <div class="career-stack">
         ${d["ARTIST_STAGE"] == "Null"
@@ -119,7 +119,7 @@ export function gradientBar(
           }
         </div>
         <div class="genre-stack">
-          <div class="card">${hoveredArtistGenres}</div>
+          <div class="card">${hoveredArtistGenres.join(" | ")}</div>
           
         </div>
         `);
