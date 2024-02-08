@@ -48,7 +48,7 @@ https://studio.datacult.com/  */
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  max-height: 600px;
+  max-height: 700px;
 }
 
 #viz_1_3 .box1 {
@@ -56,7 +56,8 @@ https://studio.datacult.com/  */
   display: flex;
   align-items: flex-start;
   gap: 19px;
-  padding-top: 24px;
+  padding-top: 16px;
+  padding-bottom: 16px;
   flex-basis: 20%;
   max-width: 50%;
 }
