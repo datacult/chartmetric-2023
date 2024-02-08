@@ -33,6 +33,17 @@ https://studio.datacult.com/  */
 } */
 
 /* * * * * * * * * * * * * * * 
+/ Viz 1_2
+* * * * * * * * * * * * * * * */
+
+@media screen and (max-width: 568px) {
+  #viz_1_2 {
+   font-size: 3em;
+  }
+}
+
+
+/* * * * * * * * * * * * * * * 
 / Viz 1_3
 * * * * * * * * * * * * * * * */
 #viz_1_3 {
@@ -1303,6 +1314,6 @@ Bar
 
 @media screen and (max-width: 568px) {
   #viz_2_11 {
-   font-size: 3em;
+   font-size: 4em;
   }
 }
