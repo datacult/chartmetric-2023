@@ -159,7 +159,7 @@ export function sankey(data = [], map, options) {
   const plot = svg
     .append("g")
     .attr("class", "sankey")
-    .attr("transform", `translate(${0}, ${height / 2}) rotate(-90, ${0}, ${0})`);
+    .attr("transform", `translate(${0}, ${width / 2}) rotate(-90, ${0}, ${0})`);
 
   const { nodes, links } = sankey({ nodes: node_data, links: link_data })
 
