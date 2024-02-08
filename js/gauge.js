@@ -62,7 +62,7 @@ export function gauge(data, map, options) {
 
     //Filter for the outside glow
     var blur = defs.append("filter")
-        .attr("id", "blur")
+        .attr("id", options.selector.substring(1) + "-blur")
         .attr("x", "-50%")
         .attr("y", "-50%")
         .attr("height", "200%")
@@ -93,7 +93,7 @@ export function gauge(data, map, options) {
         .attr("cy", -options.height * 0.25)
         .attr("fill", options.fill)
         .attr("fill-opacity", 0.5)
-        .style("filter", `url(#blur)`)
+        .style("filter", `url(${options.selector}-blur)`)
 
     // Background Arc
     let arc = d3.arc()
