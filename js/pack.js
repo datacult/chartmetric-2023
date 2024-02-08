@@ -66,6 +66,12 @@ export function circlepack(data, map, options) {
     .attr('viewBox', `0 0 ${options.width} ${options.height}`)
     .classed('vis-svg', true);
 
+  const tooltip = d3.select(options.selector).append("div")
+    .classed(options.selector.substring(1) + "_tooltip", true)
+    .attr("opacity", 0)
+    .style("position", "fixed")
+    .style("pointer-events", "none")
+
   if (map.image != null) {
 
     const defs = svg.append("defs");
@@ -123,7 +129,7 @@ export function circlepack(data, map, options) {
         }
 
         // check for duplicates before adding
-        if (!duplicateTracker[groupName].has(JSON.stringify(child))){
+        if (!duplicateTracker[groupName].has(JSON.stringify(child))) {
           duplicateTracker[groupName].add(JSON.stringify(child))
           groups[groupName].children.push(child);
         } else {
@@ -250,6 +256,20 @@ export function circlepack(data, map, options) {
         }
 
         if (d.depth == 2 && map.image != null) {
+
+          tooltip
+            .style("left", event.clientX + 20 + "px")
+            .style("top", event.clientY + 20 + "px")
+            .append("div")
+            .html(d.data.title)
+            .append("div")
+            .html(d.parent.data.title)
+            .append("div")
+            .append("img")
+            .attr("src", d.data.image)
+            .attr("width", "100px")
+            .attr("height", "100px");
+
           d3.select(this).select('circle')
             .attr("fill", d => "url(#image-fill-" + d.data.image + ")")
             .attr("fill-opacity", 1)
@@ -261,6 +281,8 @@ export function circlepack(data, map, options) {
 
       })
       .on('mouseout', function (event, d) {
+
+        tooltip.selectAll("div").remove()
 
         if (d.depth == 2 && map.image != null) {
           d3.select(this).select('circle')
