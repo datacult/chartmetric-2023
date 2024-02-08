@@ -33,6 +33,17 @@ https://studio.datacult.com/  */
 } */
 
 /* * * * * * * * * * * * * * * 
+/ Viz 1_2
+* * * * * * * * * * * * * * * */
+
+@media screen and (max-width: 568px) {
+  #viz_1_2 {
+   font-size: 3em;
+  }
+}
+
+
+/* * * * * * * * * * * * * * * 
 / Viz 1_3
 * * * * * * * * * * * * * * * */
 #viz_1_3 {
@@ -622,6 +633,15 @@ https://studio.datacult.com/  */
   }
 }
 /* * * * * * * * * * * * * * * 
+/ Viz 2_5
+* * * * * * * * * * * * * * * */
+@media (max-width: 568px) {
+  #viz_2_5 {
+   font-size: 2.2em;
+  }
+}
+
+/* * * * * * * * * * * * * * * 
 / Viz 2_6
 * * * * * * * * * * * * * * * */
 #viz_2_6 {
@@ -736,6 +756,11 @@ https://studio.datacult.com/  */
   font-size: 14px;
   transform: translateX(-1%);
 }
+@media (max-width: 568px) {
+  #viz_2_6_summary {
+   font-size: 2.3em;
+  }
+}
 
 /* * * * * * * * * * * * * * * 
 / Viz 2_8
@@ -791,7 +816,7 @@ https://studio.datacult.com/  */
   font-family: Inter, sans-serif;
 }
 
-@media (max-width: 760px) {
+@media screen and (max-width: 760px) {
   #viz_2_8 {
       flex-direction: column;
   }
@@ -804,6 +829,9 @@ https://studio.datacult.com/  */
   #viz_2_8 .img_container {
       height: 35vw;
       width: 35vw;
+  }
+  #viz_2_8 .labels {
+    font-size: 2em;
   }
 }
 
@@ -824,7 +852,7 @@ https://studio.datacult.com/  */
   /* or contain, depending on your needs */
   background-repeat: no-repeat;
   background-position: center;
-  padding: 90px 0px 30px 0px;
+  padding: 0px 0px 30px 0px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -1277,5 +1305,15 @@ Bar
   #viz_2_10 svg {
     width: 100%;
     height: 100%;
+  }
+}
+
+/* * * * * * * * * * * * * * * 
+/ Viz 2_11
+* * * * * * * * * * * * * * * */
+
+@media screen and (max-width: 568px) {
+  #viz_2_11 {
+   font-size: 4em;
   }
 }
