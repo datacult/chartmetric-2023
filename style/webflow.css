@@ -36,15 +36,25 @@ https://studio.datacult.com/  */
 / Viz 1_3
 * * * * * * * * * * * * * * * */
 #viz_1_3 {
-  height: auto;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  /* height: auto; */
+  /* display: grid; */
+  /* grid-template-columns: repeat(2, 1fr); */
   /* Two columns with equal width */
-  grid-template-rows: repeat(5, 1fr);
+  /* grid-template-rows: repeat(5, 1fr); */
   /* Five rows with equal height */
-  gap: 16px;
+  /* gap: 16px; */
   /* Consistent gap between grid items */
   font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-height: 600px;
+}
+
+@media screen and (max-width: 1120px) {
+  #viz_1_3 {
+    flex-wrap: nowrap;
+  }
 }
 
 #viz_1_3 .box1 {
@@ -53,23 +63,24 @@ https://studio.datacult.com/  */
   align-items: flex-start;
   gap: 19px;
   padding-top: 24px;
+  flex-basis: 20%;
+  max-width: 50%;
 }
 
 #viz_1_3 .color-bar {
-  display: inline-block;
+  /* display: inline-block;
   width: 16px;
-
   height: 16px;
   border-radius: 2px;
   background: #d9d9d9;
-  margin-right: 4px;
+  margin-right: 4px; */
 }
 
 #viz_1_3 .rank {
-  width: 32px;
+  width: 25px;
+  flex-shrink: 0;
   color: var(--text-secondary, #717171);
   text-align: center;
-
   font-family: Inter;
   font-size: 28px;
   font-style: normal;
@@ -107,7 +118,7 @@ https://studio.datacult.com/  */
 
   /* Desktop/Body/Redacted/regular */
   font-family: Inter;
-  font-size: 22px;
+  font-size: 1.2em;
   font-style: normal;
   font-weight: 700;
   line-height: 100%;
@@ -115,11 +126,11 @@ https://studio.datacult.com/  */
 }
 
 #viz_1_3 .subheader {
-  display: flex;
+  /* display: flex; */
   align-items: center;
   gap: var(--8pt-scale-8, 8px);
   color: var(--text-secondary, #717171);
-  text-align: right;
+  /* text-align: right; */
 
   /* Desktop/Body/Redacted/sm */
   font-family: Inter;
