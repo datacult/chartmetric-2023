@@ -51,16 +51,6 @@ https://studio.datacult.com/  */
   max-height: 600px;
 }
 
-@media screen and (max-width: 1120px) {
-  #viz_1_3 {
-    flex-wrap: nowrap;
-    max-height: none;
-  }
-  #viz_1_3 .box1 {
-    max-width: 100%;
-  }
-}
-
 #viz_1_3 .box1 {
   border-top: 1px solid #1c1c1c;
   display: flex;
@@ -122,7 +112,7 @@ https://studio.datacult.com/  */
 
   /* Desktop/Body/Redacted/regular */
   font-family: Inter;
-  font-size: 1.2em;
+  font-size: 1.25em;
   font-style: normal;
   font-weight: 700;
   line-height: 100%;
@@ -143,6 +133,19 @@ https://studio.datacult.com/  */
   font-weight: 400;
   line-height: 100%;
   /* 24px */
+}
+
+@media screen and (max-width: 1120px) {
+  #viz_1_3 {
+    flex-wrap: nowrap;
+    max-height: none;
+  }
+  #viz_1_3 .box1 {
+    max-width: none;
+  }
+  #viz_1_3 .header {
+    font-size: 1.5em;
+  }
 }
 
 /* * * * * * * * * * * * * * * 
