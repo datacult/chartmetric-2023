@@ -292,12 +292,11 @@ export function imagecluster(data, map, options, svg) {
 
   function updateTooltip(event, d) {
 
-    const [xCoord, yCoord] = d3.pointer(event);
-
     tooltip
       .style("display", "block")
-      .style("left", xCoord + 5 + "px")
-      .style("top", yCoord + 5 + "px").html(`
+      .style("left", event.clientX + 20 + "px")
+      .style("top", event.clientY + 20 + "px")
+      .html(`
           <div class="topline">
     <div class="state">${d.ARTIST_NAME}</div>
     <div class="billHR">${d.PLATFORM}</div>

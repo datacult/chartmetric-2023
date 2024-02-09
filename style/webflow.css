@@ -319,11 +319,9 @@ https://studio.datacult.com/  */
   display: flex;
 }
 
-#viz_1_5 #tooltip_1_5 {
+#viz_1_5_tooltip {
+  position: fixed;
   z-index: 100000;
-  position: absolute;
-  left: 375px;
-  top: 187.125px;
   width: 300px !important;
   padding: 0 15px;
   font-size: 14px;
@@ -333,8 +331,6 @@ https://studio.datacult.com/  */
   border-top: 1px solid #f3f3f3;
   border-left: 1px solid #f3f3f3;
   pointer-events: none;
-  mix-blend-mode: luminosity;
-  transform: scale(0);
 }
 
 #viz_1_5 .topline,
