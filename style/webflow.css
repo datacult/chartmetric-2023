@@ -1144,7 +1144,6 @@ Bar
 }
 
 #viz_2_10 .artist-name {
-  max-width: 50%;
   overflow: hidden;
 }
 
@@ -1154,6 +1153,7 @@ Bar
   min-width: 50%;
   text-overflow: ellipsis;
   font-size: 0.5rem;
+  display: block;
   /* Adjust as needed */
   color: black;
   /* Adjust as needed */
