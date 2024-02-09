@@ -54,7 +54,7 @@ export function gradientBarMapComponent(dataset, selector) {
     const widthScale = d3
       .scaleLinear()
       .domain([0, d3.max(top10GroupSummarized, (d) => d[widthKey])])
-      .range([200, dimensions.boundedWidth]);
+      .range([dimensions.boundedWidth, dimensions.boundedWidth]);
 
     const yScale = d3
       .scaleBand()

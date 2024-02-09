@@ -132,7 +132,7 @@ export async function drawMap(
           .style("display", "flex")
           .style("left", x + 1 + "px")
           .style("top", y + 15 + "px").html(`
-        <div class="map-tooltip__country">${filteredData[0].NAME}<span class="flag">${flagData.find(x => x.name == filteredData[0].NAME).emoji}</span></div>
+        <div class="map-tooltip__country"><span class="flag">${flagData.find(x => x.name == filteredData[0].NAME).emoji}</span>&nbsp;${filteredData[0].NAME}</div>
         <div class="map-tooltip__track"><span class="tooltip__artwork"><img class="tooltip__artwork_img" src="${filteredData[0].IMAGE_URL}"><img/></span>${filteredData[0].TRACK_NAME}</div>
         <div class="map-tooltip__artist"><span class="tooltip__artist"></span>${filteredData[0].ARTIST_NAME}</div>
     `);
