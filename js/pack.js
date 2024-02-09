@@ -258,17 +258,27 @@ export function circlepack(data, map, options) {
         if (d.depth == 2 && map.image != null) {
 
           tooltip
+            .style("display", "block")
             .style("left", event.clientX + 20 + "px")
-            .style("top", event.clientY + 20 + "px")
+            .style("top", event.clientY + 20 + "px");
+
+          tooltip
             .append("div")
             .html(d.data.title)
+            .style("font-weight", "bold")
+            .classed(options.selector.substring(1) + "_tooltip_title", true);
+
+          tooltip
             .append("div")
             .html(d.parent.data.title)
+            .style("font-weight", "normal")
+            .classed(options.selector.substring(1) + "_tooltip_subtitle", true);
+
+          tooltip
             .append("div")
             .append("img")
             .attr("src", d.data.image)
-            .attr("width", "100px")
-            .attr("height", "100px");
+            .classed(options.selector.substring(1) + "_tooltip_image", true);
 
           d3.select(this).select('circle')
             .attr("fill", d => "url(#image-fill-" + d.data.image + ")")
@@ -283,6 +293,7 @@ export function circlepack(data, map, options) {
       .on('mouseout', function (event, d) {
 
         tooltip.selectAll("div").remove()
+        tooltip.style("display", "none")
 
         if (d.depth == 2 && map.image != null) {
           d3.select(this).select('circle')
