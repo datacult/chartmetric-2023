@@ -1354,20 +1354,20 @@ Bar
   }
 }
 
-.viz_2_14_tooltip, .viz_2_15_tooltip {
+.viz_2_1_tooltip, .viz_2_14_tooltip, .viz_2_15_tooltip {
   padding: 5px 5px 2px 5px;
   border-radius: 5px;
   background-color: #fff;
 }
 
-.viz_2_14_tooltip_image, .viz_2_15_tooltip_image {
+.viz_2_1_tooltip_image, .viz_2_14_tooltip_image, .viz_2_15_tooltip_image {
   border-radius: 5px;
   width: 150px;
   height: auto;
 
 }
 
-.viz_2_14_tooltip_subtitle, .viz_2_15_tooltip_subtitle {
+.viz_2_1_tooltip_image, .viz_2_14_tooltip_subtitle, .viz_2_15_tooltip_subtitle {
   font-size: 0.7em;
   color: grey;
   margin-bottom: 5px;
