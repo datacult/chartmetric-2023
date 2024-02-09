@@ -1137,49 +1137,58 @@ Bar
 }
 /* Map tooltip */
 #viz_2_10 .map-tooltip {
-  position: absolute;
+  position: fixed;
   display: none;
   z-index: 10000;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding: 5px;
   align-items: center;
-  border-radius: var(--8pt-scale-8, 8px);
-  background: var(--colors-white, #fff);
-  box-shadow: 0px 0px 15.698px 0px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+  background: #fff;
 }
 
 #viz_2_10 .map-tooltip__country {
   display: flex;
   align-items: center;
+  text-wrap: nowrap;
 }
 
 #viz_2_10 .flag {
-  width: 24.61px;
-  height: 27.471px;
-  /* background-image: url("../assets/us-flag.png"); */
-  background-size: cover;
-  /* or contain, depending on your needs */
-  background-repeat: no-repeat;
-  background-position: center;
+margin-left: 5px
+}
 
-  background-blend-mode: hue, difference, normal;
-  border: none;
+#viz_2_10 .tooltip__artwork {
+  margin-right: 5px;
+}
+
+
+#viz_2_10 .tooltip__artwork_img {
+  border-radius: 5%;
+  width:20px;
+  height:20px;
+}
+
+#viz_2_10 .tooltip__artist {
+border-radius: 50%;
 }
 
 #viz_2_10 .map-tooltip__track {
   display: flex;
-  padding: 0px 3.298px;
+  /* padding: 0px 3.298px; */
   align-items: center;
-  gap: 7.558px;
+  /* gap: 7.558px; */
   text-wrap: nowrap;
+  margin: 0px 10px;
+
 }
 
 #viz_2_10 .map-tooltip__artist {
   display: flex;
-  padding-left: 16px;
+  /* padding-left: 16px; */
   align-items: center;
-  border-radius: 78.488px;
-  box-shadow: 0px 0px 15.698px 0px rgba(0, 0, 0, 0.08);
+  /* border-radius: 78.488px;
+  box-shadow: 0px 0px 15.698px 0px rgba(0, 0, 0, 0.08); */
+  text-wrap: nowrap;
+  font-weight: 800;
 }
 
 /* Tooltip */

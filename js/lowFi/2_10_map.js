@@ -13,6 +13,7 @@ export async function drawMap(
    *1. Access data
    ************************/
   const world = await d3.json(dataUrl);
+  const flagData = await d3.json('https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/index.json')
 
   const countries = topojson.feature(world, world.objects.countries);
 
@@ -125,14 +126,15 @@ export async function drawMap(
 
       const [x, y] = d3.pointer(event);
       if (filteredData.length > 0) {
+        console.log(filteredData[0])
         d3
           .select(".map-tooltip")
           .style("display", "flex")
           .style("left", x + 1 + "px")
           .style("top", y + 15 + "px").html(`
-        <div class="map-tooltip__country">${filteredData[0].NAME}<span class="flag"> </span></div>
-        <div class="map-tooltip__track"><span class="flag"></span>${filteredData[0].TRACK_NAME}</div>
-        <div class="map-tooltip__artist"><span class="flag"></span>${filteredData[0].ARTIST_NAME}</div>
+        <div class="map-tooltip__country">${filteredData[0].NAME}<span class="flag">${flagData.find(x => x.name == filteredData[0].NAME).emoji}</span></div>
+        <div class="map-tooltip__track"><span class="tooltip__artwork"><img class="tooltip__artwork_img" src="${filteredData[0].IMAGE_URL}"><img/></span>${filteredData[0].TRACK_NAME}</div>
+        <div class="map-tooltip__artist"><span class="tooltip__artist"></span>${filteredData[0].ARTIST_NAME}</div>
     `);
       }
     })
