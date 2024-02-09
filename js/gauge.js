@@ -117,7 +117,7 @@ export function gauge(data, map, options) {
         .data(data)
         .join('text')
         .attr('text-anchor', 'middle')
-        .attr('x', (d, i) => i == 0 ? (-width / 2) + (options.barwidth / 2) : (width / 2) - (options.barwidth / 2))
+        .attr('x', (d, i) => i == 0 ? (width / 2) - (options.barwidth / 2) : (-width / 2) + (options.barwidth / 2))
         .attr('y', -20)
         .attr('fill', '#000')
         .attr('font-size', '2em')
