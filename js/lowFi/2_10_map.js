@@ -126,7 +126,6 @@ export async function drawMap(
 
       const [x, y] = d3.pointer(event);
       if (filteredData.length > 0) {
-        console.log(filteredData[0])
         d3
           .select(".map-tooltip")
           .style("display", "flex")
