@@ -637,6 +637,9 @@ https://studio.datacult.com/  */
 /* * * * * * * * * * * * * * * 
 / Viz 2_5
 * * * * * * * * * * * * * * * */
+#viz_2_5 text {
+  font-size: 1rem;
+}
 @media (max-width: 568px) {
   #viz_2_5 {
     font-size: 2.2em;
