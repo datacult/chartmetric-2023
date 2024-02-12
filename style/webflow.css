@@ -36,7 +36,7 @@ https://studio.datacult.com/  */
 / Viz 1_2
 * * * * * * * * * * * * * * * */
 #viz_1_2 .legend_text {
-  font-size: 1rem;
+  font-size: 1.75rem;
 }
 
 @media screen and (max-width: 568px) {
