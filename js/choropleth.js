@@ -106,7 +106,6 @@ export function choropleth(data, map, options) {
 
   d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson").then(topo => {
 
-    console.log(topo)
     const projection = d3.geoRobinson()
       .translate([width / 2, height / 2]);
 
