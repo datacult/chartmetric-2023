@@ -1,8 +1,6 @@
 
 export function sankey(data = [], map, options) {
 
-  console.log(data)
-
   ////////////////////////////////////////
   /////////////// Defaults ///////////////
   ////////////////////////////////////////
@@ -100,9 +98,6 @@ export function sankey(data = [], map, options) {
     .nodeSort((a, b) => d3.descending(a.value, b.value));
 
   const { nodes, links } = sankey({ nodes: node_data, links: link_data })
-
-  console.log(nodes, links)
-
 
   const defs = svg.append("defs");
 

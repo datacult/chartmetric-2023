@@ -16,9 +16,6 @@ export function viz_1_2(data, map, options) {
 
   let bar_data = data.filter(d => d.type == "age")
 
-
-  console.log(data, bar_data, gender_data)
-
   let mapping = {
     x: 'sub_type',
     y: "percentage",
@@ -190,7 +187,6 @@ function barchart_1_2(data, map, options) {
 
   function update(newData = data, newMap = map, newOptions = options) {
 
-    console.log(newOptions)
     // merge any new mapping and options
     map = { ...map, ...newMap };
     options = { ...options, ...newOptions };

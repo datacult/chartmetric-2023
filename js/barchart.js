@@ -202,7 +202,6 @@ export function barchart(data, map, options, svg) {
 
   function update(newData = data, newMap = map, newOptions = options) {
 
-    console.log(newOptions)
     // merge any new mapping and options
     map = { ...map, ...newMap };
     options = { ...options, ...newOptions };

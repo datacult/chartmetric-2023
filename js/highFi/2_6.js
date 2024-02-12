@@ -38,7 +38,6 @@ export function Calendar(data, selector, chartContainerId = "calendarHeatmap") {
 
   // Get the bounding rectangle of the element
 
-  console.log(chartContainerId);
   const dimensions = chartDimensions(chartContainerId);
   /***********************
    *3. Set up canvas
@@ -155,7 +154,6 @@ export function Calendar(data, selector, chartContainerId = "calendarHeatmap") {
     chartContainerId,
     { top: 10, right: 20, bottom: 10, left: 60 },
     (updatedDimensions) => {
-      console.log(updatedDimensions);
       // if there is elements, meaning charts already exist
       if (!d3.select("#" + chartContainerId).empty()) {
         update(dataset, updatedDimensions);
