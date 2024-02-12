@@ -88,8 +88,8 @@ function barchart_1_2(data, map, options) {
 
   let defaults = {
     selector: '#vis',
-    width: 600,
-    height: 400,
+    width: 300,
+    height: 200,
     margin: { top: 20, right: 20, bottom: 20, left: 20 },
     transition: 400,
     delay: 100,
