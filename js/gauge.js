@@ -148,6 +148,7 @@ export function gauge(data, map, options) {
         .attr('y', 10)
         .attr('dy', '0.35em')
         .text(d => d[map.label])
+        .classed('legend_text', true)
 
     ////////////////////////////////////////
     /////////////// Update /////////////////
