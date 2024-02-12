@@ -585,133 +585,169 @@ import { drawSingleValues } from "./highFi/single_values.js";
     /////// load visuals ///////////
     ////////////////////////////////
 
-    if (loadVisualCheck.viz_1_1 == true) {
-        visuals.viz_1_1.viz = sankey(
-            visuals.viz_1_1.data,
-            visuals.viz_1_1.mapping,
-            visuals.viz_1_1.options
-        );
-    }
-    if (loadVisualCheck.viz_1_2 == true) {
-        visuals.viz_1_2.viz = viz_1_2(
-            visuals.viz_1_2.data,
-            visuals.viz_1_2.mapping,
-            visuals.viz_1_2.options,
-        );
-    }
-    if (loadVisualCheck.viz_1_3 == true) {
-        visuals.viz_1_3.viz = Table_1_3(
-            visuals.viz_1_3.data,
-            visuals.viz_1_3.options.selector
-        );
-    }
-    if (loadVisualCheck.viz_1_4 == true) {
-        visuals.viz_1_4.viz = sankey(
-            visuals.viz_1_4.data,
-            visuals.viz_1_4.mapping,
-            visuals.viz_1_4.options
-        );
-    }
-    if (loadVisualCheck.viz_1_5 == true) {
-        visuals.viz_1_5.viz = viz_1_5(
-            visuals.viz_1_5.data,
-            visuals.viz_1_5.mapping,
-            visuals.viz_1_5.options,
-        );
-    }
-    if (loadVisualCheck.viz_2_1 == true) {
-        visuals.viz_2_1.viz = circlepack(
-            visuals.viz_2_1.data,
-            visuals.viz_2_1.mapping,
-            visuals.viz_2_1.options
-        );
-    }
-    if (loadVisualCheck.viz_2_2 == true) {
-        visuals.viz_2_2.viz = Treemap(
-            visuals.viz_2_2.data,
-            visuals.viz_2_2.options.selector,
-            visuals.viz_2_2.options
-        );
-    }
-    if (loadVisualCheck.viz_2_3 == true) {
-        visuals.viz_2_3.viz = Table_2_3(
-            visuals.viz_2_3.data,
-            visuals.viz_2_3.options.selector
-        );
-    }
-    if (loadVisualCheck.viz_2_5 == true) {
-        visuals.viz_2_5.viz = barArc(
-            visuals.viz_2_5.data,
-            visuals.viz_2_5.options
-        );
-    }
-    if (loadVisualCheck.viz_2_6 == true) {
-        visuals.viz_2_6.viz = Calendar(
-            visuals.viz_2_6.data,
-            visuals.viz_2_6.options.selector
-        );
-    }
-    if (loadVisualCheck.viz_2_7 == true) {
-        visuals.viz_2_7.viz = cluster(
-            visuals.viz_2_7.data,
-            visuals.viz_2_7.mapping,
-            visuals.viz_2_7.options
-        );
-    }
-    if (loadVisualCheck.viz_2_8 == true) {
-        visuals.viz_2_8.viz = viz_2_8(
-            visuals.viz_2_8.data,
-            visuals.viz_2_8.mapping,
-            visuals.viz_2_8.options,
-        );
-    }
-    if (loadVisualCheck.viz_2_9 == true) {
-        visuals.viz_2_9.viz = gradientBar(
-            visuals.viz_2_9.data,
-            visuals.viz_2_9.options.selector,
-            "All Countries"
-        );
-    }
-    if (loadVisualCheck.viz_2_10 == true) {
-        visuals.viz_2_10.viz = gradientBarMapComponent(
-            visuals.viz_2_10.data,
-            visuals.viz_2_10.options.selector
-        );
-    }
-    if (loadVisualCheck.viz_2_11 == true) {
-        visuals.viz_2_11.viz = scatter(
-            visuals.viz_2_11.data,
-            visuals.viz_2_11.mapping,
-            visuals.viz_2_11.options
-        );
-    }
-    if (loadVisualCheck.viz_2_13 == true) {
-        visuals.viz_2_13.viz = choropleth(
-            visuals.viz_2_13.data,
-            visuals.viz_2_13.mapping,
-            visuals.viz_2_13.options
-        );
-    }
-    if (loadVisualCheck.viz_2_14 == true) {
-        visuals.viz_2_14.viz = circlepack(
-            visuals.viz_2_14.data,
-            visuals.viz_2_14.mapping,
-            visuals.viz_2_14.options
-        );
-    }
-    if (loadVisualCheck.viz_2_15 == true) {
-        visuals.viz_2_15.viz = circlepack(
-            visuals.viz_2_15.data,
-            visuals.viz_2_15.mapping,
-            visuals.viz_2_15.options
-        );
-    }
-    if (loadVisualCheck.viz_2_19 == true) {
-        visuals.viz_2_19.viz = drawSingleValues(
-            //[],
-            visuals.viz_2_19.options.selector
-        );
-    }
+    Object.keys(visuals).forEach((viz) => {
+        if (loadVisualCheck[viz] == true) {
+            let observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+
+                        if (viz == "viz_1_1") {
+                            visuals.viz_1_1.viz = sankey(
+                                visuals.viz_1_1.data,
+                                visuals.viz_1_1.mapping,
+                                visuals.viz_1_1.options
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_1_2") {
+                            visuals.viz_1_2.viz = viz_1_2(
+                                visuals.viz_1_2.data,
+                                visuals.viz_1_2.mapping,
+                                visuals.viz_1_2.options,
+                            );
+                            observer.disconnect();
+
+                        }
+                        if (viz == "viz_1_3") {
+                            visuals.viz_1_3.viz = Table_1_3(
+                                visuals.viz_1_3.data,
+                                visuals.viz_1_3.options.selector
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_1_4") {
+                            visuals.viz_1_4.viz = sankey(
+                                visuals.viz_1_4.data,
+                                visuals.viz_1_4.mapping,
+                                visuals.viz_1_4.options
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_1_5") {
+                            visuals.viz_1_5.viz = viz_1_5(
+                                visuals.viz_1_5.data,
+                                visuals.viz_1_5.mapping,
+                                visuals.viz_1_5.options,
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_2_1") {
+                            visuals.viz_2_1.viz = circlepack(
+                                visuals.viz_2_1.data,
+                                visuals.viz_2_1.mapping,
+                                visuals.viz_2_1.options
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_2_2") {
+                            visuals.viz_2_2.viz = Treemap(
+                                visuals.viz_2_2.data,
+                                visuals.viz_2_2.options.selector,
+                                visuals.viz_2_2.options
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_2_3") {
+                            visuals.viz_2_3.viz = Table_2_3(
+                                visuals.viz_2_3.data,
+                                visuals.viz_2_3.options.selector
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_2_5") {
+                            visuals.viz_2_5.viz = barArc(
+                                visuals.viz_2_5.data,
+                                visuals.viz_2_5.options
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_2_6") {
+                            visuals.viz_2_6.viz = Calendar(
+                                visuals.viz_2_6.data,
+                                visuals.viz_2_6.options.selector
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_2_7") {
+                            visuals.viz_2_7.viz = cluster(
+                                visuals.viz_2_7.data,
+                                visuals.viz_2_7.mapping,
+                                visuals.viz_2_7.options
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_2_8") {
+                            visuals.viz_2_8.viz = viz_2_8(
+                                visuals.viz_2_8.data,
+                                visuals.viz_2_8.mapping,
+                                visuals.viz_2_8.options,
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_2_9") {
+                            visuals.viz_2_9.viz = gradientBar(
+                                visuals.viz_2_9.data,
+                                visuals.viz_2_9.options.selector,
+                                "All Countries"
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_2_10") {
+                            visuals.viz_2_10.viz = gradientBarMapComponent(
+                                visuals.viz_2_10.data,
+                                visuals.viz_2_10.options.selector
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_2_11") {
+                            visuals.viz_2_11.viz = scatter(
+                                visuals.viz_2_11.data,
+                                visuals.viz_2_11.mapping,
+                                visuals.viz_2_11.options
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_2_13") {
+                            visuals.viz_2_13.viz = choropleth(
+                                visuals.viz_2_13.data,
+                                visuals.viz_2_13.mapping,
+                                visuals.viz_2_13.options
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_2_14") {
+                            visuals.viz_2_14.viz = circlepack(
+                                visuals.viz_2_14.data,
+                                visuals.viz_2_14.mapping,
+                                visuals.viz_2_14.options
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_2_15") {
+                            visuals.viz_2_15.viz = circlepack(
+                                visuals.viz_2_15.data,
+                                visuals.viz_2_15.mapping,
+                                visuals.viz_2_15.options
+                            );
+                            observer.disconnect();
+                        }
+                        if (viz == "viz_2_19") {
+                            visuals.viz_2_19.viz = drawSingleValues(
+                                visuals.viz_2_19.options.selector
+                            );
+                            observer.disconnect();
+                        }
+                        console.log("visual loaded: ", viz);
+                    }
+                });
+            });
+
+            let selector = visuals[viz].options.selector
+            if (selector[0] != "#") selector = "#" + selector
+
+            observer.observe(document.querySelector(selector));
+        }
+    });
 
     ////////////////////////////////
     /////// event listeners ////////
