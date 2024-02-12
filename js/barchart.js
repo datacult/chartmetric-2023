@@ -191,7 +191,6 @@ export function barchart(data, map, options, svg) {
     .attr("x", d => xScale(d[map.x]) + xScale.bandwidth() / 2)
     .attr("y", (d, i) => yScale(0) + options.label_offset)
     .attr("text-anchor", "middle")
-    .attr("font-size", "1.2em")
     .text(d => d[map.label])
     .classed("label", true)
     .call(wrap, xScale.bandwidth() * 0.9);
