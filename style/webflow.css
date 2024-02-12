@@ -35,6 +35,9 @@ https://studio.datacult.com/  */
 /* * * * * * * * * * * * * * * 
 / Viz 1_2
 * * * * * * * * * * * * * * * */
+#viz_1_2 .legend_text {
+  font-size: 1rem;
+}
 
 @media screen and (max-width: 568px) {
   #viz_1_2 {
@@ -639,6 +642,11 @@ https://studio.datacult.com/  */
     font-size: 2.2em;
   }
 }
+@media (min-width: 1900px) {
+  #viz_2_5 {
+    font-size: 1.2rem;
+  }
+}
 
 /* * * * * * * * * * * * * * * 
 / Viz 2_6
@@ -848,7 +856,7 @@ https://studio.datacult.com/  */
     width: 35vw;
   }
 
-  #viz_2_8 .labels {
+  #viz_2_8 .labels, #viz_2_8 .country, #viz_2_8 .flag {
     font-size: 2em;
   }
 }
