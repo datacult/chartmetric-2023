@@ -143,10 +143,26 @@ export function scatter(data, map, options, svg) {
 
   grescale.append("feColorMatrix")
     .attr("type", "matrix")
-    .attr("values", `0.3333 0.3333 0.3333 0 0
-                   0.3333 0.3333 0.3333 0 0
-                   0.3333 0.3333 0.3333 0 0
-                   0      0      0      1 0`);
+    .attr("values", `0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0`);
+
+  var combinedFilter = defs.append("filter")
+    .attr("id", "combined")
+    .attr("x", "-50%")
+    .attr("y", "-50%")
+    .attr("height", "300%")
+    .attr("width", "300%");
+
+  // Replicate the grayscale effect
+  combinedFilter.append("feColorMatrix")
+    .attr("type", "matrix")
+    .attr("values", "0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0")
+    .attr("result", "grayscaleResult");
+
+  // Replicate the Gaussian blur effect, using the result of the grayscale as its input
+  combinedFilter.append("feGaussianBlur")
+    .attr("in", "grayscaleResult")
+    .attr("stdDeviation", "10")
+    .attr("result", "blurredResult");
 
 
   ////////////////////////////////////////
@@ -184,7 +200,7 @@ export function scatter(data, map, options, svg) {
     .attr("r", d => rScale(d[map.size]))
     .attr("fill", d => `url(#${trimNames(d[map.fill])})`)
     .classed("circle", true)
-    .style("filter", "url(#grayscale) url(#blur)");
+    .attr("filter", "url(#combined)");
 
 
   const rings = circle_group.append("circle")
@@ -237,7 +253,7 @@ export function scatter(data, map, options, svg) {
       .attr("cx", d => xScale(d[map.x]))
       .attr("cy", d => yScale(d[map.y]))
       .attr("r", d => rScale(d[map.size]))
-      .style("filter", d => options.focus.length > 0 ? options.focus.indexOf(d[map.focus]) > -1 ? "url(#blur)" : "url(#grayscale) url(#blur)" : "url(#blur)")
+      .attr("filter", d => options.focus.length > 0 ? options.focus.indexOf(d[map.focus]) > -1 ? "url(#blur)" : "url(#combined)" : "url(#blur)")
 
   }
 
