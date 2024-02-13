@@ -22,8 +22,8 @@ export function choropleth(data, map, options) {
     width: 800,
     height: 800,
     margin: { top: 20, right: 20, bottom: 20, left: 20 },
-    transition: 400,
-    delay: 100,
+    transition: 1000,
+    delay: 20,
     stroke: "#FFF",
     fill: "none",
     focus: "",
@@ -73,7 +73,7 @@ export function choropleth(data, map, options) {
     .append('g')
     .attr('transform', `translate(${options.margin.left},${options.margin.top})`);
 
-    const tooltip = d3.select(options.selector).append("div")
+  const tooltip = d3.select(options.selector).append("div")
     .classed(options.selector.substring(1) + "_tooltip", true)
     .attr("opacity", 0)
     .style("position", "fixed")
@@ -116,20 +116,22 @@ export function choropleth(data, map, options) {
       .attr("d", d3.geoPath()
         .projection(projection)
       )
-      .attr("fill", d => colorScale(dataMap.get(d.properties.name) || 0))
+      .attr("fill", "transparent")
       .on("mouseover", function (event, d) {
         d3.select(this).attr("stroke", options.stroke).attr("stroke-width", 2)
 
         tooltip
-        .style("left", event.clientX + 20 + "px")
-        .style("top", event.clientY + 20 + "px")
-        .append("div")
-        .html(`${d.properties.name}: ${dataMap.get(d.properties.name) || 0}`)
+          .style("left", event.clientX + 20 + "px")
+          .style("top", event.clientY + 20 + "px")
+          .append("div")
+          .html(`${d.properties.name}: ${dataMap.get(d.properties.name) || 0}`)
       })
       .on("mouseout", function (event, d) {
         d3.select(this).attr("stroke", "none");
         tooltip.selectAll("div").remove()
       });
+
+    update()
 
   })
 
@@ -163,7 +165,6 @@ export function choropleth(data, map, options) {
 
   function update(newData = data, newMap = map, newOptions = options) {
 
-
     if (newData != null) data = newData;
     map = { ...map, ...newMap };
     options = { ...options, ...newOptions };
@@ -183,13 +184,13 @@ export function choropleth(data, map, options) {
       });
     }
 
+    dataMap = new Map(data.map(d => [d[map.id], +d[map.value]]))
 
     const t = d3.transition().duration(options.transition);
 
-    valuemap = new Map(data.map(d => [d[map.id], +d[map.value]]));
-    labelsmap = new Map(data.map(d => [d[map.id], d[map.label]]));
-
-    colorScale.domain(options.domain ? options.domain : d3.extent(data, d => d[map.value])).range(generateDiscreteColors(options.colorScale)).nice()
+    colorScale
+      .domain(options.domain ? options.domain : [0, d3.max(data, d => d[map.value])])
+      .range(options.colorScale)
 
     if (options.legend == true) {
       svg.select('.legend').remove()
@@ -198,8 +199,12 @@ export function choropleth(data, map, options) {
       svg.select('.legend').remove()
     }
 
-  }
+    svg.selectAll("path")
+      .transition(t)
+      .delay((d, i) => i * options.delay)
+      .attr("fill", d => colorScale(dataMap.get(d.properties.name) || 0))
 
+  }
 
   return {
     update: update,
