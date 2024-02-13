@@ -12,6 +12,7 @@ export function viz_2_8(data, map, options) {
         x: "x",
         y: "y",
         group: "group",
+        artist_image: null,
         sort: null
     };
 
@@ -29,7 +30,8 @@ export function viz_2_8(data, map, options) {
         stroke: "#000",
         padding: 0.1,
         opacity: 0.3,
-        focus: null
+        focus: null,
+        imageSize: 40
     };
 
     // merge default options with user options
@@ -174,26 +176,45 @@ export function viz_2_8(data, map, options) {
             paths.attr("opacity", x => options.focus == x.name ? 1 : options.opacity);
         });
 
+    if (map.artist_image != null) {
 
-    let labels = svg
-        .selectAll(".labels")
-        .data(firstAppearance)
-        .join("text")
-        .attr("class", "labels")
-        .attr("x", (d) => xScale(d[map.x]))
-        .attr("y", (d) => yScale(d[map.y] - 0.5))
-        .style("cursor", "pointer")
-        .text((d) => d[map.group])
-        .on("click", function (event, d) {
-            options.focus = d[map.group];
+        let images = svg.selectAll(".artist_images")
+            .data(firstAppearance)
+            .join("svg:image")
+            .attr("xlink:href", d => d[map.artist_image])
+            .attr("width", options.imageSize)
+            .attr("height", options.imageSize)
+            .attr("x", -10)
+            .attr("x", (d) => xScale(d[map.x]) - (options.imageSize / 2))
+            .attr("y", (d) => yScale(d[map.y] - 0.5) - (options.imageSize / 2))
+            .style("outline", options.imageSize * 0.1 + "px solid white")
+            .classed("artist_images", true)
+            .on("click", function (event, d) {
+                options.focus = d[map.group];
+                info.update([artistsInfo[d[map.group]]]);
+                paths.attr("opacity", x => d[map.group] == x.name ? 1 : options.opacity);
+            })
+    } else {
+        let labels = svg
+            .selectAll(".labels")
+            .data(firstAppearance)
+            .join("text")
+            .attr("class", "labels")
+            .attr("x", (d) => xScale(d[map.x]))
+            .attr("y", (d) => yScale(d[map.y] - 0.5))
+            .style("cursor", "pointer")
+            .text((d) => d[map.group])
+            .on("click", function (event, d) {
+                options.focus = d[map.group];
 
-            info.update([artistsInfo[d[map.group]]]);
-            paths.attr("opacity", x => d[map.group] == x.name ? 1 : options.opacity);
+                info.update([artistsInfo[d[map.group]]]);
+                paths.attr("opacity", x => d[map.group] == x.name ? 1 : options.opacity);
 
-            labels
-                .attr("font-weight", x => d[map.group] == x[map.group] ? "bold" : "normal")
-                .style("cursor", d => d[map.group] != options.focus ? "pointer" : "default");
-        })
+                labels
+                    .attr("font-weight", x => d[map.group] == x[map.group] ? "bold" : "normal")
+                    .style("cursor", d => d[map.group] != options.focus ? "pointer" : "default");
+            })
+    }
 
     let position_labels = svg
         .selectAll(".position_labels")
@@ -202,6 +223,8 @@ export function viz_2_8(data, map, options) {
         .attr("class", "position_labels")
         .attr("x", -30)
         .attr("y", (d) => yScale(d - 0.5))
+        .attr("dominant-baseline", "middle")
+        .attr("text-anchor", "end")
         .text((d) => d)
 
 
