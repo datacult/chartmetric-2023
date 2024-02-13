@@ -143,10 +143,7 @@ export function scatter(data, map, options, svg) {
 
   grescale.append("feColorMatrix")
     .attr("type", "matrix")
-    .attr("values", `0.3333 0.3333 0.3333 0 0
-                   0.3333 0.3333 0.3333 0 0
-                   0.3333 0.3333 0.3333 0 0
-                   0      0      0      1 0`);
+    .attr("values", `0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0`);
 
 
   ////////////////////////////////////////
