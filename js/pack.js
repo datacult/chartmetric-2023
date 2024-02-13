@@ -26,7 +26,7 @@ export function circlepack(data, map, options) {
     width: 800,
     height: 800,
     margin: { top: 100, right: 100, bottom: 100, left: 100 },
-    transition: 400,
+    transition: 500,
     delay: 100,
     padding: 0.1,
     size: 10,
@@ -225,7 +225,7 @@ export function circlepack(data, map, options) {
       .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')');
 
     node.append('circle')
-      .attr('r', d => d.depth > 1 ? options.focus == -1 ? 0 : d.r : d.r)
+      .attr('r', 0)
       .attr("fill", d => map.fill != null ? d[map.fill] : options.fill)
       .attr("stroke", d => d.depth > 0 ? map.stroke != null ? d[map.stroke] : options.stroke : "none")
       .attr("fill-opacity", d => d.depth > options.focus + 1 ? options.opacity : 0)
@@ -315,7 +315,9 @@ export function circlepack(data, map, options) {
   ////////////// Update //////////////////
   ////////////////////////////////////////
 
-  function updateFocus(focus) {
+  function updateFocus(focus, forceUpdate = false) {
+
+    if (focus == options.focus && forceUpdate != true) return;
 
     options.focus = focus;
 
@@ -326,8 +328,10 @@ export function circlepack(data, map, options) {
       .attr('r', d => d.depth > 1 ? options.focus == -1 ? 0 : d.r : d.r);
 
     node.selectAll('text')
+      .attr("opacity", 0)
       .transition()
       .duration(options.transition)
+      .delay(options.transition)
       .attr('opacity', d => d.depth == 0 ? 0 : d.depth == options.focus + 2 ? 1 : 0)
 
   }
@@ -345,7 +349,12 @@ export function circlepack(data, map, options) {
 
     if (newData != data || newMap != map || newOptions != options) addNodes()
 
+    updateFocus(options.focus, true)    
+
   }
+
+  update()
+
 
   return {
     update: update,
