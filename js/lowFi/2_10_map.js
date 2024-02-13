@@ -124,16 +124,17 @@ export async function drawMap(
 
       d3.select(hoveredMapSelector).style("border", "1px solid black");
 
-      const [x, y] = d3.pointer(event);
       if (filteredData.length > 0) {
         d3
           .select(".map-tooltip")
-          .style("display", "flex")
-          .style("left", x + 1 + "px")
-          .style("top", y + 15 + "px").html(`
+          .style("display", "block")
+          .style("left", event.clientX + 20 + "px")
+          .style("top", event.clientY + 20 + "px")
+          .html(`<div style="display:flex;">
         <div class="map-tooltip__country"><span class="flag">${flagData.find(x => x.name == filteredData[0].NAME).emoji}</span>&nbsp;${filteredData[0].NAME}</div>
         <div class="map-tooltip__track"><span class="tooltip__artwork"><img class="tooltip__artwork_img" src="${filteredData[0].IMAGE_URL}"><img/></span>${filteredData[0].TRACK_NAME}</div>
         <div class="map-tooltip__artist"><span class="tooltip__artist"></span>${filteredData[0].ARTIST_NAME}</div>
+        </div>
     `);
       }
     })
@@ -148,7 +149,7 @@ export async function drawMap(
       const hoveredTrackName =
         d3.least(filteredData, (d) => d.SPINS)?.TRACK_NAME || "noData";
       let hoveredTrackNameID = trimNames(hoveredTrackName);
-     
+
 
       //! Below scrolls , but moves the whole thing.
       // document.getElementById( hoveredTrackNameID).scrollIntoView({
