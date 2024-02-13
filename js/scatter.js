@@ -181,7 +181,7 @@ export function scatter(data, map, options, svg) {
     .attr("r", d => rScale(d[map.size]))
     .attr("fill", d => `url(#${trimNames(d[map.fill])})`)
     .classed("circle", true)
-    .style("filter", "url(#grayscale) url(#blur)");
+    .attr("filter", "url(#grayscale) url(#blur)");
 
 
   const rings = circle_group.append("circle")
@@ -234,7 +234,7 @@ export function scatter(data, map, options, svg) {
       .attr("cx", d => xScale(d[map.x]))
       .attr("cy", d => yScale(d[map.y]))
       .attr("r", d => rScale(d[map.size]))
-      .style("filter", d => options.focus.length > 0 ? options.focus.indexOf(d[map.focus]) > -1 ? "url(#blur)" : "url(#grayscale) url(#blur)" : "url(#blur)")
+      .attr("filter", d => options.focus.length > 0 ? options.focus.indexOf(d[map.focus]) > -1 ? "url(#blur)" : "url(#grayscale) url(#blur)" : "url(#blur)")
 
   }
 
