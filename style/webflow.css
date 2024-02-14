@@ -498,6 +498,18 @@ https://studio.datacult.com/  */
   /* Bold text */
   font-size: 1em;
   /* Adjust as necessary */
+  display: inline;
+  text-wrap: nowrap;
+  max-width: 85%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+
+@media (max-width: 500px) {
+  #viz_2_2 .label-bg {
+    font-size: 2em;
+  }
 }
 
 /* * * * * * * * * * * * * * * 
@@ -633,6 +645,7 @@ https://studio.datacult.com/  */
     border-top: 1px solid #c2c2c1;
   }
 }
+
 
 /* * * * * * * * * * * * * * * 
 / Viz 2_5
