@@ -499,9 +499,9 @@ https://studio.datacult.com/  */
   font-size: 1em;
   /* Adjust as necessary */
   display: inline;
-  text-wrap: nowrap;
   max-width: 85%;
   text-overflow: ellipsis;
+  text-wrap: nowrap;
   overflow: hidden;
 }
 
