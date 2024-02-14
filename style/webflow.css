@@ -1379,3 +1379,7 @@ Bar
   color: grey;
   margin-bottom: 5px;
 }
+
+.viz_2_1_tooltip_title, .viz_2_14_tooltip_title, .viz_2_15_tooltip_title {
+  max-width: 150px;
+}
