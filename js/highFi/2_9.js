@@ -42,6 +42,8 @@ export function gradientBar(
    ************************/
   function drawElements(top10) {
 
+    console.log("2_9 top 10 data", top10)
+
     // Select the top 10 rows using d3.slice
 
     const globalTop10 = top10.slice(0, 10);
@@ -80,12 +82,12 @@ export function gradientBar(
 
           .style("opacity", 0)
           .style("width", 0)
-          .style("transfrom", "translateX(-1000px)")
+          .style("transfrom", "translate3d(-1000px, 0px, 0px)")
           .transition()
           .duration(1000) // Duration for enter transition
           .delay((d, i) => exitDuration + i * 30)
           .style("opacity", 1)
-          .style("transfrom", "translateX(0px)")
+          .style("transfrom", "translate3d(0px, 0px, 0px)")
           .style("width", (d) => widthScale(d[widthKey]) + "px");
 
         return divEnter;
