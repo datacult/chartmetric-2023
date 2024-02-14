@@ -794,10 +794,10 @@ https://studio.datacult.com/  */
 
 @media (max-width: 568px) {
   #viz_2_6_summary {
-    font-size: 1em;
+    font-size: 2.3em;
   }
   #viz_2_6_summary .month {
-    width: 45% !important;
+    width: 48% !important;
   }
 }
 
