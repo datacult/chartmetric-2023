@@ -62,7 +62,7 @@ export function gradientBar(
     barContainers.join(
       // Enter selection
       (enter) => {
-        
+
         const exitDuration = 450
         const divEnter = enter
           .append("div")
@@ -83,7 +83,7 @@ export function gradientBar(
           .style("transfrom", "translateX(-1000px)")
           .transition()
           .duration(1000) // Duration for enter transition
-          .delay((d,i)=> exitDuration+i * 30)
+          .delay((d, i) => exitDuration + i * 30)
           .style("opacity", 1)
           .style("transfrom", "translateX(0px)")
           .style("width", (d) => widthScale(d[widthKey]) + "px");
@@ -101,7 +101,7 @@ export function gradientBar(
         exit
           .transition()
           .duration(500) // Duration for exit transition
-          .delay((d,i)=> i * 30)
+          .delay((d, i) => i * 30)
           .style("width", 0)
           .style("opacity", 0)
           .style("left", -3000 + "px")
@@ -111,7 +111,7 @@ export function gradientBar(
       .on("mouseenter", function (event, d) {
 
         let hoveredArtistGenres = JSON.parse(d.ARTIST_GENRES);
-        d3.select(this).append("div").attr("class", "tooltip").html(`
+        let tooltip = d3.select(this).append("div").attr("class", "tooltip").html(`
         <div class="career-stack">
         ${d["ARTIST_STAGE"] == "Null"
             ? ""
@@ -126,8 +126,6 @@ export function gradientBar(
         // get the tooltip width
         let barElement = d3.select(this);
 
-        // get the bar width
-        let profileBarWidth = barElement.node().getBoundingClientRect().width;
         // get the image width
         let imageWidth = barElement
           .select(".artist-image")
@@ -139,16 +137,13 @@ export function gradientBar(
           .getBoundingClientRect().width;
 
         let childWidth = imageWidth + nameWidth;
-        gsap.fromTo(
-          ".tooltip",
-          { left: profileBarWidth, opacity: 0 },
-          {
-            left: childWidth * 1.5,
-            opacity: 1,
-            duration: 0.5,
-            ease: "power2.inOut",
-          }
-        );
+
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 1)
+          .style("left", (childWidth * 1.5) + "px")
+          .ease(d3.easeInOut);
+
       })
       .on("mouseleave", function (d) {
         d3.select(this).select("div.tooltip").remove();

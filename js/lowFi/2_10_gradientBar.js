@@ -78,7 +78,7 @@ export function gradientBarMapComponent(dataset, selector) {
       .on("mouseenter", function (event, d) {
         d3.select(this).style("border", "1px solid black");
 
-        d3.select(this).append("div").attr("class", "tooltip").attr('id', 'tooltip_2_10').html(`
+        let tooltip = d3.select(this).append("div").attr("class", "tooltip").attr('id', 'tooltip_2_10').html(`
       <div class='name'>${d.data[0].ARTIST_NAME}</div>
       <div class="flag"> </div>
      `);
@@ -90,18 +90,15 @@ export function gradientBarMapComponent(dataset, selector) {
           .select(this)
           .node()
           .getBoundingClientRect().width;
-          
-        // console.log(profileBarWidth, fromRight);
-        gsap.fromTo(
-          "#tooltip_2_10",
-          { left: profileBarWidth+fromRight, opacity: 0 },
-          {
-            left: profileBarWidth*.5,
-            opacity: 1,
-            duration: 0.5,
-            ease: "power2.inOut",
-          }
-        );
+
+        tooltip.style("left", (profileBarWidth + fromRight) + "px");
+
+        tooltip.transition()
+               .duration(500)
+               .style("opacity", 1)
+               .style("left", (profileBarWidth * 0.5) + "px")
+               .ease(d3.easeInOut);
+
       })
       .on("mouseleave", function (d) {
         d3.select(this).select("div.tooltip").remove();
