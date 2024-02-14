@@ -42,8 +42,6 @@ export function gradientBar(
    ************************/
   function drawElements(top10) {
 
-    console.log("2_9 top 10 data", top10)
-
     // Select the top 10 rows using d3.slice
 
     const globalTop10 = top10.slice(0, 10);
