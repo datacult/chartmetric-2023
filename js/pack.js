@@ -67,10 +67,11 @@ export function circlepack(data, map, options) {
     .classed('vis-svg', true);
 
   const tooltip = d3.select(options.selector).append("div")
-    .classed(options.selector.substring(1) + "_tooltip", true)
+    .attr("id", options.selector.substring(1) + "_tooltip", true)
     .attr("opacity", 0)
     .style("position", "fixed")
     .style("pointer-events", "none")
+    .classed('tooltip', true);
 
   if (map.image != null) {
 
@@ -266,19 +267,19 @@ export function circlepack(data, map, options) {
             .append("div")
             .html(d.data.title)
             .style("font-weight", "bold")
-            .classed(options.selector.substring(1) + "_tooltip_title", true);
+            .attr("id", options.selector.substring(1) + "_tooltip_title", true);
 
           tooltip
             .append("div")
             .html(d.parent.data.title)
             .style("font-weight", "normal")
-            .classed(options.selector.substring(1) + "_tooltip_subtitle", true);
+            .attr("id", options.selector.substring(1) + "_tooltip_subtitle", true);
 
           tooltip
             .append("div")
             .append("img")
             .attr("src", d.data.image)
-            .classed(options.selector.substring(1) + "_tooltip_image", true);
+            .attr("id", options.selector.substring(1) + "_tooltip_image", true);
 
           d3.select(this).select('circle')
             .attr("fill", d => "url(#image-fill-" + d.data.image + ")")

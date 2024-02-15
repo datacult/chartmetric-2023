@@ -753,6 +753,16 @@ import { drawSingleValues } from "./highFi/single_values.js";
     /////// event listeners ////////
     ////////////////////////////////
 
+    function hideTooltips() {
+        const tooltips = document.querySelectorAll('.tooltip');
+
+        tooltips.forEach(tooltip => {
+            tooltip.style.display = 'none';
+        });
+    }
+
+    window.addEventListener('scroll', hideTooltips);
+
     const handleIntersection = (entries, observer) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {

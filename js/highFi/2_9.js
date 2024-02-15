@@ -111,7 +111,7 @@ export function gradientBar(
       .on("mouseenter", function (event, d) {
 
         let hoveredArtistGenres = JSON.parse(d.ARTIST_GENRES);
-        let tooltip = d3.select(this).append("div").attr("class", "tooltip").html(`
+        let tooltip = d3.select(this).append("div").attr("id", "viz_2_9_tooltip").html(`
         <div class="career-stack">
         ${d["ARTIST_STAGE"] == "Null"
             ? ""
@@ -146,7 +146,7 @@ export function gradientBar(
 
       })
       .on("mouseleave", function (d) {
-        d3.select(this).select("div.tooltip").remove();
+        d3.select(this).select("#viz_2_9_tooltip").remove();
       });
   }
 

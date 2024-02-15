@@ -78,12 +78,12 @@ export function gradientBarMapComponent(dataset, selector) {
       .on("mouseenter", function (event, d) {
         d3.select(this).style("border", "1px solid black");
 
-        let tooltip = d3.select(this).append("div").attr("class", "tooltip").attr('id', 'tooltip_2_10').html(`
+        let tooltip = d3.select(this).append("div").attr("id", "viz_2_10_tooltip").html(`
       <div class='name'>${d.data[0].ARTIST_NAME}</div>
       <div class="flag"> </div>
      `);
         let fromRight = d3
-          .select("#tooltip_2_10")
+          .select("#viz_2_10_tooltip")
           .node()
           .getBoundingClientRect().width;
         let profileBarWidth = d3
@@ -101,7 +101,7 @@ export function gradientBarMapComponent(dataset, selector) {
 
       })
       .on("mouseleave", function (d) {
-        d3.select(this).select("div.tooltip").remove();
+        d3.select(this).select("#viz_2_10_tooltip").remove();
         d3.select(this).style("border", "0px solid black");
       });
 

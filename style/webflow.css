@@ -979,7 +979,7 @@ Bar
 
 /* Tooltip */
 
-#viz_2_9 .tooltip {
+#viz_2_9_tooltip {
   max-width: 300px;
   min-width: 200px;
   height: 50%;
@@ -1261,11 +1261,11 @@ Bar
 }
 
 /* Tooltip */
-#viz_2_10 .tooltip {
+#viz_2_10_tooltip {
   height: 50%;
-
+  margin-left: 30px;
+  position: absolute;
   display: inline-flex;
-  margin-left: 10px;
   padding-left: 16px;
   /** To be editted: this helps include the buttons=40px + margin-left for buttons */
   padding-right: 62px;
@@ -1297,11 +1297,6 @@ Bar
   /** To be editted: this helps include the buttons */
 
   /* Ensure there is enough space for the cards to pop */
-}
-
-#tooltip_2_10 {
-  margin-left: 30px;
-  position: absolute;
 }
 
 #viz_2_10 .card {
@@ -1393,25 +1388,25 @@ Bar
   }
 }
 
-.viz_2_1_tooltip, .viz_2_14_tooltip, .viz_2_15_tooltip {
+#viz_2_1_tooltip, #viz_2_14_tooltip, #viz_2_15_tooltip {
   padding: 5px;
   border-radius: 5px;
   background-color: #fff;
 }
 
-.viz_2_1_tooltip_image, .viz_2_14_tooltip_image, .viz_2_15_tooltip_image {
+#viz_2_1_tooltip_image, #viz_2_14_tooltip_image, #viz_2_15_tooltip_image {
   border-radius: 5px;
   width: 150px;
   height: auto;
 
 }
 
-.viz_2_1_tooltip_image, .viz_2_14_tooltip_subtitle, .viz_2_15_tooltip_subtitle {
+#viz_2_1_tooltip_image, #viz_2_14_tooltip_subtitle, #viz_2_15_tooltip_subtitle {
   font-size: 0.7em;
   color: grey;
   margin-bottom: 5px;
 }
 
-.viz_2_1_tooltip_title, .viz_2_14_tooltip_title, .viz_2_15_tooltip_title {
+#viz_2_1_tooltip_title, #viz_2_14_tooltip_title, #viz_2_15_tooltip_title {
   max-width: 150px;
 }
