@@ -252,7 +252,7 @@ export function scatter(data, map, options, svg) {
       .attr("cy", d => yScale(d[map.y]))
       .attr("r", d => rScale(d[map.size]))
       .attr("filter", d => options.focus.length > 0 ? options.focus.indexOf(d[map.focus]) > -1 ? "url(#blur)" : "url(#combined)" : "url(#blur)")
-      .attr("transform", "translate3d(0, 0, 0)"); // fix for safari rendering bug
+      .attr("transform", "translate(0, 0)"); // fix for safari rendering bug
 
   }
 

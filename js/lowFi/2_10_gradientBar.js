@@ -96,9 +96,7 @@ export function gradientBarMapComponent(dataset, selector) {
         tooltip.transition()
                .duration(500)
                .style("opacity", 1)
-               .style("left", (profileBarWidth * 0.5) + "px")
-               .ease(d3.easeInOut);
-
+               .style("left", (profileBarWidth * 0.5) + "px");
       })
       .on("mouseleave", function (d) {
         d3.select(this).select("#viz_2_10_tooltip").remove();
