@@ -80,12 +80,12 @@ export function gradientBar(
 
           .style("opacity", 0)
           .style("width", 0)
-          .style("transfrom", "translate3d(-1000px, 0px, 0px)")
+          .attr("transfrom", "translate3d(-1000px, 0px, 0px)")
           .transition()
           .duration(1000) // Duration for enter transition
           .delay((d, i) => exitDuration + i * 30)
           .style("opacity", 1)
-          .style("transfrom", "translate3d(0px, 0px, 0px)")
+          .attr("transfrom", "translate3d(0px, 0px, 0px)")
           .style("width", (d) => widthScale(d[widthKey]) + "px");
 
         return divEnter;
@@ -141,8 +141,7 @@ export function gradientBar(
         tooltip.transition()
           .duration(500)
           .style("opacity", 1)
-          .style("left", (childWidth * 1.5) + "px")
-          .ease(d3.easeInOut);
+          .style("left", (childWidth * 1.5) + "px");
 
       })
       .on("mouseleave", function (d) {
