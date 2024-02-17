@@ -119,7 +119,7 @@ export function gradientBarMapComponent(dataset, selector) {
       .style("width", (d) => {
         return widthScale(d.data[0][widthKey]) + "px";
       })
-      .style("transform", (d, i) => `translate3d(0px,${yScale(d[yKey])}px,0px)`);
+      .attr("transform", (d, i) => `translate(0,${yScale(d[yKey])})`);
 
    
   }

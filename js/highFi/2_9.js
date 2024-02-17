@@ -80,12 +80,12 @@ export function gradientBar(
 
           .style("opacity", 0)
           .style("width", 0)
-          .attr("transform", "translate3d(-1000px, 0px, 0px)")
+          .attr("transform", "translate(-1000, 0)")
           .transition()
           .duration(1000) // Duration for enter transition
           .delay((d, i) => exitDuration + i * 30)
           .style("opacity", 1)
-          .attr("transform", "translate3d(0px, 0px, 0px)")
+          .attr("transform", "translate(0, 0)")
           .style("width", (d) => widthScale(d[widthKey]) + "px");
 
         return divEnter;
