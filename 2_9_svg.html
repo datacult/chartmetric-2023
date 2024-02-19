@@ -1,0 +1,66 @@
+<!-- © 2023 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <!-- Google fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: bisque;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="viz_2_9"></div>
+
+</body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+</html>
+<script type="module">
+    import { viz_2_9 } from './js/2_9_svg.js';
+
+    (async () => {
+        let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_9_en.csv', d3.autoType)
+
+        console.log(data)
+
+        let mapping = {
+            label: "ARTIST_NAME",
+            y: "COUNTRY_RANK",
+            x: "CM_SCORE",
+            image: "IMAGE_URL",
+            filter: "COUNTRY_NAME",
+            stage: "ARTIST_STAGE",
+            sort: "COUNTRY_RANK",
+            genre: "ARTIST_GENRES",
+            country: "COUNTRY_NAME"
+        }
+
+        let options = {
+            selector: '#viz_2_9',
+            filter: "All Countries"
+        }
+
+        let chart = viz_2_9(data, mapping, options)
+
+        setTimeout(() => {
+            options.filter = "United States"
+            chart.update(data, mapping, options)
+        }, 3000)
+
+    })()
+
+</script>
