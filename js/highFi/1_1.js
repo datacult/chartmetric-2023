@@ -21,7 +21,7 @@ export function sankey(data = [], map, options) {
     width: 1200,
     height: 800,
     margin: { top: 200, right: 200, bottom: 200, left: 200 },
-    transition: 400,
+    transition: 1500,
     delay: 100,
     fill: "#69b3a2",
     stroke: "#000",
@@ -173,12 +173,20 @@ export function sankey(data = [], map, options) {
     .style("font-weight", "700")
     .style("fill", "#1C1C1C")
     .style("dominant-baseline", "middle")
-    .text((d) => d3.format(".3s")(d.source.value))
     .attr("transform", (d) => {
       const x = d.source.x0 - options.nodeWidth - 40;
       const y = (d.source.y1 + d.source.y0) / 2
       return `rotate(90, ${x}, ${y})`;
     })
+    .transition()
+    .duration(options.transition)
+    .tween("text", (d) => {
+      const interpolator = d3.interpolateNumber(0, d.source.value);
+      return function(t) {
+        d3.select(this).text(d3.format(".3s")(interpolator(t)))
+      }
+    });
+    
 
 
   let targetName = plot
@@ -212,12 +220,20 @@ export function sankey(data = [], map, options) {
     .style("font-weight", "700")
     .style("fill", "#1C1C1C")
     .style("dominant-baseline", "middle")
-    .text((d) => d3.format(",")(d.value))
     .attr("transform", (d) => {
       const x = d.x0 + (options.nodeWidth * 2) + 20;
       const y = (d.y1 + d.y0) / 2
       return `rotate(90, ${x}, ${y})`;
+    })
+    .transition()
+    .duration(options.transition)
+    .tween("text", (d) => {
+      const interpolator = d3.interpolateNumber(0, d.value);
+      return function(t) {
+        d3.select(this).text(d3.format(",")(Math.round(interpolator(t))))
+      }
     });
+    
 
 
   plot
