@@ -89,6 +89,8 @@ export function viz_2_9(data, map, options, svg) {
     map = { ...map, ...newMap };
     options = { ...options, ...newOptions };
 
+    if (newData != null) data = newData;
+
     const t = d3.transition().duration(options.transition).delay((d, i) => i * options.delay);
 
     ////////////////////////////////////////
@@ -121,8 +123,6 @@ export function viz_2_9(data, map, options, svg) {
     if (map.filter != null && options.filter != null) {
       filteredData = data.filter(d => d[map.filter] == options.filter);
     }
-
-    console.log(filteredData)
 
     ////////////////////////////////////////
     ////////////// Gradients ///////////////

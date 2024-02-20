@@ -1,0 +1,64 @@
+<!-- © 2023 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <!-- Google fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <link rel="stylesheet" href="style/highFi/2_9.css">
+</head>
+
+<body>
+  <div id="vis">
+    <!--! Gordon added code begins-->
+    <!-- UI -->
+
+    <!-- Gradient Bar -->
+    
+
+    <!--! Gordon added code ends-->
+  </div>
+
+</body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+<script type="module" src="./js/highFi/2_9_old.js"></script>
+
+</html>
+<script type="module">
+  import { gradientBar } from './js/highFi/2_9_old.js';
+
+  /*
+    Sey to change start
+  */
+  let selectedValue = "United States";
+  /*
+    Sey to change end
+  */
+
+  /*
+    Chart ID
+  */
+  let chartContainerId = "topArtistsBankingBars_barChart";
+
+  // parameters
+  let dataUrl = "https://share.chartmetric.com/year-end-report/2023/viz_2_9_en.csv";
+
+  let widthKey = "CM_SCORE";
+
+  (async () => {
+    let updateGradientBar = await gradientBar(dataUrl, chartContainerId, widthKey, selectedValue)
+  })()
+
+</script>

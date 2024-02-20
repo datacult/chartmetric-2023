@@ -13,7 +13,7 @@ import { Table_2_3 } from "./highFi/2_3.js";
 import { Calendar } from "./highFi/2_6.js";
 import { cluster } from './cluster.js';
 import { viz_2_8 } from "./highFi/2_8.js";
-import { gradientBar } from "./highFi/2_9.js";
+import { viz_2_9 } from "./2_9.js";
 import { gradientBarMapComponent } from "./lowFi/2_10_gradientBar.js";
 import { choropleth } from './choropleth.js';
 import { scatter } from './scatter.js';
@@ -296,12 +296,25 @@ import { drawSingleValues } from "./highFi/single_values.js";
             data: [],
             pending_data_update: false,
             options: {
-                selector: "viz_2_9",
+                selector: "#viz_2_9",
+                filter: "All Countries"
+            },
+            mapping: {
+                label: "ARTIST_NAME",
+                y: "COUNTRY_RANK",
+                x: "CM_SCORE",
+                image: "IMAGE_URL",
+                filter: "COUNTRY_NAME",
+                stage: "ARTIST_STAGE",
+                sort: "COUNTRY_RANK",
+                genre: "ARTIST_GENRES",
+                country: "COUNTRY_NAME"
             },
             params: [],
             update: function (param) {
                 if (param !== undefined && param !== null) {
-                    this.viz.update(null, param);
+                    this.options.filter = param;
+                    this.viz.update(null, null, this.options);
                 } else {
                     this.viz.update(this.data);
                 }
@@ -685,10 +698,10 @@ import { drawSingleValues } from "./highFi/single_values.js";
                             observer.disconnect();
                         }
                         if (viz == "viz_2_9") {
-                            visuals.viz_2_9.viz = gradientBar(
+                            visuals.viz_2_9.viz = viz_2_9(
                                 visuals.viz_2_9.data,
-                                visuals.viz_2_9.options.selector,
-                                "All Countries"
+                                visuals.viz_2_9.mapping,
+                                visuals.viz_2_9.options,
                             );
                             observer.disconnect();
                         }
