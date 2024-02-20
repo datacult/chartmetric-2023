@@ -26,8 +26,8 @@ export function viz_2_9(data, map, options, svg) {
 
   let defaults = {
     selector: '#vis',
-    width: 1200,
-    height: 1200,
+    width: 1000,
+    height: 1000,
     margin: { top: 20, right: 20, bottom: 20, left: 20 },
     transition: 1000,
     delay: 100,
@@ -184,7 +184,7 @@ export function viz_2_9(data, map, options, svg) {
 
     const xScale = d3.scaleLinear()
       .domain(d3.extent(filteredData, d => d[map.x]))
-      .range([width / 2, 0])
+      .range([width / 3, 0])
 
     ////////////////////////////////////////
     ////////////// DOM Setup ///////////////
