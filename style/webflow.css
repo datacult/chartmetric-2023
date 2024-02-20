@@ -868,6 +868,10 @@ https://studio.datacult.com/  */
   font-family: Inter, sans-serif;
 }
 
+#viz_2_8 .country, #viz_2_8 .flag {
+  font-size: 1rem;
+}
+
 @media screen and (max-width: 760px) {
   #viz_2_8 {
     flex-direction: column;
