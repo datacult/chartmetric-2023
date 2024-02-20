@@ -913,6 +913,14 @@ https://studio.datacult.com/  */
     font-size: 2.2rem;
   }
 }
+@media (min-width: 1980px) {
+  #viz_2_9 .label {
+    font-size: .8rem;
+  }
+  #viz_2_9 .genre_text, #viz_2_9 .stage_text {
+    font-size: .8rem;
+  }
+}
 
 
 
