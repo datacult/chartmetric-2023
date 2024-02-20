@@ -74,7 +74,7 @@ export function choropleth(data, map, options) {
     .attr('transform', `translate(${options.margin.left},${options.margin.top})`);
 
   const tooltip = d3.select(options.selector).append("div")
-    .attr("id", options.selector.substring(1) + "_tooltip", true)
+    .attr("id", options.selector.substring(1) + "_tooltip")
     .attr("opacity", 0)
     .style("position", "fixed")
     .style("pointer-events", "none")
