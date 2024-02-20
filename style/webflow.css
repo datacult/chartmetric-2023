@@ -915,7 +915,10 @@ https://studio.datacult.com/  */
 }
 @media (min-width: 1980px) {
   #viz_2_9 .label {
-    font-size: .6rem;
+    font-size: .8rem;
+  }
+  #viz_2_9 .genre_text, #viz_2_9 .stage_text {
+    font-size: .8rem;
   }
 }
 
