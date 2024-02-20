@@ -869,7 +869,7 @@ https://studio.datacult.com/  */
 }
 
 #viz_2_8 .country, #viz_2_8 .flag {
-  font-size: 1em;
+  font-size: 1rem;
 }
 
 @media screen and (max-width: 760px) {
