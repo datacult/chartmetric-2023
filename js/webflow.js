@@ -466,7 +466,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     if (isSafari) {
         const radioMap = document.querySelector('.radio_map');
-        radioMap.remove();
+        if (radioMap) radioMap.remove();
     };
 
 
