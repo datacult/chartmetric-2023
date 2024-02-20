@@ -69,7 +69,7 @@ export function gradientBarMapComponent(dataset, selector) {
       .attr(
         "id",
         (d) => trimNames(d[yKey])
-   
+
       )
       .on("click", async function (event, d) {
         d3.select("#radioTopTracksMap_worldMap_svg").selectAll("*").remove();
@@ -91,12 +91,8 @@ export function gradientBarMapComponent(dataset, selector) {
           .node()
           .getBoundingClientRect().width;
 
-        tooltip.style("left", (profileBarWidth + fromRight) + "px");
+        tooltip.style("left", (profileBarWidth * 0.5) + "px");
 
-        tooltip.transition()
-               .duration(500)
-               .style("opacity", 1)
-               .style("left", (profileBarWidth * 0.5) + "px");
       })
       .on("mouseleave", function (d) {
         d3.select(this).select("#viz_2_10_tooltip").remove();
@@ -106,8 +102,8 @@ export function gradientBarMapComponent(dataset, selector) {
     let imageWidth = yScale.bandwidth() * 0.75;
 
     newElements.html(function (d) {
-    
-    return    `
+
+      return `
     <img src="${d.data[0][imageKey]}" alt="${d[yKey]}" class="artist-image" 
     style=" height:100%">
     <div class="artist-name"><span>${d[yKey]}</span></div>
@@ -121,13 +117,13 @@ export function gradientBarMapComponent(dataset, selector) {
       })
       .attr("transform", (d, i) => `translate(0,${yScale(d[yKey])})`);
 
-   
+
   }
   function update(data) {
     draw(data);
   }
   update(dataset);
- 
+
   return {
     update: update,
   };
