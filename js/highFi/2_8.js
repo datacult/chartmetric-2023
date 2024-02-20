@@ -141,6 +141,10 @@ export function viz_2_8(data, map, options) {
         .domain([0, d3.max(data, (d) => d[map.y])])
         .range([0, height])
 
+    const colorScale = d3.scaleLinear()
+        .domain([0, nestedData.length])
+        .range(["rgba(52, 182, 182, 1)", "rgba(146, 107, 210, 1)", "rgba(23, 129, 247, 1)"])
+
     ////////////////////////////////////////
     ////////////// DOM Setup ///////////////
     ////////////////////////////////////////
@@ -159,13 +163,12 @@ export function viz_2_8(data, map, options) {
         .data(nestedData)
         .join("path")
         .attr("d", (d) => area(d.values))
-        .attr("fill", options.fill)
+        .attr("fill", (d, i) => colorScale(i))
         .attr("opacity", options.opacity)
         .style("cursor", "pointer")
         .on("click", function (event, d) {
             options.focus = d.name;
             info.update([artistsInfo[d.name]]);
-            labels.attr("font-weight", x => options.focus == x[map.group] ? "bold" : "normal");
             paths.attr("opacity", x => options.focus == x.name ? 1 : options.opacity);
         })
         .on("mouseover", function (event, d) {
