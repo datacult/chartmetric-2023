@@ -27,7 +27,7 @@ export function viz_2_9(data, map, options, svg) {
   let defaults = {
     selector: '#vis',
     width: 1200,
-    height: 800,
+    height: 1200,
     margin: { top: 20, right: 20, bottom: 20, left: 20 },
     transition: 1000,
     delay: 100,
