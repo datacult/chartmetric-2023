@@ -896,6 +896,10 @@ https://studio.datacult.com/  */
 / Viz 2_9
 * * * * * * * * * * * * * * * */
 
+#viz_2_9 .vis-svg-container {
+  width: 100%;
+}
+
 
 #viz_2_9 {
   width: 100%;
