@@ -901,8 +901,19 @@ https://studio.datacult.com/  */
 }
 
 #viz_2_9 .label {
-  font-size: 18px;
+  font-size: 1.2rem;
 }
+
+#viz_2_9 .genre_text, #viz_2_9 .stage_text {
+  font-size: 1rem;
+}
+
+@media (max-width: 580px) {
+  #viz_2_9 .label {
+    font-size: 2.2rem;
+  }
+}
+
 
 
 #viz_2_9 {
