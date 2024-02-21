@@ -29,7 +29,7 @@ export function scatter(data, map, options, svg) {
     width: 800,
     height: 800,
     margin: { top: 150, right: 150, bottom: 150, left: 150 },
-    transition: 400,
+    transition: 2000,
     delay: 100,
     padding: 0.1,
     fill: "#69b3a2",
@@ -188,6 +188,7 @@ export function scatter(data, map, options, svg) {
   const circle_group = svg.selectAll(".circle-group")
     .data(data)
     .join("g")
+    .attr("transform", d => `translate(${Math.random() * width}, ${Math.random() * height})`)
     .classed("circle-group", true)
     .on("mouseover", function () {
       var el = d3.select(this);
@@ -195,16 +196,16 @@ export function scatter(data, map, options, svg) {
     });
 
   const circles = circle_group.append("circle")
-    .attr("cx", d => xScale(d[map.x]))
-    .attr("cy", d => yScale(d[map.y]))
+    .attr("cx", d => 0)
+    .attr("cy", d => 0)
     .attr("r", d => rScale(d[map.size]))
     .attr("fill", d => `url(#${trimNames(d[map.fill])})`)
     .classed("circle", true)
     .attr("filter", "url(#combined)");
 
   const rings = circle_group.append("circle")
-    .attr("cx", d => xScale(d[map.x]))
-    .attr("cy", d => yScale(d[map.y]))
+    .attr("cx", d => 0)
+    .attr("cy", d => 0)
     .attr("r", d => rScale(d[map.size] * 0.8))
     .attr("fill", d => "none")
     .attr("stroke", d => map.stroke != null ? d[map.stroke] : options.stroke)
@@ -212,8 +213,8 @@ export function scatter(data, map, options, svg) {
 
 
   const labels = circle_group.append("text")
-    .attr("x", d => xScale(d[map.x]))
-    .attr("y", d => yScale(d[map.y]))
+    .attr("x", d => 0)
+    .attr("y", d => 0)
     .attr("text-anchor", "middle")
     .attr("font-size", "1.2em")
     .attr("dominant-baseline", "middle")
@@ -238,7 +239,11 @@ export function scatter(data, map, options, svg) {
 
     const t = d3.transition().duration(options.transition).ease(d3.easeLinear)
 
-    circle_group
+    circle_group.transition()
+      .duration(options.transition)
+      .delay((d, i) => i * options.delay)
+      .ease(d3.easeBackInOut.overshoot(3))
+      .attr("transform", d => `translate(${xScale(d[map.x])}, ${yScale(d[map.y])})`)
       .each(function (d) {
         if (options.focus.indexOf(d[map.focus]) > -1) {
           var el = d3.select(this);
@@ -247,9 +252,6 @@ export function scatter(data, map, options, svg) {
       })
 
     circles
-      .data(data)
-      .attr("cx", d => xScale(d[map.x]))
-      .attr("cy", d => yScale(d[map.y]))
       .attr("r", d => rScale(d[map.size]))
       .attr("filter", d => options.focus.length > 0 ? options.focus.indexOf(d[map.focus]) > -1 ? "url(#blur)" : "url(#combined)" : "url(#blur)")
       .attr("transform", "translate(0, 0)"); // fix for safari rendering bug
