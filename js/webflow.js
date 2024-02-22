@@ -10,7 +10,7 @@ import { circlepack } from './pack.js';
 import { barArc } from './bararc.js';
 import { Treemap } from "./highFi/2_2.js";
 import { Table_2_3 } from "./highFi/2_3.js";
-import { Calendar } from "./highFi/2_6.js";
+import { viz_2_6 } from "./2_6.js";
 import { cluster } from './cluster.js';
 import { viz_2_8 } from "./highFi/2_8.js";
 import { viz_2_9 } from "./2_9.js";
@@ -222,7 +222,11 @@ import { drawSingleValues } from "./highFi/single_values.js";
             data: [],
             pending_data_update: false,
             options: {
-                selector: "viz_2_6",
+                selector: "#viz_2_6",
+            },
+            mapping: {
+                date: 'RELEASE_DATE',
+                value: 'DAILY_TRACK_RELEASE_COUNT'
             },
             params: [],
             update: function (param) {
@@ -682,9 +686,10 @@ import { drawSingleValues } from "./highFi/single_values.js";
                             observer.disconnect();
                         }
                         if (viz == "viz_2_6") {
-                            visuals.viz_2_6.viz = Calendar(
+                            visuals.viz_2_6.viz = viz_2_6(
                                 visuals.viz_2_6.data,
-                                visuals.viz_2_6.options.selector
+                                visuals.viz_2_6.mapping,
+                                visuals.viz_2_6.options
                             );
                             observer.disconnect();
                         }
