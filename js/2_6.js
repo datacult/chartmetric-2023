@@ -27,8 +27,8 @@ export function viz_2_6(data, map, options) {
     width: 500,
     height: 1200,
     margin: { top: 100, right: 50, bottom: 50, left: 60 },
-    transition: 400,
-    delay: 100,
+    transition: 1000,
+    delay: 1500,
     padding: 0,
     fill: "#69b3a2",
     stroke: "#000",
@@ -162,6 +162,7 @@ export function viz_2_6(data, map, options) {
     .attr("fill", d => map.value != null ? colorScale(d[map.value]) : options.fill)
     .attr("stroke", "white")
     .attr("stroke-width", 0.5)
+    .attr("opacity", 0)
     .classed('square', true)
     .on('mouseover', (event, d) => {
 
@@ -174,7 +175,11 @@ export function viz_2_6(data, map, options) {
     .on('mouseout', (event, d) => {
       tooltip
         .style("display", "none")
-    });
+    })
+    .transition()
+    .duration(options.transition)
+    .delay((d, i) => Math.random() * options.delay)
+    .attr("opacity", 1);
 
   console.log(data.filter(d => d.mo == 1));
 
