@@ -83,7 +83,6 @@ export function viz_2_6(data, map, options) {
     .append("div")
     .style("position", "fixed")
     .style("pointer-events", "none")
-    .style("opacity", 0)
     .style("background-color", "white")
     .classed("tooltip", true);
 
@@ -165,14 +164,14 @@ export function viz_2_6(data, map, options) {
     .on('mouseover', (event, d) => {
 
       tooltip
-        .style("opacity", 1)
+        .style("display", "block")
         .html(`<p>${d[map.date]}</p><p>${d[map.value]}</p>`)
         .style("left", (event.clientX) + "px")
         .style("top", (event.clientY) + "px");
     })
     .on('mouseout', (event, d) => {
       tooltip
-        .style("opacity", 0)
+        .style("display", "none")
     });
 
   console.log(data.filter(d => d.mo == 1));
