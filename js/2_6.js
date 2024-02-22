@@ -270,17 +270,26 @@ export function viz_2_6(data, map, options) {
       });
 
     svg
-      .selectAll(".artist_name")
+      .selectAll(".track_details")
       .data(photoData)
       .join("text")
       .attr("x", (width / 2) + 20 + options.imageSize)
-      .attr("y", d => yScale(d.weekNumber) + options.imageSize / 2)
+      .attr("y", d => yScale(d.weekNumber) + options.imageSize / 3)
       .text(d => d["NAME"])
+      .classed("track_details", true)
       .append("tspan")
       .attr("x", (width / 2) + 20 + options.imageSize)
       .attr("dy", "1.2em")
       .text(d => d["ANNOTATION"])
-      .classed("artist_name", true);
+      .classed("artist_name", true)
+      .append("tspan")
+      .attr("x", (width / 2) + 20 + options.imageSize)
+      .attr("dy", "1.2em")
+      .text(d => {
+        let format = d3.timeFormat("%B %d, %Y");
+        return format(d[map.date])
+       })
+      .classed("release_date", true);
 
 
 
