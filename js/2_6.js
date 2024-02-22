@@ -44,23 +44,23 @@ export function viz_2_6(data, map, options) {
 
   d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_6_2_en.csv', d3.autoType).then(summaryData => {
 
-  let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
-  // replace month number with month name
-  summaryData.forEach(d => {
-    d["RELEASE_MONTH"] = months[d["RELEASE_MONTH"] - 1]
-  })
+    // replace month number with month name
+    summaryData.forEach(d => {
+      d["RELEASE_MONTH"] = months[d["RELEASE_MONTH"] - 1]
+    })
 
-  let summary_map = {
-    fill: "MONTHLY_TRACK_RELEASE_COUNT",
-    date: "RELEASE_MONTH",
-    label: "MONTHLY_TRACK_RELEASE_COUNT"
-  }
+    let summary_map = {
+      fill: "MONTHLY_TRACK_RELEASE_COUNT",
+      date: "RELEASE_MONTH",
+      label: "MONTHLY_TRACK_RELEASE_COUNT"
+    }
 
-  if (!d3.select(options.selector + "_summary").empty()) {
-    let summary = calendarsummary(summaryData, summary_map, { selector: options.selector + "_summary" })
-  }
-});
+    if (!d3.select(options.selector + "_summary").empty()) {
+      let summary = calendarsummary(summaryData, summary_map, { selector: options.selector + "_summary" })
+    }
+  });
 
   ////////////////////////////////////////
   ////////////// SVG Setup ///////////////
@@ -254,11 +254,19 @@ export function viz_2_6(data, map, options) {
       .attr("transform", d => `rotate(${rotateScale(Math.random() * 100)})`)
       .attr("transform-origin", d => `${(width / 2) + 10 + options.imageSize / 2} ${yScale(d.weekNumber) + options.imageSize / 2}`)
       .attr("class", "artwork")
-      .on("mousemove", function (event, d) {
-        square.filter(x => x[map.date] == d[map.date]).attr("stroke", "black").attr("stroke-width", 2);
+      .on("mouseover", function (event, d) {
+        square
+          .filter(x => JSON.stringify(x[map.date]) == JSON.stringify(d[map.date]))
+          .attr("stroke", "black")
+          .attr("stroke-width", 2)
+          .each(function (d, i) {
+            d3.select(this).raise();
+          });
       })
       .on("mouseout", function (event, d) {
-        square.attr("stroke", "white").attr("stroke-width", 0.5);
+        square
+          .attr("stroke", "white")
+          .attr("stroke-width", 0.5);
       });
 
     svg
