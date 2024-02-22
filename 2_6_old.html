@@ -23,22 +23,18 @@ https://studio.datacult.com/ -->
     <div id="vis"></div>
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-
+<!-- <script type="module" src="./components/Calendar.js"></script>
+<script type="module" src="./js/highFi/2_6.js"></script>
+<script type="module" src="./js/highFi/calendarHeatmapPhoto.js"></script> -->
 
 </html>
-<script type="module">
-    import { viz_2_6 } from './js/2_6.js'
+<script type="module" >
+    import {Calendar} from './js/highFi/2_6.js';
     (async () => {
         let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_6_en.csv', d3.autoType)
-
-        console.log(data)
-
-        let mapping = {
-            date: 'RELEASE_DATE',
-            value: 'DAILY_TRACK_RELEASE_COUNT'
-        }
-
-        viz_2_6(data, mapping)
+        let images = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_6_1_en.csv', d3.autoType)
+        console.log(images)
+        Calendar(data, "vis")
     })()
-
+    
 </script>

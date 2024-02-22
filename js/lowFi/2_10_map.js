@@ -105,6 +105,7 @@ export async function drawMap(
       let filteredData = dataset.filter(
         (d) => d.NAME === mapData.properties.name
       );
+
       // use d3.least
       // const tracksWithLargestSpins = d3.rollup(
       //   filteredData,
@@ -124,6 +125,14 @@ export async function drawMap(
 
       d3.select(hoveredMapSelector).style("border", "1px solid black");
 
+      let countryName = filteredData[0].NAME
+      if (countryName === "United States of America") {
+        countryName = "United States"
+      }
+
+      let flagObj = flagData.find(x => x.name == countryName)
+      let flag = flagObj ? flagObj.emoji : "";
+
       if (filteredData.length > 0) {
         d3
           .select(".map-tooltip")
@@ -131,7 +140,7 @@ export async function drawMap(
           .style("left", event.clientX + 20 + "px")
           .style("top", event.clientY + 20 + "px")
           .html(`<div style="display:flex;">
-        <div class="map-tooltip__country"><span class="flag">${flagData.find(x => x.name == filteredData[0].NAME).emoji}</span>&nbsp;${filteredData[0].NAME}</div>
+        <div class="map-tooltip__country"><span class="flag">${flag}</span>&nbsp;${filteredData[0].NAME}</div>
         <div class="map-tooltip__track"><span class="tooltip__artwork"><img class="tooltip__artwork_img" src="${filteredData[0].IMAGE_URL}"><img/></span>${filteredData[0].TRACK_NAME}</div>
         <div class="map-tooltip__artist"><span class="tooltip__artist"></span>${filteredData[0].ARTIST_NAME}</div>
         </div>

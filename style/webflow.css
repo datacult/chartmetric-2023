@@ -352,7 +352,7 @@ https://studio.datacult.com/  */
 }
 
 #viz_1_5 .topline {
-  position: relative;
+  /* position: relative; */
   margin: 15px auto;
 }
 
