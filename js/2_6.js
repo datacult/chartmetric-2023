@@ -79,9 +79,9 @@ export function viz_2_6(data, map, options) {
     .append('g')
     .attr('transform', `translate(${options.margin.left},${options.margin.top})`);
 
-  const tooltip = d3.select("body")
+  const tooltip = d3.select(options.selector)
     .append("div")
-    .style("position", "absolute")
+    .style("position", "fixed")
     .style("pointer-events", "none")
     .style("opacity", 0)
     .style("background-color", "white")
@@ -167,8 +167,8 @@ export function viz_2_6(data, map, options) {
       tooltip
         .style("opacity", 1)
         .html(`<p>${d[map.date]}</p><p>${d[map.value]}</p>`)
-        .style("left", (event.pageX) + "px")
-        .style("top", (event.pageY) + "px");
+        .style("left", (event.clientX) + "px")
+        .style("top", (event.clientY) + "px");
     })
     .on('mouseout', (event, d) => {
       tooltip
