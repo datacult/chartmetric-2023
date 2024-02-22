@@ -256,7 +256,7 @@ export function viz_2_6(data, map, options) {
       .on("mouseover", function (event, d) {
         square
           .filter(x => JSON.stringify(x[map.date]) == JSON.stringify(d[map.date]))
-          .attr("stroke-width", 2)
+          .attr("stroke-width", 3)
           .each(function (d, i) {
             d3.select(this).raise();
           });
