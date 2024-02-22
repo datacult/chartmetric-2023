@@ -662,6 +662,11 @@ https://studio.datacult.com/  */
 /* * * * * * * * * * * * * * * 
 / Viz 2_6
 * * * * * * * * * * * * * * * */
+
+#viz_2_6 .vis-svg-container {
+  width: 100%
+}
+
 #viz_2_6 {
 
   display: flex;
