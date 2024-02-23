@@ -1446,3 +1446,13 @@ Bar
 #viz_2_1_tooltip_title, #viz_2_14_tooltip_title, #viz_2_15_tooltip_title {
   max-width: 150px;
 }
+
+/* * * * * * * * * * * * * * * 
+/ Viz 2_13
+* * * * * * * * * * * * * * * */
+
+#viz_2_13_tooltip {
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 1rem;
+}
