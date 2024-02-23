@@ -821,12 +821,16 @@ https://studio.datacult.com/  */
   font-size: .8rem;
 }
 
+#viz_2_6_summary .month {
+  width: 30% !important;
+}
+
 @media (max-width: 568px) {
   #viz_2_6_summary {
     font-size: 2.3em;
   }
   #viz_2_6_summary .month {
-    width: 48% !important;
+    width: 46% !important;
   }
 }
 
