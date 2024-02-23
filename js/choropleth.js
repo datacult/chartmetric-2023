@@ -31,8 +31,8 @@ export function choropleth(data, map, options) {
     format: d3.format(","),
     title: "",
     legend: true,
-    colorScale: ["#F0F8FF", "#0096FF"],
-    unknown: "#ccc"
+    colorScale: ["#549af5", "#4227d4"],
+    unknown: "#c2c5d5"
   }
 
   options = { ...defaults, ...options };
@@ -76,7 +76,6 @@ export function choropleth(data, map, options) {
 
   const tooltip = d3.select(options.selector).append("div")
     .attr("id", options.selector.substring(1) + "_tooltip")
-    .attr("opacity", 0)
     .style("position", "fixed")
     .style("pointer-events", "none")
     .style("background-color", "white")
@@ -123,6 +122,7 @@ export function choropleth(data, map, options) {
         d3.select(this).attr("stroke", options.stroke).attr("stroke-width", 2)
 
         tooltip
+          .attr("display", "block")
           .style("left", event.clientX + 20 + "px")
           .style("top", event.clientY + 20 + "px")
           .append("div")
@@ -130,7 +130,7 @@ export function choropleth(data, map, options) {
       })
       .on("mouseout", function (event, d) {
         d3.select(this).attr("stroke", "none");
-        tooltip.selectAll("div").remove()
+        tooltip.attr("display", "none").html("")
       });
 
     update()
