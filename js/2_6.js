@@ -96,6 +96,23 @@ export function viz_2_6(data, map, options) {
   const dateFormat = d3.timeFormat("%B %d, %Y");
 
   ////////////////////////////////////////
+  ////////////// Filters /////////////////
+  ////////////////////////////////////////
+
+  let defs = svg.append("defs");
+
+  const filter = defs
+    .append("filter")
+    .attr("id", options.selector.substring(1) + "-drop-shadow")
+    .attr("color-interpolation-filters", "sRGB");
+
+  filter.append("feDropShadow")
+    .attr("dx", "0")
+    .attr("dy", "0")
+    .attr("stdDeviation", "3")
+    .attr("flood-opacity", "0.5");
+
+  ////////////////////////////////////////
   ////////////// Transform ///////////////
   ////////////////////////////////////////
 
@@ -176,6 +193,8 @@ export function viz_2_6(data, map, options) {
       tooltip
         .style("display", "none")
     })
+
+  square
     .transition()
     .duration(options.transition)
     .delay((d, i) => Math.random() * options.delay)
@@ -208,12 +227,12 @@ export function viz_2_6(data, map, options) {
     .classed('end-month-line', true);
 
   // add month labels
-  svg.selectAll(".month-label")
+  const month_labels = svg.selectAll(".month-label")
     .data(data.filter(d => d.dom == 1))
     .join("text")
-    .attr('x', -10)
+    .attr('x', -8)
     .attr('y', d => yScale(d.weekNumber) + yScale.bandwidth() / 2)
-    .text(d => months[d.month-1])
+    .text(d => months[d.month - 1])
     .attr('text-anchor', 'end')
     .attr("font-size", "10")
     .attr('alignment-baseline', 'middle')
@@ -271,6 +290,7 @@ export function viz_2_6(data, map, options) {
       .style("outline", options.imageSize * 0.05 + "px solid white")
       .attr("transform", d => `rotate(${rotateScale(Math.random() * 100)})`)
       .attr("transform-origin", d => `${(width / 2) + 10 + options.imageSize / 2} ${yScale(d.weekNumber) + options.imageSize / 2}`)
+      .attr("filter", `url(${options.selector}-drop-shadow)`)
       .attr("class", "artwork")
       .on("mouseover", function (event, d) {
         square
@@ -306,7 +326,7 @@ export function viz_2_6(data, map, options) {
       .attr("font-size", "10")
       .text(d => {
         return dateFormat(d[map.date])
-       })
+      })
       .classed("release_date", true);
 
 
@@ -329,8 +349,6 @@ export function viz_2_6(data, map, options) {
 
   }
 
-  // call for initial bar render
-  update(data)
 
   return {
     update: update,
