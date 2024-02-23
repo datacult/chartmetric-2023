@@ -25,10 +25,10 @@ export function viz_2_6(data, map, options) {
   let defaults = {
     selector: '#vis',
     width: 500,
-    height: 1500,
-    margin: { top: 100, right: 50, bottom: 50, left: 50 },
-    transition: 400,
-    delay: 100,
+    height: 1200,
+    margin: { top: 100, right: 50, bottom: 50, left: 60 },
+    transition: 1000,
+    delay: 1500,
     padding: 0,
     fill: "#69b3a2",
     stroke: "#000",
@@ -42,9 +42,9 @@ export function viz_2_6(data, map, options) {
   //////////// Summary Viz //////////////
   ///////////////////////////////////////
 
-  d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_6_2_en.csv', d3.autoType).then(summaryData => {
+  let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
-    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_6_2_en.csv', d3.autoType).then(summaryData => {
 
     // replace month number with month name
     summaryData.forEach(d => {
@@ -81,6 +81,7 @@ export function viz_2_6(data, map, options) {
 
   const tooltip = d3.select(options.selector)
     .append("div")
+    .attr("id", options.selector.substring(1) + "_tooltip")
     .style("position", "fixed")
     .style("pointer-events", "none")
     .style("background-color", "white")
@@ -92,6 +93,24 @@ export function viz_2_6(data, map, options) {
 
   const height = options.height - options.margin.top - options.margin.bottom;
   const width = options.width - options.margin.left - options.margin.right;
+  const dateFormat = d3.timeFormat("%B %d, %Y");
+
+  ////////////////////////////////////////
+  ////////////// Filters /////////////////
+  ////////////////////////////////////////
+
+  let defs = svg.append("defs");
+
+  const filter = defs
+    .append("filter")
+    .attr("id", options.selector.substring(1) + "-drop-shadow")
+    .attr("color-interpolation-filters", "sRGB");
+
+  filter.append("feDropShadow")
+    .attr("dx", "0")
+    .attr("dy", "0")
+    .attr("stdDeviation", "3")
+    .attr("flood-opacity", "0.5");
 
   ////////////////////////////////////////
   ////////////// Transform ///////////////
@@ -135,7 +154,7 @@ export function viz_2_6(data, map, options) {
 
   const xScale = d3.scaleBand()
     .domain(daysOfWeek)
-    .range([0, width / 2])
+    .range([0, width / 3])
     .padding(options.padding)
 
   const yScale = d3.scaleBand()
@@ -160,19 +179,26 @@ export function viz_2_6(data, map, options) {
     .attr("fill", d => map.value != null ? colorScale(d[map.value]) : options.fill)
     .attr("stroke", "white")
     .attr("stroke-width", 0.5)
+    .attr("opacity", 0)
     .classed('square', true)
     .on('mouseover', (event, d) => {
 
       tooltip
         .style("display", "block")
-        .html(`<p>${d[map.date]}</p><p>${d[map.value]}</p>`)
+        .html(`<p>${dateFormat(d[map.date])}</p><p>Daily Track Release Count: ${d3.format(",")(d[map.value])}</p>`)
         .style("left", (event.clientX) + "px")
         .style("top", (event.clientY) + "px");
     })
     .on('mouseout', (event, d) => {
       tooltip
         .style("display", "none")
-    });
+    })
+
+  square
+    .transition()
+    .duration(options.transition)
+    .delay((d, i) => Math.random() * options.delay)
+    .attr("opacity", 1);
 
   console.log(data.filter(d => d.mo == 1));
 
@@ -199,6 +225,18 @@ export function viz_2_6(data, map, options) {
     .attr('stroke-width', 1)
     .attr('stroke-linecap', 'round')
     .classed('end-month-line', true);
+
+  // add month labels
+  const month_labels = svg.selectAll(".month-label")
+    .data(data.filter(d => d.dom == 1))
+    .join("text")
+    .attr('x', -8)
+    .attr('y', d => yScale(d.weekNumber) + yScale.bandwidth() / 2)
+    .text(d => months[d.month - 1])
+    .attr('text-anchor', 'end')
+    .attr("font-size", "10")
+    .attr('alignment-baseline', 'middle')
+    .classed('month-label', true);
 
   ////////////////////////////////////////
   ////////////// Axes ////////////////////
@@ -245,13 +283,14 @@ export function viz_2_6(data, map, options) {
       .data(photoData)
       .join("svg:image")
       .attr("xlink:href", d => d["IMAGE_URL"])
-      .attr("x", d => (width / 2) + 10)
+      .attr("x", d => (width / 3) + 30)
       .attr("y", d => yScale(d.weekNumber))
       .attr("width", options.imageSize)
       .attr("height", options.imageSize)
       .style("outline", options.imageSize * 0.05 + "px solid white")
       .attr("transform", d => `rotate(${rotateScale(Math.random() * 100)})`)
       .attr("transform-origin", d => `${(width / 2) + 10 + options.imageSize / 2} ${yScale(d.weekNumber) + options.imageSize / 2}`)
+      .attr("filter", `url(${options.selector}-drop-shadow)`)
       .attr("class", "artwork")
       .on("mouseover", function (event, d) {
         square
@@ -270,22 +309,24 @@ export function viz_2_6(data, map, options) {
       .selectAll(".track_details")
       .data(photoData)
       .join("text")
-      .attr("x", (width / 2) + 20 + options.imageSize)
+      .attr("x", (width / 3) + 50 + options.imageSize)
       .attr("y", d => yScale(d.weekNumber) + options.imageSize / 3)
+      .attr("font-size", "10")
       .text(d => d["NAME"])
       .classed("track_details", true)
       .append("tspan")
-      .attr("x", (width / 2) + 20 + options.imageSize)
+      .attr("x", (width / 3) + 50 + options.imageSize)
       .attr("dy", "1.2em")
+      .attr("font-size", "10")
       .text(d => d["ANNOTATION"])
       .classed("artist_name", true)
       .append("tspan")
-      .attr("x", (width / 2) + 20 + options.imageSize)
+      .attr("x", (width / 3) + 50 + options.imageSize)
       .attr("dy", "1.2em")
+      .attr("font-size", "10")
       .text(d => {
-        let format = d3.timeFormat("%B %d, %Y");
-        return format(d[map.date])
-       })
+        return dateFormat(d[map.date])
+      })
       .classed("release_date", true);
 
 
@@ -308,8 +349,6 @@ export function viz_2_6(data, map, options) {
 
   }
 
-  // call for initial bar render
-  update(data)
 
   return {
     update: update,
