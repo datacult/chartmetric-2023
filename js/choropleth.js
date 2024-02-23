@@ -32,7 +32,7 @@ export function choropleth(data, map, options) {
     title: "",
     legend: true,
     colorScale: ["#549af5", "#4227d4"],
-    unknown: "#c2c5d5"
+    unknown: "#fff"
   }
 
   options = { ...defaults, ...options };
@@ -40,6 +40,19 @@ export function choropleth(data, map, options) {
   ////////////////////////////////////////
   //////////// Data Sorting //////////////
   ////////////////////////////////////////
+
+  ////////////////////////////////////////
+  //////////// Data Wrangling ////////////
+  ////////////////////////////////////////
+
+  data.forEach(d => {
+    d[map.id] == "United States" ? d[map.id] = "USA" : d[map.id] = d[map.id];
+    d[map.id] == "Russian Federation" ? d[map.id] = "Russia" : d[map.id] = d[map.id];
+    d[map.id] == "United Kingdom" ? d[map.id] = "England" : d[map.id] = d[map.id];
+    d[map.id] == "Türkiye" ? d[map.id] = "Turkey" : d[map.id] = d[map.id];
+    d[map.id] == "Tanzania" ? d[map.id] = "United Republic of Tanzania" : d[map.id] = d[map.id];
+
+  })
 
   // sort data
 
@@ -107,6 +120,14 @@ export function choropleth(data, map, options) {
 
   d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson").then(topo => {
 
+    let countries = topo.features.map(d => d.properties.name)
+
+    data.forEach(d => {
+      if (!countries.includes(d[map.id])) {
+        console.log(`No match for ${d[map.id]}`)
+      }
+    })
+
     const projection = d3.geoRobinson()
       .translate([width / 2, height / 2]);
 
@@ -121,16 +142,18 @@ export function choropleth(data, map, options) {
       .on("mouseover", function (event, d) {
         d3.select(this).attr("stroke", options.stroke).attr("stroke-width", 2)
 
-        tooltip
-          .attr("display", "block")
-          .style("left", event.clientX + 20 + "px")
-          .style("top", event.clientY + 20 + "px")
-          .append("div")
-          .html(`${d.properties.name}: ${dataMap.get(d.properties.name) || 0}`)
+        if (dataMap.get(d.properties.name)) {
+          tooltip
+            .attr("display", "block")
+            .style("left", event.clientX + 20 + "px")
+            .style("top", event.clientY + 20 + "px")
+            .text(`${d.properties.name}: ${dataMap.get(d.properties.name)}`)
+        }
+
       })
       .on("mouseout", function (event, d) {
         d3.select(this).attr("stroke", "none");
-        tooltip.attr("display", "none").html("")
+        tooltip.attr("display", "none")
       });
 
     update()
@@ -204,7 +227,7 @@ export function choropleth(data, map, options) {
     svg.selectAll("path")
       .transition(t)
       .delay((d, i) => i * options.delay)
-      .attr("fill", d => colorScale(dataMap.get(d.properties.name) || 0))
+      .attr("fill", d => colorScale(dataMap.get(d.properties.name) || null))
 
   }
 
