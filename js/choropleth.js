@@ -68,7 +68,7 @@ export function choropleth(data, map, options) {
 
   const svg = innerContainer.append('svg')
     .attr('width', '100%') // Responsive width
-    .attr('height', '85%') // Responsive height
+    .attr('height', '100%') // Responsive height
     .attr('viewBox', `0 0 ${options.width} ${options.height}`)
     .append('g')
     .attr('transform', `translate(${options.margin.left},${options.margin.top})`);
