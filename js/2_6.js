@@ -112,16 +112,6 @@ export function viz_2_6(data, map, options) {
     .attr("stdDeviation", "3")
     .attr("flood-opacity", "0.5");
 
-  let grescale = defs.append("filter")
-    .attr("id", "grayscale");
-
-  grescale.append("feColorMatrix")
-    .attr("type", "matrix")
-    .attr("values", `0.393 0.769 0.189 0 0
-        0.349 0.686 0.168 0 0
-        0.272 0.534 0.131 0 0
-        0 0 0 1 0`);
-
   ////////////////////////////////////////
   ////////////// Transform ///////////////
   ////////////////////////////////////////
@@ -311,8 +301,7 @@ export function viz_2_6(data, map, options) {
           });
 
         square
-          .transition()
-          .attr("filter", x => JSON.stringify(x[map.date]) != JSON.stringify(d[map.date]) ? "url(#grayscale)" : "none");
+          .attr("opacity", x => JSON.stringify(x[map.date]) == JSON.stringify(d[map.date]) ? 1 : 0.8);
 
         d3.select(this)
           .raise()
@@ -324,7 +313,7 @@ export function viz_2_6(data, map, options) {
       .on("mouseout", function (event, d) {
         square
           .attr("stroke-width", 0.8)
-          .attr("filter", "none");
+          .attr("opacity", 1);
 
         d3.select(this)
           .transition()
