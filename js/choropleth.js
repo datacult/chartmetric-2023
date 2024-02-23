@@ -19,7 +19,7 @@ export function choropleth(data, map, options) {
 
   let defaults = {
     selector: '#vis',
-    width: 800,
+    width: 1200,
     height: 800,
     margin: { top: 20, right: 20, bottom: 20, left: 20 },
     transition: 1000,
@@ -31,7 +31,8 @@ export function choropleth(data, map, options) {
     format: d3.format(","),
     title: "",
     legend: true,
-    colorScale: ["#F0F8FF", "#0096FF"]
+    colorScale: ["#F0F8FF", "#0096FF"],
+    unknown: "#ccc"
   }
 
   options = { ...defaults, ...options };
@@ -97,7 +98,7 @@ export function choropleth(data, map, options) {
   const colorScale = d3.scaleSqrt()
     .domain(options.domain ? options.domain : [0, d3.max(data, d => d[map.value])])
     .range(options.colorScale)
-    .unknown("#ccc");
+    .unknown(options.unknown);
 
   ////////////////////////////////////////
   ////////////// DOM Setup ///////////////
