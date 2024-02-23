@@ -299,13 +299,25 @@ export function viz_2_6(data, map, options) {
           .each(function (d, i) {
             d3.select(this).raise();
           });
+
+        d3.select(this)
+          .raise()
+          .transition()
+          .attr("width", options.imageSize * 1.2)
+          .attr("height", options.imageSize * 1.2);
+
       })
       .on("mouseout", function (event, d) {
         square
           .attr("stroke-width", 0.5);
+
+        d3.select(this)
+          .transition()
+          .attr("width", options.imageSize)
+          .attr("height", options.imageSize)
       });
 
-    svg
+    let track_details = svg
       .selectAll(".track_details")
       .data(photoData)
       .join("text")
