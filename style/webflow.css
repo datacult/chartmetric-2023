@@ -678,6 +678,12 @@ https://studio.datacult.com/  */
     /* Sets space between flex items */
 }
 
+#viz_2_6_tooltip {
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
 #viz_2_6 #calendarHeatmap {
   flex: 1;
   display: flex;
@@ -1446,3 +1452,8 @@ Bar
 #viz_2_1_tooltip_title, #viz_2_14_tooltip_title, #viz_2_15_tooltip_title {
   max-width: 150px;
 }
+
+/* * * * * * * * * * * * * * * 
+/ Viz 2_13
+* * * * * * * * * * * * * * * */
+
