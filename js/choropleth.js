@@ -31,7 +31,7 @@ export function choropleth(data, map, options) {
     format: d3.format(","),
     title: "",
     legend: true,
-    colorScale: ["#ffdcb6", "#0636e9"],
+    colorScale: ["#99e6fb", "#374363"],
     unknown: "#fff"
   }
 
