@@ -19,7 +19,7 @@ export function choropleth(data, map, options) {
 
   let defaults = {
     selector: '#vis',
-    width: 1200,
+    width: 800,
     height: 800,
     margin: { top: 20, right: 20, bottom: 20, left: 20 },
     transition: 1000,
