@@ -144,7 +144,7 @@ export function choropleth(data, map, options) {
 
         if (dataMap.get(d.properties.name)) {
           tooltip
-            .attr("display", "block")
+            .style("display", "block")
             .style("left", event.clientX + 20 + "px")
             .style("top", event.clientY + 20 + "px")
             .text(`${d.properties.name}: ${dataMap.get(d.properties.name)}`)
@@ -153,7 +153,7 @@ export function choropleth(data, map, options) {
       })
       .on("mouseout", function (event, d) {
         d3.select(this).attr("stroke", "none");
-        tooltip.attr("display", "none")
+        tooltip.style("display", "none")
       });
 
     update()
