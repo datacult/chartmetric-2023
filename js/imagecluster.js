@@ -294,7 +294,7 @@ export function imagecluster(data, map, options, svg) {
 
     tooltip
       .style("display", "block")
-      .style("left", event.clientX + 20 + "px")
+      .style("left", `${event.clientX - 150}px`)
       .style("top", event.clientY + 20 + "px")
       .html(`
           <div class="topline">
