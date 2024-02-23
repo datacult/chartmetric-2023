@@ -112,6 +112,13 @@ export function viz_2_6(data, map, options) {
     .attr("stdDeviation", "3")
     .attr("flood-opacity", "0.5");
 
+  let grescale = defs.append("filter")
+    .attr("id", "grayscale");
+
+  grescale.append("feColorMatrix")
+    .attr("type", "matrix")
+    .attr("values", `0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0`);
+
   ////////////////////////////////////////
   ////////////// Transform ///////////////
   ////////////////////////////////////////
@@ -300,41 +307,27 @@ export function viz_2_6(data, map, options) {
             d3.select(this).raise();
           });
 
+        square
+          .transition()
+          .attr("filter", x => JSON.stringify(x[map.date]) != JSON.stringify(d[map.date]) ? "url(#grayscale)" : "none");
+
         d3.select(this)
           .raise()
           .transition()
           .attr("width", options.imageSize * 1.1)
           .attr("height", options.imageSize * 1.1);
 
-        polygon.filter(x => JSON.stringify(x[map.date]) == JSON.stringify(d[map.date]))
-          .attr("opacity", 0.5);
-
       })
       .on("mouseout", function (event, d) {
         square
-          .attr("stroke-width", 0.8);
-
-          polygon
-          .attr("opacity", 0);
+          .attr("stroke-width", 0.8)
+          .attr("filter", "none");
 
         d3.select(this)
           .transition()
           .attr("width", options.imageSize)
           .attr("height", options.imageSize)
       });
-
-    const polygon = svg.selectAll(".polygon")
-      .data(photoData)
-      .join("polygon")
-      .attr("points", d => {
-        return `${(width / 3) + 30} ${yScale(d.weekNumber)} 
-        ${(width / 3) + 30} ${yScale(d.weekNumber) + options.imageSize}
-        ${xScale(d.dow)} ${yScale(d.weekNumber)+  yScale.bandwidth()}
-        ${xScale(d.dow)} ${yScale(d.weekNumber)}`
-      })
-      .attr("fill", "white")
-      .attr("opacity", 0)
-      .classed("polygon", true);
 
     let track_details = svg
       .selectAll(".track_details")
