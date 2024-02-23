@@ -684,6 +684,11 @@ https://studio.datacult.com/  */
   font-size: 1rem;
 }
 
+#viz_2_6 .release_date {
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
 #viz_2_6 #calendarHeatmap {
   flex: 1;
   display: flex;
