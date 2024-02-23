@@ -1,12 +1,11 @@
-// © 2023 Data Culture
+// © 2024 Data Culture
 // Released under the ISC license.
 // https://studio.datacult.com/ 
 
-'use strict'
+import { barchart } from './barchart.js';
+import { arcchart } from './arc.js';
 
-let barArc = (async (data_url, bar_map, arc_map, options) => {
-
-  let data = await d3.csv(data_url, d3.autoType)
+export function barArc(data, options, bar_map, arc_map){
 
   //data cleaning
   data.forEach(d => {
@@ -56,8 +55,7 @@ let barArc = (async (data_url, bar_map, arc_map, options) => {
   })
 
   let bar_mapping = {
-    selector: '#vis',
-    y: "start_total",
+    y: "end_total",
     x: "stage",
     fill: "fill",
     stroke: "stroke",
@@ -75,6 +73,7 @@ let barArc = (async (data_url, bar_map, arc_map, options) => {
   arc_map = { ...arc_mapping, ...arc_map };
 
   let defaults = {
+    selector: '#vis',
     stroke: "black",
     padding: 0,
     margin: { top: 100, right: 20, bottom: 500, left: 20 },
@@ -85,11 +84,11 @@ let barArc = (async (data_url, bar_map, arc_map, options) => {
   options = { ...defaults, ...options };
 
   let b = barchart(rollup, bar_map, options)
-  let a = arcchart(data, arc_map, options, b.svg)
+  let a = arcchart(data, arc_map, {...options, opacity: 0}, b.svg)
 
   return {
     bar: b,
     arc: a,
   }
 
-});
+};

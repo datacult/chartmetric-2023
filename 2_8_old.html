@@ -1,0 +1,85 @@
+<!-- © 2023 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <!-- Google fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/highFi/2_8_old.css">
+</head>
+
+<body>
+    <div id="vis">
+        <!-- <div id="background-chart-2-8">
+
+        </div>
+        <div id="foreground-2-8">
+
+        </div> -->
+    </div>
+
+</body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+<script type="module" src="js/highFi/2_8_old.js"></script>
+
+
+</html>
+<script type="module">
+    import { BumpChart } from "./js/highFi/2_8_old.js";
+    import { trimNames } from "./js/utility.js"
+    let dataUrl = 'https://share.chartmetric.com/year-end-report/2023/viz_2_8_en.csv'
+
+    let mapping = {
+        selector: '#vis',
+        x: 'SCORE_MONTH',
+        y: 'MONTHLY_ARTIST_RANK',
+        group: 'NAME'
+    }
+
+    let options = {
+        fill: "#1781F7",
+        stroke: "black",
+    }
+
+    let artistName = BumpChart(dataUrl, mapping, options, 'background-chart-2-8', 'section-2-8', scrollFunction)
+
+    // whenever you scroll to a new section, 
+    //TODO STEP1. pass in artistName to this function
+    // STEP2. call this function
+    function scrollFunction(className) {
+        let artistNameId = trimNames(className);
+        const timeline = gsap.timeline();
+        // select all band, and dim them
+        timeline
+            .to(".area-2-8", {
+                duration: 0.5,
+                attr: {
+                    fill: options.fill,
+                    stroke: "none",
+                    opacity: .3,
+                },
+            })
+            // select targetted band, and hightlight it
+            .to("#" + artistNameId, {
+                duration: 0.8,
+                ease: "expoScale(0.5,7,none)",
+                attr: {
+                    fill: "#1781F7",
+                    stroke: "black",
+                    opacity: 1,
+                },
+            }, .2);
+    }
+</script>

@@ -23,24 +23,38 @@ https://studio.datacult.com/ -->
 
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
-<script src="./js/sankey.js"></script>
 
 </html>
-<script>
+<script type="module">
+    import { barArc } from './js/bararc.js';
+
     (async () => {
-        let t11_12 = await d3.json('./data/T1-1_1-2.json')
 
-        let mapping = {
-            selector: '#vis',
-        }
+        let data = await d3.csv('./data/viz_2_5_en.csv', d3.autoType)
 
-        let options = {
-            fill: "white",
-            stroke: "black",
-        }
+        let bararc = barArc(data)
 
-        let a29chart = sankey(t11_12, mapping, options)
+        let example_updates = [
+            'start_total',
+            'end_total',
+            "Undiscovered",
+            "Developing",
+            "Mid-Level",
+            "Mainstream",
+            "Superstar",
+            "Legendary"
+        ]
+
+        // separate updates for bar and arc
+        example_updates.forEach((update, i) => {
+            setTimeout(() => {
+                bararc.bar.update(null, { y: update }, {focus: i > 1 ? update: null})
+                if (i > 1) {
+                    bararc.arc.update(null, { focus: update })
+                }
+            }, 2000 * i)
+        })
+
 
     })()
 

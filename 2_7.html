@@ -16,37 +16,39 @@ https://studio.datacult.com/ -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style/index.css">
-</head>
-
 <body>
-    <div id="vis"></div>
+    <div id="vis">
+    </div>
 
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="js/bump.js"></script>
-
 
 </html>
-<script>
-    (async () => {
-        let a23 = await d3.csv('./data/A2-3.csv', d3.autoType)
 
-        let mapping = {
-            selector: '#vis',
-            x: 'RANK_MONTH',
-            y: 'MONTHLY_ARTIST_RANK',
-            group: 'NAME'
+<script type="module">
+    import {cluster} from './js/cluster.js';
+    let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_7_en.csv', d3.autoType)
+
+    let mapping = {
+        size: "ARTIST_COUNT",
+        label: "PRONOUN",
+        fill: "PRONOUN",
+        value: "PRONOUN_PCT"
+    }
+
+    let options = {
+        selector: "#vis",
+        stroke: "white",
+        format: (d) => {
+            return Math.floor(d * 100) > 0 ? d3.format(".0%")(d) : d3.format(".1r")(d * 100) + "%"
         }
+    }
 
-        let options = {
-            fill: "#1781F7",
-            stroke: "black",
-        }
+    // scrolltrigger to be added
+    let vis = cluster(data, mapping, options);
 
-        let a23chart = sankey(a23, mapping, options)
-
-    })()
-
-
-
+    // setTimeout(() => {
+    //     options.focus = "Latin"
+    //     return vis.update(null, null, options)
+    // }, 3000)
 </script>

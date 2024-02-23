@@ -13,47 +13,39 @@ https://studio.datacult.com/ -->
 
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link rel="preconnect" href="https://rsms.me/">
-  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-  <link rel="stylesheet" href="style/highFi/1_5.css">
+  <!-- <style>
+    .vis {
+      width: 300px;
+      height: 300px;
+      display: inline-block;
+    }
+  </style> -->
+  <link rel="stylesheet" href="/style/webflow.css">
+
 </head>
 
 <body>
-  <div id="vis">
-    <!--! Gordon added code begins-->
-
-    
-    <!-- bottom -->
-    <div id="topArtistsByFollowersBubbles_bottom">
-      <div class="topArtistsByFollowersBubbles_bot-section" id="topArtistsByFollowersBubbles_bot-section1">
-        <div class="topArtistsByFollowersBubbles_bot-chart Youtube" id="topArtistsByFollowersBubbles_bot-chart"></div>
-        <div class="topArtistsByFollowersBubbles_bot-icon"></div>
-      </div>
-      <div class="topArtistsByFollowersBubbles_bot-section">
-        <div class="topArtistsByFollowersBubbles_bot-chart Instagram"></div>
-        <div class="topArtistsByFollowersBubbles_bot-icon"></div>
-      </div>
-      <div class="topArtistsByFollowersBubbles_bot-section">
-        <div class="topArtistsByFollowersBubbles_bot-chart Tiktok"></div>
-        <div class="topArtistsByFollowersBubbles_bot-icon"></div>
-      </div>
-    </div>
-    <!--! Gordon added code ends-->
+  <div id="viz_1_5">
+    <div id="viz_1_5_TikTok"></div>
+    <div id="viz_1_5_Instagram"></div>
+    <div id="viz_1_5_YouTube"></div>
   </div>
-
 </body>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script type="module" src="./components/CirclePacking.js"></script>
-<script type="module" src="./js/highFi/1_5.js"></script>
 
 </html>
 
 <script type="module">
-  import {
-    draw1_5
-  } from './js/highFi/1_5.js'
+  import { viz_1_5 } from './js/1_5.js'
+  (async () => {
+    let data = await d3.csv("https://share.chartmetric.com/year-end-report/2023/viz_1_5_en.csv", d3.autoType)
 
-  let type ="All Time" // or "Gained in 2023"
-  draw1_5(type)
+    let vis = viz_1_5(data)
+
+    setTimeout(() => {
+      vis.update(null, "All Time")
+    }, 4000)
+
+
+  })();
 </script>

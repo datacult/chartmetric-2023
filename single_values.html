@@ -22,7 +22,7 @@ https://studio.datacult.com/ -->
     <div id="vis">
         <!-- Below is added by Gordon -->
         <div id="dailyIngestionFunFactBubbles_ChartContainer">
-            <div id="dailyIngestionFunFactBubbles_textContainer"></div>
+            <!-- <div id="dailyIngestionFunFactBubbles_textContainer"></div> -->
 
 
         </div>
@@ -39,7 +39,15 @@ https://studio.datacult.com/ -->
 </html>
 
 <script type="module">
-    import { drawSingleValues } from './js/highFi/single_values.js'
+  import { drawSingleValues } from './js/highFi/single_values.js'
+    /*
+        Webflow Change starts here
+    */
     let triggerElementId = 'dailyIngestionFunFactBubbles_ChartContainer'
+    /*
+        Webflow Change ends here
+    */
+
+
     drawSingleValues(triggerElementId)
 </script>

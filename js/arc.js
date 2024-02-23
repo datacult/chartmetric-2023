@@ -2,9 +2,7 @@
 // Released under the ISC license.
 // https://studio.datacult.com/ 
 
-'use strict'
-
-let arcchart = ((data = [], map, options, svg) => {
+export function arcchart(data = [], map, options, svg){
 
   ////////////////////////////////////////
   /////////////// Defaults ///////////////
@@ -15,12 +13,14 @@ let arcchart = ((data = [], map, options, svg) => {
     source: "source",
     target: "target",
     value: "value",
+    focus: null,
   }
 
   // merge default mapping with user mapping
   map = { ...mapping, ...map };
 
   let defaults = {
+    selector: '#vis',
     width: 800,
     height: 800,
     margin: { top: 20, right: 20, bottom: 20, left: 20 },
@@ -29,9 +29,8 @@ let arcchart = ((data = [], map, options, svg) => {
     padding: 0.1,
     fill: "#69b3a2",
     stroke: "#000",
-    focus: null,
     opacity: 0.03,
-    offset: 80
+    offset: 100
   }
 
   // merge default options with user options
@@ -58,14 +57,12 @@ let arcchart = ((data = [], map, options, svg) => {
     targets = targets.sort((a, b) => options.sort.indexOf(a) - options.sort.indexOf(b));
   }
 
-  console.log(data, targets)
-
   ////////////////////////////////////////
   ////////////// SVG Setup ///////////////
   ////////////////////////////////////////
 
   if (svg == null) {
-    const div = d3.select(map.selector);
+    const div = d3.select(options.selector);
 
     const container = div.append('div')
       .classed('vis-svg-container', true);
@@ -142,20 +139,19 @@ let arcchart = ((data = [], map, options, svg) => {
 
     const t = d3.transition().duration(options.transition).ease(d3.easeLinear)
 
-    if (options.focus != null) {
+    if (map.focus != null) {
 
       arc
         .attr("stroke-dashoffset", function (d) {
-          return d[map.source] == options.focus ? this.getTotalLength() : d3.select(this).attr("stroke-dashoffset") == this.getTotalLength() ? this.getTotalLength() : 0
+          return d[map.source] == map.focus ? this.getTotalLength() : d3.select(this).attr("stroke-dashoffset") == this.getTotalLength() ? this.getTotalLength() : 0
         })
-        .attr("opacity", d => d[map.source] == options.focus ? 1 : options.opacity)
-        .attr("stroke", d => d[map.source] == options.focus ? map.stroke != null ? d[map.stroke] : options.stroke : options.stroke)
+        .attr("opacity", d => d[map.source] == map.focus ? 1 : options.opacity)
+        .attr("stroke", d => d[map.source] == map.focus ? map.stroke != null ? d[map.stroke] : options.stroke : options.stroke)
         .transition(t)
         .duration(options.transition)
         .attr("stroke-dashoffset", 0);
 
     } else {
-
       arc
         .transition(t)
         .delay((d, i) => xScale.domain().indexOf(d[map.source]) * (options.transition / targets.length))
@@ -172,4 +168,4 @@ let arcchart = ((data = [], map, options, svg) => {
     svg: svg,
   }
 
-});
+};

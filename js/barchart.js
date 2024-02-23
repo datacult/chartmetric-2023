@@ -2,29 +2,26 @@
 // Released under the ISC license.
 // https://studio.datacult.com/ 
 
-'use strict'
-
-let barchart = ((data, map, options, svg) => {
+export function barchart(data, map, options, svg) {
 
   ////////////////////////////////////////
   /////////////// Defaults ///////////////
   ////////////////////////////////////////
 
   let mapping = {
-    selector: '#vis',
     x: "x",
     y: "y",
     label: 'label',
     fill: null,
     stroke: null,
     sort: null,
-    direction: 1,
   }
 
   // merge default mapping with user mapping
   map = { ...mapping, ...map };
 
   let defaults = {
+    selector: '#vis',
     width: 800,
     height: 800,
     margin: { top: 20, right: 20, bottom: 20, left: 20 },
@@ -33,7 +30,10 @@ let barchart = ((data, map, options, svg) => {
     padding: 0.1,
     fill: "#69b3a2",
     stroke: "#000",
-    label_offset: 30
+    label_offset: 35,
+    focus: null,
+    sort:[],
+    direction: 1,
   }
 
   // merge default options with user options
@@ -44,14 +44,14 @@ let barchart = ((data, map, options, svg) => {
   ////////////////////////////////////////
 
   if (map.sort != null) {
-    if (map.direction > 0) {
+    if (options.direction > 0) {
       data = data.sort((a, b) => a[map.sort] < b[map.sort] ? 1 : -1);
     } else {
       data = data.sort((a, b) => a[map.sort] > b[map.sort] ? 1 : -1);
     }
 
-    if (options.sort != null) {
-      targets = targets.sort((a, b) => options.sort.indexOf(a[map.sort]) - options.sort.indexOf(b[map.sort]));
+    if (options.sort.length > 0) {
+      data = data.sort((a, b) => options.sort.indexOf(a[map.sort]) - options.sort.indexOf(b[map.sort]));
     }
 
   }
@@ -59,8 +59,6 @@ let barchart = ((data, map, options, svg) => {
   ////////////////////////////////////////
   //////////// Data Wrangling ////////////
   ////////////////////////////////////////
-
-  console.log(data)
 
   let lineData = []
 
@@ -78,7 +76,7 @@ let barchart = ((data, map, options, svg) => {
 
   if (svg == null) {
 
-    const div = d3.select(map.selector);
+    const div = d3.select(options.selector);
 
     const container = div.append('div')
       .classed('vis-svg-container', true);
@@ -160,9 +158,10 @@ let barchart = ((data, map, options, svg) => {
     .data(data)
     .join("text")
     .attr("x", d => xScale(d[map.x]) + xScale.bandwidth() / 2)
-    .attr("y", d => height + 20)
+    .attr("y", d => height + 25)
     .attr("text-anchor", "middle")
     .attr("font-weight", "bold")
+    .attr("font-size", "1.2em")
     .text(d => d[map.x])
     .classed("text", true);
 
@@ -214,7 +213,7 @@ let barchart = ((data, map, options, svg) => {
     lineData.push({ x: data[0][map.x], y: 0 })
 
     data.forEach(function (d) {
-      lineData.push({ x: d[map.x], y: d[map.y] })
+      lineData.push({ x: map.x ? d[map.x] : 0, y: map.y ? d[map.y] : 0 })
     });
 
     lineData.push({ x: "", y: 0 })
@@ -231,9 +230,12 @@ let barchart = ((data, map, options, svg) => {
 
     bars
       .transition(t)
-      .attr("y", d => yScale(d[map.y]))
-      .attr("height", d => height - yScale(d[map.y]));
+      .attr("y", d => map.y ? yScale(d[map.y]) : yScale(0))
+      .attr("height", d => map.y ? height - yScale(d[map.y]) : height - yScale(0));
 
+    text
+      .transition(t)
+      .attr("font-weight", d => options.focus != null ?options.focus == d[map.x] ? "bold": "normal" : "bold")
   }
 
   function wrap(text, width) {
@@ -243,7 +245,7 @@ let barchart = ((data, map, options, svg) => {
         word,
         line = [],
         lineNumber = 0, //<-- 0!
-        lineHeight = 2, // px
+        lineHeight = 1, // px
         x = text.attr("x"), //<-- include the x!
         dy = text.attr("dy") ? text.attr("dy") : 20, //<-- null check
         tspan = text.text(null).append("tspan").attr("x", x).attr("dy", dy);
@@ -260,12 +262,10 @@ let barchart = ((data, map, options, svg) => {
     });
   }
 
-  // call for initial bar render
-  update()
 
   return {
     update: update,
     svg: svg,
   }
 
-});
+};

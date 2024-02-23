@@ -15,35 +15,43 @@ https://studio.datacult.com/ -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style/index.css">
 </head>
+<style>
+    body{
+        background-color: #f5f4f0;
+    }
+</style>
 
 <body>
-    <div id="vis"></div>
+    <div id="viz_2_13"></div>
 
 </body>
+<!-- Include these! -->
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="js/pack.js"></script>
+<script src="https://d3js.org/topojson.v3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-geo@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-geo-projection@4"></script>
 
 </html>
-<script>
+<script type="module">
+    import { choropleth } from './js/choropleth.js';
     (async () => {
-        let a29 = await d3.csv('./data/A2-9.csv', d3.autoType)
+        let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_13_en.csv', d3.autoType)
+
+        console.log(data)
 
         let mapping = {
-            selector: '#vis',
-            selector: '#vis',
-            value: "RANK_25_75",
-            label: "ARTIST_NAME",
-            group: "COUNTRY_NAME"
+            id: 'COUNTRY_NAME',
+            value: 'ARTIST_COUNT',
+            label: 'COUNTRY_NAME'
         }
 
         let options = {
-            fill: "white",
-            stroke: "black",
+            selector: '#viz_2_13',
+            title: "No. of Artists"
         }
 
-        let a29chart = circlepack(a29, mapping, options)
+        let vis = choropleth(data, mapping, options)
 
     })()
 
