@@ -41,8 +41,7 @@ export function Treemap(data, selector, options) {
     const { boundedWidth: width, boundedHeight: height } = dimensions;
     const { genreType, timeframe } = options;
     data = data
-      .filter((d) => d.TITLE == genreType)
-      .filter((d) => d.TIMEFRAME == timeframe) // or 2023
+      .filter((d) => d.TITLE == genreType && d.TIMEFRAME == timeframe)
       .sort((a, b) => d3.descending(+a.VALUE, +b.VALUE))
       .map((d, i) => {
         return {

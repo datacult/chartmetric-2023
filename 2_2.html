@@ -43,12 +43,12 @@ https://studio.datacult.com/ -->
     // preferred to be loaded in HTML first
     let dataUrl =
         "https://share.chartmetric.com/year-end-report/2023/viz_2_2_en.csv";
-    let data = await d3.csv(dataUrl)
+    let data = await d3.csv(dataUrl, d3.autoType)
     let options = { genreType: "Artist Genres", timeframe: "All Time" }
     let updateTreemap = Treemap(data, 'vis', options)
-    
-    console.log(updateTreemap)
 
+    console.log(data)
+    
     setTimeout(
         () =>
             updateTreemap.update(data, { genreType: "Track Genres", timeframe: 2023 }),
