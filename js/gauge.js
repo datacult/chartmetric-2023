@@ -78,10 +78,6 @@ export function gauge(data, map, options) {
     const scale = d3.scaleLinear()
         .domain([options.min, options.max])
         .range([-Math.PI / 2, Math.PI / 2]);
-        
-    const legendScale = d3.scaleBand()
-        .domain(data.map(d => d[map.label]).sort((a, b) => a < b ? -1 : 1))
-        .range([-width / 2, width / 2]);
 
     ////////////////////////////////////////
     ////////////// DOM Setup ///////////////
@@ -120,7 +116,7 @@ export function gauge(data, map, options) {
         .attr('x', (d, i) => i == 0 ? (width / 2) - (options.barwidth / 2) : (-width / 2) + (options.barwidth / 2))
         .attr('y', -20)
         .attr('fill', '#000')
-        .attr('font-size', '2em')
+        .attr('font-size', '30px')
         .attr('font-weight', 'bold')
         .text(d => d3.format(options.format)(d[map.value]))
         .classed('label', true)
@@ -129,24 +125,14 @@ export function gauge(data, map, options) {
     /////////////// Legend /////////////////
     ////////////////////////////////////////
 
-    // draw a small square under the graph for each color with a corresponding label
-    const legend = svg.selectAll('.legend')
+    svg.selectAll('.legend_text')
         .data(data)
-        .join('g')
-        .attr('transform', (d, i) => `translate(${legendScale(d[map.label])}, 50)`)
-        .classed('legend', true)
-
-    legend.append('rect')
-        .attr('x', 0)
-        .attr('y', 0)
-        .attr('width', 20)
-        .attr('height', 20)
-        .attr('fill', d => map.fill != null ? d[map.fill] : options.fill)
-
-    legend.append('text')
-        .attr('x', 30)
-        .attr('y', 10)
-        .attr('dy', '0.35em')
+        .join("text")
+        .attr('x', (d, i) => i == 0 ? (width / 2) - (options.barwidth / 2) : (-width / 2) + (options.barwidth / 2))
+        .attr('y', 30)
+        .attr("font-size", "20px")
+        .attr("font-weight", "bold")
+        .attr("text-anchor", "middle")
         .text(d => d[map.label])
         .classed('legend_text', true)
 
