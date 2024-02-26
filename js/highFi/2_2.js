@@ -42,8 +42,6 @@ export function Treemap(data, selector, options) {
     if (newData != null && newData.length > 0) {
       data = newData;
     }
-
-    console.log(data)
     
     const { boundedWidth: width, boundedHeight: height } = dimensions;
     const { genreType, timeframe } = options;
@@ -61,8 +59,6 @@ export function Treemap(data, selector, options) {
         };
       })
       .slice(0, 10);
-
-    console.log(filteredData)
 
     TreemapComponent(filteredData, {
       path: (d) => d.GENRE_NAME,
