@@ -152,6 +152,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
             },
             params: [["Artist Genres", "Track Genres"], ["All Time", 2023]],
             update: function (param, index) {
+                console.log("2_2 pre update options: ", this.options)
                 if (param && index) {
                     if (index == 0) {
                         this.options.genreType = param;
