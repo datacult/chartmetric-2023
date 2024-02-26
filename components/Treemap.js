@@ -95,8 +95,8 @@ export function TreemapComponent(
     .select("#gentreTreemap_chart")
     .selectAll("div")
     .data(leaves, (d) => {
-   
-      return trimNames(d.data.GENRE_NAME + d.data.TIMEFRAME + d.data.RANK);
+  
+      return d.data.IMAGE_URL
     })
     .join(
       (enter) => {
