@@ -120,6 +120,8 @@ export function choropleth(data, map, options) {
 
   d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson").then(topo => {
 
+  topo.features = topo.features.filter(d => d.properties.name != "Antarctica")
+
     let countries = topo.features.map(d => d.properties.name)
 
     data.forEach(d => {
