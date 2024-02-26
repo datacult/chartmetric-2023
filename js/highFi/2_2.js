@@ -37,10 +37,17 @@ export function Treemap(data, selector, options) {
 
   // .attr("viewBox", `0 0 ${width*0.98} ${height*0.98}`)
   // .attr("preserveAspectRatio", "xMidYMid meet");
-  function update(data, options,dimensions=initialDimensions) {
+  function update(newData = data, options,dimensions=initialDimensions) {
+
+    if (newData != null && newData.length > 0) {
+      data = newData;
+    }
+
+    console.log(data)
+    
     const { boundedWidth: width, boundedHeight: height } = dimensions;
     const { genreType, timeframe } = options;
-    data = data
+    const filteredData = data
       .filter((d) => d.TITLE == genreType && d.TIMEFRAME == timeframe)
       .sort((a, b) => d3.descending(+a.VALUE, +b.VALUE))
       .map((d, i) => {
@@ -50,10 +57,14 @@ export function Treemap(data, selector, options) {
           VALUE: +d.VALUE,
           RANK: i + 1,
           IMAGE_URL: d.IMAGE_URL,
+          TITLE: d.TITLE,
         };
       })
       .slice(0, 10);
-    TreemapComponent(data, {
+
+    console.log(filteredData)
+
+    TreemapComponent(filteredData, {
       path: (d) => d.GENRE_NAME,
       value: (d) => d.VALUE,
       label: (d) => {
@@ -65,7 +76,6 @@ export function Treemap(data, selector, options) {
       height: height,
     });
   }
-  update(data, options,initialDimensions);
   setupResponsiveDimensions(
     chartContainerId,
     { top: 0, right: 0, bottom: 0, left: 0 },

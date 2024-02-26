@@ -46,13 +46,24 @@ https://studio.datacult.com/ -->
     let data = await d3.csv(dataUrl, d3.autoType)
     let options = { genreType: "Artist Genres", timeframe: "All Time" }
     let updateTreemap = Treemap(data, 'vis', options)
-
-    console.log(data)
     
     setTimeout(
         () =>
-            updateTreemap.update(data, { genreType: "Track Genres", timeframe: 2023 }),
+            updateTreemap.update(null, { genreType: "Artist Genres", timeframe: 2023 }),
         2000
+    );
+
+
+    setTimeout(
+        () =>
+            updateTreemap.update(null, { genreType: "Track Genres", timeframe: 2023 }),
+        4000
+    );
+
+    setTimeout(
+        () =>
+            updateTreemap.update(null, { genreType: "Track Genres", timeframe: "All Time" }),
+        6000
     );
 })()
 </script>
