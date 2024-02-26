@@ -187,7 +187,7 @@ function barchart_1_2(data, map, options) {
     .attr("stroke", d => "none")
     .classed("bar", true)
     .on("mouseover", function (event, d) {
-      d3.select(this).style("fill", d3.color(options.fill).brighter(0.5));
+      d3.select(this).style("fill", d3.color(options.fill).brighter(0.2));
       d3.select(this.parentNode).selectAll(".value-label").filter(e => e[map.x] == d[map.x]).attr("opacity", 1);
     })
     .on("mouseout", function (event, d) {
