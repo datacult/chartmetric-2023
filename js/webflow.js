@@ -152,7 +152,6 @@ import { drawSingleValues } from "./highFi/single_values.js";
             },
             params: [["Artist Genres", "Track Genres"], ["All Time", 2023]],
             update: function (param, index) {
-                console.log("2_2 update")
                 if (param && index) {
                     if (index == 0) {
                         this.options.genreType = param;
@@ -160,7 +159,6 @@ import { drawSingleValues } from "./highFi/single_values.js";
                     if (index == 1) {
                         this.options.timeframe = param;
                     }
-                    console.log("2_2 options: ", this.options)
                     this.viz.update(this.data, this.options);
                 } else {
                     this.viz.update(this.data);
@@ -831,14 +829,12 @@ import { drawSingleValues } from "./highFi/single_values.js";
                 if (visuals.hasOwnProperty(viz_id)) {
                     if (Array.isArray(visuals[viz_id].params[index])) {
                         if (visuals[viz_id].params[index].indexOf(value) > -1) {
-                            console.log("update: ", viz_id, value, index);
                             visuals[viz_id].update(value, index);
                         } else {
                             console.log("params detected as an array but value is not an accepted param", viz_id, index, value);
                         }
                     } else {
                         if (visuals[viz_id].params.indexOf(value) > -1) {
-                            console.log("update: ", viz_id, value);
                             visuals[viz_id].update(value);
                         } else {
                             console.log("value is not an accepted param", viz_id, index, value);
