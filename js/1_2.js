@@ -165,6 +165,17 @@ function barchart_1_2(data, map, options) {
   ////////////// DOM Setup ///////////////
   ////////////////////////////////////////
 
+  const value_labels = svg.selectAll(".value-label")
+    .data(data)
+    .join("text")
+    .attr("x", d => xScale(d[map.x]) + xScale.bandwidth() / 2)
+    .attr("y", d => yScale(d[map.y]) - 5)
+    .attr("opacity", 0)
+    .text(d => d3.format(".0%")(d[map.y]))
+    .style("text-anchor", "middle")
+    .style("font-size", "10px")
+    .classed("value-label", true);
+
   const bars = svg.selectAll(".bar")
     .data(data)
     .join("rect")
@@ -174,7 +185,15 @@ function barchart_1_2(data, map, options) {
     .attr("height", d => height - yScale(0))
     .style("fill", options.fill)
     .attr("stroke", d => "none")
-    .classed("bar", true);
+    .classed("bar", true)
+    .on("mouseover", function (event, d) {
+      d3.select(this).style("fill", d3.color(options.fill).brighter(0.5));
+      d3.select(this.parentNode).selectAll(".value-label").filter(e => e[map.x] == d[map.x]).attr("opacity", 1);
+    })
+    .on("mouseout", function (event, d) {
+      d3.select(this).style("fill", options.fill);
+      d3.select(this.parentNode).selectAll(".value-label").filter(e => e[map.x] == d[map.x]).attr("opacity", 0);
+    })
 
   svg.append("g")
     .attr("transform", `translate(0,${height})`)
