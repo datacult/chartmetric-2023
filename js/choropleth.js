@@ -20,8 +20,8 @@ export function choropleth(data, map, options) {
   let defaults = {
     selector: '#vis',
     width: 850,
-    height: 600,
-    margin: { top: 20, right: 20, bottom: 20, left: 20 },
+    height: 480,
+    margin: { top: 120, right: 20, bottom: 20, left: 20 },
     transition: 1000,
     delay: 20,
     stroke: "#FFF",
@@ -176,7 +176,7 @@ export function choropleth(data, map, options) {
     })
 
     svg.append('g')
-      .attr("transform", `translate(${width * 0.6},${0})`)
+      .attr("transform", `translate(${width * 0.6},${-options.margin.top})`)
       .append(() => l)
       .classed('legend', true);
 
