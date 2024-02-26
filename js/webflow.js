@@ -159,7 +159,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
                     if (index == 1) {
                         this.options.timeframe = param;
                     }
-                    console.log(this.options)
+                    console.log("2_2 options: ", this.options)
                     this.viz.update(this.data, this.options);
                 } else {
                     this.viz.update(this.data);
