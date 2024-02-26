@@ -20,12 +20,16 @@ export async function drawMap(
   // key comes from data, value comes from the map
   const nameMap = {
     "United States": "United States of America",
-    Türkiye: "Turkey",
+    "Türkiye": "Turkey",
     "Dominican Republic": "Dominican Rep.",
     "Russian Federation": "Russia", // or just "Russia" if that's how it's named in your data
     "Czech Republic": "Czechia",
     // Add more mappings as needed
   };
+
+  selectedCountries = selectedCountries.map((country) => {
+    return nameMap[country] || country;
+  });
 
   let data = await d3.csv(trackDataUrl, d3.autoType);
   let dataset = data.map((entry) => ({
@@ -126,9 +130,6 @@ export async function drawMap(
       d3.select(hoveredMapSelector).style("border", "1px solid black");
 
       let countryName = filteredData[0].NAME
-      if (countryName === "United States of America") {
-        countryName = "United States"
-      }
 
       let flagObj = flagData.find(x => x.name == countryName)
       let flag = flagObj ? flagObj.emoji : "";
