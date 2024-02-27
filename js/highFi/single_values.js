@@ -152,8 +152,6 @@ export function drawSingleValues(triggerElementId) {
 
     if (parseInt(width) != parseInt(boundedWidth) || parseInt(height) != parseInt(boundedHeight)) {
 
-      console.log(`old width: ${width}, new width: ${boundedWidth} old height: ${height}, new height: ${boundedHeight}`)
-
       width = parseInt(boundedWidth)
       height = parseInt(boundedHeight)
 
