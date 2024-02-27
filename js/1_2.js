@@ -56,7 +56,7 @@ export function viz_1_2(data, map, options) {
 
   });
 
-  function update(){
+  function update() {
     console.log("no update function for viz_1_2 yet!")
   }
 
@@ -97,6 +97,7 @@ function barchart_1_2(data, map, options) {
     focus: null,
     sort: [],
     direction: 1,
+    domain: [0, 0.6]
   }
 
   // merge default options with user options
@@ -158,7 +159,7 @@ function barchart_1_2(data, map, options) {
     .paddingInner(options.padding);
 
   const yScale = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d[map.y])])
+    .domain(options.domain.length > 0 ? options.domain : [0, d3.max(data, d => d[map.y])])
     .range([height, 0])
 
   ////////////////////////////////////////
