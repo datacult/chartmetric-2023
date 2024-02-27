@@ -170,8 +170,6 @@ import { drawSingleValues } from "./highFi/single_values.js";
                     }
                 };
 
-                addToQueue(() => callUpdate(param, index));
-
                 const callUpdate = (param, index) => {
                     if (param && index) {
                         if (index == 0) {
@@ -185,6 +183,8 @@ import { drawSingleValues } from "./highFi/single_values.js";
                         this.viz.update(this.data);
                     }
                 }
+
+                addToQueue(() => callUpdate(param, index));
             },
         },
         viz_2_3: {
