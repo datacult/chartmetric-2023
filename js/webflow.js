@@ -154,27 +154,22 @@ import { drawSingleValues } from "./highFi/single_values.js";
             queue: [],
             isProcessingQueue: false,
             processQueue: function () {
-                console.log('Processing queue');
                 if (this.queue.length > 0) {
                     const func = this.queue.shift();
                     func();
                     setTimeout(() => this.processQueue(), 1000);
                 } else {
-                    console.log('Queue processing finished');
                     this.isProcessingQueue = false;
                 }
             },
             addToQueue: function (func) {
-                console.log('Task added to queue');
                 this.queue.push(func);
                 if (!this.isProcessingQueue) {
-                    console.log('Starting queue processing');
                     this.isProcessingQueue = true;
                     this.processQueue();
                 }
             },
             callUpdate: function (param, index) {
-                console.log("calling update 2_2", param, index, this.viz, this.data, this.options);
                 if (index == 0) {
                     this.options.genreType = param;
                 } else if (index == 1) {
