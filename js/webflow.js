@@ -158,6 +158,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
                 if (this.queue.length > 0) {
                     const func = this.queue.shift();
                     func();
+                    setTimeout(() => this.processQueue(), 1000);
                 } else {
                     console.log('Queue processing finished');
                     this.isProcessingQueue = false;
@@ -166,10 +167,9 @@ import { drawSingleValues } from "./highFi/single_values.js";
             addToQueue: function(func){
                 console.log('Task added to queue');
                 this.queue.push(func);
-                if (!this.isProcessingQueue) {
+                if (!this.isProcessingQueue){
                     console.log('Starting queue processing');
-                    this.isProcessingQueue = true; // Set processing flag
-                    setTimeout(() => this.processQueue(), 1000);
+                    this.processQueue();
                 }
             },
             callUpdate: function(param, index){
