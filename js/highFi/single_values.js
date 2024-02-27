@@ -142,9 +142,11 @@ export function drawSingleValues(triggerElementId) {
   //   const textWidth = this.getBBox().width;
   //   d3.select(this).attr("x", boundedWidth / 2 - textWidth / 2);
   // });
+
+  let width, height;
+
   function resizeCanvas() {
 
-    let width, height;
     const scale = window.devicePixelRatio;
     const { boundedWidth, boundedHeight } = chartDimensions(chartContainerId);
 
