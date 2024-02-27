@@ -150,12 +150,12 @@ export function drawSingleValues(triggerElementId) {
     const scale = window.devicePixelRatio;
     const { boundedWidth, boundedHeight } = chartDimensions(chartContainerId);
 
-    if (width != boundedWidth || height != boundedHeight) {
+    if (parseInt(width) != parseInt(boundedWidth) || parseInt(height) != parseInt(boundedHeight)) {
 
       console.log(`old width: ${width}, new width: ${boundedWidth} old height: ${height}, new height: ${boundedHeight}`)
 
-      width = boundedWidth
-      height = boundedHeight
+      width = parseInt(boundedWidth)
+      height = parseInt(boundedHeight)
 
       meta = metaDataGenerator(width, height);
 
