@@ -23,7 +23,7 @@ export function choropleth(data, map, options) {
     height: 480,
     margin: { top: 120, right: 20, bottom: 20, left: 20 },
     transition: 1000,
-    delay: 20,
+    delay: 50,
     stroke: "#FFF",
     fill: "none",
     focus: "",
@@ -120,7 +120,7 @@ export function choropleth(data, map, options) {
 
   d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson").then(topo => {
 
-  topo.features = topo.features.filter(d => d.properties.name != "Antarctica")
+    topo.features = topo.features.filter(d => d.properties.name != "Antarctica")
 
     let countries = topo.features.map(d => d.properties.name)
 
@@ -213,6 +213,8 @@ export function choropleth(data, map, options) {
 
     dataMap = new Map(data.map(d => [d[map.id], +d[map.value]]))
 
+    let transitionOrder = data.map(d => d[map.id])
+
     const t = d3.transition().duration(options.transition);
 
     colorScale
@@ -228,7 +230,7 @@ export function choropleth(data, map, options) {
 
     svg.selectAll("path")
       .transition(t)
-      .delay((d, i) => i * options.delay)
+      .delay((d, i) => transitionOrder.indexOf(d.properties.name) != -1 ? transitionOrder.indexOf(d.properties.name) * options.delay : transitionOrder.length * options.delay)
       .attr("fill", d => colorScale(dataMap.get(d.properties.name) || null))
 
   }
