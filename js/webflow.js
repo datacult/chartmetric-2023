@@ -158,8 +158,6 @@ import { drawSingleValues } from "./highFi/single_values.js";
                 if (this.queue.length > 0) {
                     const func = this.queue.shift();
                     func();
-                }
-                if (this.queue.length > 0) {
                     setTimeout(() => this.processQueue(), 1000);
                 } else {
                     console.log('Queue processing finished');
