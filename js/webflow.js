@@ -150,18 +150,40 @@ import { drawSingleValues } from "./highFi/single_values.js";
                 genreType: "Artist Genres",
                 timeframe: "All Time"
             },
+            queue: [],
+            isProcessingQueue: false,
             params: [["Artist Genres", "Track Genres"], ["All Time", 2023]],
             update: function (param, index) {
-                if (param && index) {
-                    if (index == 0) {
-                        this.options.genreType = param;
+
+                const addToQueue = (func) => {
+                    this.queue.push(func);
+                    if (!this.isProcessingQueue) processQueue();
+                };
+
+                const processQueue = () => {
+                    if (this.queue.length > 0) {
+                        const func = this.queue.shift();
+                        func();
+                        setTimeout(processQueue, 1000);
+                    } else {
+                        this.isProcessingQueue = false;
                     }
-                    if (index == 1) {
-                        this.options.timeframe = param;
+                };
+
+                addToQueue(() => callUpdate(param, index));
+
+                const callUpdate = (param, index) => {
+                    if (param && index) {
+                        if (index == 0) {
+                            this.options.genreType = param;
+                        }
+                        if (index == 1) {
+                            this.options.timeframe = param;
+                        }
+                        this.viz.update(this.data, this.options);
+                    } else {
+                        this.viz.update(this.data);
                     }
-                    this.viz.update(this.data, this.options);
-                } else {
-                    this.viz.update(this.data);
                 }
             },
         },
