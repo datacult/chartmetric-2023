@@ -275,6 +275,9 @@ let gap  = 60
     //   },
     //   onEnterback: ({ progress }) => { }
     // });
+    
+    tl.play();
+
   }
 
   function drawCircles(context, width, height) {
