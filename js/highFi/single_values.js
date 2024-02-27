@@ -267,14 +267,14 @@ let gap  = 60
         },
       });
     });
-    ScrollTrigger.create({
-      trigger: "#" + triggerElementId,
-      start: "top bottom",
-      onEnter: ({ progress }) => {
-        tl.play();
-      },
-      onEnterback: ({ progress }) => { }
-    });
+    // ScrollTrigger.create({
+    //   trigger: "#" + triggerElementId,
+    //   start: "top bottom",
+    //   onEnter: ({ progress }) => {
+    //     tl.play();
+    //   },
+    //   onEnterback: ({ progress }) => { }
+    // });
   }
 
   function drawCircles(context, width, height) {
