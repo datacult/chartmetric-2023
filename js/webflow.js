@@ -174,6 +174,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
                 }
             },
             callUpdate: function (param, index) {
+                console.log("calling update 2_2", param, index)
                 if (index === 0) {
                     this.options.genreType = param;
                 } else if (index === 1) {
