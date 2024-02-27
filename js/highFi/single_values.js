@@ -150,6 +150,8 @@ export function drawSingleValues(triggerElementId) {
 
     if (width != boundedWidth || height != boundedHeight) {
 
+      console.log(`old width: ${width}, new width: ${boundedWidth} old height: ${height}, new height: ${boundedHeight}`)
+
       width = boundedWidth
       height = boundedHeight
 
