@@ -3,12 +3,12 @@ export function drawSingleValues(triggerElementId) {
   const metaDataGenerator = (width, height) => [
     {
       group: "Chartmetric daily artists ingested",
-      size: 3670,
+      size: 3642,
       offsetXY: { x: 0, y: 0 },
       targetXY:
         width > 760
           ? { x: -width * 0.2777, y: height * -0.03 }
-          : window.devicePixelRatio== 2? { x: 0, y: height * -0.5 }:{ x: 0, y: height * -0.39 },
+          : window.devicePixelRatio== 2? { x: 0, y: height * -0.4 }:{ x: 0, y: height * -0.39 },
 
       icon: "🎵",
     },
