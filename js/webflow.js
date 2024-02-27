@@ -150,42 +150,38 @@ import { drawSingleValues } from "./highFi/single_values.js";
                 genreType: "Artist Genres",
                 timeframe: "All Time"
             },
+            params: [["Artist Genres", "Track Genres"], ["All Time", 2023]],
             queue: [],
             isProcessingQueue: false,
-            params: [["Artist Genres", "Track Genres"], ["All Time", 2023]],
-            update: function (param, index) {
-
-                const addToQueue = (func) => {
-                    this.queue.push(func);
-                    if (!this.isProcessingQueue) processQueue();
-                };
-
-                const processQueue = () => {
-                    if (this.queue.length > 0) {
-                        const func = this.queue.shift();
-                        func();
-                        setTimeout(processQueue, 1000);
-                    } else {
-                        this.isProcessingQueue = false;
-                    }
-                };
-
-                const callUpdate = (param, index) => {
-                    if (param && index) {
-                        if (index == 0) {
-                            this.options.genreType = param;
-                        }
-                        if (index == 1) {
-                            this.options.timeframe = param;
-                        }
-                        this.viz.update(this.data, this.options);
-                    } else {
-                        this.viz.update(this.data);
-                    }
+            processQueue: function(){
+                if (this.queue.length > 0) {
+                    const func = this.queue.shift();
+                    func();
+                    setTimeout(this.processQueue, 1000);
+                } else {
+                    this.isProcessingQueue = false;
                 }
-
-                addToQueue(() => callUpdate(param, index));
             },
+            addToQueue: function(func){
+                this.queue.push(func);
+                if (!this.isProcessingQueue) this.processQueue();
+            },
+            callUpdate: function(param, index){
+                if (param && index) {
+                    if (index == 0) {
+                        this.options.genreType = param;
+                    }
+                    if (index == 1) {
+                        this.options.timeframe = param;
+                    }
+                    this.viz.update(this.data, this.options);
+                } else {
+                    this.viz.update(this.data);
+                }
+            },
+            update: function (param, index) {
+                this.addToQueue(() => this.callUpdate(param, index));
+            }
         },
         viz_2_3: {
             viz: null,
