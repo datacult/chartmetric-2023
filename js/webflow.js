@@ -153,37 +153,35 @@ import { drawSingleValues } from "./highFi/single_values.js";
             params: [["Artist Genres", "Track Genres"], ["All Time", 2023]],
             queue: [],
             isProcessingQueue: false,
-            processQueue: function() {
+            processQueue: function () {
                 console.log('Processing queue');
                 if (this.queue.length > 0) {
                     const func = this.queue.shift();
                     func();
+                }
+                if (this.queue.length > 0) {
                     setTimeout(() => this.processQueue(), 1000);
                 } else {
                     console.log('Queue processing finished');
                     this.isProcessingQueue = false;
                 }
             },
-            addToQueue: function(func){
+            addToQueue: function (func) {
                 console.log('Task added to queue');
                 this.queue.push(func);
-                if (!this.isProcessingQueue){
+                if (!this.isProcessingQueue) {
                     console.log('Starting queue processing');
+                    this.isProcessingQueue = true;
                     this.processQueue();
                 }
             },
-            callUpdate: function(param, index){
-                if (param && index) {
-                    if (index == 0) {
-                        this.options.genreType = param;
-                    }
-                    if (index == 1) {
-                        this.options.timeframe = param;
-                    }
-                    this.viz.update(this.data, this.options);
-                } else {
-                    this.viz.update(this.data);
+            callUpdate: function (param, index) {
+                if (index === 0) {
+                    this.options.genreType = param;
+                } else if (index === 1) {
+                    this.options.timeframe = param;
                 }
+                this.viz.update(this.data, this.options);
             },
             update: function (param, index) {
                 this.addToQueue(() => this.callUpdate(param, index));
