@@ -1,0 +1,80 @@
+<!-- © 2024 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <!-- Google fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style/webflow.css">
+</head>
+
+<body>
+    <!-- dropdown select with three languages values -->
+    <div class="dropdown">
+        <select name="language" id="language" disabled>
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="es">Español</option>
+        </select>
+    </div>
+    <div class="viz" id="viz_single_values"></div>
+    <div class="viz" id="viz_1_1"></div>
+    <div class="viz" id="viz_1_2">
+        <div id="viz_1_2_TikTok"></div>
+        <div id="viz_1_2_Instagram"></div>
+        <div id="viz_1_2_YouTube"></div>
+    </div>
+    <div class="dropdown" id="dropdown-1_3"></div>
+    <div class="viz" id="viz_1_3"></div>
+    <div class="viz" id="viz_1_4"></div>
+    <div class="viz" id="viz_1_5">
+        <div id="viz_1_5_TikTok"></div>
+        <div id="viz_1_5_Instagram"></div>
+        <div id="viz_1_5_YouTube"></div>
+    </div>
+    <div class="viz" id="viz_2_1"></div>
+    <div class="viz" id="viz_2_2"></div>
+    <div class="viz" id="viz_2_3"></div>
+    <div class="viz" id="viz_2_5"></div>
+    <div class="viz" id="viz_2_6"></div>
+    <div class="viz" id="viz_2_6_summary"></div>
+    <div class="viz" id="viz_2_7"></div>
+    <div class="viz" id="viz_2_8"></div>
+    <div class="dropdown" id="dropdown-2_9"></div>
+    <div class="viz" id="viz_2_9"></div>
+    <div class="viz" id="viz_2_10"></div>
+    <div class="viz" id="viz_2_11"></div>
+    <div class="viz" id="viz_2_13"></div>
+    <div class="viz" id="viz_2_14"></div>
+    <div class="viz" id="viz_2_15"></div>
+    <div class="viz" id="viz_2_19"></div>
+
+</body>
+
+<!-- ADD THIS TO WEBFLOW -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/d3-array@1"></script>
+<script src="https://unpkg.com/d3-collection@1"></script>
+<script src="https://unpkg.com/d3-path@1"></script>
+<script src="https://unpkg.com/d3-shape@1"></script>
+<script src="https://unpkg.com/d3-sankey@0"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-geo@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-geo-projection@4"></script>
+<script src="https://unpkg.com/topojson@3"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+<script type="module" src="../js/webflow.js"></script>
+
+</html>

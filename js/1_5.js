@@ -2,6 +2,8 @@
 // Released under the ISC license.
 // https://studio.datacult.com/ 
 
+// Description: Force layout image clusters
+
 import { imagecluster } from './imagecluster.js'
 
 export function viz_1_5(data, mapping, options) {

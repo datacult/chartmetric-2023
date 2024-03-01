@@ -1,6 +1,8 @@
-// © 2023 Data Culture
+// © 2024 Data Culture
 // Released under the ISC license.
 // https://studio.datacult.com/ 
+
+// Description: vertical bar chart with slide in tooltip
 
 export function viz_2_9(data, map, options, svg) {
 

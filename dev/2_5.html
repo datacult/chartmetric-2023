@@ -1,0 +1,56 @@
+<!-- © 2024 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../style/webflow.css">
+</head>
+
+<body>
+    <div id="vis"></div>
+
+</body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+</html>
+<script type="module">
+    import { viz_2_5 } from '../js/2_5.js';
+
+    (async () => {
+
+        let data = await d3.csv("https://share.chartmetric.com/year-end-report/2023/viz_2_5_en.csv", d3.autoType)
+
+        let chart = viz_2_5(data)
+
+        let example_updates = [
+            'start_total',
+            'end_total',
+            "Undiscovered",
+            "Developing",
+            "Mid-Level",
+            "Mainstream",
+            "Superstar",
+            "Legendary"
+        ]
+
+        // separate updates for bar and arc
+        example_updates.forEach((update, i) => {
+            setTimeout(() => {
+                chart.bar.update(null, { y: update }, {focus: i > 1 ? update: null})
+                if (i > 1) {
+                    chart.arc.update(null, { focus: update })
+                }
+            }, 2000 * i)
+        })
+
+
+    })()
+
+</script>

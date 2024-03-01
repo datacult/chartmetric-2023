@@ -1,0 +1,59 @@
+<!-- © 2024 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../style/webflow.css">
+</head>
+
+<body>
+    <div id="viz_2_8">
+
+    </div>
+
+</body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+</html>
+<script type="module">
+    import { viz_2_8 } from "../js/2_8.js";
+
+    (async () => {
+
+        let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_2_8_en.csv', d3.autoType)
+
+        console.log(data)
+
+        let mapping = {
+            x: 'MONTH_LABEL',
+            y: 'MONTHLY_ARTIST_RANK',
+            group: 'NAME',
+            sort: 'SCORE_MONTH',
+            title: 'NAME',
+            location:'ARTIST_HOME_COUNTRY',
+            type: 'ARTIST_TYPE',
+            artist_image: 'IMAGE_URL',
+            pronouns: 'PRONOUN',
+            flag:"COUNTRY_CODE",
+            months_in_top_10: 'MONTHS_IN_TOP_10',
+        }
+
+        let options = {
+            selector: '#viz_2_8',
+            fill: "#1781F7",
+            stroke: "black",
+            focus: "Drake"
+        }
+
+        let bump = viz_2_8(data, mapping, options)
+
+    })()
+
+</script>

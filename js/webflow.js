@@ -2,22 +2,22 @@
 // Released under the ISC license.
 // https://studio.datacult.com/
 
-import { sankey } from "./highFi/1_1.js";
+import { chartmetric_sankey } from "./chartmetric_sankey.js";
 import { viz_1_2 } from "./1_2.js";
-import { Table_1_3 } from "./highFi/1_3.js";
+import { viz_1_3 } from "./1_3.js";
 import { viz_1_5 } from "./1_5.js";
-import { circlepack } from './pack.js';
-import { barArc } from './bararc.js';
-import { Treemap } from "./highFi/2_2.js";
-import { Table_2_3 } from "./highFi/2_3.js";
+import { chartmetric_circlepack } from './chartmetric_circlepack.js';
+import { viz_2_5 } from './2_5.js';
+import { viz_2_2 } from "./2_2.js";
+import { viz_2_3 } from "./2_3.js";
 import { viz_2_6 } from "./2_6.js";
 import { cluster } from './cluster.js';
-import { viz_2_8 } from "./highFi/2_8.js";
+import { viz_2_8 } from "./2_8.js";
 import { viz_2_9 } from "./2_9.js";
-import { gradientBarMapComponent } from "./lowFi/2_10_gradientBar.js";
-import { choropleth } from './choropleth.js';
-import { scatter } from './scatter.js';
-import { drawSingleValues } from "./highFi/single_values.js";
+import { gradientBarMapComponent } from "./2_10_gradientBar.js";
+import { viz_2_13 } from './2_13.js';
+import { viz_2_11 } from './2_11.js';
+import { viz_2_19 } from "./2_19.js";
 (async () => {
     // hold data and vizualization instance in one object
     // all update functions should take the data as the first argument
@@ -632,7 +632,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
                     if (entry.isIntersecting) {
 
                         if (viz == "viz_1_1") {
-                            visuals.viz_1_1.viz = sankey(
+                            visuals.viz_1_1.viz = chartmetric_sankey(
                                 visuals.viz_1_1.data,
                                 visuals.viz_1_1.mapping,
                                 visuals.viz_1_1.options
@@ -649,14 +649,14 @@ import { drawSingleValues } from "./highFi/single_values.js";
 
                         }
                         if (viz == "viz_1_3") {
-                            visuals.viz_1_3.viz = Table_1_3(
+                            visuals.viz_1_3.viz = viz_1_3(
                                 visuals.viz_1_3.data,
                                 visuals.viz_1_3.options.selector
                             );
                             observer.disconnect();
                         }
                         if (viz == "viz_1_4") {
-                            visuals.viz_1_4.viz = sankey(
+                            visuals.viz_1_4.viz = chartmetric_sankey(
                                 visuals.viz_1_4.data,
                                 visuals.viz_1_4.mapping,
                                 visuals.viz_1_4.options
@@ -672,7 +672,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
                             observer.disconnect();
                         }
                         if (viz == "viz_2_1") {
-                            visuals.viz_2_1.viz = circlepack(
+                            visuals.viz_2_1.viz = chartmetric_circlepack(
                                 visuals.viz_2_1.data,
                                 visuals.viz_2_1.mapping,
                                 visuals.viz_2_1.options
@@ -680,7 +680,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
                             observer.disconnect();
                         }
                         if (viz == "viz_2_2") {
-                            visuals.viz_2_2.viz = Treemap(
+                            visuals.viz_2_2.viz = viz_2_2(
                                 visuals.viz_2_2.data,
                                 visuals.viz_2_2.options.selector,
                                 visuals.viz_2_2.options
@@ -688,14 +688,14 @@ import { drawSingleValues } from "./highFi/single_values.js";
                             observer.disconnect();
                         }
                         if (viz == "viz_2_3") {
-                            visuals.viz_2_3.viz = Table_2_3(
+                            visuals.viz_2_3.viz = viz_2_3(
                                 visuals.viz_2_3.data,
                                 visuals.viz_2_3.options.selector
                             );
                             observer.disconnect();
                         }
                         if (viz == "viz_2_5") {
-                            visuals.viz_2_5.viz = barArc(
+                            visuals.viz_2_5.viz = viz_2_5(
                                 visuals.viz_2_5.data,
                                 visuals.viz_2_5.options
                             );
@@ -741,7 +741,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
                             observer.disconnect();
                         }
                         if (viz == "viz_2_11") {
-                            visuals.viz_2_11.viz = scatter(
+                            visuals.viz_2_11.viz = viz_2_11(
                                 visuals.viz_2_11.data,
                                 visuals.viz_2_11.mapping,
                                 visuals.viz_2_11.options
@@ -749,7 +749,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
                             observer.disconnect();
                         }
                         if (viz == "viz_2_13") {
-                            visuals.viz_2_13.viz = choropleth(
+                            visuals.viz_2_13.viz = viz_2_13(
                                 visuals.viz_2_13.data,
                                 visuals.viz_2_13.mapping,
                                 visuals.viz_2_13.options
@@ -757,7 +757,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
                             observer.disconnect();
                         }
                         if (viz == "viz_2_14") {
-                            visuals.viz_2_14.viz = circlepack(
+                            visuals.viz_2_14.viz = chartmetric_circlepack(
                                 visuals.viz_2_14.data,
                                 visuals.viz_2_14.mapping,
                                 visuals.viz_2_14.options
@@ -765,7 +765,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
                             observer.disconnect();
                         }
                         if (viz == "viz_2_15") {
-                            visuals.viz_2_15.viz = circlepack(
+                            visuals.viz_2_15.viz = chartmetric_circlepack(
                                 visuals.viz_2_15.data,
                                 visuals.viz_2_15.mapping,
                                 visuals.viz_2_15.options
@@ -773,7 +773,7 @@ import { drawSingleValues } from "./highFi/single_values.js";
                             observer.disconnect();
                         }
                         if (viz == "viz_2_19") {
-                            visuals.viz_2_19.viz = drawSingleValues(
+                            visuals.viz_2_19.viz = viz_2_19(
                                 visuals.viz_2_19.options.selector
                             );
                             observer.disconnect();

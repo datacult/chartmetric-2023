@@ -2,7 +2,7 @@
 // Released under the ISC license.
 // https://studio.datacult.com/ 
 
-import { legend } from "./legend.js";
+import { legend } from "./components/legend.js";
 
 export function calendarsummary(data, map, options) {
 

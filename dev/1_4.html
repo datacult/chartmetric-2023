@@ -1,0 +1,38 @@
+<!-- © 2024 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../style/webflow.css">
+</head>
+
+<body>
+    <div id="vis"></div>
+</body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/d3-sankey@0"></script>
+
+</html>
+<script type="module">
+    import { chartmetric_sankey } from '../js/chartmetric_sankey.js';
+
+    (async () => {
+        let data = await d3.csv('https://share.chartmetric.com/year-end-report/2023/viz_1_4_en.csv', d3.autoType)
+
+        let mapping = {
+            source: "SOURCE",
+            target: "TARGET",
+            value: "VALUE",
+        };
+
+        chartmetric_sankey(data, mapping);
+    })();
+
+</script>

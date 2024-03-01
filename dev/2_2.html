@@ -1,0 +1,59 @@
+<!-- © 2024 Data Culture
+Released under the ISC license.
+https://studio.datacult.com/ -->
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../style/webflow.css">
+    <style>
+        #viz_2_2 #gentreTreemap_chart {
+            height: 500px
+        }
+    </style>
+</head>
+<body>
+    <div id="viz_2_2" class="viz_2_2">
+    </div>
+
+</body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+
+</html>
+<script type="module">
+    import { viz_2_2 } from '../js/2_2.js'
+
+    (async () => {
+        let data = await d3.csv("https://share.chartmetric.com/year-end-report/2023/viz_2_2_en.csv", d3.autoType)
+
+        let options = {
+            genreType: "Artist Genres",
+            timeframe: "All Time"
+        }
+
+        let updateTreemap = viz_2_2(data, "viz_2_2", options)
+
+        setTimeout(
+            () =>
+                updateTreemap.update(null, { genreType: "Artist Genres", timeframe: 2023 }),
+            2000
+        );
+        setTimeout(
+            () =>
+                updateTreemap.update(null, { genreType: "Track Genres", timeframe: 2023 }),
+            4000
+        );
+
+        setTimeout(
+            () =>
+                updateTreemap.update(null, { genreType: "Track Genres", timeframe: "All Time" }),
+            6000
+        );
+    })()
+</script>

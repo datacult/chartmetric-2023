@@ -1,3 +1,7 @@
+// © 2024 Data Culture
+// Released under the ISC license.
+// https://studio.datacult.com/ 
+
 export function setupResizeListener(callback, selector, ...args) {
   let resizeTimer;
   window.addEventListener("resize", () => {

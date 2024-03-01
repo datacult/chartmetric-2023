@@ -1,6 +1,8 @@
-// © 2023 Data Culture
+// © 2024 Data Culture
 // Released under the ISC license.
 // https://studio.datacult.com/ 
+
+// Description: combined calendar heatmap and DIV based summary
 
 import { calendarsummary } from "./calendar_summary.js";
 

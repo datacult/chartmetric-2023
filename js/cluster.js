@@ -1,6 +1,8 @@
-// © 2023 Data Culture
+// © 2024 Data Culture
 // Released under the ISC license.
-// https://studio.datacult.com/ 
+// https://studio.datacult.com/
+
+// Description: gradient and fade based cluster visualization
 
 import { trimNames } from "./utility.js";
 
