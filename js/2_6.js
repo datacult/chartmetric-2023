@@ -93,7 +93,7 @@ export function viz_2_6(data, map, options) {
 
   const height = options.height - options.margin.top - options.margin.bottom;
   const width = options.width - options.margin.left - options.margin.right;
-  const dateFormat = d3.timeFormat("%B %d, %Y");
+  const dateFormat = d3.utcFormat("%A - %B %d, %Y");
 
   ////////////////////////////////////////
   ////////////// Filters /////////////////
@@ -117,29 +117,31 @@ export function viz_2_6(data, map, options) {
   ////////////////////////////////////////
 
   // filter to year
-  data = data.filter(d => new Date(d[map.date]).getFullYear() == 2023);
+  data = data.filter(d => new Date(d[map.date]).getUTCFullYear() == 2023);
 
   const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-  function getDayDetails(date) {
-    const dow = date.getDay();
-    const dom = date.getDate();
-    const month = date.getMonth() + 1;
+  function getUTCDayDetails(date) {
+    const iso = date.toISOString();
+    const dow = date.getUTCDay();
+    const dom = date.getUTCDate();
+    const month = date.getUTCMonth() + 1;
     const mo = Math.ceil(dom / 7);
-    let startOfYear = new Date(date.getFullYear(), 0, 1);
+    let startOfYear = new Date(date.getUTCFullYear(), 0, 1);
     let numberOfDays = Math.floor((date - startOfYear) / (24 * 60 * 60 * 1000));
-    let weekNumber = Math.ceil((numberOfDays + startOfYear.getDay() + 1) / 7);
+    let weekNumber = Math.floor((numberOfDays + startOfYear.getUTCDay() + 1) / 7);
 
-    return { dow: daysOfWeek[dow], dom, mo, month, weekNumber };
+    return { iso, dow: daysOfWeek[dow], dom, mo, month, weekNumber };
   }
 
   // Process the data
   data = data.map(d => {
     const date = new Date(d[map.date]);
-    const { dow, mo, dom, weekNumber, month } = getDayDetails(date);
+    const { iso, dow, mo, dom, weekNumber, month } = getUTCDayDetails(date);
 
     return {
       ...d,
+      iso,
       dow,
       dom,
       mo,
@@ -147,6 +149,8 @@ export function viz_2_6(data, map, options) {
       month
     };
   });
+
+  console.log(data)
 
   ////////////////////////////////////////
   ////////////// Scales //////////////////
@@ -199,8 +203,6 @@ export function viz_2_6(data, map, options) {
     .duration(options.transition)
     .delay((d, i) => Math.random() * options.delay)
     .attr("opacity", 1);
-
-  console.log(data.filter(d => d.mo == 1));
 
   const top_month_line = svg.selectAll(".month-line")
     .data(data.filter(d => d.mo == 1))
@@ -261,10 +263,11 @@ export function viz_2_6(data, map, options) {
     // Process the data
     photoData = photoData.map(d => {
       const date = new Date(d[map.date]);
-      const { dow, mo, dom, weekNumber, month } = getDayDetails(date);
+      const { iso, dow, mo, dom, weekNumber, month } = getUTCDayDetails(date);
 
       return {
         ...d,
+        iso,
         dow,
         dom,
         mo,
